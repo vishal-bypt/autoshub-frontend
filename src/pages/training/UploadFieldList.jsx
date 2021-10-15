@@ -51,7 +51,7 @@ function UploadFieldList({ match }) {
             <Link to={`${path}/add`} className="btn btn-success btn-lg mb-2 mr-3 p-2">Upload Trainings</Link>
             <Link to={`${path}/add`} className="btn btn-secondary btn-lg mb-2 mr-3">Edit Trainings</Link>
             <Link to={`${path}/add`} className="btn btn-primary btn-lg mb-2 mr-3">My Trainings</Link>
-            <Link to={`${path}/add`} className="btn btn-info btn-lg mb-2 mr-3">View All</Link>
+            <Link to={`${path}/add`} className="btn btn-primary btn-lg mb-2 mr-3">View All</Link>
             </div>} */}
             <div className="table-responsive">
                 <table className="table table-striped" >
@@ -81,7 +81,7 @@ function UploadFieldList({ match }) {
                                         : <span>Delete</span>
                                     }
                                 </button> */}
-                                        <Link to={`/training/assign/${user.id}`} className="btn btn-sm btn-info mr-1">Assign Training</Link>
+                                        <Link to={`/training/assign/${user.id}`} className="btn btn-sm btn-primary mr-1">Assign Training</Link>
                                     </div>}
 
                                 </td>

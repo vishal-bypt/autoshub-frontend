@@ -156,7 +156,7 @@ function AddEdit({ history, match }) {
                                             <td className="traning-listing" style={{ minWidth: '150px' }}>{moment(user.nominationEndDate).format("DD/MM/YYYY")}</td>
                                             <td className="traning-listing" style={{ whiteSpace: 'nowrap', minWidth: '30%' }}>
                                                 {userDetails.role == "Admin" && <div >
-                                                    <Link to={`/training/assign/${user.id}`} className="btn btn-sm btn-info mr-1">Assign</Link>
+                                                    <Link to={`/training/assign/${user.id}`} className="btn btn-sm btn-primary mr-1">Assign</Link>
                                                 </div>}
                                             </td>
                                         </tr>                                    

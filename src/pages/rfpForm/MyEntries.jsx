@@ -50,9 +50,9 @@ function MyEntries({ match }) {
         //     {/* <p>All RFP Records from secure (admin only) api end point:</p> */}
         //     <Link to={`/rfp/add`} className="btn btn-sm btn-success mb-2">Add</Link>
         //     &nbsp;
-        //     {userDetails.role != "User" && <Link to="/rfp/all-entries" className="btn btn-sm btn-info mb-2">All Entries</Link> }
+        //     {userDetails.role != "User" && <Link to="/rfp/all-entries" className="btn btn-sm btn-primary mb-2">All Entries</Link> }
         //     &nbsp;
-        //     {/* <Link to="/rfp/edited-entries" className="btn btn-sm btn-info mb-2">Edited Entries</Link>
+        //     {/* <Link to="/rfp/edited-entries" className="btn btn-sm btn-primary mb-2">Edited Entries</Link>
         //     &nbsp; */}
         //     <button onClick={handleExportData} className="btn btn-sm btn-danger mb-2 text-right">Export</button>
         //     <div className="table-responsive">
@@ -102,21 +102,20 @@ function MyEntries({ match }) {
         //     </div>        
         // </div>
 
-        <div className="new-form" style={{ overflow: 'none !important' }}>
-            <div className="img_bx"></div>
-            <div className="button-div-rfp">
-                <div className="row">
-                    <div className="container">
-                        <div className="col-md-12">
-                            <h1 className="header-text">Request For Proposal</h1>
-                            <Link to="/rfp/add" className="newbutton">Add</Link>
-                            <Link to={`/rfp/landing-entries`} className="newbutton mb-2">Landing Page</Link>
-                            <Link to="/rfp/all-entries" className="newbutton">All Entries</Link>
-                            <Link to="#" onClick={handleExportData} className="newbutton">Export</Link>
-
-                        </div>
+        <div className="page-content">            
+            <div className="container-fluid">
+                <div className="row">                    
+                    <div className="col-md-6">
+                        <h1 className="header-text">Request For Proposal</h1>
                     </div>
+                    <div className="col-md-6 text-end">
+                        <Link to="/rfp/add" className="btn btn-primary">Add</Link>
+                        <Link to={`/rfp/landing-entries`} className="btn btn-primary ml-1">Landing Page</Link>
+                        <Link to="/rfp/all-entries" className="btn btn-primary ml-1">All Entries</Link>
+                        <Link to="#" onClick={handleExportData} className="btn btn-primary ml-1">Export</Link>
+                    </div>                    
                 </div>
+                <div className="row">&nbsp;</div>
             </div>
             <div className="data-table-div">
                 <div className="data-table">
@@ -156,7 +155,7 @@ function MyEntries({ match }) {
                                             {(userDetails.role == "Manager" ||
                                                 userDetails.role == "Admin") && <td className="traning-listing" style={{ textAlign: 'center', minWidth: "150px" }}>{dynemicAgeing}</td>}
                                             <td className="traning-listing" style={{ whiteSpace: 'nowrap' }}>
-                                                <Link to={`/rfp/edit/${user.id}`} className="btn btn-sm edit-button mr-1">Edit</Link>
+                                                <Link to={`/rfp/edit/${user.id}`} className="btn btn-warning">Edit</Link>
                                                 {/* {(userDetails.role == "Manager" || userDetails.role == "Admin") && <button onClick={() => deleteUser(user.id)} className="btn btn-sm del-button" disabled={user.isDeleting}>
                                                 {user.isDeleting
                                                     ? <span className="spinner-border spinner-border-sm"></span>

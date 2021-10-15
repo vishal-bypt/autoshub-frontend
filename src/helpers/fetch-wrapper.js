@@ -1,6 +1,6 @@
 
 import { accountService } from '../services';
-import { trainingService } from '../services';
+
 export const fetchWrapper = {
     get,
     post,
@@ -52,6 +52,7 @@ function authHeader(url) {
     const user = accountService.userValue;
     const isLoggedIn = user && user.jwtToken;
     //consoleconst isApiUrl = url.startsWith(config.apiUrl);
+    console.log("isLoggedIn",isLoggedIn);
     if (isLoggedIn) {
         return { Authorization: `Bearer ${user.jwtToken}` };
     } else {

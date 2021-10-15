@@ -4,8 +4,12 @@ import App from "./App"
 import { BrowserRouter } from "react-router-dom"
 import "./i18n"
 import { Provider } from "react-redux"
+import { accountService } from './services/account.service';
 
 import store from "./store"
+
+
+
 
 const app = (
   <Provider store={store}>
@@ -15,4 +19,6 @@ const app = (
   </Provider>
 )
 
-ReactDOM.render(app, document.getElementById("root"))
+// attempt silent token refresh before startup
+accountService.refreshToken().finally(app);
+ReactDOM.render(app, document.getElementById("root"));

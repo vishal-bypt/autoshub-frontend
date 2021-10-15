@@ -18,7 +18,7 @@ function List({ history, match }) {
         console.log("x == ", x);
         setUsers(x);
       });
-   }, 200);
+   }, 300);
 
     if (userDetails.role == "Admin") {
       trainingService.getAll().then((x) => {
