@@ -105,7 +105,7 @@ const Login = props => {
                           <AvField
                             name="email"
                             label="Email"
-                            value="admin@themesbrand.com"
+                            value="zalaparth186@gmail.com"
                             className="form-control"
                             placeholder="Enter email"
                             type="email"
@@ -119,7 +119,8 @@ const Login = props => {
                             </div>
                             <div className="flex-shrink-0">
                               <div className="">
-                                <Link to="/auth-recoverpw" className="text-muted">Forgot password?</Link>
+                                <Link to="forgot-password" className="text-muted" style={{marginTop:"-10px",fontSize:"13px"}}>Forgot Password?</Link>
+                                {/* <Link to="/forgot-password" className="text-muted">Forgot password?</Link> */}
                               </div>
                             </div>
                           </div>
@@ -127,7 +128,7 @@ const Login = props => {
                           <div className="mb-3">
                             <AvField
                               name="password"
-                              value="123456"
+                              value="111111"
                               type="password"
                               className="form-control"
                               required

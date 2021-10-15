@@ -25,8 +25,7 @@ function List({ match }) {
         );
         rfcService.delete(id).then((data) => {
             setUsers((users) => users.filter((x) => x.id !== id));
-            alertService.success(data.message, { keepAfterRouteChange: true });
-            // history.push('/rfp');
+            alertService.success(data.message, { keepAfterRouteChange: true });            
         });
     }
 
@@ -42,8 +41,7 @@ function List({ match }) {
                 confirmButtonText: 'Recover',
                 showLoaderOnConfirm: true,
                 allowOutsideClick: () => !Swal.isLoading()
-            }).then((result) => {
-                
+            }).then((result) => {                
                 if (result.isConfirmed) {
                     let recoverId = result.value;
                     if (recoverId) {
@@ -73,7 +71,6 @@ function List({ match }) {
                     }
                 }
             })
-
         } catch (error) {
             console.log("error", error);
         }
@@ -82,8 +79,7 @@ function List({ match }) {
     const handleExportData = () => {
         try {
             rfcService.getAll("all").then((x) => {
-                rfcService.exportData("all").then((response) => {
-                    //setUsers(x);
+                rfcService.exportData("all").then((response) => {                   
                     const link = document.createElement("a");
                     link.href = response.exportPath;
                     document.body.appendChild(link);
@@ -91,55 +87,27 @@ function List({ match }) {
                     document.body.removeChild(link);
                 });
             });
-
         } catch (error) {
             console.log("error", error);
         }
     };
 
     return (
-
-        <div className="new-form" style={{ overflow: 'none !important' }}>
-            <div className="img_bx"></div>
-            <div className="button-div-rfp">
-                <div className="row">
-                    {/* <div className="container">
-            <div className="col-md-12">
-              <h1 className="header-text">RFP</h1>
-              {/* <p>All RFP Records from secure (admin only) api end point:</p> */}
-                    {/* <Link to={`/rfp/add`} className="newbutton">
-                Add
-              </Link>
-              &nbsp;
-              <Link to={`/rfp/my-entries`} className="newbutton">
-                My Entries
-              </Link>
-              &nbsp; */}
-                    {/* <Link to={`/rfp/edited-entries`} className="btn btn-sm btn-info mb-2">Edited Entries</Link>
-            &nbsp; */}
-                    {/* <button
-                onClick={handleExportData}
-                className="newbutton text-right"
-              >
-                Export
-              </button>
-            </div>
-          </div> */}
-
-
-                    <div className="container">
-                        <div className="col-md-12">
-                            <h1 className="header-text">Request For Proposal</h1>
-                            <Link to={`/rfp/add`} className="newbutton mb-2">Add</Link>
-                            <Link to={`/rfp/landing-entries`} className="newbutton mb-2">Landing Page</Link>
-                            <Link to={`/rfp/my-entries`} className="newbutton mb-2">My Entries</Link>
-                            <Link to="#" onClick={handleExportData} className="newbutton mb-2">Export</Link>
-                            {(userDetails.role == "Manager" || userDetails.role == "Admin") && <Link to="#" onClick={recoverEntry} className="newbutton mb-2">Recover Entry</Link>}
-
-                        </div>
+        <div className="page-content">            
+            <div className="container-fluid">
+                <div className="row"> 
+                    <div className="col-md-6">
+                        <h1 className="header-text">Request For Proposal</h1>
                     </div>
-
+                    <div className="col-md-6 text-end">
+                        <Link to={`/rfp/add`} className="btn btn-primary">Add</Link>
+                        <Link to={`/rfp/landing-entries`} className="btn btn-primary ml-1">Landing Page</Link>
+                        <Link to={`/rfp/my-entries`} className="btn btn-primary ml-1">My Entries</Link>
+                        <Link to="#" onClick={handleExportData} className="btn btn-primary ml-1">Export</Link>
+                        {(userDetails.role == "Manager" || userDetails.role == "Admin") && <Link to="#" onClick={recoverEntry} className="btn btn-primary ml-1">Recover Entry</Link>}
+                    </div>                    
                 </div>
+                <div className="row">&nbsp;</div>
             </div>
             <div className="data-table-div">
                 <div className="data-table">
@@ -164,8 +132,6 @@ function List({ match }) {
                                         var ageingDate = moment(user?.rfpRespondedDate, "YYYY-MM-DD").add(60, 'days');
                                         const finalDays = moment().diff(ageingDate, 'days')
                                         let dynemicAgeing = finalDays > 0 ? finalDays : ""
-                                        //user?.ageing = dynemicAgeing
-
                                         return (
                                             <tr key={index + "HomeList"}>
                                                 <td className="traning-listing" style={{ minWidth: "150px" }}>{user.clientName}</td>
@@ -178,30 +144,10 @@ function List({ match }) {
                                                 <td className="traning-listing" style={{ minWidth: "150px" }}>{user.stage}</td>
                                                 {(userDetails.role == "Manager" ||
                                                     userDetails.role == "Admin") && <td className="traning-listing" style={{ textAlign: 'center', minWidth: "150px" }}>{dynemicAgeing}</td>}
-
-                                                {/* <td style={{ minWidth: "150px" }}>
-                                                {user.salesCrmOpportunityId
-                                                    ? user.salesCrmOpportunityId
-                                                    : ""}
-                                            </td> */}
                                                 <td style={{ whiteSpace: "nowrap" }}>
-                                                    <Link to={`/rfp/edit/${user.id}`} className="btn btn-sm edit-button mr-1">
+                                                    <Link to={`/rfp/edit/${user.id}`} className="btn btn-warning">
                                                         Edit
-                                                    </Link>
-                                                    {/* {(userDetails.role == "Manager" ||
-                                                    userDetails.role == "Admin") && (
-                                                        <button
-                                                            onClick={() => deleteUser(user.id)}
-                                                            className="btn btn-sm del-button"
-                                                            disabled={user.isDeleting}
-                                                        >
-                                                            {user.isDeleting ? (
-                                                                <span className="spinner-border spinner-border-sm"></span>
-                                                            ) : (
-                                                                <span>Delete</span>
-                                                            )}
-                                                        </button>
-                                                    )} */}
+                                                    </Link>                                                    
                                                 </td>
                                             </tr>
                                         )

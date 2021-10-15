@@ -26,7 +26,7 @@ function* forgetUser({ payload: { user, history } }) {
         )
       }
     } else if (process.env.REACT_APP_DEFAULTAUTH === "jwt") {
-      const response = yield call(postJwtForgetPwd, "/jwt-forget-pwd", {
+      const response = yield call(postJwtForgetPwd, {
         email: user.email,
       })
       if (response) {

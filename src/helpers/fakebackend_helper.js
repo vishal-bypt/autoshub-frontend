@@ -91,7 +91,9 @@ const postJwtRegister = (url, data) => {
 const postJwtLogin = data => accountService.login(data.email, data.password)
 
 // postForgetPwd
-const postJwtForgetPwd = data => post(url.POST_FAKE_JWT_PASSWORD_FORGET, data)
+const postJwtForgetPwd = data => {
+  console.log("data == ",data.email)
+  accountService.forgotPassword(data.email)}
 
 // postSocialLogin
 export const postSocialLogin = data => post(url.SOCIAL_LOGIN, data)

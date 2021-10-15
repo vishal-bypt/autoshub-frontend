@@ -18,16 +18,15 @@ function Training({ match }) {
     return (
         <Switch>
             <Route exact path={path} component={List} />
-            <Route path={`${path}/add`} component={AddEdit} />
-            <Route path={`${path}/uploadPrequisites`} component={UploadPrequisites} />
-            <Route path={`${path}/getAllByRole`} component={GetTrainingByRole} />
-            <Route path={`${path}/getAll`} component={Trainings} />
-            <Route path={`${path}/getAllNominations`} component={AllNominations} />
-            <Route path={`${path}/editList`} component={EditTrainingList} />
-            <Route path={`${path}/edit/:id`} component={EditTraining} />
-            <Route path={`${path}/assign/:id`} component={AssignUsers} />
-            <Route path={`${path}/uploadList`} component={UploadFieldList} />
-            
+            <Route exact path={`${path}/add`} component={AddEdit} />
+            <Route exact path={`${path}/uploadPrequisites`} component={UploadPrequisites} />
+            <Route exact path={`${path}/getAllByRole`} component={GetTrainingByRole} />
+            <Route exact path={`${path}/getAll`} component={Trainings} />
+            <Route exact path={`${path}/getAllNominations`} component={AllNominations} />
+            <Route exact path={`${path}/editList`} component={EditTrainingList} />
+            <Route exact path={`${path}/edit/:id`} component={EditTraining} />
+            <Route exact path={`${path}/assign/:id`} component={AssignUsers} />
+            <Route exact path={`${path}/uploadList`} component={UploadFieldList} />            
         </Switch>
     );
 }

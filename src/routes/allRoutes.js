@@ -23,7 +23,7 @@ import EmailVerification from "../pages/AuthenticationInner/EmailVerification";
 import TwoStepVerfication from "../pages/AuthenticationInner/TwoStepVerfication";
 import userProfile from "../pages/Authentication/user-profile";
 import {Training} from "../pages/training/Index";
-import {AddEdit} from "../pages/training/AddEdit";
+/* import {AddEdit} from "../pages/training/AddEdit"; */
 import {UploadPrequisites} from "../pages/training/UploadPrequisites";
 import {GetTrainingByRole} from "../pages/training/GetTrainingByRole";
 import {Trainings} from "../pages/training/Trainings";
@@ -32,9 +32,9 @@ import {EditTrainingList} from "../pages/training/EditTrainingList";
 import {EditTraining} from "../pages/training/EditTraining";
 import {AssignUsers} from "../pages/training/AssignUsers";
 import {UploadFieldList} from "../pages/training/UploadFieldList";
-
+import {RFPForm} from "../pages/rfpForm/Index";
 import { List } from '../pages/rfpForm/List';
-import { AddEdit1 } from '../pages/rfpForm/AddEdit';
+import  AddEdit from '../pages/rfpForm/AddEdit';
 import { MyEntries } from '../pages/rfpForm/MyEntries';
 import { EditedEntries } from '../pages/rfpForm/EditedEntries';
 import { LandingEntries } from '../pages/rfpForm/LandingEntries';
@@ -48,7 +48,7 @@ const userRoutes = [
 
   //Training
   { path: "/training", component: Training},
-  { path: "/training/add", component: AddEdit },
+  /* { path: "/training/add", component: AddEdit }, */
   { path:"/training/uploadPrequisites", component:UploadPrequisites},
   { path:"/training/getAllByRole", component:GetTrainingByRole},
   { path:"/training/getAll", component:Trainings},
@@ -59,17 +59,13 @@ const userRoutes = [
   { path:"/training/uploadList", component:UploadFieldList},
 
   //RFC
-  { path: "/rfc", component: LandingEntries},
-  { path: "/rfc/all-entries", component: List },
-  { path:"/rfc/my-entries", component:MyEntries},
-  { path:"/rfc/edited-entries", component:EditedEntries},
-  { path:"/rfc/landing-entries", component:LandingEntries},
-  { path:"/rfc/add", component:AddEdit1},
-  { path:"/rfc/edit/:id", component:AddEdit1},
-
-  
-  
-  
+  { path: "/rfp", component: LandingEntries},
+  { path:"/rfp/my-entries", component:MyEntries},
+  { path: "/rfp/all-entries", component: List },  
+  { path:"/rfp/edited-entries", component:EditedEntries},
+  { path:"/rfp/landing-entries", component:LandingEntries},
+  { path:"/rfp/add", component:AddEdit},
+  { path:"/rfp/edit/:id", component:AddEdit},
   // this route should be at the end of all other routes
   { path: "/", exact: true, component: () => <Redirect to="/dashboard" /> },
 ]
@@ -89,8 +85,6 @@ const authRoutes = [
   { path: "/page-confirm-mail", component: ConfirmMail },
   { path: "/page-email-verification", component: EmailVerification },
   { path: "/page-two-step-verification", component: TwoStepVerfication },
-  
-
 ]
 
 export { userRoutes, authRoutes }

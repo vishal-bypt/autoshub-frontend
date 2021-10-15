@@ -10,7 +10,7 @@ import Swal from 'sweetalert2'
 
 
 
-function AddEdit1({ history, match }) {
+function AddEdit({ history, match }) {
     const user = accountService.userValue;
     const { id } = match.params;
     const [countries, setCountries] = useState(null);
@@ -32,7 +32,6 @@ function AddEdit1({ history, match }) {
     let geoData = [];
 
     const [editedUser, setEditedUser] = useState(null);
-
     useEffect(() => {
         rfcService.getCountries().then(x => {
 
@@ -49,13 +48,10 @@ function AddEdit1({ history, match }) {
             setGeoOptions(geoData);
         });
     }, []);
-
     let options = [];
     for (var Y = nowY; Y >= 1980; Y--) {
         options.push(Y);
     }
-
-
     const initialValues = {
         userId: 0,
         month: '',
@@ -176,29 +172,6 @@ function AddEdit1({ history, match }) {
         },
 
     ];
-
-    // let locationData = [
-    //     {
-    //         label: "Canada",
-    //         value: "Canada"
-    //     },
-    //     {
-    //         label: "Mexico",
-    //         value: "Mexico"
-    //     },
-    //     {
-    //         label: "Saudi Arabia",
-    //         value: "Saudi Arabia"
-    //     },
-    //     {
-    //         label: "UAE",
-    //         value: "UAE"
-    //     },
-    //     {
-    //         label: "Oman",
-    //         value: "Oman"
-    //     },
-    // ];
 
     const programLead = [
         {
@@ -464,20 +437,12 @@ function AddEdit1({ history, match }) {
         //         if (password) return schema.required('Confirm Password is required');
         //     })
         //     .oneOf([Yup.ref('password')], 'Passwords must match')
-    });
-
-    /* const handleChangeDealType = (e) => {
-        e.preventDefault();
-        setDealTypeSelected(e.target.value);
-    } */
+    });   
 
     const handleDelete = (id) => {
-
         Swal.fire({
-
             title: 'Are you sure?',
             text: "You want to delete this record?",
-
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -495,59 +460,31 @@ function AddEdit1({ history, match }) {
                 'success'
               )
             }
-          })
-
-        // var r = confirm("Are you sure you want to delete this records?");
-        // if (r == true) {
-            
-            
-        // } else {
-        //     //alertService.success(data.message, { keepAfterRouteChange: true });
-        //     //history.goBack();
-        // }
-        
-        // confirmAlert({
-		// 	customUI: ({ onClose }) => {
-		// 		return (
-		// 			<div className='custom-ui'>
-		// 				<div className="exclamation"><i className="fa fa-trash" aria-hidden="true"></i></div>
-		// 				<h3>Delete customer confirmation</h3>
-		// 				<p>Are you sure want to delete this customer?</p>
-		// 				<button onClick={onClose}>Cancel</button>
-		// 				<button onClick={() => {
-		// 					this.onClickRemove(index, track_id)
-		// 					onClose()
-		// 				}}>Delete</button>
-		// 			</div>
-		// 		)
-		// 	}
-		// });
-        console.log("API call is pending");
+          })        
     }
 
-      useEffect(() => {                                
-                                if (!isAddMode) {
-                                    // get user and set form fields
-                                    rfcService.getById(id).then(user => {
-                                        if (currencySymbol == null) {
-                                            if (user.currency == "USD") {
+    useEffect(() => {                                
+        if (!isAddMode) {            
+            rfcService.getById(id).then(user => {
+                if (currencySymbol == null) {
+                    if (user.currency == "USD") {
 
-                                                setCurrencySymbol("$");
+                        setCurrencySymbol("$");
 
-                                            } else if (user.currency == "GBP") {
-                                                setCurrencySymbol("£");
-                                            } else {
-                                                setCurrencySymbol("₹");
-                                            }
-                                        }
-                                        setEditedUser(user);
-                                        const fields = ['monthCalendar', 'responseType', 'clientName', 'status', 'stage', 'dealType', 'dealTypeStatus', 'dealTerm', 'rfpReceivedDate', 'rfpRespondedDate', 'geo', 'location', 'geoLeads', 'deliveryHeads', 'btsMoLead', 'salesLead', 'programLead', 'technicalLead', 'deliveryLedBy', 'automationType', 'rpaPlatform', 'developmentResource', 'supportResource', 'totalResource', 'currency', 'margin', 'totalCashValue', 'ebitda', 'consideration', 'benefits', 'serverUsage', 'platform', 'projectStartDate', 'projectEndDate', 'developmentDuration', 'comments', 'actualCashValue', 'salesCrmOpportunityId', 'saleType', 'domain', 'competency', 'customerDemo', 'startDate', 'endDate', 'ageing', 'cloudOffering'];
-                                        fields.map((field) => {
-                                            Formik.setFieldValue(field, user[field], false)
-                                        })  
-                                    });
-                                }
-                            }, []);
+                    } else if (user.currency == "GBP") {
+                        setCurrencySymbol("£");
+                    } else {
+                        setCurrencySymbol("₹");
+                    }
+                }
+                setEditedUser(user);
+                const fields = ['monthCalendar', 'responseType', 'clientName', 'status', 'stage', 'dealType', 'dealTypeStatus', 'dealTerm', 'rfpReceivedDate', 'rfpRespondedDate', 'geo', 'location', 'geoLeads', 'deliveryHeads', 'btsMoLead', 'salesLead', 'programLead', 'technicalLead', 'deliveryLedBy', 'automationType', 'rpaPlatform', 'developmentResource', 'supportResource', 'totalResource', 'currency', 'margin', 'totalCashValue', 'ebitda', 'consideration', 'benefits', 'serverUsage', 'platform', 'projectStartDate', 'projectEndDate', 'developmentDuration', 'comments', 'actualCashValue', 'salesCrmOpportunityId', 'saleType', 'domain', 'competency', 'customerDemo', 'startDate', 'endDate', 'ageing', 'cloudOffering'];
+                fields.map((field) => {
+                    Formik.setFieldValue(field, user[field], false)
+                })  
+            });
+        }
+    }, []);
 
     function onSubmit(fields, { setStatus, setSubmitting }) {
         const platform = typeof fields?.platform != 'string' ? fields?.platform?.join() : fields?.platform;
@@ -564,7 +501,6 @@ function AddEdit1({ history, match }) {
             else {
                 data.userId = user.id;
             }
-
             update(id, data, setSubmitting);
         }
     }
@@ -579,7 +515,6 @@ function AddEdit1({ history, match }) {
                 setSubmitting(false);
                 alertService.error(error);
             });
-
     }
 
     function update(id, fields, setSubmitting) {
@@ -597,10 +532,7 @@ function AddEdit1({ history, match }) {
     return (
         <div className="new-form_white" style={{overflowY:'scroll'}}>
             <div className="img_bx_white"></div>
-            <div className=" p-4 extra-padding" >
-                {/* <div className="container">
-                    <h1 >RFP</h1>
-                </div> */}
+            <div className=" p-4 extra-padding" >               
                 <div className="back-btn-div">
                     <div className="btn-width-div-rfp">
                         <Link to="." onClick={() => { history.goBack(); }} className="back-btn "><ArrowBackIcon className="mr-1" />Back</Link>
@@ -616,16 +548,11 @@ function AddEdit1({ history, match }) {
                         }}
                     >
                         {({ errors, values, touched, isSubmitting, setFieldValue, handleBlur, setTouched }) => {
-                            //console.log("errors", errors);
-                            //console.log("touched", touched);
-                          
-
                             return (
                                 <Form>
                                     <div className="formSection">
                                         <div className="pt-4 blue-header"><h6>PROJECT DETAILS</h6></div>
-                                        <div className="form-row" id="firstSection">
-                                        
+                                        <div className="form-row" id="firstSection">                                        
                                             <div className="form-group col-4">
                                                 <label>Sales CRM Opportunity ID</label>
                                                 <FastField  name="salesCrmOpportunityId" type="number" className={'form-control' + (errors.salesCrmOpportunityId && touched.salesCrmOpportunityId ? ' is-invalid' : '')} 
@@ -670,14 +597,7 @@ function AddEdit1({ history, match }) {
                                                     component={CustomSelect}
                                                     isMulti={false}
                                                 //placeholder="Select Automation Type"
-                                                />
-                                                {/* <Field name="saleType" as="select" className={'form-control' + (errors.saleType && touched.saleType ? ' is-invalid' : '')}>
-                                            <option value=""></option>
-                                            <option value="Existing Expansion">Existing Expansion</option>
-                                            <option value="Existing New">Existing New</option>
-                                            <option value="Net New">Net New</option>
-                                            <option value="To Be Updated">To Be Updated</option>
-                                        </Field> */}
+                                                />                                                
                                                 <ErrorMessage name="saleType" component="div" className="invalid-feedback" />
                                             </div>
                                             <div className="form-group col-4">
@@ -712,14 +632,7 @@ function AddEdit1({ history, match }) {
                                                     component={CustomSelect}
                                                     isMulti={false}
                                                 //placeholder="Select Automation Type"
-                                                />
-                                                {/* <Field name="responseType" as="select" className={'form-control' + (errors.responseType && touched.responseType ? ' is-invalid' : '')}>
-                                            <option value=""></option>
-                                            <option value="Proactive Pitch">Proactive Pitch</option>
-                                            <option value="RFP">RFP</option>
-                                            <option value="RFQ">RFQ</option>
-                                            <option value="RFI">RFI</option>
-                                        </Field> */}
+                                                />                                                
                                                 <ErrorMessage name="responseType" component="div" className="invalid-feedback" />
                                             </div>
                                             <div className="form-group col-4">
@@ -767,15 +680,7 @@ function AddEdit1({ history, match }) {
                                                     component={CustomSelect}
                                                     isMulti={false}
                                                 //placeholder="Select Automation Type"
-                                                />
-                                                {/* <Field name="domain" as="select" className={'form-control' + (errors.domain && touched.domain ? ' is-invalid' : '')}>
-                                            <option value=""></option>
-                                            <option value="CME">CME</option>
-                                            <option value="TTL">TTL</option>
-                                            <option value="Retail">Retail</option>
-                                            <option value="Energy & Utilities">Energy & Utilities</option>
-                                            <option value="HLS">HLS</option>
-                                        </Field> */}
+                                                />                                                
                                                 <ErrorMessage name="domain" component="div" className="invalid-feedback" />
                                             </div>
                                             <div className="form-group col-4">
@@ -807,12 +712,6 @@ function AddEdit1({ history, match }) {
                                                     isMulti={false}
                                                 //placeholder="Select Automation Type"
                                                 />
-                                                {/* <FastField  name="competency" as="select" className={'form-control' + (errors.competency && touched.competency ? ' is-invalid' : '')}>
-                                            <option value=""></option>
-                                            <option value="BPS">BPS</option>
-                                            <option value="IT">IT</option>
-                                            <option value="BPS+IT">BPS+IT</option>
-                                        </Field>*/}
                                         <ErrorMessage name="competency" component="div" className="invalid-feedback" /> 
                                             </div>
                                             <div className="form-group col-4">
@@ -840,12 +739,6 @@ function AddEdit1({ history, match }) {
                                                     isMulti={false}
                                                 //placeholder="Select Automation Type"
                                                 />
-
-                                                {/* <Field name="dealType" as="select" className={'form-control' + (errors.dealType && touched.dealType ? ' is-invalid' : '')}>
-                                            <option value=""></option>
-                                            <option value="Embeded">Embeded</option>
-                                            <option value="Standalone">Standalone</option>
-                                        </Field> */}
                                                 <ErrorMessage name="dealType" component="div" className="invalid-feedback" />
                                             </div>
                                             <div className="form-group col-4">
@@ -872,12 +765,7 @@ function AddEdit1({ history, match }) {
                                                     component={CustomSelect}
                                                     isMulti={false}
                                                 //placeholder="Select Automation Type"
-                                                />
-                                                {/* <Field name="dealTypeStatus" as="select" className={'form-control' + (errors.dealTypeStatus && touched.dealTypeStatus ? ' is-invalid' : '')}>
-                                            <option value=""></option>
-                                            <option value="CC With Transformation">CC With Transformation</option>
-                                            <option value="Transformation Only">Transformation Only</option>
-                                        </Field> */}
+                                                />                                                
                                                 <ErrorMessage name="dealTypeStatus" component="div" className="invalid-feedback" />
                                             </div>
                                             <div className="form-group col-4">
@@ -924,21 +812,9 @@ function AddEdit1({ history, match }) {
                                                     placeholder=""
                                                     component={CustomSelect}
                                                     isMulti={false}
-                                                />
-                                                {/* <Field name="dealTerm" placeholder="" as="select" className={'form-control' + (errors.dealTerm && touched.dealTerm ? ' is-invalid' : '')}>
-                                            <option value=""></option>
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-                                            <option value="5">5</option>
-                                            <option value="6">6</option>
-                                            <option value="7">7</option>
-                                        </Field> */}
-                                                {/* <Field name="dealTerm" placeholder="Ex: 0.6 Yrs" type="text" className={'form-control' + (errors.dealTerm && touched.dealTerm ? ' is-invalid' : '')} /> */}
+                                                />                                                
                                                 <ErrorMessage name="dealTerm" component="div" className="invalid-feedback" />
-                                            </div>
-                                            
+                                            </div>                                            
                                         </div>
                                         <div className="row">
                                             <div className="form-group col-12">
@@ -975,10 +851,8 @@ function AddEdit1({ history, match }) {
                                                 <Field  name="rfpRespondedDate" type="date" min={values.rfpReceivedDate} max={date} className={'form-control' + (errors.rfpRespondedDate && touched.rfpRespondedDate ? ' is-invalid' : '')} 
                                                 onChange={e => {
                                                     // call the built-in handleBur
-                                                    values.rfpRespondedDate = e.target.value;
-                                                    //setFieldValue('monthCalendar', e.target.value);
-                                                    if(user.role == "Admin"){
-                                                       
+                                                    values.rfpRespondedDate = e.target.value;                                                    
+                                                    if(user.role == "Admin"){                                                       
                                                         if (values.status == "Open" && e.target.value != "") {
                                                             var new_date = moment(values.rfpRespondedDate, "YYYY-MM-DD").add(60, 'days');
                                                             const dateA = moment(values.endDate, 'YYYY-MM-DD');
@@ -1015,8 +889,7 @@ function AddEdit1({ history, match }) {
                                                 <ErrorMessage name="endDate" component="div" className="invalid-feedback" />
                                             </div>
                                             <div className="form-group col-4">
-                                                <label>Month</label>
-                                                {/* <Field name="monthCalendar" type="date" min={before3Month} max={nextMonthDate} className={'form-control' + (errors.monthCalendar && touched.monthCalendar ? ' is-invalid' : '')} /> */}
+                                                <label>Month</label>                                                
                                                 <Field  name="monthCalendar" type="date" readOnly value={values.rfpReceivedDate} min={before3Month} max={nextMonthDate} className={'form-control' + (errors.monthCalendar && touched.monthCalendar ? ' is-invalid' : '')} 
                                                 />
                                                 <ErrorMessage name="monthCalendar" component="div" className="invalid-feedback" />
@@ -1046,11 +919,7 @@ function AddEdit1({ history, match }) {
                                                         },
                                                     ]}
                                                     component={CustomSelect}
-                                                    onChangeValue={value => {
-                                                        // call the built-in handleBur
-                                                        //handleBlur(e)
-                                                        // and do something about e
-                                                        //console.log("countries.Location[values.geo]", stageOptions[values.status]);
+                                                    onChangeValue={value => {                                                        
                                                         values.status = value;
                                                         if(user.role == "Admin"){
                                                             if (value != "Open") {
@@ -1059,30 +928,18 @@ function AddEdit1({ history, match }) {
                                                             if (values.status == "Open") {
                                                                 if (values.rfpRespondedDate) { console.log("rfpRespondedDate", values.rfpRespondedDate);
 
-                                                                     var dateA = moment(values.rfpRespondedDate).add(60, 'd');
-                                                                    //var dateA = moment(values.rfpRespondedDate, "YYYY-MM-DD"). add(60, 'days');
-                                                                    //const dateA = moment(values.rfpRespondedDate, 'YYYY-MM-DD');
+                                                                    var dateA = moment(values.rfpRespondedDate).add(60, 'd');                                                                    
                                                                     var newDateA = moment(dateA).format('YYYY-MM-DD');
                                                                     const dateB = moment(new Date(), 'YYYY-MM-DD');
                                                                     console.log("dateA", newDateA);
                                                                     console.log("Curr dateB", moment(dateB).format('YYYY-MM-DD'));
                                                                     const finalDays = dateB.diff(dateA, 'days');
-                                                                    setFieldValue('ageing', finalDays > 0 ? finalDays : '');
-                                                                    // console.log("Days", dateB.diff(dateA, 'days'))
-                                                                    // if(dateB > newDateA){ console.log("Days", dateB.diff(dateA, 'days'))
-                                                                    //     const finalDays = dateB.diff(dateA, 'days');
-                                                                    //     setFieldValue('ageing', finalDays);
-                                                                    // }
-                                                                    
+                                                                    setFieldValue('ageing', finalDays > 0 ? finalDays : ''); 
                                                                 }
                                                             }
-                                                        }
-                                                        
+                                                        }                                                        
 
-                                                        let stageArr = [];
-                                                        // countries.Location[values.geo] && countries.Location[values.geo].map((loc) => {
-                                                        //     locArr.push({ label: loc, value: loc});
-                                                        // });
+                                                        let stageArr = [];                                                        
                                                         stageOptions[values.status].forEach((stage) => {
                                                             stageArr.push({ label: stage, value: stage });
                                                         });
@@ -1090,31 +947,6 @@ function AddEdit1({ history, match }) {
                                                         setFieldValue('stage', stageArr, false)
                                                     }}
                                                 />
-                                                {/* <Field name="status" as="select" className={'form-control' + (errors.status && touched.status ? ' is-invalid' : '')}
-                                            onChange={e => {
-                                                // call the built-in handleBur
-                                                //handleBlur(e)
-                                                // and do something about e
-                                                //console.log("countries.Location[values.geo]", stageOptions[values.status]);
-                                                values.status = e.target.value;
-                                                let stageArr = [];
-                                                // countries.Location[values.geo] && countries.Location[values.geo].map((loc) => {
-                                                //     locArr.push({ label: loc, value: loc});
-                                                // });
-                                                stageOptions[values.status].forEach((stage) => {
-                                                    stageArr.push({ label: stage, value: stage });
-                                                });
-                                                stageOptionsMain = stageArr;
-                                                setFieldValue('stage', stageArr, false)
-
-
-                                            }}
-                                        >
-                                            <option value=""></option>
-                                            <option value="Open">Open</option>
-                                            <option value="Closed">Closed</option>
-                                            <option value="Work in Progress">Work in Progress</option>
-                                        </Field> */}
                                                 <ErrorMessage name="status" component="div" className="invalid-feedback" />
                                             </div>
                                             <div className="form-group col-4">
@@ -1127,17 +959,6 @@ function AddEdit1({ history, match }) {
                                                     component={CustomSelect}
                                                     placeholder=""
                                                 />
-                                                {/* <Field name="stage" as="select" className={'form-control' + (errors.stage && touched.stage ? ' is-invalid' : '')}>
-                                    <option value=""></option>
-                                    <option value="Proposal Submission">Proposal Submission</option>
-                                    <option value="RFP Defense">RFP Defense</option>
-                                    <option value="BAFO">BAFO</option>
-                                    <option value="Lost">Lost</option>
-                                    <option value="Tailwind">Tailwind</option>
-                                    <option value="Tailwind-Transformation-Delivery">Tailwind-Transformation-Delivery</option>
-                                    <option value="Tailwind-Due Dilligence">Tailwind-Due Dilligence</option>
-                                    <option value="Won">Won</option>
-                                </Field> */}
                                                 <ErrorMessage name="stage" component="div" className="invalid-feedback" />
                                             </div>
                                             <div className="form-group col-4">
@@ -1168,22 +989,9 @@ function AddEdit1({ history, match }) {
                                                     placeholder=""
                                                     component={CustomSelect}
                                                     isMulti={false}
-                                                />
-                                                {/* <Field name="customerDemo" as="select" className={'form-control' + (errors.customerDemo && touched.customerDemo ? ' is-invalid' : '')}>
-                                            <option value=""></option>
-                                            <option value="Yes">Yes</option>
-                                            <option value="No">No</option>
-                                            <option value="Not Applicable">Not Applicable</option>
-                                        </Field> */}
-                                                {/* <Field name="dealTerm" placeholder="Ex: 0.6 Yrs" type="text" className={'form-control' + (errors.dealTerm && touched.dealTerm ? ' is-invalid' : '')} /> */}
+                                                /> 
                                                 <ErrorMessage name="customerDemo" component="div" className="invalid-feedback" />
-                                            </div>
-                                            {/* { user.role != "User" && <div className="form-group col-4">
-                                                <label>Ageing Days</label>
-                                                <Field name="ageing" readOnly type="text" className={'form-control' + (errors.ageing && touched.ageing ? ' is-invalid' : '')} />
-                                                <ErrorMessage name="ageing" component="div" className="invalid-feedback" />
-                                            </div> } */}
-                                            
+                                            </div>   
                                         </div>
                                     </div>
 
@@ -1237,12 +1045,7 @@ function AddEdit1({ history, match }) {
                                                     placeholder=""
                                                     component={CustomSelect}
                                                 //placeholder="Select multi platform"
-                                                />
-                                                {/* <Field name="salesLead" as="select" className={'form-control' + (errors.salesLead && touched.salesLead ? ' is-invalid' : '')}>
-                                    <option value=""></option>
-                                    <option value="Tranvir Jauhal">Tranvir Jauhal</option>
-                                    <option value="Bhuvan Jain">Bhuvan Jain</option>
-                                </Field> */}
+                                                />                                               
                                                 <ErrorMessage name="salesLead" component="div" className="invalid-feedback" />
                                             </div>
                                             <div className="form-group col-4">
@@ -1303,12 +1106,7 @@ function AddEdit1({ history, match }) {
                                                     ]}
                                                     component={CustomSelect}
                                                     placeholder=""
-                                                />
-                                                {/* <Field name="btsMoLead" as="select" className={'form-control' + (errors.btsMoLead && touched.btsMoLead ? ' is-invalid' : '')}>
-                                    <option value=""></option>
-                                    <option value="Mr">Rahul Agrawal</option>
-                                    <option value="Mrs">Middle Office</option>
-                                </Field> */}
+                                                />                                                
                                                 <ErrorMessage name="btsMoLead" component="div" className="invalid-feedback" />
                                             </div> 
                                             <div className="form-group col-4">
@@ -1321,15 +1119,7 @@ function AddEdit1({ history, match }) {
                                                     options={programLead}
                                                     component={CustomSelect}
                                                 //placeholder="Select multi platform"
-                                                />
-                                                {/* <Field name="geoLeads" as="select" className={'form-control' + (errors.geoLeads && touched.geoLeads ? ' is-invalid' : '')}>
-                                    <option value=""></option>
-                                    <option value="Sagar Paul">Sagar Paul</option>
-                                    <option value="Nelson Francis">Nelson Francis</option>
-                                    <option value="Kalpesh Mistry">Kalpesh Mistry</option>
-                                    <option value="Noman Sayed">Noman Sayed</option>
-                                    <option value="Imaran Kothia">Imaran Kothia</option>
-                                </Field> */}
+                                                />                                                
                                                 <ErrorMessage name="programLead" component="div" className="invalid-feedback" />
                                             </div>  
 
@@ -1340,12 +1130,7 @@ function AddEdit1({ history, match }) {
                                             </div> 
 
                                             <div className="form-group col-4">
-                                                <label>Delivery Led By</label>
-                                                {/* <Field name="deliveryLedBy" as="select" className={'form-control' + (errors.deliveryLedBy && touched.deliveryLedBy ? ' is-invalid' : '')}>
-                                            <option value=""></option>
-                                            <option value="Client">Client</option>
-                                            <option value="TechM">TechM</option>
-                                        </Field> */}
+                                                <label>Delivery Led By</label>                                               
                                                 <FastField 
                                                     className={'form-control custom-form-control' + (errors.deliveryLedBy && touched.deliveryLedBy ? ' is-invalid' : '')}
                                                     name="deliveryLedBy"
@@ -1395,50 +1180,12 @@ function AddEdit1({ history, match }) {
                                                     placeholder=""
                                                     component={CustomSelect}
                                                 //placeholder="Select multi platform"
-                                                />
-                                                {/* <Field name="deliveryHeads" as="select" className={'form-control' + (errors.deliveryHeads && touched.deliveryHeads ? ' is-invalid' : '')}>
-                                    <option value=""></option>
-                                    <option value="Amit Sikdar">Amit Sikdar</option>
-                                    <option value="Miteshkumar Mistry">Miteshkumar Mistry</option>
-                                </Field> */}
+                                                />                                               
                                                 <ErrorMessage name="deliveryHeads" component="div" className="invalid-feedback" />
                                             </div>
                                             
                                             <div className="form-group col-4">
-                                                <label>Location</label>
-                                                {/* <Field name="location" as="select" className={'form-control' + (errors.location && touched.location ? ' is-invalid' : '')}
-                                            onChange={e => {
-                                            // call the built-in handleBur
-                                            //handleBlur(e)
-                                            // and do something about e
-                                            values.location = e.target.value;
-                                            values.geo = null;
-                                            //console.log("countries.Location[values.geo]", countries.Location[values.geo]);
-                                            let locArr = [];
-                                            // countries.Location[values.geo] && countries.Location[values.geo].map((loc) => {
-                                            //     locArr.push({ label: loc, value: loc});
-                                            // });
-                                            //console.log("geo[values.location]", geo[values.location]);
-                                            geo[values.location].forEach((geoRow) => {
-                                                locArr.push({ label: geoRow, value: geoRow });
-                                            });
-                                            //locationData = locArr;
-                                            setGeoOptions(locArr);
-                                            setFieldValue('geo', "", false)
-                                            //console.log("location", locArr);
-                                            //setFieldValue('location', locArr, false)
-
-                                        }}
-                                        >
-                                            <option value=""></option>
-                                            {
-                                                countries && countries.map((country) => {
-                                                    return (
-                                                        <option value={country.value}>{country.label}</option>
-                                                    )
-                                                })
-                                            }
-                                        </Field> */}
+                                                <label>Location</label>                                                
                                                 <Field 
                                                     className={'form-control custom-form-control' + (errors.location && touched.location ? ' is-invalid' : '')}
                                                     name="location"
@@ -1446,78 +1193,21 @@ function AddEdit1({ history, match }) {
                                                     onBlurValue={(field) => {  setTouched({...touched, [field] : true}); }}
                                                     component={CustomSelect}
                                                     //placeholder="Select Location"
-                                                    onChangeValue={value => {
-                                                        // call the built-in handleBur
-                                                        //handleBlur(e)
-                                                        // and do something about e
+                                                    onChangeValue={value => {                                                        
                                                         values.location = value;
-                                                        values.geo = null;
-                                                        //console.log("countries.Location[values.geo]", countries.Location[values.geo]);
-                                                        let locArr = [];
-                                                        // countries.Location[values.geo] && countries.Location[values.geo].map((loc) => {
-                                                        //     locArr.push({ label: loc, value: loc});
-                                                        // });
-                                                        //console.log("geo[values.location]", geo[values.location]);
+                                                        values.geo = null;                                                        
+                                                        let locArr = [];                                                        
                                                         geo[values.location].forEach((geoRow) => {
                                                             locArr.push({ label: geoRow, value: geoRow });
-                                                        });
-                                                        //locationData = locArr;
+                                                        });                                                       
                                                         setGeoOptions(locArr);
-                                                        setFieldValue('geo', geo[values.location][0], false)
-                                                        //console.log("location", locArr);
-                                                        //setFieldValue('location', locArr, false)
+                                                        setFieldValue('geo', geo[values.location][0], false)                                                        
                                                     }}
                                                 />
-                                                {/* <Field
-                                            className={'form-control custom-form-control' + (errors.location && touched.location ? ' is-invalid' : '')}
-                                            name="location"
-                                            options={countries}
-                                            component={CustomSelect}
-                                            placeholder="Select location"
-                                            onChange={e => { console.log("call======================");
-                                                // call the built-in handleBur
-                                                //handleBlur(e)
-                                                // and do something about e
-                                                values.geo = e.target.value;
-                                                //console.log("countries.Location[values.geo]", countries.Location[values.geo]);
-                                                let locArr = [];
-                                                // countries.Location[values.geo] && countries.Location[values.geo].map((loc) => {
-                                                //     locArr.push({ label: loc, value: loc});
-                                                // });
-                                                console.log("geo[values.geo]", geo[values.geo]);
-                                                geo?.geo[values.geo].forEach((geoRow) => {
-                                                    locArr.push({ label: geoRow, value: geoRow });
-                                                });
-                                                locationData = locArr;
-                                                console.log("location", locArr);
-                                                setFieldValue('location', locArr, false)
-
-
-                                            }}
-                                            
-                                        /> */}
-                                                {/* <Field name="location" as="select" className={'form-control' + (errors.location && touched.location ? ' is-invalid' : '')}>
-                                    <option value=""></option>
-                                    <option value="USA">USA</option>
-                                    <option value="Canada">Canada</option>
-                                    <option value="Mexico">Mexico</option>
-                                    <option value="Saudi Arabia">Saudi Arabia</option>
-                                    <option value="UAE">UAE</option>
-                                    <option value="Oman">Oman</option>
-                                </Field> */}
                                                 <ErrorMessage name="location" component="div" className="invalid-feedback" />
                                             </div>
                                             <div className="form-group col-4">
-                                                <label>GEO</label>
-                                                {/* <Field name="geo" as="select" placeholder="Select GEO" className={'form-control' + (errors.geo && touched.geo ? ' is-invalid' : '')}>
-                                            <option value=""></option>
-                                            <option value="Americas">Americas</option>
-                                            <option value="LATAM">LATAM</option>
-                                            <option value="EMEA">EMEA</option>
-                                            <option value="ANZ">ANZ</option>
-                                            <option value="APAC">APAC</option>
-                                            <option value="United Kingdom">United Kingdom</option>
-                                        </Field> */}
+                                                <label>GEO</label>                                                
                                                 <Field 
                                                     className={'form-control custom-form-control' + (errors.geo && touched.geo ? ' is-invalid' : '')}
                                                     name="geo"
@@ -1529,16 +1219,8 @@ function AddEdit1({ history, match }) {
                                                 />
                                                 <ErrorMessage name="geo" component="div" className="invalid-feedback" />
                                             </div>
-
-                                            
-                                            
-                                            
-                                            
-                                            
-                                            
-                                        </div>
+                                         </div>
                                     </div>
-
                                     <div className="formSection">
                                         <div className="pt-4 blue-header"><h6>TECHNOLOGY</h6></div>
                                         <div className="form-row" id="fourSection">
@@ -1637,17 +1319,6 @@ function AddEdit1({ history, match }) {
 
                                                     }}
                                                 />
-                                                {/* <Field name="consideration" as="select" className={'form-control' + (errors.consideration && touched.consideration ? ' is-invalid' : '')}>
-                                    <option value=""></option>
-                                    <option value="5">5%</option>
-                                    <option value="10">10%</option>
-                                    <option value="15">15%</option>
-                                    <option value="20">20%</option>
-                                    <option value="25">25%</option>
-                                    <option value="30">30%</option>
-                                    <option value="35">35%</option>
-                                    <option value="40">40%</option>
-                                </Field> */}
                                                 <ErrorMessage name="consideration" component="div" className="invalid-feedback" />
                                             </div>
                                             
@@ -1690,23 +1361,11 @@ function AddEdit1({ history, match }) {
                                                     onBlurValue={(field) => {  setTouched({...touched, [field] : true}); }}
                                                     options={cloudOptions}
                                                     placeholder=""
-                                                    component={CustomSelect}
-                                                //placeholder="Select multi platform"
-                                                //isMulti={true}
-                                                />
-                                                {/* <Field name="platform" as="select" isMulti={true} className={'form-control' + (errors.platform && touched.platform ? ' is-invalid' : '')}>
-                                    <option value=""></option>
-                                    <option value="Net">.Net</option>
-                                    <option value="Blue Prism">Blue Prism</option>
-                                    <option value="Automation Anywhere">Automation Anywhere</option>
-                                    <option value="UiPath">UiPath</option>
-                                    <option value="Power Automate">Power Automate</option>
-
-                                </Field> */}
+                                                    component={CustomSelect}                                                
+                                                />                                                
                                                 <ErrorMessage name="cloudOffering" component="div" className="invalid-feedback" />
                                             </div>
-                                            }
-                                            
+                                            }                                            
                                         </div>
                                     </div>
 
@@ -1752,47 +1411,18 @@ function AddEdit1({ history, match }) {
 
                                                     }}
                                                 //placeholder="Select Automation Type"
-                                                />
-                                                {/* <Field name="currency" as="select" className={'form-control' + (errors.currency && touched.currency ? ' is-invalid' : '')}>
-                                            <option value=""></option>
-                                            <option value="USD">USD</option>
-                                            <option value="GBP">GBP</option>
-                                            <option value="INR">INR</option>
-                                        </Field> */}
+                                                />                                                
                                                 <ErrorMessage name="currency" component="div" className="invalid-feedback" />
                                             </div>
                                             
                                             <div className="form-group col-4">
-                                                <label>Margin % <span className="small"></span></label>
-
-                                                {/* <Field name="margin" as="select" className={'form-control' + (errors.margin && touched.margin ? ' is-invalid' : '')}>
-                                    <option value=""></option>
-                                    <option value="5">5%</option>
-                                    <option value="10">10%</option>
-                                    <option value="15">15%</option>
-                                    <option value="20">20%</option>
-                                    <option value="25">25%</option>
-                                    <option value="30">30%</option>
-                                    <option value="35">35%</option>
-                                    <option value="40">40%</option>
-                                </Field> */}
+                                                <label>Margin % <span className="small"></span></label>                                                
                                                 <FastField  name="margin" type="number" placeholder="" step="0.01" className={'form-control' + (errors.margin && touched.margin ? ' is-invalid' : '')} />
                                                 <ErrorMessage name="margin" component="div" className="invalid-feedback" />
                                             </div>
                                             <div className="form-group col-4">
                                                 <label>EBITDA % <span className="small"></span></label>
-                                                <FastField  name="ebitda" type="number" placeholder="" step="0.01" className={'form-control' + (errors.ebitda && touched.ebitda ? ' is-invalid' : '')} />
-                                                {/* <Field name="ebitda" as="select" className={'form-control' + (errors.ebitda && touched.ebitda ? ' is-invalid' : '')}>
-                                    <option value=""></option>
-                                    <option value="5">5%</option>
-                                    <option value="10">10%</option>
-                                    <option value="15">15%</option>
-                                    <option value="20">20%</option>
-                                    <option value="25">25%</option>
-                                    <option value="30">30%</option>
-                                    <option value="35">35%</option>
-                                    <option value="40">40%</option>
-                                </Field> */}
+                                                <FastField  name="ebitda" type="number" placeholder="" step="0.01" className={'form-control' + (errors.ebitda && touched.ebitda ? ' is-invalid' : '')} />                                                
                                                 <ErrorMessage name="ebitda" component="div" className="invalid-feedback" />
                                             </div>
                                             <div className="form-group col-4">
@@ -1802,20 +1432,8 @@ function AddEdit1({ history, match }) {
                                                         <span className="input-group-text">{currencySymbol}</span>
                                                     </div>
                                                     <FastField  name="actualCashValue" type="number" className={'col-9 form-control' + (errors.actualCashValue && touched.actualCashValue ? ' is-invalid' : '')} />
-
-                                                    {/* <Field
-                                        name="actualCashValue"
-                                        className={'form-control' + (errors.actualCashValue && touched.actualCashValue ? ' is-invalid' : '')}
-                                        render={({ field, form: { isSubmitting } }) => (
-                                            <div className="form-group form-group mb-3">
-
-                                                <input  {...field} type="number"/>
-                                            </div>
-                                          )}
-                                        /> */}
                                                     <ErrorMessage name="actualCashValue" component="div" className="col invalid-feedback" /> </div>
                                             </div>
-
                                             <div className="form-group col-4">
                                                 <label>Total Cash Value <span className="small"></span></label>
                                                 <div className="row">
@@ -1829,29 +1447,9 @@ function AddEdit1({ history, match }) {
                                             <div className="form-group col-4">
                                                 <label>Benefit<span className="small"></span></label>
                                                 <FastField  name="benefits" placeholder="" type="text" className={'form-control' + (errors.benefits && touched.benefits ? ' is-invalid' : '')} />
-                                                {/* <Field name="benefits" as="select" className={'form-control' + (errors.benefits && touched.benefits ? ' is-invalid' : '')}>
-                                            <option value=""></option>
-                                            <option value="5">5%</option>
-                                            <option value="10">10%</option>
-                                            <option value="15">15%</option>
-                                            <option value="20">20%</option>
-                                            <option value="25">25%</option>
-                                            <option value="30">30%</option>
-                                            <option value="35">35%</option>
-                                            <option value="40">40%</option>
-                                        </Field> */}
-                                                        <ErrorMessage name="benefits" component="div" className="invalid-feedback" />
-                                                    </div>
-                                                    {/* <div className="form-group col-4">
-                                                <label>Total Pricing</label>
-                                                <Field name="totalPricing" type="number" className={'form-control' + (errors.totalPricing && touched.totalPricing ? ' is-invalid' : '')} />
-                                                <ErrorMessage name="totalPricing" component="div" className="invalid-feedback" />
-                                            </div> */}
-
-                                            
-
-                                                </div>
-                                                
+                                                <ErrorMessage name="benefits" component="div" className="invalid-feedback" />
+                                                    </div>  
+                                                </div>                                                
                                            </div>
                                             
                                            <div className="formSection">       
@@ -1866,10 +1464,7 @@ function AddEdit1({ history, match }) {
                                             <div className="form-group col-4">
                                                 <label>Support Resources</label>
                                                 <FastField  name="supportResource" type="number" className={'form-control' + (errors.supportResource && touched.supportResource ? ' is-invalid' : '')}
-                                                    onBlur={e => {
-                                                        // call the built-in handleBur
-                                                        //handleBlur(e)
-                                                        // and do something about e
+                                                    onBlur={e => {                                                       
                                                         setTouched({...touched, [e.target.name] : true});
                                                         setFieldValue('totalResource', Number(values.supportResource) + Number(values.developmentResource), false)
                                                     }}
@@ -1901,68 +1496,22 @@ function AddEdit1({ history, match }) {
                                             </div>
                                             }
 
-                                            <div className="form-group col-4">
-                                            {/* <FastField 
-                                                    className={'form-control custom-form-control' + (errors.currency && touched.currency ? ' is-invalid' : '')}
-                                                    name="currency2"
-                                                    onBlurValue={(field) => {  setTouched({...touched, [field] : true}); }}
-                                                    onChangeValue={value => {
-                                                        setFieldValue('currency2', value)
-                                                    }}
-                                                    options={[
-                                                        {
-                                                            label: "USD",
-                                                            value: "USD"
-                                                        },
-                                                        {
-                                                            label: "GBP",
-                                                            value: "GBP"
-                                                        },
-                                                        {
-                                                            label: "INR",
-                                                            value: "INR"
-                                                        },
-                                                    ]}
-                                                    placeholder=""
-                                                    component={CustomMultiSelect}
-                                                    // onChangeValue={value => {
-                                                    //     if (value) {
-                                                    //         var newArray = currencyIcon.filter(function (el) {
-                                                    //             return el.currency == value;
-                                                    //         });
-                                                    //         setCurrencySymbol(newArray[0].icon);
-                                                    //     } else {
-                                                    //         setCurrencySymbol(null);
-                                                    //     }
-
-                                                    // }}
-                                                //placeholder="Select Automation Type"
-                                                /> */}
-                                            </div>
-
-                                            
-                                            
+                                            <div className="form-group col-4">                                            
+                                            </div>    
                                                 </div>
-                                                
-                                            
                                             </div>
                                             </div>
-                                            
-                                            
-
                                     <div className="form-group float-right mt-3">
                                         <button type="submit" disabled={isSubmitting} className="btn edit-button">
                                             {isSubmitting && <span className="spinner-border spinner-border-sm mr-1"></span>}
                                             {!id ? 'Submit' : 'Submit'}
                                         </button>
                                         {!isAddMode  && user.role == "Admin" && <Link to="#" onClick={(e) => handleDelete(id)} className="btn del-button">Delete</Link> }
-                                        {/* <Link to={isAddMode ? '.' : '..'} className="btn assign-button">Cancel</Link> */}
                                         <Link to="#" onClick={() => history.goBack()} className="btn assign-button">Cancel</Link>
                                         
                                     </div>
                                     <div className="row mt-5"></div>
-                                </Form>
-                                
+                                </Form>                                
                             );
                         }}
                     </Formik>
@@ -1973,13 +1522,11 @@ function AddEdit1({ history, match }) {
 }
 
 export function getCurrentDate(separator = '') {
-
     let newDate = new Date()
     let date = newDate.getDate();
     let month = newDate.getMonth() + 1;
     let year = newDate.getFullYear();
-
     return `${year}${separator}${month < 10 ? `0${month}` : `${month}`}${separator}${date < 10 ? `0${date}` : `${date}`}`
 }
 
-export { AddEdit1 };
+export default AddEdit;

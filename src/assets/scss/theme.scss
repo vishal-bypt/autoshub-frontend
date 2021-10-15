@@ -24,6 +24,35 @@
 }
 
 /* close button **/
+.formSection {
+  border: #000;
+  border: solid 2px #41a8ce !important;
+  border-color: #41a8ce;
+  padding: auto;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 25px;
+}
+
+.blue-header h5{
+  font-style: 18px;
+  font-weight: 900 !important;
+}
+
+.blue-header{
+  margin-top: 20px;
+  font-size: 18px !important;
+  background:#41a8ce ;
+  border-radius: 6px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  padding-bottom:12px!important;
+  padding-left: 27px;
+  margin-bottom: 15px;
+  padding: 20px;  
+}
+
 .close {
   background: transparent;
   border: 0;

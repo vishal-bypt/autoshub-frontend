@@ -59,12 +59,12 @@ const Layout = props => {
       document.getElementById("status").style.display = "block";
 
       setTimeout(function () {
-        document.getElementById("preloader").style.display = "none";
-        document.getElementById("status").style.display = "none";
+        //document.getElementById("preloader").style.display = "none";
+        //document.getElementById("status").style.display = "none";
       }, 2500);
     } else {
-      document.getElementById("preloader").style.display = "none";
-      document.getElementById("status").style.display = "none";
+      //document.getElementById("preloader").style.display = "none";
+      //document.getElementById("status").style.display = "none";
     }
   }, [isPreloader]);
 

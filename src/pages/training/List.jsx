@@ -151,19 +151,13 @@ function List({ history, match }) {
             });
             history.push('/training');
         })
-    }
-   
-    return (
-        
-
+    }   
+    return (   
         <div className="page-content">  
-               <div className="container-fluid">   
-                        
-                        <div className="row">
-                            
+               <div className="container-fluid">                           
+                        <div className="row">                            
                             <div className="col-md-6">
                             {userDetails.role == "Admin" &&
-
                                 <h1 className="header-text">Trainings</h1>
                             }
                             {userDetails.role == "User" &&
@@ -172,8 +166,7 @@ function List({ history, match }) {
                             {userDetails.role == "Manager" &&
                                 <h1 className="header-text">Trainings</h1>
                             }
-                            </div>
-                            
+                            </div>                            
                             <div className="col-md-6 text-end">                            
                                 {userDetails.role == "Admin" &&
                                     <>
@@ -186,24 +179,18 @@ function List({ history, match }) {
                                 {userDetails.role == "Manager" &&
                                     <>
                                         <Link to={`/training/getAllByRole`} className="btn btn-info">My Trainings</Link>
-                                        <Link to="#" className="btn btn-info">View Training</Link>
+                                        <Link to="#" className="btn btn-info ml-1">View Training</Link>
                                     </>}
                             </div>
-                        </div>
-                    
+                        </div>                    
            <div className="row">&nbsp;</div>
            <div className="table-rep-plugin">
                     <div
                       className="table-responsive mb-0"
-                      data-pattern="priority-columns"
-                    >
+                      data-pattern="priority-columns">
                         <table className="table">
-
                             <thead>
-                                <tr>
-
-                                    {/* <th></th> */}
-                                    {/*  <th>Upload Prequisites</th> */}
+                                <tr>                                   
                                     <th>#</th>
                                     {userDetails.role == "Admin" &&
                                         <th className="traning-listing">Month</th>
@@ -231,16 +218,10 @@ function List({ history, match }) {
                                     }
                                     {userDetails.role == "Admin" &&
                                         <th className="traning-listing">No. of Absentees</th>
-                                    }
-                                    {/* { userDetails.role == "Admin" && 
-                           <th style={{ fontSize:'15px'}}>Nominated Employee</th>
-                       } */}
+                                    }                                    
                                     {userDetails.role == "User" &&
                                         <th className="traning-listing">Nominated Employee</th>
-                                    }
-                                    {/*  { userDetails.role == "Admin" && 
-                           <th style={{ fontSize:'15px'}}>Nominated By</th>
-                       } */}
+                                    }                                    
                                     {userDetails.role == "User" &&
                                         <th className="traning-listing">Nominated By</th>
                                     }
@@ -271,34 +252,12 @@ function List({ history, match }) {
                                     {userDetails.role == "Manager" &&
                                         <th className="traning-listing">Required Prerequisites</th>
                                     }
-
-
-                                    {/* { userDetails.role == "Admin" &&                                                       
-                           <th style={{ fontSize:'15px'}}>No. of Nominations</th>
-                       } 
-                       { userDetails.role == "Admin" &&                                                       
-                           <th style={{ fontSize:'15px'}}>No. of Attended</th>
-                       }
-                       { userDetails.role == "Admin" &&                                                       
-                           <th style={{ fontSize:'15px'}}>No. of Absentees</th>
-                       } */}
                                     {userDetails.role == "Manager" &&
                                         <th className="traning-listing">Nomination End Date</th>
-                                    }
-                                    {/* <th>Status</th>   */}
-                                    {/* { userDetails.role == "Admin" &&                                                       
-                           <th style={{ fontSize:'15px'}}>Submitted Prerequisites</th>
-                       }  */}
+                                    }                                    
                                     {userDetails.role == "User" &&
                                         <th className="traning-listing">Status</th>
-                                    }
-                                    {/* { userDetails.role == "Admin"  &&  
-                           <th style={{ fontSize:'15px'}}>Status</th>   
-                       } */}
-                                    {/* { userDetails.role == "Admin" && 
-                           <th style={{ fontSize:'15px'}}>Approve / Decline Prerequisites</th>    
-                       }  */}
-
+                                    }   
                                     {userDetails.role == "User" &&
                                         <th className="traning-listing">Upload Prequisites</th>
                                     }
@@ -307,48 +266,9 @@ function List({ history, match }) {
                                     }
                                 </tr>
                             </thead>
-                            <tbody>
-                                {/* <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">3</th>
-                        <td>Larry</td>
-                        <td>the Bird</td>
-                        <td>@twitter</td>
-                      </tr> */}
+                            <tbody>                                
                                 {users && users.map((user, index) =>
                                     <tr key={user.id}>
-
-                                        {/* <td style={{ whiteSpace: 'nowrap', minWidth: '30%' }}>
-                            { userDetails.role == "Admin" && <div >                        
-                                <Link to={`${path}/edit/${user.id}`} className="btn btn-sm btn-primary mr-1">Edit</Link>
-                                <button onClick={() => deleteUser(user.id)} className="btn btn-sm btn-danger" style={{ width: '60px', marginRight:'5px' }} disabled={user.isDeleting}>
-                                    {user.isDeleting 
-                                        ? <span className="spinner-border spinner-border-sm"></span>
-                                        : <span>Delete</span>
-                                    }
-                                </button>
-                                <Link to={`${path}/assign/${user.id}`} className="btn btn-sm btn-info mr-1">Assign Training</Link>
-                                </div>}
-
-                            </td>  */}
-
-
-                                        {/*  <td style={{ whiteSpace: 'nowrap', minWidth: '30%'}}>
-                                { userDetails.role == "User" && <div >  
-                                    <Link to={`${path}/uploadPrequisites`} className="btn btn-sm btn-primary mr-1">Upload</Link>
-                                </div>}                
-                            </td> */}
                                         <td className="traning-listing" style={{ minWidth: '40px' }}>{index + 1}</td>
                                         {userDetails.role == "Admin" &&
                                             <td className="traning-listing" style={{ minWidth: '100px' }}>{moment(user.trainingStartDate).format("MMMM")} </td>
@@ -373,10 +293,7 @@ function List({ history, match }) {
                                         }
                                         {userDetails.role == "User" &&
                                             <td className="traning-listing" style={{ minWidth: '100px' }}>{user.assignedToName} </td>
-                                        }
-                                        {/* { userDetails.role == "Admin" && 
-                                <td style={{ fontSize:'15px',minWidth: '100px' }}>{user.assignedByName ? user.assignedByName : "NA"}</td>
-                            } */}
+                                        }                                        
                                         {userDetails.role == "Admin" &&
                                             <td className="traning-listing" style={{ minWidth: '100px' }}>0</td>
                                         }
@@ -412,58 +329,10 @@ function List({ history, match }) {
                                         }
                                         {userDetails.role == "User" &&
                                             <td className="traning-listing" style={{ minWidth: '130px' }}>{user.trainingPrequisites}</td>
-                                        }
-                                        {/* { userDetails.role == "Admin" &&                             
-                                <td style={{ fontSize:'15px',minWidth: '150px' }}>1</td>
-                            }   
-                            { userDetails.role == "Admin" &&                             
-                                <td style={{ fontSize:'15px',minWidth: '150px' }}>0</td>
-                            } 
-                            { userDetails.role == "Admin" &&                             
-                                <td style={{ fontSize:'15px',minWidth: '150px' }}>0</td>
-                            }    */}
+                                        }                                        
                                         {userDetails.role == "Manager" &&
                                             <td>{moment(user.nominationEndDate).format("DD/MM/YYYY")}</td>
-                                        }
-                                        {/* <td style={{ minWidth: '200px' }}>Pending</td> */}
-
-                                        {/*  { userDetails.role == "Admin" &&
-                                <td style={{ fontSize:'15px',minWidth: '150px' }}>
-                                    {user.preRequisites != "N/A" ? <a style={{ color:'blue',textDecoration: 'underline' }} target="_blank" href={config.apiUrl+"/"+user.preRequisites}  onClick={viewPreRequisited(user)} >Check</a> 
-                                    : 
-                                    "N/A" }</td>                                     
-                            } */}
-                                        {/* { userDetails.role == "Admin" &&  
-                                <td style={{ fontSize:'15px',minWidth: '150px' }}>
-                                    {user.acceptRejectStatus != "Pending" ?  user.acceptRejectStatus
-                                    : 
-                                    "Pending" }</td>                                     
-                            } */}
-                                        {/* { userDetails.role == "Admin" &&                              
-                                <td style={{ fontSize:'15px',minWidth: '150px' }}>Decline</td>
-                            }  */}
-                                        {/* { userDetails.role == "Admin" &&                                  
-                                <td style={{ fontSize:'15px',minWidth: '150px' }}>
-                                    {user.preRequisites != "N/A" ?
-                                        <div>
-                                            {user.acceptRejectStatus == "Completed" ?                                                
-                                                <a style={{ color:'blue',textDecoration: 'underline' }} onClick={handleClickReject(user)}>Decline</a> :
-                                                <div>
-                                                    {user.acceptRejectStatus == "Pending" ?  
-                                                        <div>
-                                                            <a style={{ color:'blue',textDecoration: 'underline' }} onClick={handleClickAccept(user)}> Approve</a> /<a style={{ color:'blue',textDecoration: 'underline' }} onClick={handleClickReject(user)}> Decline</a> 
-                                                        </div> :
-                                                        
-                                                        <a style={{ color:'blue',textDecoration: 'underline' }} onClick={handleClickAccept(user)}> Approve</a> }
-                                                
-                                                </div>
-                                               
-                                            }
-                                        </div>:                                        
-                                        "-"
-                                    }                    
-                                </td>
-                            }  */}
+                                        }                                        
                                         {userDetails.role == "User" &&
                                             <td className="traning-listing" style={{ minWidth: '150px' }}>
                                                 {/* {user.acceptRejectStatus == 0 ?
@@ -484,10 +353,9 @@ function List({ history, match }) {
                                                 }       
                                             </td>
                                         }
-
                                         {userDetails.role == "Manager" &&
                                             <td className="traning-listing" style={{ minWidth: '150px' }}>
-                                                <Link className="traning-listing" to={`/training/assign/${user.id}`} style={{ color: "white !important" }} className="assign-button">Nominate</Link>
+                                                <Link to={`/training/assign/${user.id}`} className="btn btn-warning">Nominate</Link>
                                             </td>
                                         }
                                     </tr>
@@ -500,19 +368,11 @@ function List({ history, match }) {
                                     </tr>
                                 }
                             </tbody>
-
-                        </table>
-                    
-                </div>
-
+                        </table>                    
+                    </div>
+                </div>  
             </div>
-        
-        
         </div>
-
-
-</div>
-
     );
 }
 

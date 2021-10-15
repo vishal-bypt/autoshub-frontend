@@ -1,7 +1,7 @@
 module.exports = {
   google: {
     API_KEY: "",
-    CLIENT_ID: "",
+    CLIENT_ID: "1234",
     SECRET: "",
   },
   facebook: {

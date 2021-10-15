@@ -9,7 +9,7 @@ function LandingEntries({ match }) {
     const [users, setUsers] = useState(null);
     const userDetails = accountService.userValue;
 
-    useEffect(() => {
+    useEffect(() => {       
         rfcService.getAll('latest').then(x => setUsers(x));
     }, []);
 

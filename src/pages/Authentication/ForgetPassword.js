@@ -2,7 +2,7 @@ import PropTypes from "prop-types"
 import MetaTags from "react-meta-tags"
 import React from "react"
 import { Row, Col, Alert, Container } from "reactstrap"
-
+import { history } from '../../helpers';
 //redux
 import { useSelector, useDispatch } from "react-redux"
 
@@ -34,7 +34,7 @@ const ForgetPasswordPage = props => {
     <React.Fragment>
       <MetaTags>
         <title>
-          Forget Password | Minia - React Admin & Dashboard Template
+          Forget Password
         </title>
       </MetaTags>
       <div className="auth-page">
@@ -46,13 +46,13 @@ const ForgetPasswordPage = props => {
                   <div className="d-flex flex-column h-100">
                     <div className="mb-4 mb-md-5 text-center">
                       <Link to="/dashboard" className="d-block auth-logo">
-                        <img src={logo} alt="" height="28" /> <span className="logo-txt">Minia</span>
+                        <img src={"http://52.42.196.59:4000/ReactImages/autoshubLogo2.png"} alt="" height="28" /> <span className="logo-txt">Auto S Hub</span>
                       </Link>
                     </div>
                     <div className="auth-content my-auto">
                       <div className="text-center">
                         <h5 className="mb-0">Reset Password</h5>
-                        <p className="text-muted mt-2">Reset Password with Minia.</p>
+                        {/* <p className="text-muted mt-2">Reset Password with Minia.</p> */}
                       </div>
 
                       {forgetError && forgetError ? (
@@ -84,13 +84,12 @@ const ForgetPasswordPage = props => {
                         </div>
                       </AvForm>
 
-                      <div className="mt-5 text-center">
-                        <p className="text-muted mb-0">Remember It ?  <a href="auth-login.html"
-                          className="text-primary fw-semibold"> Sign In </a> </p>
+                      <div className="mt-5 text-center"> 
+                        <p className="text-muted mb-0">Remember It ?  <Link to="login" className="text-muted" style={{marginTop:"-10px",fontSize:"13px"}}>Sign in</Link> </p>
                       </div>
                     </div>
                     <div className="mt-4 mt-md-5 text-center">
-                      <p className="mb-0">© {new Date().getFullYear()} Minia   . Crafted with <i className="mdi mdi-heart text-danger"></i> by Themesbrand</p>
+                      <p className="mb-0">© {new Date().getFullYear()}. Crafted with <i className="mdi mdi-heart text-danger"></i> by ByPeople technologies</p>
                     </div>
                   </div>
                 </div>

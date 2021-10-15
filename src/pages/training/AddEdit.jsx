@@ -26,8 +26,7 @@ function AddEdit({ history, match }) {
         trainingService.getAll().then(x => setUsers(x));
     }, []);
 
-    const onFileChange = event => {
-        //console.log("event.target.files[0] == ", event.target.files[0]);
+    const onFileChange = event => {       
         let file = event.target.files[0];
         if (!file)
             alertService.error('Add excel file', { keepAfterRouteChange: false });
@@ -40,12 +39,10 @@ function AddEdit({ history, match }) {
     };
 
     const handleSubmit = (e) => {
-        try {
-            //console.log("e == ", e)
+        try {            
             e.preventDefault();
             var formData = new FormData();
-            if (!selectedFile) {
-                //return alert("Please add file first")
+            if (!selectedFile) {                
                 return Swal.fire('Oops...', 'Please attach excel file!', 'error')
             }
             formData.append('filePath', selectedFile);//append the values with key, value pair 
@@ -60,158 +57,45 @@ function AddEdit({ history, match }) {
             .then((data) => {
                 setUploadBtn(false)
                 setSuccessBtn(true)
-                alertService.success('Success', { keepAfterRouteChange: true });
-                //history.push('/training/add');
-                //alert("Your file is uploaded!")
+                alertService.success('Success', { keepAfterRouteChange: true });               
                 Swal.fire('Training uploaded successfully.!')
-                trainingService.getAll().then(x => setUsers(x));
-                // window.location.reload();
+                trainingService.getAll().then(x => setUsers(x));                
             })
             .catch(error => {
                 setUploadBtn(false)
                 setErrorBtn(true)
                 alertService.error(error);
             });
-
-    }
-    //console.log("users == ", users);
+    }   
     return (
-        <>
-            {/* <div className="p-4">
-            <div className="container extra-padding">   
-                <div className="row" style={{justifyContent:'space-between'}}>
-                    <div>
-                        <h1>Import Training Records</h1>
-                        <form encType='multipart/form-data'>
-                            <div className="form-group col-12">
-                                <label>Upload Excel File</label>
-                                <input type="file"  name="" id=""  className="form-control" onChange={onFileChange} />
-                            
-                            </div>
-                            <button className="btn btn-primary" onClick={handleSubmit}>
-                                Save
-                            </button>                
-                        </form>
-                    </div>
-                    <div>
-                        <Link to={'.'} className="btn btn-info btn-lg">Back</Link>
-                    </div>
-                
-                
-                    </div>         
-            <div>
-
-               </div>
-            </div>
-            
-
-        </div>
-
-    <div className="container-fluid">
-    <div className="table-responsive">
-    <table className="table table-striped extra-table" >
-        <thead >
-            <tr>
-                
-                {/* <th>Upload Prequisites</th>  */}
-            {/* <th style={{ fontSize:'15px'}}>#</th>
-                <th style={{ fontSize:'15px'}}>Training Name</th>
-                <th style={{ fontSize:'15px'}}>Training Type</th>
-                <th style={{ fontSize:'15px'}}>Start Date</th>
-                <th style={{ fontSize:'15px'}}>End Date</th>
-                <th style={{ fontSize:'15px'}}>Required Prerequisites</th>
-                <th style={{ fontSize:'15px'}}>Nomination End Date</th>  */}
-            {/* <th>Status</th> */}
-            {/* <th style={{ fontSize:'15px'}}></th> */}
-
-            {/* </tr> */}
-            {/* </thead> */}
-            {/* <tbody>
-        {users && users.map((user,index) =>        
-                <tr key={user.id}>
-                          */}
-
-
-            {/*  <td style={{ whiteSpace: 'nowrap', minWidth: '30%'}}>
-                        { userDetails.role == "User" && <div >  
-                            <Link to={`${path}/uploadPrequisites`} className="btn btn-sm btn-primary mr-1">Upload</Link>
-                        </div>}                
-                    </td> */}
-            {/* <td style={{ fontSize:'15px',minWidth: '40px' }}>{index+1}</td>
-                    <td style={{ fontSize:'15px',minWidth: '150px' }}>{user.trainingName}</td>
-                    <td style={{ fontSize:'15px',minWidth: '150px' }}>{user.trainingType}</td>
-                    <td style={{ fontSize:'15px',minWidth: '150px' }}>{moment(user.trainingStartDate).format("DD/MM/YYYY")}</td>
-                    <td style={{ fontSize:'15px',minWidth: '150px' }}>{moment(user.trainingEndDate).format("DD/MM/YYYY")}</td>                            
-                    <td style={{ fontSize:'15px',minWidth: '150px' }}>{user.trainingPrequisites}</td>
-                    <td style={{ fontSize:'15px',minWidth: '150px' }}>{moment(user.nominationEndDate).format("DD/MM/YYYY")}</td>                              */}
-            {/* <td style={{ minWidth: '200px' }}>Pending</td> */}
-            {/* <td style={{ fontSize:'15px',whiteSpace: 'nowrap', minWidth: '30%' }}> */}
-            {/* { userDetails.role == "Admin" && <div >                         */}
-            {/* <Link to={`/training/assign/${user.id}`} className="btn btn-sm btn-info mr-1">Assign</Link> */}
-            {/* </div>} */}
-
-            {/* </td>  */}
-
-            {/* </tr> */}
-            {/* )}
-            {!users &&
-                <tr>
-                    <td colSpan="4" className="text-center">
-                        <span className="spinner-border spinner-border-lg align-center"></span>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-    </div>
-    </div> */}
-            <div className="new-form" style={{ overflow: 'none !important' }}>
-                <div className="img_bx"></div>
-                <div className="back-btn-div">
-                    <div className="btn-width-div">
-                        {/* <Link onClick={() => { history.push('.'); }}  className="back-btn "><ArrowBackIcon className="mr-1" />Back</Link> */}
-                    </div>
-                </div>
-                <div className="button-div">
-                    <div className="row">
-
-                        <div className="container">
-                            <div className="col-md-12">
+        <>            
+            <div className="page-content">  
+               <div className="container-fluid">
+                    <div className="row">                        
+                            <div className="col-md-4">
                                 <h1 className="header-text">Upload Training Records</h1>
+                            </div>
+                            <div className="col-md-4 text-end">
                                 <form encType='multipart/form-data'>
-                                    <div className="form-group col-12 newformmargin p-0">
-                                        {/* <label style={{ fontWeight: "500", color: "#fff" }}>Upload Excel File</label> */}
+                                    <div className="form-group col-12 mt-2 p-0">                                        
                                         <input type="file" display="none" name="" id="ExcelFile" className="form-control" onChange={onFileChange} hidden />
-
-                                    </div>
-                                    {/* <button className="btn btn-info" onClick={handleSubmit}>
-                                        Submit
-                                    </button> */}
-                                </form>
+                                    </div>                                   
+                                </form>                                
                                 <div className="variantsPopUpFileUpload">
-                                    {selectBtn && <IconButton onClick={() => {
-                                        // <input id='input-file' type='file' />
-
-                                        document.getElementById('ExcelFile').click();
-                                        // setUploadFileBtn(true)
+                                    {selectBtn && <IconButton onClick={() => { 
+                                        document.getElementById('ExcelFile').click();                                       
                                     }}> <div className='filePopUpFileUpload '>
-
                                             <label htmlFor='input-file selectAndUpload'>
                                                 <CloudQueueIcon />
                                                 &nbsp;SelectFile & upload
                                             </label>
-
                                         </div>
                                     </IconButton>
                                     }
-
-
-
                                     {uploadBtn && <IconButton onClick={handleSubmit}><div className='filePopUpFileUpload file--uploadingPopUpFileUpload'>
                                         <label htmlFor='input-file'>
                                             <BackupIcon />Upload
-                                        </label>
-                                        {/* <input id='input-file' type='file' /> */}
+                                        </label>                                        
                                     </div></IconButton>}
 
                                     {successBtn && <IconButton onClick={() => {
@@ -220,8 +104,7 @@ function AddEdit({ history, match }) {
                                     }}><div className='filePopUpFileUpload file--successPopUpFileUpload'>
                                             <label htmlFor='input-file'>
                                                 <CloudDoneIcon />Success
-                                            </label>
-                                            {/* <input id='input-file' type='file' /> */}
+                                            </label>                                            
                                         </div></IconButton>}
 
                                     {errorBtn && <IconButton onClick={() => {
@@ -230,30 +113,22 @@ function AddEdit({ history, match }) {
                                     }} ><div className='filePopUpFileUpload file--dangerPopUpFileUpload'>
                                             <label htmlFor='input-file'>
                                                 <CloudOffIcon />Error
-                                            </label>
-                                            {/* <input id='input-file' type='file' /> */}
+                                            </label>                                            
                                         </div></IconButton>}
-
-
                                 </div>
-
-
-
-
                             </div>
-                        </div>
-
+                            <div className="col-md-4 text-end"> 
+                                <Link to={'.'} className="btn btn-danger "><ArrowBackIcon className="mr-1" />Back</Link>
+                            </div>
+                        
                     </div>
                 </div>
-
                 <div className="data-table-div">
-
                     <div className="data-table">
                         <div className="table-responsive">
                             <table className="table">
                                 <thead>
-                                    <tr>
-                                        {/* <th>Upload Prequisites</th>  */}
+                                    <tr>                                        
                                         <th className="traning-listing" >#</th>
                                         <th className="traning-listing" >Training Name</th>
                                         <th className="traning-listing" >Training Type</th>
@@ -262,25 +137,14 @@ function AddEdit({ history, match }) {
                                         <th className="traning-listing" >Required Prerequisites</th>
                                         <th className="traning-listing" >Stream</th>
                                         <th className="traning-listing" >Tool Name</th>
-                                        <th className="traning-listing" >Nomination End Date</th>
-                                        {/* <th>Status</th> */}
+                                        <th className="traning-listing" >Nomination End Date</th>                                        
                                         <th className="traning-listing" ></th>
                                     </tr>
                                 </thead>
-
-
                                 <tbody>
                                 {users && users.map((user, index) =>
                                     
-                                        <tr key={user.id}>
-
-
-
-                                            {/*  <td style={{ whiteSpace: 'nowrap', minWidth: '30%'}}>
-                        { userDetails.role == "User" && <div >  
-                            <Link to={`${path}/uploadPrequisites`} className="btn btn-sm btn-primary mr-1">Upload</Link>
-                        </div>}                
-                    </td> */}
+                                        <tr key={user.id}>                                           
                                             <td className="traning-listing" style={{ minWidth: '40px' }}>{index + 1}</td>
                                             <td className="traning-listing" style={{ minWidth: '150px' }}>{user.trainingName}</td>
                                             <td className="traning-listing" style={{ minWidth: '150px' }}>{user.trainingType}</td>
@@ -290,19 +154,14 @@ function AddEdit({ history, match }) {
                                             <td className="traning-listing" style={{ minWidth: '75px' }}>{user.stream}</td>
                                             <td className="traning-listing" style={{ minWidth: '100px' }}>{user.toolName}</td>
                                             <td className="traning-listing" style={{ minWidth: '150px' }}>{moment(user.nominationEndDate).format("DD/MM/YYYY")}</td>
-                                            {/* <td style={{ minWidth: '200px' }}>Pending</td> */}
                                             <td className="traning-listing" style={{ whiteSpace: 'nowrap', minWidth: '30%' }}>
                                                 {userDetails.role == "Admin" && <div >
                                                     <Link to={`/training/assign/${user.id}`} className="btn btn-sm btn-info mr-1">Assign</Link>
                                                 </div>}
-
                                             </td>
-
-                                        </tr>
-                                    
+                                        </tr>                                    
                                 )
                                 }
-
                                 {!users &&
                                     <tr>
                                         <td colSpan="4" className="text-center">
@@ -314,9 +173,7 @@ function AddEdit({ history, match }) {
                             </table>
                         </div>
                     </div>
-
                 </div>
-
             </div>
         </>
     );

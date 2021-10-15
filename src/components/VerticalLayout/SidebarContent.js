@@ -113,7 +113,7 @@ const SidebarContent = props => {
               </Link>
             </li>
             <li>
-              <Link to="/rfc" className="">
+              <Link to="/rfp" className="">
                 <FeatherIcon
                   icon="file-text"
                 />
