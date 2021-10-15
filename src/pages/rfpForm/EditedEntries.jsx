@@ -48,9 +48,9 @@ function EditedEntries({ match }) {
         //     {/* <p>All RFP Records from secure (admin only) api end point:</p> */}
         //     <Link to={`/rfp/add`} className="btn btn-sm btn-success mb-2">Add</Link>
         //     &nbsp;
-        //     {userDetails.role != "User" && <Link to="/rfp/all-entries" className="btn btn-sm btn-info mb-2">All Entries</Link> }
+        //     {userDetails.role != "User" && <Link to="/rfp/all-entries" className="btn btn-sm btn-primary mb-2">All Entries</Link> }
         //     &nbsp;
-        //     <Link to={`/rfp/my-entries`} className="btn btn-sm btn-info mb-2">My Entries</Link>
+        //     <Link to={`/rfp/my-entries`} className="btn btn-sm btn-primary mb-2">My Entries</Link>
         //     &nbsp;
         //     <button onClick={handleExportData} className="btn btn-sm btn-danger mb-2 text-right">Export</button>
         //     <div className="table-responsive">

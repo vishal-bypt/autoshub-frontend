@@ -249,7 +249,7 @@ function AllNominations({ history, match }) {
                                         }
                                         {userDetails.role == "Manager" &&
                                             <td className="traning-listing" style={{ minWidth: '150px' }}>
-                                                <Link className="traning-listing" to={`/training/assign/${user.id}`} className="btn btn-sm btn-info mr-1 link-color">Nominate</Link>
+                                                <Link className="traning-listing" to={`/training/assign/${user.id}`} className="btn btn-sm btn-primary mr-1 link-color">Nominate</Link>
                                             </td>
                                         }
                                     </tr>

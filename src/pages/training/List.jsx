@@ -170,16 +170,16 @@ function List({ history, match }) {
                             <div className="col-md-6 text-end">                            
                                 {userDetails.role == "Admin" &&
                                     <>
-                                        <Link to={`/training/add`}  className="btn btn-info">Upload Trainings</Link>
-                                        <Link to={`/training/editList`} className="btn btn-info ml-1">Edit Trainings</Link>
-                                        <Link to={`/training/getAllByRole`} className="btn btn-info ml-1">My Trainings</Link>
-                                        <Link to={`/training/getAll`} className="btn btn-info ml-1">View All</Link>
-                                        <Link to={`/training/getAllNominations`} className="btn btn-info ml-1">All Nominations</Link>
+                                        <Link to={`/training/add`}  className="btn btn-primary">Upload Trainings</Link>
+                                        <Link to={`/training/editList`} className="btn btn-primary ml-1">Edit Trainings</Link>
+                                        <Link to={`/training/getAllByRole`} className="btn btn-primary ml-1">My Trainings</Link>
+                                        <Link to={`/training/getAll`} className="btn btn-primary ml-1">View All</Link>
+                                        <Link to={`/training/getAllNominations`} className="btn btn-primary ml-1">All Nominations</Link>
                                     </>}
                                 {userDetails.role == "Manager" &&
                                     <>
-                                        <Link to={`/training/getAllByRole`} className="btn btn-info">My Trainings</Link>
-                                        <Link to="#" className="btn btn-info ml-1">View Training</Link>
+                                        <Link to={`/training/getAllByRole`} className="btn btn-primary">My Trainings</Link>
+                                        <Link to="#" className="btn btn-primary ml-1">View Training</Link>
                                     </>}
                             </div>
                         </div>                    
