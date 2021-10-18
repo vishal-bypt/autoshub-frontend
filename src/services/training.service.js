@@ -3,7 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 import config from '../config';
 import { fetchWrapper, history } from '../helpers';
 
-const userSubject = new BehaviorSubject(null);
+//const userSubject = new BehaviorSubject(null);
 const baseUrl = `${config.apiUrl}/training`;
 const baseUrl2 = `${config.apiUrl}/trainingAssign`
 const baseUrl3 = `${config.apiUrl}/trainingPreRequisites`
@@ -23,8 +23,8 @@ export const trainingService = {
     viewPreRequisites,
     /* rejectPreRequisites,
     acceptPreRequisites, */
-    user: userSubject.asObservable(),
-    get userValue () { return userSubject.value }
+    //user: userSubject.asObservable(),
+    //get userValue () { return userSubject.value }
 };
 
 function viewPreRequisites(id, userId) {     
@@ -122,4 +122,19 @@ function _delete(id) {
 
 // helper functions
 
-let refreshTokenTimeout;
+
+// let refreshTokenTimeout;
+
+// function startRefreshTokenTimer() {
+//     // parse json object from base64 encoded jwt token
+//     const jwtToken = JSON.parse(atob(userSubject.value.jwtToken.split('.')[1]));
+
+//     // set a timeout to refresh the token a minute before it expires
+//     const expires = new Date(jwtToken.exp * 1000);
+//     const timeout = expires.getTime() - Date.now() - (60 * 1000);
+//     refreshTokenTimeout = setTimeout(refreshToken, timeout);
+// }
+
+// function stopRefreshTokenTimer() {
+//     clearTimeout(refreshTokenTimeout);
+// }

@@ -10,7 +10,7 @@ export function configureFakeBackend() {
     window.fetch = function (url, opts) {
         return new Promise((resolve, reject) => {
             // wrap in timeout to simulate server api call
-            setTimeout(handleRoute, 500);
+            setTimeout(handleRoute, 40);
 
             function handleRoute() {
                 const { method } = opts;
@@ -72,8 +72,9 @@ export function configureFakeBackend() {
                 });
             }
 
-            function refreshToken() {
+            function refreshToken() { alert("calledd");
                 const refreshToken = getRefreshToken();
+                console.log("refreshToken", refreshToken);
                 
                 if (!refreshToken) return unauthorized();
 
@@ -385,7 +386,7 @@ export function configureFakeBackend() {
 
                 return token;
             }
-
+            
             function getRefreshToken() {
                 // get refresh token from cookie
                 return (document.cookie.split(';').find(x => x.includes('fakeRefreshToken')) || '=').split('=')[1];

@@ -27,7 +27,7 @@ export const accountService = {
     delete: _delete,
     assignUser: assignUser,
     user: userSubject.asObservable(),
-    get userValue () { return userSubject.value }
+    get userValue () { return userSubject.value ? userSubject.value : localStorage.getItem('authUser') }
 };
 
 function login(email, password) {
@@ -45,12 +45,12 @@ function logout() {
     fetchWrapper.post(`${baseUrl}/revoke-token`, {});
     stopRefreshTokenTimer();
     userSubject.next(null);
-    history.push('/account/login');
+    history.push('/login');
 }
 
 function refreshToken() {
     return fetchWrapper.post(`${baseUrl}/refresh-token`, {})
-        .then(user => {
+        .then(user => { console.log("user", user);
             // publish user to subscribers and start timer to refresh token
             userSubject.next(user);
             startRefreshTokenTimer();
