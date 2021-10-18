@@ -391,8 +391,8 @@ function AddEditPage({ history, match }) {
             "DealTerm should contains characters and numbers"
         ),
         rfpReceivedDate: Yup.date().required('Cannot be left blank -RFP received date selection is mandatory')
-        .when("startDate",
-                    (startDate, yup) => startDate && yup.min(startDate, "Received Date should greater than Start Date"))
+            .when("startDate",
+                (startDate, yup) => startDate && yup.min(startDate, "Received Date should greater than Start Date"))
         ,
         rfpRespondedDate: Yup.date().required('Responded date selection is mandatory').min(
             Yup.ref('rfpReceivedDate'),
@@ -406,7 +406,7 @@ function AddEditPage({ history, match }) {
         salesCrmOpportunityId: Yup.number().test(
             "maxDigitsAfterDecimal",
             "Sales Crm Opportunity Id field must have 6 digits",
-            (number) => { 
+            (number) => {
                 //let num = number.toString();
                 let num = Math.ceil(Math.log(number + 1) / Math.LN10);
                 return num === 6
@@ -437,7 +437,7 @@ function AddEditPage({ history, match }) {
         //         if (password) return schema.required('Confirm Password is required');
         //     })
         //     .oneOf([Yup.ref('password')], 'Passwords must match')
-    });   
+    });
 
     const handleDelete = (id) => {
         Swal.fire({
@@ -448,23 +448,23 @@ function AddEditPage({ history, match }) {
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Yes, delete it!'
-          }).then((result) => {
+        }).then((result) => {
             if (result.isConfirmed) {
                 rfcService.delete(id).then((data) => {
                     alertService.success(data.message, { keepAfterRouteChange: true });
                     history.push("/rfp");
                 });
-              Swal.fire(
-                'Deleted!',
-                'Your record has been deleted successfully.',
-                'success'
-              )
+                Swal.fire(
+                    'Deleted!',
+                    'Your record has been deleted successfully.',
+                    'success'
+                )
             }
-          })        
+        })
     }
 
-    useEffect(() => {                                
-        if (!isAddMode) {            
+    useEffect(() => {
+        if (!isAddMode) {
             rfcService.getById(id).then(user => {
                 if (currencySymbol == null) {
                     if (user.currency == "USD") {
@@ -481,12 +481,13 @@ function AddEditPage({ history, match }) {
                 const fields = ['monthCalendar', 'responseType', 'clientName', 'status', 'stage', 'dealType', 'dealTypeStatus', 'dealTerm', 'rfpReceivedDate', 'rfpRespondedDate', 'geo', 'location', 'geoLeads', 'deliveryHeads', 'btsMoLead', 'salesLead', 'programLead', 'technicalLead', 'deliveryLedBy', 'automationType', 'rpaPlatform', 'developmentResource', 'supportResource', 'totalResource', 'currency', 'margin', 'totalCashValue', 'ebitda', 'consideration', 'benefits', 'serverUsage', 'platform', 'projectStartDate', 'projectEndDate', 'developmentDuration', 'comments', 'actualCashValue', 'salesCrmOpportunityId', 'saleType', 'domain', 'competency', 'customerDemo', 'startDate', 'endDate', 'ageing', 'cloudOffering'];
                 fields.map((field) => {
                     Formik.setFieldValue(field, user[field], false)
-                })  
+                })
             });
         }
     }, []);
 
     function onSubmit(fields, { setStatus, setSubmitting }) {
+        alert("buttibn cklick")
         const platform = typeof fields?.platform != 'string' ? fields?.platform?.join() : fields?.platform;
         const consideration = typeof fields?.consideration != 'string' ? fields?.consideration?.join() : fields?.consideration;
         let data = { ...fields, monthCalendar: fields.monthCalendar, consideration: consideration, platform: platform, geoLeads: '0' }
@@ -530,593 +531,490 @@ function AddEditPage({ history, match }) {
     }
 
     return (
-        
-        <div className="page-content">           
-            <div className="container-fluid" >               
-                <div className="row">
-                    <div className="col-md-12 text-end">
-                        <Link to="." onClick={() => { history.goBack(); }} className="btn btn-warning"><ArrowBackIcon className="mr-1" />Back</Link>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="card">
-                        <div className="card-header">
-                            <Breadcrumbs title="Forms" breadcrumbItem="PROJECT DETAILS" />
-                        </div>
-                        <Formik  initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}
-                        onValidationError={errorValues => {                            
-                        }}
-                    >
-                        {({ errors, values, touched, isSubmitting, setFieldValue, handleBlur, setTouched }) => {
-                            return (   
-                        <div className="p-4 card-body">
-                        
+        <div className="page-content">
+            <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}
+                onValidationError={errorValues => {
+                }}
+            >
+                {({ errors, values, touched, isSubmitting, setFieldValue, handleBlur, setTouched }) => {
+                    return (
+                        <Form>
+                        <div className="container-fluid" >
                             <div className="row">
-                                <div className="col-md-6">
-                                    <label>Sales CRM Opportunity ID</label>
-                                    <FastField  name="salesCrmOpportunityId" type="number" className={'form-control' + (errors.salesCrmOpportunityId && touched.salesCrmOpportunityId ? ' is-invalid' : '')} 
-                                        onChange={e => {
-                                            let  salesCrmOpportunityId = e.target.value;
-                                            if(salesCrmOpportunityId.toString().length < 7) {
-                                            setFieldValue('salesCrmOpportunityId', salesCrmOpportunityId);
-                                            }           
-                                        }}
-                                    />
-                                    <ErrorMessage name="salesCrmOpportunityId" component="div" className="invalid-feedback" />
-                                </div>
-                                <div className="col-md-6">
-                                    <label className="form-label">Sale Type</label>
-                                    <FastField 
-                                        className={(errors.saleType && touched.saleType ? ' is-invalid' : '')}
-                                        name="saleType"
-                                        onBlurValue={(field) => {  setTouched({...touched, [field] : true}); }}
-                                        options={[
-                                            {
-                                                label: "",
-                                                value: ""
-                                            },
-                                            {
-                                                label: "Existing Expansion",
-                                                value: "Existing Expansion"
-                                            },
-                                            {
-                                                label: "Existing New",
-                                                value: "Existing New"
-                                            },
-                                            {
-                                                label: "Net New",
-                                                value: "Net New"
-                                            },
-                                            {
-                                                label: "To Be Updated",
-                                                value: "To Be Updated"
-                                            },
-                                        ]}
-                                        placeholder=""
-                                        component={CustomSelect}
-                                        isMulti={false}
-                                    //placeholder="Select Automation Type"
-                                    />                                                
-                                    <ErrorMessage name="saleType" component="div" className="invalid-feedback" />
+                                <div className="col-md-12 text-end">
+                                    <Link to="." onClick={() => { history.goBack(); }} className="btn btn-danger"><ArrowBackIcon className="mr-1" />Back</Link>
                                 </div>
                             </div>
                             <div className="row">
-                                <div className="col-md-6">
-                                    <label>Response Type</label>
-                                    <FastField 
-                                        className={ (errors.responseType && touched.responseType ? ' is-invalid' : '')}
-                                        name="responseType"
-                                        onBlurValue={(field) => {  setTouched({...touched, [field] : true}); }}
-                                        options={[
-                                            {
-                                                label: "",
-                                                value: ""
-                                            },
-                                            {
-                                                label: "Proactive Pitch",
-                                                value: "Proactive Pitch"
-                                            },
-                                            {
-                                                label: "RFP",
-                                                value: "RFP"
-                                            },
-                                            {
-                                                label: "RFQ",
-                                                value: "RFQ"
-                                            },
-                                            {
-                                                label: "RFI",
-                                                value: "RFI"
-                                            },
-                                        ]}
-                                        placeholder=""
-                                        component={CustomSelect}
-                                        isMulti={false}
-                                    
-                                    />                                                
-                                    <ErrorMessage name="responseType" component="div" className="invalid-feedback" />
-                                </div>
-                                <div className="col-md-6">                                    
-                                    <label>Client Name</label>
-                                    <FastField  name="clientName" type="text" className={'form-control' + (errors.clientName && touched.clientName ? ' is-invalid' : '')} />
-                                    <ErrorMessage name="clientName" component="div" className="invalid-feedback" />
-                                </div> 
-                            </div>
-                            <div className="row">
-                                <div className="col-md-6">
-                                    <label className="form-lable">Domain</label>
-                                    <FastField 
-                                        className={(errors.domain && touched.domain ? ' is-invalid' : '')}
-                                        name="domain"
-                                        onBlurValue={(field) => {  setTouched({...touched, [field] : true}); }}
-                                        options={[
-                                            {
-                                                label: "",
-                                                value: ""
-                                            },
-                                            {
-                                                label: "BFSI",
-                                                value: "BFSI"
-                                            },
-                                            {
-                                                label: "CME",
-                                                value: "CME"
-                                            },
-                                            {
-                                                label: "TTL",
-                                                value: "TTL"
-                                            },
-                                            {
-                                                label: "Retail",
-                                                value: "Retail"
-                                            },
-                                            {
-                                                label: "Energy & Utilities",
-                                                value: "Energy & Utilities"
-                                            },
-                                            {
-                                                label: "HLS",
-                                                value: "HLS"
-                                            },
-                                        ]}
-                                        placeholder=""
-                                        component={CustomSelect}
-                                        isMulti={false}
-                                    //placeholder="Select Automation Type"
-                                    />                                                
-                                    <ErrorMessage name="domain" component="div" className="invalid-feedback" />
-                                </div>
-                                <div className="col-md-6">
-                                    <label className="form-label">Competency</label>
-                                    <FastField 
-                                        className={(errors.competency && touched.competency ? ' is-invalid' : '')}
-                                        name="competency"
-                                        onBlurValue={(field) => {  setTouched({...touched, [field] : true}); }}
-                                        options={[
-                                            {
-                                                label: " ",
-                                                value: ""
-                                            },
-                                            {
-                                                label: "BPS",
-                                                value: "BPS"
-                                            },
-                                            {
-                                                label: "IT",
-                                                value: "IT"
-                                            },
-                                            {
-                                                label: "BPS+IT",
-                                                value: "BPS+IT"
-                                            },
-                                        ]}
-                                        placeholder=""
-                                        component={CustomSelect}
-                                        isMulti={false}
-                                    //placeholder="Select Automation Type"
-                                    />
-                                    <ErrorMessage name="competency" component="div" className="invalid-feedback" /> 
-                                </div>
-                            </div>
-                            <div className="row">
-                                <div className="col-md-6">
-                                    <label>Deal Type</label>
-                                    <FastField 
-                                        className={(errors.dealType && touched.dealType ? ' is-invalid' : '')}
-                                        name="dealType"
-                                        onBlurValue={(field) => {  setTouched({...touched, [field] : true}); }}
-                                        options={[
-                                            {
-                                                label: " ",
-                                                value: ""
-                                            },
-                                            {
-                                                label: "Embeded",
-                                                value: "Embeded"
-                                            },
-                                            {
-                                                label: "Standalone",
-                                                value: "Standalone"
-                                            },
-                                        ]}
-                                        placeholder=""
-                                        component={CustomSelect}
-                                        isMulti={false}
-                                    //placeholder="Select Automation Type"
-                                    />
-                                    <ErrorMessage name="dealType" component="div" className="invalid-feedback" />
-                                </div>
-                                <div className="col-md-6">
-                                    <label>Deal Type Status</label>
-                                    <FastField 
-                                        className={(errors.dealTypeStatus && touched.dealTypeStatus ? ' is-invalid' : '')}
-                                        name="dealTypeStatus"
-                                        onBlurValue={(field) => {  setTouched({...touched, [field] : true}); }}
-                                        options={[
-                                            {
-                                                label: " ",
-                                                value: ""
-                                            },
-                                            {
-                                                label: "CC With Transformation",
-                                                value: "CC With Transformation"
-                                            },
-                                            {
-                                                label: "Transformation Only",
-                                                value: "Transformation Only"
-                                            },
-                                        ]}
-                                        placeholder=""
-                                        component={CustomSelect}
-                                        isMulti={false}
-                                    //placeholder="Select Automation Type"
-                                    />                                                
-                                    <ErrorMessage name="dealTypeStatus" component="div" className="invalid-feedback" />
-                                </div>
-                            </div>  
-                            <div className="row">
-                                <div className="col-md-6">
-                                    <label>Deal Term <span className="small">( In Years )</span></label>
-                                    <FastField 
-                                        className={(errors.dealTerm && touched.dealTerm ? ' is-invalid' : '')}
-                                        name="dealTerm"
-                                        onBlurValue={(field) => {  setTouched({...touched, [field] : true}); }}
-                                        options={[
-                                            {
-                                                label: " ",
-                                                value: ""
-                                            },
-                                            {
-                                                label: "1",
-                                                value: "1"
-                                            },
-                                            {
-                                                label: "2",
-                                                value: "2"
-                                            },
-                                            {
-                                                label: "3",
-                                                value: "3"
-                                            },
-                                            {
-                                                label: "4",
-                                                value: "4"
-                                            },
-                                            {
-                                                label: "5",
-                                                value: "5"
-                                            },
-                                            {
-                                                label: "6",
-                                                value: "6"
-                                            },
-                                            {
-                                                label: "7",
-                                                value: "7"
-                                            },
+                                <div className="card">
+                                    <div className="card-header">
+                                        <Breadcrumbs title="Forms" breadcrumbItem="PROJECT DETAILS" />
+                                    </div>
+                                    <div className="p-4 card-body">
+                                        <div className="row">
+                                            <div className="col-md-6">
+                                                <label>Sales CRM Opportunity ID</label>
+                                                <FastField name="salesCrmOpportunityId" type="number" className={'form-control' + (errors.salesCrmOpportunityId && touched.salesCrmOpportunityId ? ' is-invalid' : '')}
+                                                    onChange={e => {
+                                                        let salesCrmOpportunityId = e.target.value;
+                                                        if (salesCrmOpportunityId.toString().length < 7) {
+                                                            setFieldValue('salesCrmOpportunityId', salesCrmOpportunityId);
+                                                        }
+                                                    }}
+                                                />
+                                                <ErrorMessage name="salesCrmOpportunityId" component="div" className="invalid-feedback" />
+                                            </div>
+                                            <div className="col-md-6">
+                                                <label className="form-label">Sale Type</label>
+                                                <FastField
+                                                    className={(errors.saleType && touched.saleType ? ' is-invalid' : '')}
+                                                    name="saleType"
+                                                    onBlurValue={(field) => { setTouched({ ...touched, [field]: true }); }}
+                                                    options={[
+                                                        {
+                                                            label: "",
+                                                            value: ""
+                                                        },
+                                                        {
+                                                            label: "Existing Expansion",
+                                                            value: "Existing Expansion"
+                                                        },
+                                                        {
+                                                            label: "Existing New",
+                                                            value: "Existing New"
+                                                        },
+                                                        {
+                                                            label: "Net New",
+                                                            value: "Net New"
+                                                        },
+                                                        {
+                                                            label: "To Be Updated",
+                                                            value: "To Be Updated"
+                                                        },
+                                                    ]}
+                                                    placeholder=""
+                                                    component={CustomSelect}
+                                                    isMulti={false}
+                                                />
+                                                <ErrorMessage name="saleType" component="div" className="invalid-feedback" />
+                                            </div>
+                                        </div>
+                                        <div className="row">
+                                            <div className="col-md-6">
+                                                <label>Response Type</label>
+                                                <FastField
+                                                    className={(errors.responseType && touched.responseType ? ' is-invalid' : '')}
+                                                    name="responseType"
+                                                    onBlurValue={(field) => { setTouched({ ...touched, [field]: true }); }}
+                                                    options={[
+                                                        {
+                                                            label: "",
+                                                            value: ""
+                                                        },
+                                                        {
+                                                            label: "Proactive Pitch",
+                                                            value: "Proactive Pitch"
+                                                        },
+                                                        {
+                                                            label: "RFP",
+                                                            value: "RFP"
+                                                        },
+                                                        {
+                                                            label: "RFQ",
+                                                            value: "RFQ"
+                                                        },
+                                                        {
+                                                            label: "RFI",
+                                                            value: "RFI"
+                                                        },
+                                                    ]}
+                                                    placeholder=""
+                                                    component={CustomSelect}
+                                                    isMulti={false}
+                                                />
+                                                <ErrorMessage name="responseType" component="div" className="invalid-feedback" />
+                                            </div>
+                                            <div className="col-md-6">
+                                                <label>Client Name</label>
+                                                <FastField name="clientName" type="text" className={'form-control' + (errors.clientName && touched.clientName ? ' is-invalid' : '')} />
+                                                <ErrorMessage name="clientName" component="div" className="invalid-feedback" />
+                                            </div>
+                                        </div>
+                                        <div className="row">
+                                            <div className="col-md-6">
+                                                <label className="form-lable">Domain</label>
+                                                <FastField
+                                                    className={(errors.domain && touched.domain ? ' is-invalid' : '')}
+                                                    name="domain"
+                                                    onBlurValue={(field) => { setTouched({ ...touched, [field]: true }); }}
+                                                    options={[
+                                                        {
+                                                            label: "",
+                                                            value: ""
+                                                        },
+                                                        {
+                                                            label: "BFSI",
+                                                            value: "BFSI"
+                                                        },
+                                                        {
+                                                            label: "CME",
+                                                            value: "CME"
+                                                        },
+                                                        {
+                                                            label: "TTL",
+                                                            value: "TTL"
+                                                        },
+                                                        {
+                                                            label: "Retail",
+                                                            value: "Retail"
+                                                        },
+                                                        {
+                                                            label: "Energy & Utilities",
+                                                            value: "Energy & Utilities"
+                                                        },
+                                                        {
+                                                            label: "HLS",
+                                                            value: "HLS"
+                                                        },
+                                                    ]}
+                                                    placeholder=""
+                                                    component={CustomSelect}
+                                                    isMulti={false}                                               
+                                                />
+                                                <ErrorMessage name="domain" component="div" className="invalid-feedback" />
+                                            </div>
+                                            <div className="col-md-6">
+                                                <label className="form-label">Competency</label>
+                                                <FastField
+                                                    className={(errors.competency && touched.competency ? ' is-invalid' : '')}
+                                                    name="competency"
+                                                    onBlurValue={(field) => { setTouched({ ...touched, [field]: true }); }}
+                                                    options={[
+                                                        {
+                                                            label: " ",
+                                                            value: ""
+                                                        },
+                                                        {
+                                                            label: "BPS",
+                                                            value: "BPS"
+                                                        },
+                                                        {
+                                                            label: "IT",
+                                                            value: "IT"
+                                                        },
+                                                        {
+                                                            label: "BPS+IT",
+                                                            value: "BPS+IT"
+                                                        },
+                                                    ]}
+                                                    placeholder=""
+                                                    component={CustomSelect}
+                                                    isMulti={false}                                                
+                                                />
+                                                <ErrorMessage name="competency" component="div" className="invalid-feedback" />
+                                            </div>
+                                        </div>
+                                        <div className="row">
+                                            <div className="col-md-6">
+                                                <label>Deal Type</label>
+                                                <FastField
+                                                    className={(errors.dealType && touched.dealType ? ' is-invalid' : '')}
+                                                    name="dealType"
+                                                    onBlurValue={(field) => { setTouched({ ...touched, [field]: true }); }}
+                                                    options={[
+                                                        {
+                                                            label: " ",
+                                                            value: ""
+                                                        },
+                                                        {
+                                                            label: "Embeded",
+                                                            value: "Embeded"
+                                                        },
+                                                        {
+                                                            label: "Standalone",
+                                                            value: "Standalone"
+                                                        },
+                                                    ]}
+                                                    placeholder=""
+                                                    component={CustomSelect}
+                                                    isMulti={false}                                                
+                                                />
+                                                <ErrorMessage name="dealType" component="div" className="invalid-feedback" />
+                                            </div>
+                                            <div className="col-md-6">
+                                                <label>Deal Type Status</label>
+                                                <FastField
+                                                    className={(errors.dealTypeStatus && touched.dealTypeStatus ? ' is-invalid' : '')}
+                                                    name="dealTypeStatus"
+                                                    onBlurValue={(field) => { setTouched({ ...touched, [field]: true }); }}
+                                                    options={[
+                                                        {
+                                                            label: " ",
+                                                            value: ""
+                                                        },
+                                                        {
+                                                            label: "CC With Transformation",
+                                                            value: "CC With Transformation"
+                                                        },
+                                                        {
+                                                            label: "Transformation Only",
+                                                            value: "Transformation Only"
+                                                        },
+                                                    ]}
+                                                    placeholder=""
+                                                    component={CustomSelect}
+                                                    isMulti={false}                                                
+                                                />
+                                                <ErrorMessage name="dealTypeStatus" component="div" className="invalid-feedback" />
+                                            </div>
+                                        </div>
+                                        <div className="row">
+                                            <div className="col-md-6">
+                                                <label>Deal Term <span className="small">( In Years )</span></label>
+                                                <FastField
+                                                    className={(errors.dealTerm && touched.dealTerm ? ' is-invalid' : '')}
+                                                    name="dealTerm"
+                                                    onBlurValue={(field) => { setTouched({ ...touched, [field]: true }); }}
+                                                    options={[
+                                                        {
+                                                            label: " ",
+                                                            value: ""
+                                                        },
+                                                        {
+                                                            label: "1",
+                                                            value: "1"
+                                                        },
+                                                        {
+                                                            label: "2",
+                                                            value: "2"
+                                                        },
+                                                        {
+                                                            label: "3",
+                                                            value: "3"
+                                                        },
+                                                        {
+                                                            label: "4",
+                                                            value: "4"
+                                                        },
+                                                        {
+                                                            label: "5",
+                                                            value: "5"
+                                                        },
+                                                        {
+                                                            label: "6",
+                                                            value: "6"
+                                                        },
+                                                        {
+                                                            label: "7",
+                                                            value: "7"
+                                                        },
 
-                                        ]}
-                                        placeholder=""
-                                        component={CustomSelect}
-                                        isMulti={false}
-                                    />                                                
-                                    <ErrorMessage name="dealTerm" component="div" className="invalid-feedback" />
-                                </div>  
-                                <div className="col-md-6">                                    
-                                    <label>Deal Brief</label>
-                                    <FastField  as="textarea" className="form-control" id="comments" name="comments"></FastField>
-                                    <ErrorMessage name="comments" component="div" className="invalid-feedback" />                                   
-                                </div>
-                            </div>                            
-                        </div>   
-                                                                 
-                            );
-                        }}
-                    </Formik>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="card">
-                        <div className="card-header">
-                            <Breadcrumbs title="Forms" breadcrumbItem="SCHEDULE" />
-                        </div>
-                        <Formik  initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}
-                        onValidationError={errorValues => {                            
-                        }}
-                    >
-                        {({ errors, values, touched, isSubmitting, setFieldValue, handleBlur, setTouched }) => {
-                            return (   
-                        <div className="p-4 card-body">                        
-                            <div className="row">
-                                <div className="col-md-6">
-                                    <label>Start Date</label>
-                                    <Field  name="startDate" data-date-format="DD MMMM YYYY" placeholder="" min={before3Month} max={date} type="date" className={'form-control' + (errors.startDate && touched.startDate ? ' is-invalid' : '')} />
-                                    <ErrorMessage name="startDate" component="div" className="invalid-feedback" />
-                                </div>
-                                <div className="col-md-6">
-                                    <label>Received Date</label>
-                                    <Field  name="rfpReceivedDate" type="date" min={before3Month} max={date} className={'form-control' + (errors.rfpReceivedDate && touched.rfpReceivedDate ? ' is-invalid' : '')} 
-                                    onChange={e => {
-                                        // call the built-in handleBur
-                                        values.rfpReceivedDate = e.target.value;
-                                        setFieldValue('monthCalendar', e.target.value);
-                                        
-                                    }}
-                                    />
-                                    <ErrorMessage name="rfpReceivedDate" component="div" className="invalid-feedback" />
-                                </div>
-                            </div>
-                            <div className="row">
-                                <div className="col-md-6">
-                                    <label>Responded Date</label>
-                                    <Field  name="rfpRespondedDate" type="date" min={values.rfpReceivedDate} max={date} className={'form-control' + (errors.rfpRespondedDate && touched.rfpRespondedDate ? ' is-invalid' : '')} 
-                                    onChange={e => {
-                                        // call the built-in handleBur
-                                        values.rfpRespondedDate = e.target.value;                                                    
-                                        if(user.role == "Admin"){                                                       
-                                            if (values.status == "Open" && e.target.value != "") {
-                                                var new_date = moment(values.rfpRespondedDate, "YYYY-MM-DD").add(60, 'days');
-                                                const dateA = moment(values.endDate, 'YYYY-MM-DD');
-                                                const dateB = moment(new Date(), 'YYYY-MM-DD');
-                                                const diffDays = dateB.diff(dateA, 'days');
-                                                const finalDays = diffDays + 60;
-                                                setFieldValue('ageing', finalDays > 0 ? finalDays : "");
-                                            } else {
-                                                setFieldValue('ageing', '');
-                                            }
-                                        }                                        
-                                    }}
-                                    />
-                                    <ErrorMessage name="rfpRespondedDate" component="div" className="invalid-feedback" />
-                                </div>
-                                <div className="col-md-6">                                    
-                                   <label>End Date</label>
-                                    <Field  name="endDate" type="date" min={values.rfpRespondedDate} className={'form-control' + (errors.endDate && touched.endDate ? ' is-invalid' : '')}
-                                        onChange={e => {
-                                            // call the built-in handleBur
-                                            values.endDate = e.target.value;
-                                            if (user.role == "User" && values.status == "Open" && e.target.value != "") {
-                                                values.endDate = e.target.value;
-                                                const dateA = moment(values.endDate, 'YYYY-MM-DD');
-                                                const dateB = moment(new Date(), 'YYYY-MM-DD');
-                                                const diffDays = dateB.diff(dateA, 'days');
-                                                setFieldValue('ageing', diffDays > 0 ? diffDays : "");
-                                            } else {
-                                                setFieldValue('ageing', '');
-                                            }
-                                        }}
-                                    />
-                                    <ErrorMessage name="endDate" component="div" className="invalid-feedback" />
-                                </div> 
-                            </div>
-                            <div className="row">
-                                <div className="col-md-6">
-                                    <label>Month</label>                                                
-                                    <Field  name="monthCalendar" type="date" readOnly value={values.rfpReceivedDate} min={before3Month} max={nextMonthDate} className={'form-control' + (errors.monthCalendar && touched.monthCalendar ? ' is-invalid' : '')} 
-                                    />
-                                    <ErrorMessage name="monthCalendar" component="div" className="invalid-feedback" />
-                                </div>
-                                <div className="col-md-6">
-                                    <label>Status</label>
-                                    <FastField 
-                                        className={(errors.status && touched.status ? ' is-invalid' : '')}
-                                        name="status"
-                                        onBlurValue={(field) => {  setTouched({...touched, [field] : true}); }}
-                                        options={[
-                                            {
-                                                label: " ",
-                                                value: ""
-                                            },
-                                            {
-                                                label: "Open",
-                                                value: "Open"
-                                            },
-                                            {
-                                                label: "Closed",
-                                                value: "Closed"
-                                            },
-                                            {
-                                                label: "Work in Progress",
-                                                value: "Work in Progress"
-                                            },
-                                        ]}
-                                        component={CustomSelect}
-                                        onChangeValue={value => {                                                        
-                                            values.status = value;
-                                            if(user.role == "Admin"){
-                                                if (value != "Open") {
-                                                    setFieldValue('ageing', '');
-                                                }
-                                                if (values.status == "Open") {
-                                                    if (values.rfpRespondedDate) { console.log("rfpRespondedDate", values.rfpRespondedDate);
-
-                                                        var dateA = moment(values.rfpRespondedDate).add(60, 'd');                                                                    
-                                                        var newDateA = moment(dateA).format('YYYY-MM-DD');
-                                                        const dateB = moment(new Date(), 'YYYY-MM-DD');
-                                                        console.log("dateA", newDateA);
-                                                        console.log("Curr dateB", moment(dateB).format('YYYY-MM-DD'));
-                                                        const finalDays = dateB.diff(dateA, 'days');
-                                                        setFieldValue('ageing', finalDays > 0 ? finalDays : ''); 
-                                                    }
-                                                }
-                                            }                                                        
-
-                                            let stageArr = [];                                                        
-                                            stageOptions[values.status].forEach((stage) => {
-                                                stageArr.push({ label: stage, value: stage });
-                                            });
-                                            stageOptionsMain = stageArr;
-                                            setFieldValue('stage', stageArr, false)
-                                        }}
-                                    />
-                                    <ErrorMessage name="status" component="div" className="invalid-feedback" />
-                                </div>
-                            </div>
-                            <div className="row">
-                                <div className="col-md-6">
-                                    <label>Stage</label>
-                                    <FastField 
-                                        className={(errors.stage && touched.stage ? ' is-invalid' : '')}
-                                        name="stage"
-                                        onBlurValue={(field) => {  setTouched({...touched, [field] : true}); }}
-                                        options={stageOptionsMain}
-                                        component={CustomSelect}
-                                        placeholder=""
-                                    />
-                                    <ErrorMessage name="stage" component="div" className="invalid-feedback" />
-                                </div>
-                                <div className="col-md-6">
-                                    <label>Customer Demo <span className="small"></span></label>
-                                    <FastField 
-                                        className={(errors.customerDemo && touched.customerDemo ? ' is-invalid' : '')}
-                                        name="customerDemo"
-                                        onBlurValue={(field) => {  setTouched({...touched, [field] : true}); }}
-                                        options={[
-                                            {
-                                                label: " ",
-                                                value: ""
-                                            },
-                                            {
-                                                label: "Yes",
-                                                value: "Yes"
-                                            },
-                                            {
-                                                label: "No",
-                                                value: "No"
-                                            },
-                                            {
-                                                label: "Not Applicable",
-                                                value: "Not Applicable"
-                                            },
-
-                                        ]}
-                                        placeholder=""
-                                        component={CustomSelect}
-                                        isMulti={false}
-                                    /> 
-                                    <ErrorMessage name="customerDemo" component="div" className="invalid-feedback" />
-                                </div>                               
-                            </div>                              
-                        </div>
-                        
-                        
-
-                                            
-                                
-                                    
-                                                
-                                            
-                                       
-                                            /* 
-                                            
-                                            
-                                            
-                                            
-                                            
-                                                                                      
+                                                    ]}
+                                                    placeholder=""
+                                                    component={CustomSelect}
+                                                    isMulti={false}
+                                                />
+                                                <ErrorMessage name="dealTerm" component="div" className="invalid-feedback" />
+                                            </div>
+                                            <div className="col-md-6">
+                                                <label>Deal Brief</label>
+                                                <FastField as="textarea" className="form-control" id="comments" name="comments"></FastField>
+                                                <ErrorMessage name="comments" component="div" className="invalid-feedback" />
+                                            </div>
                                         </div>
                                     </div>
-
-                                    <div className="formSection">
-                                        <div className="pt-4 blue-header"><h6>SCHEDULE</h6></div>
-                                        <div className="form-row" id="firstNewSection">
-                                        <div className="form-group col-4">
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="card">
+                                    <div className="card-header">
+                                        <Breadcrumbs title="Forms" breadcrumbItem="SCHEDULE" />
+                                    </div>
+                                    <div className="p-4 card-body">
+                                        <div className="row">
+                                            <div className="col-md-6">
                                                 <label>Start Date</label>
-                                                <Field  name="startDate" data-date-format="DD MMMM YYYY" placeholder="" min={before3Month} max={date} type="date" className={'form-control' + (errors.startDate && touched.startDate ? ' is-invalid' : '')} />
+                                                <Field name="startDate" data-date-format="DD MMMM YYYY" placeholder="" min={before3Month} max={date} type="date" className={'form-control' + (errors.startDate && touched.startDate ? ' is-invalid' : '')} />
                                                 <ErrorMessage name="startDate" component="div" className="invalid-feedback" />
                                             </div>
-                                           
-                                            <div className="form-group col-4">
+                                            <div className="col-md-6">
                                                 <label>Received Date</label>
-                                                <Field  name="rfpReceivedDate" type="date" min={before3Month} max={date} className={'form-control' + (errors.rfpReceivedDate && touched.rfpReceivedDate ? ' is-invalid' : '')} 
-                                                onChange={e => {
-                                                    // call the built-in handleBur
-                                                    values.rfpReceivedDate = e.target.value;
-                                                    setFieldValue('monthCalendar', e.target.value);
-                                                    
-                                                }}
+                                                <Field name="rfpReceivedDate" type="date" min={before3Month} max={date} className={'form-control' + (errors.rfpReceivedDate && touched.rfpReceivedDate ? ' is-invalid' : '')}
+                                                    onChange={e => {                                                        
+                                                        values.rfpReceivedDate = e.target.value;
+                                                        setFieldValue('monthCalendar', e.target.value);
+                                                    }}
                                                 />
                                                 <ErrorMessage name="rfpReceivedDate" component="div" className="invalid-feedback" />
                                             </div>
-                                            <div className="form-group col-4">
+                                        </div>
+                                        <div className="row">
+                                            <div className="col-md-6">
                                                 <label>Responded Date</label>
-                                                <Field  name="rfpRespondedDate" type="date" min={values.rfpReceivedDate} max={date} className={'form-control' + (errors.rfpRespondedDate && touched.rfpRespondedDate ? ' is-invalid' : '')} 
-                                                onChange={e => {
-                                                    // call the built-in handleBur
-                                                    values.rfpRespondedDate = e.target.value;                                                    
-                                                    if(user.role == "Admin"){                                                       
-                                                        if (values.status == "Open" && e.target.value != "") {
-                                                            var new_date = moment(values.rfpRespondedDate, "YYYY-MM-DD").add(60, 'days');
-                                                            const dateA = moment(values.endDate, 'YYYY-MM-DD');
-                                                            const dateB = moment(new Date(), 'YYYY-MM-DD');
-                                                            const diffDays = dateB.diff(dateA, 'days');
-                                                            const finalDays = diffDays + 60;
-                                                            setFieldValue('ageing', finalDays > 0 ? finalDays : "");
-                                                        } else {
-                                                            setFieldValue('ageing', '');
+                                                <Field name="rfpRespondedDate" type="date" min={values.rfpReceivedDate} max={date} className={'form-control' + (errors.rfpRespondedDate && touched.rfpRespondedDate ? ' is-invalid' : '')}
+                                                    onChange={e => {                                                        
+                                                        values.rfpRespondedDate = e.target.value;
+                                                        if (user.role == "Admin") {
+                                                            if (values.status == "Open" && e.target.value != "") {
+                                                                var new_date = moment(values.rfpRespondedDate, "YYYY-MM-DD").add(60, 'days');
+                                                                const dateA = moment(values.endDate, 'YYYY-MM-DD');
+                                                                const dateB = moment(new Date(), 'YYYY-MM-DD');
+                                                                const diffDays = dateB.diff(dateA, 'days');
+                                                                const finalDays = diffDays + 60;
+                                                                setFieldValue('ageing', finalDays > 0 ? finalDays : "");
+                                                            } else {
+                                                                setFieldValue('ageing', '');
+                                                            }
                                                         }
-                                                    }
-                                                    
-                                                }}
+                                                    }}
                                                 />
                                                 <ErrorMessage name="rfpRespondedDate" component="div" className="invalid-feedback" />
                                             </div>
-                                            <div className="form-group col-4">
-                                                
+                                            <div className="col-md-6">
+                                                <label>End Date</label>
+                                                <Field name="endDate" type="date" min={values.rfpRespondedDate} className={'form-control' + (errors.endDate && touched.endDate ? ' is-invalid' : '')}
+                                                    onChange={e => {                                                        
+                                                        values.endDate = e.target.value;
+                                                        if (user.role == "User" && values.status == "Open" && e.target.value != "") {
+                                                            values.endDate = e.target.value;
+                                                            const dateA = moment(values.endDate, 'YYYY-MM-DD');
+                                                            const dateB = moment(new Date(), 'YYYY-MM-DD');
+                                                            const diffDays = dateB.diff(dateA, 'days');
+                                                            setFieldValue('ageing', diffDays > 0 ? diffDays : "");
+                                                        } else {
+                                                            setFieldValue('ageing', '');
+                                                        }
+                                                    }}
+                                                />
+                                                <ErrorMessage name="endDate" component="div" className="invalid-feedback" />
                                             </div>
-                                            <div className="form-group col-4">
-                                                
+                                        </div>
+                                        <div className="row">
+                                            <div className="col-md-6">
+                                                <label>Month</label>
+                                                <Field name="monthCalendar" type="date" readOnly value={values.rfpReceivedDate} min={before3Month} max={nextMonthDate} className={'form-control' + (errors.monthCalendar && touched.monthCalendar ? ' is-invalid' : '')}
+                                                />
+                                                <ErrorMessage name="monthCalendar" component="div" className="invalid-feedback" />
                                             </div>
-                                            <div className="form-group col-4">
-                                                
+                                            <div className="col-md-6">
+                                                <label>Status</label>
+                                                <FastField
+                                                    className={(errors.status && touched.status ? ' is-invalid' : '')}
+                                                    name="status"
+                                                    onBlurValue={(field) => { setTouched({ ...touched, [field]: true }); }}
+                                                    options={[
+                                                        {
+                                                            label: " ",
+                                                            value: ""
+                                                        },
+                                                        {
+                                                            label: "Open",
+                                                            value: "Open"
+                                                        },
+                                                        {
+                                                            label: "Closed",
+                                                            value: "Closed"
+                                                        },
+                                                        {
+                                                            label: "Work in Progress",
+                                                            value: "Work in Progress"
+                                                        },
+                                                    ]}
+                                                    component={CustomSelect}
+                                                    onChangeValue={value => {
+                                                        values.status = value;
+                                                        if (user.role == "Admin") {
+                                                            if (value != "Open") {
+                                                                setFieldValue('ageing', '');
+                                                            }
+                                                            if (values.status == "Open") {
+                                                                if (values.rfpRespondedDate) {
+                                                                    console.log("rfpRespondedDate", values.rfpRespondedDate);
+
+                                                                    var dateA = moment(values.rfpRespondedDate).add(60, 'd');
+                                                                    var newDateA = moment(dateA).format('YYYY-MM-DD');
+                                                                    const dateB = moment(new Date(), 'YYYY-MM-DD');
+                                                                    console.log("dateA", newDateA);
+                                                                    console.log("Curr dateB", moment(dateB).format('YYYY-MM-DD'));
+                                                                    const finalDays = dateB.diff(dateA, 'days');
+                                                                    setFieldValue('ageing', finalDays > 0 ? finalDays : '');
+                                                                }
+                                                            }
+                                                        }
+
+                                                        let stageArr = [];
+                                                        stageOptions[values.status].forEach((stage) => {
+                                                            stageArr.push({ label: stage, value: stage });
+                                                        });
+                                                        stageOptionsMain = stageArr;
+                                                        setFieldValue('stage', stageArr, false)
+                                                    }}
+                                                />
+                                                <ErrorMessage name="status" component="div" className="invalid-feedback" />
                                             </div>
-                                            <div className="form-group col-4">
+                                        </div>
+                                        <div className="row">
+                                            <div className="col-md-6">
                                                 <label>Stage</label>
-                                                <FastField 
-                                                    className={'form-control custom-form-control' + (errors.stage && touched.stage ? ' is-invalid' : '')}
+                                                <FastField
+                                                    className={(errors.stage && touched.stage ? ' is-invalid' : '')}
                                                     name="stage"
-                                                    onBlurValue={(field) => {  setTouched({...touched, [field] : true}); }}
+                                                    onBlurValue={(field) => { setTouched({ ...touched, [field]: true }); }}
                                                     options={stageOptionsMain}
                                                     component={CustomSelect}
                                                     placeholder=""
                                                 />
                                                 <ErrorMessage name="stage" component="div" className="invalid-feedback" />
                                             </div>
-                                            <div className="form-group col-4">
-                                                
-                                            </div>   
+                                            <div className="col-md-6">
+                                                <label>Customer Demo <span className="small"></span></label>
+                                                <FastField
+                                                    className={(errors.customerDemo && touched.customerDemo ? ' is-invalid' : '')}
+                                                    name="customerDemo"
+                                                    onBlurValue={(field) => { setTouched({ ...touched, [field]: true }); }}
+                                                    options={[
+                                                        {
+                                                            label: " ",
+                                                            value: ""
+                                                        },
+                                                        {
+                                                            label: "Yes",
+                                                            value: "Yes"
+                                                        },
+                                                        {
+                                                            label: "No",
+                                                            value: "No"
+                                                        },
+                                                        {
+                                                            label: "Not Applicable",
+                                                            value: "Not Applicable"
+                                                        },
+
+                                                    ]}
+                                                    placeholder=""
+                                                    component={CustomSelect}
+                                                    isMulti={false}
+                                                />
+                                                <ErrorMessage name="customerDemo" component="div" className="invalid-feedback" />
+                                            </div>
                                         </div>
                                     </div>
+                                </div>
+                            </div>
 
-                                    <div className="formSection">
-                                        <div className="pt-4 blue-header"><h6>GEO & OWNER</h6></div>
-                                        <div className="form-row" id="secondSection">
-                                        <div className="form-group col-4">
+                            <div className="row">
+                                <div className="card">
+                                    <div className="card-header">
+                                        <Breadcrumbs title="Forms" breadcrumbItem="GEO & OWNER" />
+                                    </div>
+                                    <div className="p-4 card-body">
+                                        <div className="row">
+                                            <div className="col-md-6">
                                                 <label>Sales Lead</label>
-                                                <FastField 
-                                                    className={'form-control custom-form-control' + (errors.salesLead && touched.salesLead ? ' is-invalid' : '')}
+                                                <FastField
+                                                    className={(errors.salesLead && touched.salesLead ? ' is-invalid' : '')}
                                                     name="salesLead"
-                                                    onBlurValue={(field) => {  setTouched({...touched, [field] : true}); }}
+                                                    onBlurValue={(field) => { setTouched({ ...touched, [field]: true }); }}
                                                     options={[
                                                         {
                                                             label: " ",
@@ -1156,17 +1054,16 @@ function AddEditPage({ history, match }) {
                                                         },
                                                     ]}
                                                     placeholder=""
-                                                    component={CustomSelect}
-                                                //placeholder="Select multi platform"
-                                                />                                               
+                                                    component={CustomSelect}                                               
+                                                />
                                                 <ErrorMessage name="salesLead" component="div" className="invalid-feedback" />
                                             </div>
-                                            <div className="form-group col-4">
+                                            <div className="col-md-6">
                                                 <label>BTS / MO Lead</label>
-                                                <FastField 
-                                                    className={'form-control custom-form-control' + (errors.btsMoLead && touched.btsMoLead ? ' is-invalid' : '')}
+                                                <FastField
+                                                    className={(errors.btsMoLead && touched.btsMoLead ? ' is-invalid' : '')}
                                                     name="btsMoLead"
-                                                    onBlurValue={(field) => {  setTouched({...touched, [field] : true}); }}
+                                                    onBlurValue={(field) => { setTouched({ ...touched, [field]: true }); }}
                                                     options={[
                                                         {
                                                             label: " ",
@@ -1219,35 +1116,36 @@ function AddEditPage({ history, match }) {
                                                     ]}
                                                     component={CustomSelect}
                                                     placeholder=""
-                                                />                                                
+                                                />
                                                 <ErrorMessage name="btsMoLead" component="div" className="invalid-feedback" />
-                                            </div> 
-                                            <div className="form-group col-4">
+                                            </div>
+                                        </div>
+                                        <div className="row">
+                                            <div className="col-md-6">
                                                 <label>Program Lead</label>
-                                                <FastField 
-                                                    className={'form-control custom-form-control' + (errors.programLead && touched.programLead ? ' is-invalid' : '')}
+                                                <FastField
+                                                    className={(errors.programLead && touched.programLead ? ' is-invalid' : '')}
                                                     name="programLead"
                                                     placeholder=""
-                                                    onBlurValue={(field) => {  setTouched({...touched, [field] : true}); }}
+                                                    onBlurValue={(field) => { setTouched({ ...touched, [field]: true }); }}
                                                     options={programLead}
-                                                    component={CustomSelect}
-                                                //placeholder="Select multi platform"
-                                                />                                                
+                                                    component={CustomSelect}                                                
+                                                />
                                                 <ErrorMessage name="programLead" component="div" className="invalid-feedback" />
-                                            </div>  
-
-                                            <div className="form-group col-4">
+                                            </div>
+                                            <div className="col-md-6">
                                                 <label>Technical Lead</label>
-                                                <FastField  name="technicalLead" type="text" className={'form-control' + (errors.technicalLead && touched.technicalLead ? ' is-invalid' : '')} />
+                                                <FastField name="technicalLead" type="text" className={'form-control' + (errors.technicalLead && touched.technicalLead ? ' is-invalid' : '')} />
                                                 <ErrorMessage name="technicalLead" component="div" className="invalid-feedback" />
-                                            </div> 
-
-                                            <div className="form-group col-4">
-                                                <label>Delivery Led By</label>                                               
-                                                <FastField 
-                                                    className={'form-control custom-form-control' + (errors.deliveryLedBy && touched.deliveryLedBy ? ' is-invalid' : '')}
+                                            </div>
+                                        </div>
+                                        <div className="row">
+                                            <div className="col-md-6">
+                                                <label>Delivery Led By</label>
+                                                <FastField
+                                                    className={(errors.deliveryLedBy && touched.deliveryLedBy ? ' is-invalid' : '')}
                                                     name="deliveryLedBy"
-                                                    onBlurValue={(field) => {  setTouched({...touched, [field] : true}); }}
+                                                    onBlurValue={(field) => { setTouched({ ...touched, [field]: true }); }}
                                                     options={[
                                                         {
                                                             label: " ",
@@ -1264,18 +1162,16 @@ function AddEditPage({ history, match }) {
                                                     ]}
                                                     placeholder=""
                                                     component={CustomSelect}
-                                                    isMulti={false}
-                                                //placeholder="Select Automation Type"
+                                                    isMulti={false}                                                
                                                 />
                                                 <ErrorMessage name="deliveryLedBy" component="div" className="invalid-feedback" />
                                             </div>
-
-                                            <div className="form-group col-4">
+                                            <div className="col-md-6">
                                                 <label>Delivery Head</label>
-                                                <FastField 
-                                                    className={'form-control custom-form-control' + (errors.deliveryHeads && touched.deliveryHeads ? ' is-invalid' : '')}
+                                                <FastField
+                                                    className={(errors.deliveryHeads && touched.deliveryHeads ? ' is-invalid' : '')}
                                                     name="deliveryHeads"
-                                                    onBlurValue={(field) => {  setTouched({...touched, [field] : true}); }}
+                                                    onBlurValue={(field) => { setTouched({ ...touched, [field]: true }); }}
                                                     options={[
                                                         {
                                                             label: " ",
@@ -1291,58 +1187,62 @@ function AddEditPage({ history, match }) {
                                                         },
                                                     ]}
                                                     placeholder=""
-                                                    component={CustomSelect}
-                                                //placeholder="Select multi platform"
-                                                />                                               
+                                                    component={CustomSelect}                                                
+                                                />
                                                 <ErrorMessage name="deliveryHeads" component="div" className="invalid-feedback" />
                                             </div>
-                                            
-                                            <div className="form-group col-4">
-                                                <label>Location</label>                                                
-                                                <Field 
-                                                    className={'form-control custom-form-control' + (errors.location && touched.location ? ' is-invalid' : '')}
+                                        </div>
+                                        <div className="row">
+                                            <div className="col-md-6">
+                                                <label>Location</label>
+                                                <Field
+                                                    className={(errors.location && touched.location ? ' is-invalid' : '')}
                                                     name="location"
                                                     options={countries}
-                                                    onBlurValue={(field) => {  setTouched({...touched, [field] : true}); }}
-                                                    component={CustomSelect}
-                                                    //placeholder="Select Location"
-                                                    onChangeValue={value => {                                                        
+                                                    onBlurValue={(field) => { setTouched({ ...touched, [field]: true }); }}
+                                                    component={CustomSelect}                                                   
+                                                    onChangeValue={value => {
                                                         values.location = value;
-                                                        values.geo = null;                                                        
-                                                        let locArr = [];                                                        
+                                                        values.geo = null;
+                                                        let locArr = [];
                                                         geo[values.location].forEach((geoRow) => {
                                                             locArr.push({ label: geoRow, value: geoRow });
-                                                        });                                                       
+                                                        });
                                                         setGeoOptions(locArr);
-                                                        setFieldValue('geo', geo[values.location][0], false)                                                        
+                                                        setFieldValue('geo', geo[values.location][0], false)
                                                     }}
                                                 />
                                                 <ErrorMessage name="location" component="div" className="invalid-feedback" />
                                             </div>
-                                            <div className="form-group col-4">
-                                                <label>GEO</label>                                                
-                                                <Field 
-                                                    className={'form-control custom-form-control' + (errors.geo && touched.geo ? ' is-invalid' : '')}
+                                            <div className="col-md-6">
+                                                <label>GEO<span className="small"></span></label>
+                                                <Field
+                                                    className={(errors.geo && touched.geo ? ' is-invalid' : '')}
                                                     name="geo"
                                                     placeholder=""
                                                     options={geoOptions}
-                                                    onBlurValue={(field) => {  setTouched({...touched, [field] : true}); }}
-                                                    component={CustomSelect}
-                                                //placeholder="Select Geo"
+                                                    onBlurValue={(field) => { setTouched({ ...touched, [field]: true }); }}
+                                                    component={CustomSelect}                                                
                                                 />
                                                 <ErrorMessage name="geo" component="div" className="invalid-feedback" />
                                             </div>
-                                         </div>
+                                        </div>
                                     </div>
-                                    <div className="formSection">
-                                        <div className="pt-4 blue-header"><h6>TECHNOLOGY</h6></div>
-                                        <div className="form-row" id="fourSection">
-                                        <div className="form-group col-4">
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="card">
+                                    <div className="card-header">
+                                        <Breadcrumbs title="Forms" breadcrumbItem="TECHNOLOGY" />
+                                    </div>
+                                    <div className="p-4 card-body">
+                                        <div className="row">
+                                            <div className="col-md-6">
                                                 <label>Automation Type</label>
-                                                <FastField 
-                                                    className={'form-control custom-form-control' + (errors.automationType && touched.automationType ? ' is-invalid' : '')}
+                                                <FastField
+                                                    className={(errors.automationType && touched.automationType ? ' is-invalid' : '')}
                                                     name="automationType"
-                                                    onBlurValue={(field) => {  setTouched({...touched, [field] : true}); }}
+                                                    onBlurValue={(field) => { setTouched({ ...touched, [field]: true }); }}
                                                     options={[
                                                         {
                                                             label: " ",
@@ -1363,14 +1263,31 @@ function AddEditPage({ history, match }) {
                                                     ]}
                                                     placeholder=""
                                                     component={CustomSelect}
-                                                    isMulti={false}
-                                                //placeholder="Select Automation Type"
+                                                    isMulti={false}                                                
                                                 />
                                                 <ErrorMessage name="automationType" component="div" className="invalid-feedback" />
                                             </div>
-                                            {values.automationType == "RPA" && <div className="form-group col-4">
+                                            <div className="col-md-6">
+                                                <label>Stack</label>
+                                                <FastField 
+                                                    className={(errors.consideration && touched.consideration ? ' is-invalid' : '')}
+                                                    name="consideration"
+                                                    onBlurValue={(field) => {  setTouched({...touched, [field] : true}); }}
+                                                    options={platformOptions}
+                                                    component={CustomSelect}
+                                                    isMulti={true}
+                                                    placeholder=""
+                                                    onChangeValue={value => {
+                                                        if (value == "") {
+                                                           return;     
+                                                        } 
+                                                    }}
+                                                />                                                
+                                                <ErrorMessage name="consideration" component="div" className="invalid-feedback" />
+                                            </div>
+                                            {values.automationType == "RPA" && <div className="col-md-6">
                                                 <label>RPA Partner</label>
-                                                <FastField  name="rpaPlatform" as="select" className={'form-control' + (errors.rpaPlatform && touched.rpaPlatform ? ' is-invalid' : '')}>
+                                                <FastField  name="rpaPlatform" as="select" className={(errors.rpaPlatform && touched.rpaPlatform ? ' is-invalid' : '')}>
                                                     <option value=""></option>
                                                     <option value="uiPrism">UiPath</option>
                                                     <option value="bluePrism">Blue Prism</option>
@@ -1379,11 +1296,11 @@ function AddEditPage({ history, match }) {
                                                     <option value="powerAutomate">Power Automate</option>
                                                 </FastField>
                                                 <ErrorMessage name="rpaPlatform" component="div" className="invalid-feedback" />
-                                            </div>
+                                                </div>
                                             }
-                                            {values.automationType == "Point Solutions" && <div className="form-group col-4">
+                                            {values.automationType == "Point Solutions" && <div className="col-md-6">                                            
                                                 <label>Solution Services</label>
-                                                <FastField  name="rpaPlatform" as="select" className={'form-control' + (errors.rpaPlatform && touched.rpaPlatform ? ' is-invalid' : '')}>
+                                                <FastField  name="rpaPlatform" as="select" className={(errors.rpaPlatform && touched.rpaPlatform ? ' is-invalid' : '')}>
                                                     <option value=""></option>
                                                     <option value="Genie">Genie</option>
                                                     <option value="xPerio">xPerio</option>
@@ -1396,11 +1313,11 @@ function AddEditPage({ history, match }) {
                                                     <option value="Knowledge Management Portal">Knowledge Management Portal</option>
                                                 </FastField>
                                                 <ErrorMessage name="rpaPlatform" component="div" className="invalid-feedback" />
-                                            </div>
+                                                </div>
                                             }
                                             {values.automationType == "Conversational AI" && <div className="form-group col-4">
-                                                <label>AI Partner</label>
-                                                <FastField  name="rpaPlatform" as="select" className={'form-control' + (errors.rpaPlatform && touched.rpaPlatform ? ' is-invalid' : '')}>
+                                            <label>AI Partner</label>
+                                                <FastField  name="rpaPlatform" as="select" className={(errors.rpaPlatform && touched.rpaPlatform ? ' is-invalid' : '')}>
                                                     <option value=""></option>
                                                     <option value="M.ai.a">M.ai.a</option>
                                                     <option value="ImPerson">ImPerson</option>
@@ -1413,34 +1330,14 @@ function AddEditPage({ history, match }) {
                                                 <ErrorMessage name="rpaPlatform" component="div" className="invalid-feedback" />
                                             </div>
                                             }
-                                            
-                                            <div className="form-group col-4">
-                                                <label>Stack</label>
-                                                {/* <Field name="consideration" type="text" className={'form-control' + (errors.consideration && touched.consideration ? ' is-invalid' : '')} /> 
-                                                <FastField 
-                                                    className={'form-control custom-form-control' + (errors.consideration && touched.consideration ? ' is-invalid' : '')}
-                                                    name="consideration"
-                                                    onBlurValue={(field) => {  setTouched({...touched, [field] : true}); }}
-                                                    options={platformOptions}
-                                                    component={CustomSelect}
-                                                    isMulti={true}
-                                                    placeholder=""
-                                                    onChangeValue={value => {
-                                                        if (value == "") {
-                                                           return;     
-                                                        } 
-
-                                                    }}
-                                                />
-                                                <ErrorMessage name="consideration" component="div" className="invalid-feedback" />
-                                            </div>
-                                            
-                                            <div className="form-group col-4">
+                                        </div>
+                                        <div className="row">
+                                            <div className="col-md-6">
                                                 <label>Hosting Infrastructure</label>
-                                                <FastField 
-                                                    className={'form-control custom-form-control' + (errors.serverUsage && touched.serverUsage ? ' is-invalid' : '')}
+                                                <FastField
+                                                    className={(errors.serverUsage && touched.serverUsage ? ' is-invalid' : '')}
                                                     name="serverUsage"
-                                                    onBlurValue={(field) => {  setTouched({...touched, [field] : true}); }}
+                                                    onBlurValue={(field) => { setTouched({ ...touched, [field]: true }); }}
                                                     options={[
                                                         {
                                                             label: " ",
@@ -1461,36 +1358,27 @@ function AddEditPage({ history, match }) {
                                                     ]}
                                                     placeholder=""
                                                     component={CustomSelect}
-                                                    isMulti={false}
-                                                //placeholder="Select Automation Type"
+                                                    isMulti={false}                                                
                                                 />
                                                 <ErrorMessage name="serverUsage" component="div" className="invalid-feedback" />
                                             </div>
-                                            {values.serverUsage == "Cloud" && <div className="form-group col-4">
-                                                <label>Cloud Partner</label>
-                                                <FastField 
-                                                    className={'form-control custom-form-control' + (errors.cloudOffering && touched.cloudOffering ? ' is-invalid' : '')}
-                                                    name="cloudOffering"
-                                                    onBlurValue={(field) => {  setTouched({...touched, [field] : true}); }}
-                                                    options={cloudOptions}
-                                                    placeholder=""
-                                                    component={CustomSelect}                                                
-                                                />                                                
-                                                <ErrorMessage name="cloudOffering" component="div" className="invalid-feedback" />
-                                            </div>
-                                            }                                            
                                         </div>
                                     </div>
-
-                                    <div className="formSection">
-                                        <div className="pt-4 blue-header"><h6>AUTOMATION PRICING</h6></div>
-                                        <div className="form-row" id="thirdSection">
-                                        <div className="form-group col-4">
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="card">
+                                    <div className="card-header">
+                                        <Breadcrumbs title="Forms" breadcrumbItem="AUTOMATION PRICING" />
+                                    </div>
+                                    <div className="p-4 card-body">
+                                        <div className="row">
+                                            <div className="col-md-6">
                                                 <label>Currency</label>
-                                                <FastField 
-                                                    className={'form-control custom-form-control' + (errors.currency && touched.currency ? ' is-invalid' : '')}
+                                                <FastField
+                                                    className={(errors.currency && touched.currency ? ' is-invalid' : '')}
                                                     name="currency"
-                                                    onBlurValue={(field) => {  setTouched({...touched, [field] : true}); }}
+                                                    onBlurValue={(field) => { setTouched({ ...touched, [field]: true }); }}
                                                     options={[
                                                         {
                                                             label: " ",
@@ -1522,118 +1410,104 @@ function AddEditPage({ history, match }) {
                                                             setCurrencySymbol(null);
                                                         }
 
-                                                    }}
-                                                //placeholder="Select Automation Type"
-                                                />                                                
+                                                    }}                                               
+                                                />
                                                 <ErrorMessage name="currency" component="div" className="invalid-feedback" />
                                             </div>
-                                            
-                                            <div className="form-group col-4">
-                                                <label>Margin % <span className="small"></span></label>                                                
-                                                <FastField  name="margin" type="number" placeholder="" step="0.01" className={'form-control' + (errors.margin && touched.margin ? ' is-invalid' : '')} />
+                                            <div className="col-md-6">
+                                                <label>Margin % <span className="small"></span></label>
+                                                <FastField name="margin" type="number" placeholder="" step="0.01" className={'form-control' + (errors.margin && touched.margin ? ' is-invalid' : '')} />
                                                 <ErrorMessage name="margin" component="div" className="invalid-feedback" />
                                             </div>
-                                            <div className="form-group col-4">
+                                        </div>
+                                        <div className="row">
+                                            <div className="col-md-6">
                                                 <label>EBITDA % <span className="small"></span></label>
-                                                <FastField  name="ebitda" type="number" placeholder="" step="0.01" className={'form-control' + (errors.ebitda && touched.ebitda ? ' is-invalid' : '')} />                                                
+                                                <FastField name="ebitda" type="number" placeholder="" step="0.01" className={'form-control' + (errors.ebitda && touched.ebitda ? ' is-invalid' : '')} />
                                                 <ErrorMessage name="ebitda" component="div" className="invalid-feedback" />
                                             </div>
-                                            <div className="form-group col-4">
+                                            <div className="col-md-6">
                                                 <label>Actual Cash Value <span className="small"></span></label>
                                                 <div className="row">
-                                                    <div className="input-group-prepend col-2">
+                                                    <div className="input-group-prepend col-md-2">
                                                         <span className="input-group-text">{currencySymbol}</span>
                                                     </div>
-                                                    <FastField  name="actualCashValue" type="number" className={'col-9 form-control' + (errors.actualCashValue && touched.actualCashValue ? ' is-invalid' : '')} />
-                                                    <ErrorMessage name="actualCashValue" component="div" className="col invalid-feedback" /> </div>
+                                                    <FastField name="actualCashValue" type="number" className={'col-md-1 form-control' + (errors.actualCashValue && touched.actualCashValue ? ' is-invalid' : '')} />
+                                                    <ErrorMessage name="actualCashValue" component="div" className="col invalid-feedback" />
+                                                </div>
                                             </div>
-                                            <div className="form-group col-4">
+                                        </div>
+                                        <div className="row">
+                                            <div className="col-md-6">
                                                 <label>Total Cash Value <span className="small"></span></label>
                                                 <div className="row">
                                                     <div className="input-group-prepend col-2">
                                                         <span className="input-group-text">{currencySymbol}</span>
                                                     </div>
-                                                    <FastField  name="totalCashValue" type="number" className={'col-9 form-control' + (errors.totalCashValue && touched.totalCashValue ? ' is-invalid' : '')} />
+                                                    <FastField name="totalCashValue" type="number" className={'col-9 form-control' + (errors.totalCashValue && touched.totalCashValue ? ' is-invalid' : '')} />
                                                     <ErrorMessage name="totalCashValue" component="div" className="invalid-feedback" />
                                                 </div>
                                             </div>
-                                            <div className="form-group col-4">
+                                            <div className="col-md-6">
                                                 <label>Benefit<span className="small"></span></label>
-                                                <FastField  name="benefits" placeholder="" type="text" className={'form-control' + (errors.benefits && touched.benefits ? ' is-invalid' : '')} />
+                                                <FastField name="benefits" placeholder="" type="text" className={'form-control' + (errors.benefits && touched.benefits ? ' is-invalid' : '')} />
                                                 <ErrorMessage name="benefits" component="div" className="invalid-feedback" />
-                                                    </div>  
-                                                </div>                                                
-                                           </div>
-                                            
-                                           <div className="formSection">       
-                                            <div className="fifthSection">
-                                        <div className="pt-4 blue-header"><h6>RESOURCES</h6></div>
-                                        <div className="form-row" id="thirdSection">
-                                        <div className="form-group col-4">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="card">
+                                    <div className="card-header">
+                                        <Breadcrumbs title="Forms" breadcrumbItem="RESOURCES" />
+                                    </div>
+                                    <div className="p-4 card-body">
+                                        <div className="row">
+                                            <div className="col-md-6">
                                                 <label>Development Resources</label>
-                                                <FastField  name="developmentResource" type="number" className={'form-control' + (errors.developmentResource && touched.developmentResource ? ' is-invalid' : '')} />
+                                                <FastField name="developmentResource" type="number" className={'form-control' + (errors.developmentResource && touched.developmentResource ? ' is-invalid' : '')} />
                                                 <ErrorMessage name="developmentResource" component="div" className="invalid-feedback" />
                                             </div>
-                                            <div className="form-group col-4">
+                                            <div className="col-md-6">
                                                 <label>Support Resources</label>
-                                                <FastField  name="supportResource" type="number" className={'form-control' + (errors.supportResource && touched.supportResource ? ' is-invalid' : '')}
-                                                    onBlur={e => {                                                       
-                                                        setTouched({...touched, [e.target.name] : true});
+                                                <FastField name="supportResource" type="number" className={'form-control' + (errors.supportResource && touched.supportResource ? ' is-invalid' : '')}
+                                                    onBlur={e => {
+                                                        setTouched({ ...touched, [e.target.name]: true });
                                                         setFieldValue('totalResource', Number(values.supportResource) + Number(values.developmentResource), false)
                                                     }}
-
                                                 />
                                                 <ErrorMessage name="supportResource" component="div" className="invalid-feedback" />
                                             </div>
-                                            <div className="form-group col-4">
+                                        </div>
+                                        <div className="row">
+                                            <div className="col-md-6">
                                                 <label>Total Resources</label>
-                                                <FastField  name="totalResource" readOnly type="number" className={'form-control' + (errors.totalResource && touched.totalResource ? ' is-invalid' : '')} />
+                                                <FastField name="totalResource" readOnly type="number" className={'form-control' + (errors.totalResource && touched.totalResource ? ' is-invalid' : '')} />
                                                 <ErrorMessage name="totalResource" component="div" className="invalid-feedback" />
                                             </div>
-                                            <div className="form-group col-4">
+                                            <div className="col-md-6">
                                                 <label>Development Duration  <span className="small"></span></label>
-                                                <FastField  name="developmentDuration" type="number" placeholder="" className={'form-control' + (errors.developmentDuration && touched.developmentDuration ? ' is-invalid' : '')} />
+                                                <FastField name="developmentDuration" type="number" placeholder="" className={'form-control' + (errors.developmentDuration && touched.developmentDuration ? ' is-invalid' : '')} />
                                                 <ErrorMessage name="developmentDuration" component="div" className="invalid-feedback" />
                                             </div>
-                                            {(values.stage == "Tailwind" || values.stage == "Tailwind-Transformation-Delivery" || values.stage == "Tailwind-Due Dilligence" || values.stage == "Won") && <div className="form-group col-4">
-                                                <label>Project Start Date</label>
-                                                <FastField  name="projectStartDate" type="date" min={before3Month} className={'form-control' + (errors.projectStartDate && touched.projectStartDate ? ' is-invalid' : '')} />
-                                                <ErrorMessage name="projectStartDate" component="div" className="invalid-feedback" />
-                                            </div>
-                                            }
-
-                                            {(values.stage == "Tailwind" || values.stage == "Tailwind-Transformation-Delivery" || values.stage == "Tailwind-Due Dilligence" || values.stage == "Won") && <div className="form-group col-4">
-                                                <label>Project End Date</label>
-                                                <FastField  name="projectEndDate" type="date" min={values.projectStartDate} className={'form-control' + (errors.projectEndDate && touched.projectEndDate ? ' is-invalid' : '')} />
-                                                <ErrorMessage name="projectEndDate" component="div" className="invalid-feedback" />
-                                            </div>
-                                            }
-
-                                            <div className="form-group col-4">                                            
-                                            </div>    
-                                                </div>
-                                            </div>
-                                            </div>
-                                    <div className="form-group float-right mt-3">
-                                        <button type="submit" disabled={isSubmitting} className="btn edit-button">
-                                            {isSubmitting && <span className="spinner-border spinner-border-sm mr-1"></span>}
-                                            {!id ? 'Submit' : 'Submit'}
-                                        </button>
-                                        {!isAddMode  && user.role == "Admin" && <Link to="#" onClick={(e) => handleDelete(id)} className="btn del-button">Delete</Link> }
-                                        <Link to="#" onClick={() => history.goBack()} className="btn assign-button">Cancel</Link>
-                                        
+                                        </div>
                                     </div>
-                                    <div className="row mt-5"></div>
-                                </Form>          */                       
-                            );
-                        }}
-                    </Formik>
-                    </div>
-                </div>
-                <div className="row">
-
-                </div>
-            </div>
+                                </div>
+                            </div>
+                            <div className="text-end mt-3">
+                                <button type="submit" disabled={isSubmitting} className="btn btn-primary">
+                                    {isSubmitting && <span className="spinner-border spinner-border-sm mr-1"></span>}
+                                    {!id ? 'Submit' : 'Submit'}
+                                </button>
+                                {!isAddMode && user.role == "Admin" && <Link to="#" onClick={(e) => handleDelete(id)} className="btn del-button">Delete</Link>}
+                                <Link to="#" onClick={() => history.goBack()} className="btn btn-warning ml-1">Cancel</Link>
+                            </div>
+                        </div>
+                        </Form>
+                    );
+                }}
+            </Formik>
         </div>
     );
 }
