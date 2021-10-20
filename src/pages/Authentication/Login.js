@@ -119,7 +119,7 @@ const Login = props => {
                             </div>
                             <div className="flex-shrink-0">
                               <div className="">
-                                <Link to="forgot-password" className="text-muted" style={{marginTop:"-10px",fontSize:"13px"}}>Forgot Password?</Link>
+                                <Link to="forgot-password" className="text-muted" style={{ marginTop: "-10px", fontSize: "13px" }}>Forgot Password?</Link>
                                 {/* <Link to="/forgot-password" className="text-muted">Forgot password?</Link> */}
                               </div>
                             </div>

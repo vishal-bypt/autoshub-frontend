@@ -11,6 +11,7 @@ import {
   postJwtLogin,
   postSocialLogin,
 } from "../../../helpers/fakebackend_helper"
+import { decimalTobinary } from "../../../helpers"
 
 const fireBaseBackend = getFirebaseBackend()
 
@@ -28,6 +29,8 @@ function* loginUser({ payload: { user, history } }) {
         email: user.email,
         password: user.password,
       })
+      response.userRoleArray = decimalTobinary(response.userRole);
+      console.log("response::", response)
       localStorage.setItem("authUser", JSON.stringify(response))
       yield put(loginSuccess(response))
     } else if (process.env.REACT_APP_DEFAULTAUTH === "fake") {

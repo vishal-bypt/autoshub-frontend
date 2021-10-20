@@ -74,11 +74,11 @@ export function configureFakeBackend() {
 
             function refreshToken() {
                 const refreshToken = getRefreshToken();
-                
+
                 if (!refreshToken) return unauthorized();
 
                 const user = users.find(x => x.refreshTokens.includes(refreshToken));
-                
+
                 if (!user) return unauthorized();
 
                 // replace old refresh token with a new one and save
@@ -99,10 +99,10 @@ export function configureFakeBackend() {
 
             function revokeToken() {
                 if (!isAuthenticated()) return unauthorized();
-                
+
                 const refreshToken = getRefreshToken();
                 const user = users.find(x => x.refreshTokens.includes(refreshToken));
-                
+
                 // revoke token and save
                 user.refreshTokens = user.refreshTokens.filter(x => x !== refreshToken);
                 localStorage.setItem(usersKey, JSON.stringify(users));
@@ -112,7 +112,7 @@ export function configureFakeBackend() {
 
             function register() {
                 const user = body();
-    
+
                 if (users.find(x => x.email === user.email)) {
                     // display email already registered "email" in alert
                     setTimeout(() => {
@@ -127,7 +127,7 @@ export function configureFakeBackend() {
                     // always return ok() response to prevent email enumeration
                     return ok();
                 }
-    
+
                 // assign user id and a few other properties then save
                 user.id = newUserId();
                 if (user.id === 1) {
@@ -159,13 +159,13 @@ export function configureFakeBackend() {
 
                 return ok();
             }
-    
+
             function verifyEmail() {
                 const { token } = body();
                 const user = users.find(x => !!x.verificationToken && x.verificationToken === token);
-                
+
                 if (!user) return error('Verification failed');
-                
+
                 // set is verified flag to true if token is valid
                 user.isVerified = true;
                 localStorage.setItem(usersKey, JSON.stringify(users));
@@ -176,13 +176,13 @@ export function configureFakeBackend() {
             function forgotPassword() {
                 const { email } = body();
                 const user = users.find(x => x.email === email);
-                
+
                 // always return ok() response to prevent email enumeration
                 if (!user) return ok();
-                
+
                 // create reset token that expires after 24 hours
                 user.resetToken = new Date().getTime().toString();
-                user.resetTokenExpires = new Date(Date.now() + 24*60*60*1000).toISOString();
+                user.resetTokenExpires = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
                 localStorage.setItem(usersKey, JSON.stringify(users));
 
                 // display password reset email in alert
@@ -206,9 +206,9 @@ export function configureFakeBackend() {
                     !!x.resetToken && x.resetToken === token &&
                     new Date() < new Date(x.resetTokenExpires)
                 );
-                
+
                 if (!user) return error('Invalid token');
-                
+
                 return ok();
             }
 
@@ -218,9 +218,9 @@ export function configureFakeBackend() {
                     !!x.resetToken && x.resetToken === token &&
                     new Date() < new Date(x.resetTokenExpires)
                 );
-                
+
                 if (!user) return error('Invalid token');
-                
+
                 // update password and remove reset token
                 user.password = password;
                 user.isVerified = true;
@@ -239,7 +239,7 @@ export function configureFakeBackend() {
 
             function getUserById() {
                 if (!isAuthenticated()) return unauthorized();
-    
+
                 let user = users.find(x => x.id === idFromUrl());
 
                 // users can get own profile and admins can get all profiles
@@ -249,10 +249,10 @@ export function configureFakeBackend() {
 
                 return ok(user);
             }
-    
+
             function createUser() {
                 if (!isAuthorized(Role.Admin)) return unauthorized();
-    
+
                 const user = body();
                 if (users.find(x => x.email === user.email)) {
                     return error(`Email ${user.email} is already registered`);
@@ -269,10 +269,10 @@ export function configureFakeBackend() {
 
                 return ok();
             }
-    
+
             function updateUser() {
                 if (!isAuthenticated()) return unauthorized();
-    
+
                 let params = body();
                 let user = users.find(x => x.id === idFromUrl());
 
@@ -301,10 +301,10 @@ export function configureFakeBackend() {
                     role: user.role
                 });
             }
-    
+
             function deleteUser() {
                 if (!isAuthenticated()) return unauthorized();
-    
+
                 let user = users.find(x => x.id === idFromUrl());
 
                 // users can delete own account and admins can delete any account
@@ -317,7 +317,7 @@ export function configureFakeBackend() {
                 localStorage.setItem(usersKey, JSON.stringify(users));
                 return ok();
             }
-    
+
             // helper functions
 
             function ok(body) {
@@ -335,20 +335,20 @@ export function configureFakeBackend() {
             function isAuthenticated() {
                 return !!currentUser();
             }
-    
+
             function isAuthorized(role) {
                 const user = currentUser();
                 if (!user) return false;
                 return user.role === role;
             }
-    
+
             function idFromUrl() {
                 const urlParts = url.split('/');
                 return parseInt(urlParts[urlParts.length - 1]);
             }
 
             function body() {
-                return opts.body && JSON.parse(opts.body);    
+                return opts.body && JSON.parse(opts.body);
             }
 
             function newUserId() {
@@ -357,8 +357,8 @@ export function configureFakeBackend() {
 
             function generateJwtToken(user) {
                 // create token that expires in 15 minutes
-                const tokenPayload = { 
-                    exp: Math.round(new Date(Date.now() + 15*60*1000).getTime() / 1000),
+                const tokenPayload = {
+                    exp: Math.round(new Date(Date.now() + 15 * 60 * 1000).getTime() / 1000),
                     id: user.id
                 }
                 return `fake-jwt-token.${btoa(JSON.stringify(tokenPayload))}`;
@@ -382,7 +382,7 @@ export function configureFakeBackend() {
                 const token = new Date().getTime().toString();
 
                 // add token cookie that expires in 7 days
-                const expires = new Date(Date.now() + 7*24*60*60*1000).toUTCString();
+                const expires = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toUTCString();
                 document.cookie = `fakeRefreshToken=${token}; expires=${expires}; path=/`;
 
                 return token;

@@ -22,19 +22,20 @@ import ConfirmMail from "../pages/AuthenticationInner/ConfirmMail";
 import EmailVerification from "../pages/AuthenticationInner/EmailVerification";
 import TwoStepVerfication from "../pages/AuthenticationInner/TwoStepVerfication";
 import userProfile from "../pages/Authentication/user-profile";
-import {Training} from "../pages/training/Index";
-import {AddEdit} from "../pages/training/AddEdit";
-import {UploadPrequisites} from "../pages/training/UploadPrequisites";
-import {GetTrainingByRole} from "../pages/training/GetTrainingByRole";
-import {Trainings} from "../pages/training/Trainings";
-import {AllNominations} from "../pages/training/AllNominations";
-import {EditTrainingList} from "../pages/training/EditTrainingList";
-import {EditTraining} from "../pages/training/EditTraining";
-import {AssignUsers} from "../pages/training/AssignUsers";
-import {UploadFieldList} from "../pages/training/UploadFieldList";
-import {RFPForm} from "../pages/rfpForm/Index";
+import { Training } from "../pages/training/Index";
+import { User } from "../pages/user/Index";
+import { AddEdit } from "../pages/training/AddEdit";
+import { UploadPrequisites } from "../pages/training/UploadPrequisites";
+import { GetTrainingByRole } from "../pages/training/GetTrainingByRole";
+import { Trainings } from "../pages/training/Trainings";
+import { AllNominations } from "../pages/training/AllNominations";
+import { EditTrainingList } from "../pages/training/EditTrainingList";
+import { EditTraining } from "../pages/training/EditTraining";
+import { AssignUsers } from "../pages/training/AssignUsers";
+import { UploadFieldList } from "../pages/training/UploadFieldList";
+import { RFPForm } from "../pages/rfpForm/Index";
 import { List } from '../pages/rfpForm/List';
-import  AddEditPage from '../pages/rfpForm/AddEdit';
+import AddEditPage from '../pages/rfpForm/AddEdit';
 import { MyEntries } from '../pages/rfpForm/MyEntries';
 import { EditedEntries } from '../pages/rfpForm/EditedEntries';
 import { LandingEntries } from '../pages/rfpForm/LandingEntries';
@@ -47,25 +48,28 @@ const userRoutes = [
   { path: "/profile", component: userProfile },
 
   //Training
-  { path: "/training", component: Training},
+  { path: "/training", component: Training },
   { path: "/training/add", component: AddEdit },
-  { path:"/training/uploadPrequisites", component:UploadPrequisites},
-  { path:"/training/getAllByRole", component:GetTrainingByRole},
-  { path:"/training/getAll", component:Trainings},
-  { path:"/training/getAllNominations", component:AllNominations},
-  { path:"/training/editList", component:EditTrainingList},
-  { path:"/training/edit/:id", component:EditTraining},
-  { path:"/training/assign/:id", component:AssignUsers},
-  { path:"/training/uploadList", component:UploadFieldList},
+  { path: "/training/uploadPrequisites", component: UploadPrequisites },
+  { path: "/training/getAllByRole", component: GetTrainingByRole },
+  { path: "/training/getAll", component: Trainings },
+  { path: "/training/getAllNominations", component: AllNominations },
+  { path: "/training/editList", component: EditTrainingList },
+  { path: "/training/edit/:id", component: EditTraining },
+  { path: "/training/assign/:id", component: AssignUsers },
+  { path: "/training/uploadList", component: UploadFieldList },
+
+  //User
+  { path: "/user", component: User },
 
   //RFC
-  { path: "/rfp", component: LandingEntries},
-  { path:"/rfp/my-entries", component:MyEntries},
-  { path: "/rfp/all-entries", component: List },  
-  { path:"/rfp/edited-entries", component:EditedEntries},
-  { path:"/rfp/landing-entries", component:LandingEntries},
-  { path:"/rfp/add", component:AddEditPage},
-  { path:"/rfp/edit/:id", component:AddEditPage},
+  { path: "/rfp", component: LandingEntries },
+  { path: "/rfp/my-entries", component: MyEntries },
+  { path: "/rfp/all-entries", component: List },
+  { path: "/rfp/edited-entries", component: EditedEntries },
+  { path: "/rfp/landing-entries", component: LandingEntries },
+  { path: "/rfp/add", component: AddEditPage },
+  { path: "/rfp/edit/:id", component: AddEditPage },
   // this route should be at the end of all other routes
   { path: "/", exact: true, component: () => <Redirect to="/dashboard" /> },
 ]
