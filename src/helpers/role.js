@@ -6,7 +6,7 @@ export const Role = {
 
 export const decimalTobinary = (userRole) => {
     let roleArray = [];
-    if (userRole !== null) {
+    if (userRole !== null && userRole !== "") {
         let binaryValue = userRole.toString(2);
         var newValue = binaryValue.padStart(4, "0");
         let array = [...newValue].reverse();
