@@ -84,7 +84,7 @@ const Header = props => {
                   <img src={logoSvg} alt="" height="24" />
                 </span>
                 <span className="logo-lg">
-                  <img src={logoSvg} alt="" height="24" /> <span className="logo-txt">Minia</span>
+                  <img src={logoSvg} alt="" height="24" /> <span className="logo-txt">AUTOSHUB</span>
                 </span>
               </Link>
 
@@ -93,7 +93,7 @@ const Header = props => {
                   <img src={logoSvg} alt="" height="24" />
                 </span>
                 <span className="logo-lg">
-                  <img src={logoSvg} alt="" height="24" /> <span className="logo-txt">Minia</span>
+                  <img src={logoSvg} alt="" height="24" /> <span className="logo-txt">AUTOSHUB</span>
                 </span>
               </Link>
             </div>
@@ -106,12 +106,12 @@ const Header = props => {
               <i className="fa fa-fw fa-bars"></i>
             </button>
 
-            <form className="app-search d-none d-lg-block">
+            {/* <form className="app-search d-none d-lg-block">
               <div className="position-relative">
                 <input type="text" className="form-control" placeholder="Search..." />
                 <button className="btn btn-primary" type="button"><i className="bx bx-search-alt align-middle"></i></button>
               </div>
-            </form>
+            </form> */}
           </div>
 
           <div className="d-flex">
