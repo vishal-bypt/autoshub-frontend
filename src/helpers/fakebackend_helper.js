@@ -92,8 +92,9 @@ const postJwtLogin = data => accountService.login(data.email, data.password)
 
 // postForgetPwd
 const postJwtForgetPwd = data => {
-  console.log("data == ",data.email)
-  accountService.forgotPassword(data.email)}
+  console.log("data == ", data.email)
+  accountService.forgotPassword(data.email)
+}
 
 // postSocialLogin
 export const postSocialLogin = data => post(url.SOCIAL_LOGIN, data)
