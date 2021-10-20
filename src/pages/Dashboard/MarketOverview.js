@@ -6,7 +6,7 @@ import OverviewCharts from './OverviewCharts';
 const MarketOverview = () => {
     return (
         <React.Fragment>
-            <Col xl={8}>
+            <Col xl={6}>
                 <Card>
                     <CardBody>
                         <div className="d-flex flex-wrap align-items-center mb-4">

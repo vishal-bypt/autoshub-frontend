@@ -7,7 +7,7 @@ const Locations = (props) => {
     const map = React.createRef(null);
     return (
         <React.Fragment>
-            <Col xl={4}>
+            <Col xl={6}>
                 <Card>
                     <CardBody>
                         <div className="d-flex flex-wrap align-items-center mb-4">

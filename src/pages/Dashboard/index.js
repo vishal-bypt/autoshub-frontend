@@ -1,162 +1,233 @@
-import React from 'react';
-import MetaTags from 'react-meta-tags';
-
-import ReactApexChart from "react-apexcharts"
-
+import React from "react";
+import MetaTags from "react-meta-tags";
 //import Breadcrumbs
 import Breadcrumbs from "../../components/Common/Breadcrumb";
 
 import {
-    Card,
-    CardBody,
-    Col,
-    Container,
-    Row
+  Col,
+  Container,
+  Row,
+  Card,
+  CardBody,
+  CardTitle,
+  CardHeader,
 } from "reactstrap";
 
-import CountUp from "react-countup";
-
-/** import Mini Widget data */
-import { WidgetsData } from "../../common/data/dashboard";
-import WalletBalance from './WalletBalance';
-import InvestedOverview from './InvestedOverview';
-import MarketOverview from './MarketOverview';
-import Locations from './Locations';
-import Trading from './Trading';
-import Transactions from './Transactions';
-import RecentActivity from './RecentActivity';
-import NewSlider from './NewSlider';
+// import chartJs
+import EPieChart from "../../components/AllCharts/echart/piechart";
 
 const options = {
-    chart: {
-        height: 50,
-        type: "line",
-        toolbar: { show: false },
+  chart: {
+    height: 50,
+    type: "line",
+    toolbar: { show: false },
+  },
+  colors: ["#5156be"],
+  stroke: {
+    curve: "smooth",
+    width: 2,
+  },
+  xaxis: {
+    labels: {
+      show: false,
     },
-    colors: ["#5156be"],
-    stroke: {
-        curve: 'smooth',
-        width: 2,
+    axisTicks: {
+      show: false,
     },
-    xaxis: {
-        labels: {
-            show: false
-        },
-        axisTicks: {
-            show: false
-        },
-        axisBorder: {
-            show: false
-        }
+    axisBorder: {
+      show: false,
     },
-    yaxis: {
-        labels: {
-            show: false
-        }
+  },
+  yaxis: {
+    labels: {
+      show: false,
     },
-    tooltip: {
-        fixed: {
-            enabled: false
+  },
+  tooltip: {
+    fixed: {
+      enabled: false,
+    },
+    x: {
+      show: false,
+    },
+    y: {
+      title: {
+        formatter: function (seriesName) {
+          return "";
         },
-        x: {
-            show: false
-        },
-        y: {
-            title: {
-                formatter: function (seriesName) {
-                    return ''
-                }
-            }
-        },
-        marker: {
-            show: false
-        }
-    }
+      },
+    },
+    marker: {
+      show: false,
+    },
+  },
 };
 
-const Dashboard = () => {    
-    return (        
-        <React.Fragment>
-            <div className="page-content">
-                <MetaTags>
-                    <title>Dashboard | Minia - React Admin & Dashboard Template</title>
-                </MetaTags>
-                <Container fluid>
-                    {/* Render Breadcrumbs */}
-                    <Breadcrumbs title="Dashboard" breadcrumbItem="Dashboard" />
+const TrainingPartnerAssigned = [
+  { value: 200, name: "UiPaths" },
+  { value: 45, name: "BluePrism" },
+  { value: 31, name: "Google Cloud" },
+  { value: 15, name: "AWS" },
+  { value: 20, name: "Automation" },
+];
 
-                    <Row>
-                        {(WidgetsData || []).map((widget, key) => (
-                            <Col xl={3} md={6} key={key}>
-                                <Card className="card-h-100">
-                                    <CardBody>
-                                        <Row className="align-items-center">
-                                            <Col xs={6}>
-                                                <span className="text-muted mb-3 lh-1 d-block text-truncate">{widget.title}</span>
-                                                <h4 className="mb-3">
-                                                    {widget.isDoller === true ? '$' : ''}
-                                                    <span className="counter-value">
-                                                        <CountUp
-                                                            start={0}
-                                                            end={widget.price}
-                                                            duration={12}
-                                                        />
-                                                        {widget.postFix}
-                                                    </span>
-                                                </h4>
-                                            </Col>
-                                            <Col xs={6}>
-                                                <ReactApexChart
-                                                    options={options}
-                                                    series={[{ data: [...widget['series']] }]}
-                                                    type="line"
-                                                    className="apex-charts"
-                                                    dir="ltr"
-                                                />
-                                            </Col>
-                                        </Row>
-                                        <div className="text-nowrap">
-                                            <span className={"badge badge-soft-" + widget.statusColor + " text-" + widget.statusColor}>
-                                                {widget.rank}
-                                            </span>
-                                            <span className="ms-1 text-muted font-size-13">Since last week</span>
-                                        </div>
-                                    </CardBody>
-                                </Card>
-                            </Col>
-                        ))}
+const TrainingPartnerAttended = [
+  { value: 200, name: "UiPaths" },
+  { value: 45, name: "BluePrism" },
+  { value: 31, name: "Google Cloud" },
+  { value: 15, name: "AWS" },
+  { value: 20, name: "Automation" },
+];
 
-                    </Row>
-                    <Row>
-                        <WalletBalance />
-                        <Col>
-                            <Row>
-                                <InvestedOverview />
-                                <NewSlider />
-                            </Row>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <MarketOverview />
-                        <Locations />
-                    </Row>
-                    <Row>
-                        <Trading />
-                        <Transactions />
-                        <RecentActivity />
-                    </Row>
-                    <div className="row">
-                        <div className="col-lg-6">
-                            <h1>Hello World</h1>
-                        </div>
-                        <div className="col-lg-6">
-                            <h1>Hello World</h1>
-                        </div>
-                    </div>
-                </Container>
-            </div>
-        </React.Fragment>
-    );
-}
+const TrainingPartnerAssignedAttended = [
+  { value: 135, name: "Assigned" },
+  { value: 65, name: "Attended" },
+];
+
+const EmployeedWiseNominated = [
+  { value: 200, name: "UiPaths" },
+  { value: 45, name: "BluePrism" },
+  { value: 31, name: "Google Cloud" },
+  { value: 15, name: "AWS" },
+  { value: 20, name: "Automation" },
+];
+
+const EmployeedWiseAttended = [
+  { value: 200, name: "UiPaths" },
+  { value: 45, name: "BluePrism" },
+  { value: 31, name: "Google Cloud" },
+  { value: 15, name: "AWS" },
+  { value: 20, name: "Automation" },
+];
+
+const NominatedAcceptedRejected = [
+  { value: 335, name: "Nominated" },
+  { value: 310, name: "Accepted" },
+  { value: 234, name: "Rejected" },
+];
+
+const EmployeedWiseAssigned = [
+  { value: 200, name: "UiPaths" },
+  { value: 45, name: "BluePrism" },
+  { value: 31, name: "Google Cloud" },
+  { value: 15, name: "AWS" },
+  { value: 20, name: "Automation" },
+];
+
+const Dashboard = () => {
+  return (
+    <React.Fragment>
+      <div className="page-content">
+        <MetaTags>
+          <title>Dashboard - Auto S Hub</title>
+        </MetaTags>
+        <Container fluid>
+          {/* Render Breadcrumbs */}
+          <Breadcrumbs title="Dashboard" breadcrumbItem="Dashboard" />
+          <Row>
+            <Col xl={12}>
+              <select>
+                <option>JAN</option>
+                <option>FEB</option>
+              </select>
+            </Col>
+          </Row>
+          &nbsp;
+          <Row>
+            <Col xl={12}>
+              <Card>
+                <CardHeader>
+                  <CardTitle>
+                    Training Partner - Assigned Vs Attended view
+                  </CardTitle>
+                </CardHeader>
+                <CardBody>
+                  <Row className="justify-content-center">
+                    <Col sm={4}>
+                      <Row className="justify-content-center text-center">
+                        <h3 className="card-title">Assigned</h3>
+                      </Row>
+                      <EPieChart data={TrainingPartnerAssigned} />
+                    </Col>
+                    <Col sm={4}>
+                      <Row className="justify-content-center text-center">
+                        <h3 className="card-title">Attended</h3>
+                      </Row>
+                      <EPieChart data={TrainingPartnerAttended} />
+                    </Col>
+                    <Col sm={4}>
+                      <Row className="justify-content-center text-center">
+                        <h3 className="card-title">Assigned vs Attended</h3>
+                      </Row>
+                      <EPieChart data={TrainingPartnerAssignedAttended} />
+                    </Col>
+                  </Row>
+                </CardBody>
+              </Card>
+            </Col>
+          </Row>
+          <Row>
+            <Col xl={12}>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Employee wise - Nominated Vs Attended</CardTitle>
+                </CardHeader>
+                <CardBody>
+                  <Row className="justify-content-center">
+                    <Col sm={4}>
+                      <Row className="justify-content-center text-center">
+                        <h3 className="card-title">Nominated</h3>
+                      </Row>
+                      <EPieChart data={EmployeedWiseNominated} />
+                    </Col>
+                    <Col sm={4}>
+                      <Row className="justify-content-center text-center">
+                        <h3 className="card-title">Attended</h3>
+                      </Row>
+                      <EPieChart data={EmployeedWiseAttended} />
+                    </Col>
+                    <Col sm={4}>
+                      <Row className="justify-content-center text-center">
+                        <h3 className="card-title">
+                          Nominated vs Accepted vs Rejected
+                        </h3>
+                      </Row>
+                      <EPieChart data={NominatedAcceptedRejected} />
+                    </Col>
+                  </Row>
+                </CardBody>
+              </Card>
+            </Col>
+          </Row>
+          <Row>
+            <Col xl={12}>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Employee wise - Assigned vs Nominated</CardTitle>
+                </CardHeader>
+                <CardBody>
+                  <Row className="justify-content-center">
+                    <Col sm={6}>
+                      <Row className="justify-content-center text-center">
+                        <h3 className="card-title">Assigned</h3>
+                      </Row>
+                      <EPieChart data={EmployeedWiseAssigned} />
+                    </Col>
+                    <Col sm={6}>
+                      <Row className="justify-content-center text-center">
+                        <h3 className="card-title">Nominated</h3>
+                      </Row>
+                      <EPieChart data={EmployeedWiseNominated} />
+                    </Col>
+                  </Row>
+                </CardBody>
+              </Card>
+            </Col>
+          </Row>
+        </Container>
+      </div>
+    </React.Fragment>
+  );
+};
 
 export default Dashboard;

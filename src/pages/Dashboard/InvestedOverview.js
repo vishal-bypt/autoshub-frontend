@@ -6,7 +6,7 @@ import ApexRadial from './ApexRadial';
 const InvestedOverview = () => {
     return (
         <React.Fragment>
-            <Col xl={8}>
+            <Col xl={12}>
                 <Card className="card-h-100">
                     <CardBody>
                         <div className="d-flex flex-wrap align-items-center mb-4">
