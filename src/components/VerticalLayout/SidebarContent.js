@@ -120,9 +120,17 @@ const SidebarContent = props => {
                 <span>{props.t("RFC")}</span>
               </Link>
             </li>
+            <li>
+              <Link to="/user" className="">
+                <FeatherIcon
+                  icon="users"
+                />
+                <span>{props.t("Users")}</span>
+              </Link>
+            </li>
 
-              
-          </ul>          
+
+          </ul>
         </div>
       </SimpleBar>
     </React.Fragment>
