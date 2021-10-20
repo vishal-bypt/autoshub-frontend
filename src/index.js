@@ -2,23 +2,22 @@ import React from "react"
 import ReactDOM from "react-dom"
 import App from "./App"
 import { BrowserRouter } from "react-router-dom"
+import { PersistGate } from 'redux-persist/integration/react'
 import "./i18n"
 import { Provider } from "react-redux"
-import { accountService } from './services/account.service';
-
-import store from "./store"
-
-
+import { store, persistor, sagaMiddleware } from './store';
 
 
 const app = (
+  
   <Provider store={store}>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <PersistGate loading={null} persistor={persistor}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </PersistGate>
   </Provider>
 )
 
-// attempt silent token refresh before startup
-accountService.refreshToken().finally(app);
-ReactDOM.render(app, document.getElementById("root"));
+
+ReactDOM.render(app, document.getElementById("root"))

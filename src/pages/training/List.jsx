@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-
+import Refresh from '@material-ui/icons/Refresh';
 import moment from "moment";
 import { accountService, trainingService, alertService } from "../../services";
 import PopUpFileUpload from "./PopUpFileUpload";
@@ -12,13 +12,11 @@ function List({ history, match }) {
   //console.log("userDetails role == ", userDetails.role);
   const [users, setUsers] = useState(null);
   let filteredData = [];
-  useEffect(() => {
-    setTimeout(function () {
+  useEffect(() => {    
       trainingService.getAll().then((x) => {
         console.log("x == ", x);
         setUsers(x);
-      });
-   }, 300);
+      });   
 
     if (userDetails.role == "Admin") {
       trainingService.getAll().then((x) => {
@@ -147,35 +145,41 @@ function List({ history, match }) {
           <div className="col-md-6 text-end">
             {userDetails.role == "Admin" && (
               <>
-                <Link to={`/training/add`} className="btn btn-info">
+                <Link to={`/training/add`} className="btn btn-primary">
                   Upload Trainings
                 </Link>
-                <Link to={`/training/editList`} className="btn btn-info ml-1">
+                <Link to={`/training/editList`} className="btn btn-primary ml-1">
                   Edit Trainings
                 </Link>
                 <Link
                   to={`/training/getAllByRole`}
-                  className="btn btn-info ml-1"
+                  className="btn btn-primary ml-1"
                 >
                   My Trainings
                 </Link>
-                <Link to={`/training/getAll`} className="btn btn-info ml-1">
+                <Link to={`/training/getAll`} className="btn btn-primary ml-1">
                   View All
                 </Link>
                 <Link
                   to={`/training/getAllNominations`}
-                  className="btn btn-info ml-1"
+                  className="btn btn-primary ml-1"
                 >
                   All Nominations
+                </Link>
+                <Link
+                  to={`/training`}
+                  className="btn btn-primary ml-1"
+                >
+                  <Refresh/>
                 </Link>
               </>
             )}
             {userDetails.role == "Manager" && (
               <>
-                <Link to={`/training/getAllByRole`} className="btn btn-info">
+                <Link to={`/training/getAllByRole`} className="btn btn-primary">
                   My Trainings
                 </Link>
-                <Link to="#" className="btn btn-info ml-1">
+                <Link to="#" className="btn btn-primary ml-1">
                   View Training
                 </Link>
               </>

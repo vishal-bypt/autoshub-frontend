@@ -10,9 +10,9 @@ function LandingEntries({ match }) {
     const userDetails = accountService.userValue;
 
     useEffect(() => {       
-        setTimeout(function () {
+       
             rfcService.getAll('latest').then(x => setUsers(x));
-          }, 3000);
+          
     }, []);
 
     function deleteUser(id) {

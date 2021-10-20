@@ -27,7 +27,7 @@ export const accountService = {
     delete: _delete,
     assignUser: assignUser,
     user: userSubject.asObservable(),
-    get userValue () { return userSubject.value ? userSubject.value : localStorage.getItem('authUser') }
+    get userValue () { return userSubject.value ? userSubject.value : JSON.parse(localStorage.getItem('authUser')) }
 };
 
 function login(email, password) {
@@ -40,7 +40,7 @@ function login(email, password) {
         });
 }
 
-function logout() {
+function logout() { 
     // revoke token, stop refresh timer, publish null to user subscribers and redirect to login page
     fetchWrapper.post(`${baseUrl}/revoke-token`, {});
     stopRefreshTokenTimer();

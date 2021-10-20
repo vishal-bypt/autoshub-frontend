@@ -94,8 +94,8 @@ function create(params) {
     return fetchWrapper.post(baseUrl, params);
 }
 
-function update(id, params) {
-    return fetchWrapper.put(`${baseUrl}/${id}`, params)
+function update(id, params) {    
+    return fetchWrapper.put(`${baseUrl}/${id}`, {slots:params})
         .then(user => {
             // update stored user if the logged in user updated their own record
             /* if (user.id === userSubject.value.id) {
