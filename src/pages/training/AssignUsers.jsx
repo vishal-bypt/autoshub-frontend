@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import "bootstrap/dist/css/bootstrap.min.css";
 import cellEditFactory from "react-bootstrap-table2-editor"
 import moment from 'moment';
 import { Link } from 'react-router-dom';
@@ -15,6 +16,7 @@ import { IconButton } from '@material-ui/core';
 var FormData = require('form-data');
 
 function AssignUsers({ history, match }) {
+
     const { id } = match.params;    
     const userDetails = accountService.userValue;
     const user = accountService.userValue;
@@ -26,12 +28,16 @@ function AssignUsers({ history, match }) {
     const [uploadBtn, setUploadBtn] = useState(false)
     const [successBtn, setSuccessBtn] = useState(false)
     const [errorBtn, setErrorBtn] = useState(false)
-    const [click, setClick] = useState(false)
+    const [click, setClick] = useState(true)
     let userDropDownData = [];
     const assignUserIds = [];
+    
     const [assignedUsers, setAssignedUsers] = useState(null);
     const [perManager, setPerManager] = useState()
+    const [finalValue, setFinalValue] = useState(0)
+    const [final, setFinal] = useState(null)
     console.log("main temmp == ",temp);
+    console.log("users == ",users)
     useEffect(() => {
         if(userDetails.role == "Admin"){ 
             trainingService.getById(id).then((x)=>{
@@ -58,8 +64,7 @@ function AssignUsers({ history, match }) {
                 });
             });
             setAssignedUsers(assignUserIds);
-        }     
-
+        }  
         if(userDetails.role == "Manager"){            
             accountService.getUserList().then((x) => {
                 setUsers(x);                
@@ -86,10 +91,11 @@ function AssignUsers({ history, match }) {
         let data = parseInt(trainingData?.slots/(temp?.length))        
         setPerManager(data)        
     }, []);   
-    
 
     const handleSubmit = (e) => {
         try {
+            console.log("in submit")
+            debugger;
             e.preventDefault();
             var formData = new FormData();
             if (!selectedFile) {
@@ -102,187 +108,230 @@ function AssignUsers({ history, match }) {
         }
     }
 
-    function create(formData, id) {
-        trainingService.uploadExcel(formData, id)
-            .then((data) => {
-                setUploadBtn(false)
-                setSuccessBtn(true)
+    function create(data) {
+        console.log("formData == ",data) 
+              var formData = new FormData();                
+                formData.append('data1',data) 
+                trainingService.assignTraining(data)        
+            .then((data) => {               
                 alertService.success('Success', { keepAfterRouteChange: true });
-                Swal.fire('Training uploaded successfully.!')
-                trainingService.getAll().then(x => setUsers(x));
+                Swal.fire('Training Assign successfully.!')
+                //trainingService.getAll().then(x => setUsers(x));
             })
-            .catch(error => {
-                setUploadBtn(false)
-                setErrorBtn(true)
+            .catch(error => {                
                 alertService.error(error);
             });
     }
-    function updatedValue(e, index){
-        console.log("index == ",index)
-        console.log("e -- ",  e)              
-        let value = e.target.value       
-        trainingService.update(index,value).then((x) => {
-            console.log("x == ",x)
-           console.log("successfully updated value")
-        });
-    }   
+    function updatedValue(e, index){   
+        ///console.log("index == ",index)              
+        let value = parseInt(e.target.value)  
+
+        //console.log("plaveholder == ",e.target.placeholder)  
+        //.log("updated value == ",value)       
+        for(let i=0;i<temp.length;i++){
+            if((index-1)==i){
+                temp[i].numberOfTraining=value
+            }            
+        }
+        let totalSlot = trainingData.slots 
+        //console.log("totalSlot == ",totalSlot)
+
+        let minus = totalSlot-e.target.placeholder
+        //console.log("minus == ",minus)
+
+        let lastValue = minus+value
+
+        setFinalValue(lastValue)
+       
+        //console.log("lastValue = ",lastValue)
+        if(lastValue>totalSlot || lastValue<totalSlot){
+            console.log("lastValue inside == ",lastValue)
+            setClick(false)
+        }
+    }  
 
     useEffect(() => {          
-        if(trainingData.slots){
-        console.log("in useEffect", trainingData);      
-        let slotData = parseInt((trainingData?.slots)/(temp?.length))       
-        console.log("slotData == ",slotData);
-        console.log("before loop :-= ", temp); 
-        let userData=[]
-        setPerManager(slotData)
-        let totalAssignedTraining = slotData*(temp?.length) 
-        for(let i=0;i<temp?.length;i++){
-            let data=temp[i];             
-            data = { 
-                numberOfTraining:slotData?slotData:0,
-                managerName: temp[i].label
+        if(trainingData.slots){               
+            let slotData = parseInt((trainingData?.slots)/(temp?.length))  
+            let userData=[]
+            setPerManager(slotData)
+            let totalAssignedTraining = slotData*(temp?.length) 
+            for(let i=0;i<temp?.length;i++){
+                let data=temp[i];             
+                data = { 
+                    numberOfTraining:slotData?slotData:0,
+                    managerName: temp[i].label,
+                    id: temp[i].value,
+                    trainingId: parseInt(id)
+                }                
+                userData[i]=(data);        
+                console.log(" userData[i] == ", userData[i])         
+            }; 
+            setTemp(userData)  
+            //setTemp(userData)
+            let diffenceInSlot=0; 
+            if(trainingData?.slots){            
+                diffenceInSlot = trainingData.slots-totalAssignedTraining
+            }           
+                    
+            let modifiedData=userData            
+            if(diffenceInSlot>0){            
+                for(let j = 0; j < userData?.length; j++){
+                    if(diffenceInSlot<=0){                    
+                        break;
+                    } 
+                    let data=userData[j];   
+                    //console.log("data == ",data)              
+                    data = {
+                        managerName: userData[j].managerName,                        
+                        numberOfTraining:(slotData?slotData:0)+1, 
+                        id: userData[j].id,
+                        trainingId: parseInt(id)
+                    }
+                    modifiedData[j]=(data);                       
+                    diffenceInSlot--  
+                }   
+                //console.log("modified Data?? = ",modifiedData)          
+                setTemp(modifiedData)                    
+            } else {
+                setTemp(modifiedData)
             }
-            console.log("data == ",data);
-            userData[i]=(data); 
-            console.log("user[i] == ",userData);
-        }; 
-        setTemp(userData)
-        
-        console.log("outside loop == ",userData);     
-        //setTemp(userData)
-        let diffenceInSlot=0; 
-        if(trainingData?.slots){            
-            diffenceInSlot = trainingData.slots-totalAssignedTraining
-        }            
-        console.log("diffenceInSlot == ",diffenceInSlot);        
-        let modifiedData=userData
-        console.log("modifiedData == ",modifiedData);
-        if(diffenceInSlot>0){            
-            for(let j = 0; j < userData?.length; j++){
-                if(diffenceInSlot<=0){                    
-                    break;
-                } 
-                let data=userData[j];                 
-                data = {
-                    managerName: userData[j].managerName,                        
-                    numberOfTraining:(slotData?slotData:0)+1                    
-                }
-                modifiedData[j]=(data);                       
-                diffenceInSlot--  
-            }             
-            setTemp(modifiedData=>({modifiedData}))                    
-        } else {
-            setTemp(modifiedData=>({modifiedData}))
         }
-
-        console.log("temp ==>>> ",temp);
-    }
+        else{            
+            let userData=[];
+            setPerManager("N/A")
+            for(let i=0;i<temp?.length;i++){
+                let data=temp[i];                         
+                data = { 
+                    numberOfTraining:0,
+                    managerName: temp[i].label,
+                    trainingId: parseInt(id),
+                    id: temp[i].id,
+                }               
+                userData[i]=(data);                 
+            }; 
+            setTemp(userData)           
+        }
     },[trainingData])
 
-   
-    
-    /* let totalAssignedTraining = perManager*(temp?.length)   
-    let diffenceInSlot=0; 
-    if(trainingData?.slots){
-         diffenceInSlot = trainingData.slots-totalAssignedTraining
+    const handleChange = (e) => {        
+        const { name, checked } = e.target;        
+        if (name === "allSelect") {            
+            let tempUser = temp.map((user) => {
+                return { ...user, isChecked: checked };
+            });            
+            setTemp(tempUser);
+        } 
+        else {            
+            let tempUser = temp.map((user) =>
+                user.managerName === name ? { ...user, isChecked: checked } : user
+            );            
+            setTemp(tempUser);
+            }
+    };
+    /* if(temp){
+        let finalTest[];
+        for(let i=0;i<temp.length;i++){
+            if(temp[i].isChecked == true){
+                finalTest.push(temp[i])
+            }
+        }
+        setFinal(finalTest)
     } */
-
-    /* if(diffenceInSlot>0){
-        console.log("diffenceInSlot == ",diffenceInSlot)
-    } */
-    
-    console.log("last temp == ",temp);
-    console.log("length == ",temp?.modifiedData?.length);
-    function selectAll(){
-        console.log("all select click");
-        setClick("checked")
+    function submitClick(e){
+        try {
+            e.preventDefault();  
+            create(temp);
+        } catch (error) {
+            console.log("error == ", error);
+        }
     }
-    console.log("check == ",click);
+
     return (
-        <>
-            <div className="page-content">
+        <div className="page-content">
                 <div className="container-fluid">
                     <div className="row"> 
                         <div className="col-md-12 text-end">
-                            <Link to={'.'} className="btn btn-danger "><ArrowBackIcon className="mr-1" />Back</Link>
+                            <Link to={'/training/add'} className="btn btn-danger "><ArrowBackIcon className="mr-1" />Back</Link>
                         </div>
                     </div>
-                </div>                
+                </div>  
                 <div className="card">
                     <h3 className="card-header text-center font-weight-bold text-uppercase py-4">
                         Assign Training
                     </h3>
                     <div className="card-header">
-                    <h6>Total number of Slots:- <b>{trainingData?.slots ? trainingData.slots : "N/A"}</b></h6>
-                    <h6>Total Reporting Managers:- <b>{temp?.modifiedData?.length? temp.modifiedData.length : "N/A"}</b></h6>
-                    <h6>Slot for each reporing manager :-  <b>{Math.floor(perManager ? perManager : 0)}</b>&nbsp;</h6>
-                    </div>
-                    <div className="card-body">
-                        <div id="table" className="table-editable">
-                            {/*  <span class="table-add float-right mb-3 mr-2"><a href="#!" class="text-success"
-                            ><i class="fas fa-plus fa-2x" aria-hidden="true"></i></a
-                                ></span> */}
-                            <table className="table table-bordered table-responsive-md table-striped text-center">
-                                <thead>
-                                    <tr>
-                                        <th className="traning-listing" >#</th>
-                                        <th className="traning-listing" >Manager Name</th>
-                                        <th className="traning-listing" >Assigned Training</th>  
-                                        <th className="traning-listing" style={{ whiteSpace: 'nowrap', minWidth: '30%' }}>
-                                                {/* {userDetails.role == "Admin" && <div >
-                                                    <Link to={`/training/assign/${user.id}`} className="btn btn-sm btn-primary mr-1">Assign</Link>
-                                                </div>} */}
-                                                <div className="custom-control custom-checkbox">
-                                                    <input type="checkbox" className="custom-control-input"  checked={click} onChange={()=>setClick(!click)}/>
-                                                    <label className="custom-control-label" for="customCheck1"></label>
-                                                </div>
-                                            </th>                                    
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {temp?.modifiedData && temp?.modifiedData.map((user, index) =>
-                                        <tr key={user.id}>
-                                            <td className="pt-3-half" contentEditable="false" style={{ minWidth: '40px' }}>{index + 1}</td>
-                                            <td className="traning-listing" contentEditable="false" style={{ minWidth: '40px' }} >{user.managerName}</td>
-                                            {/* <td className="traning-listing" contentEditable="true" style={{ minWidth: '150px' }}>{user.trainingType}</td>  */}                                                                                      
-                                            <td className="traning-listing" contentEditable="true" style={{ minWidth: '150px' }} onBlur={(e) => updatedValue(e,index+1)}>
-                                            <input
-                                                type="number"
-                                                min="0"
-                                                className="border-0"
-                                                placeholder={user.numberOfTraining ? user.numberOfTraining : "N/A"}                                           
-                                            />
-                                            </td>  
-                                            <td className="traning-listing" style={{ whiteSpace: 'nowrap', minWidth: '30%' }}>
-                                                <div className="custom-control custom-checkbox">
-                                                    <input type="checkbox" className="custom-control-input" id="customCheck1" unchecked/>
-                                                    <label className="custom-control-label" for="customCheck1"></label>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    )
-                                    }
-                                    {!users &&
-                                        <tr>
-                                            <td colSpan="4" className="text-center">
-                                            <Link className="btn btn-primary">
-                                                <span className="spinner-border spinner-border-sm "></span>
-                                                Save
-                                            </Link>
-                                                <span className="spinner-border spinner-border-lg align-center"></span>
-                                            </td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
+                        <h6>Total number of Slots:- <b>{trainingData?.slots ? trainingData.slots : "N/A"}</b></h6>
+                        <h6>Total Reporting Managers:- <b>{temp?.length? temp.length : "N/A"}</b></h6>
+                        <h6>Slot for each reporing manager :-  <b>{Math.floor(perManager ? perManager : 0)}</b>&nbsp;</h6>
                     </div>
                 </div>
+            <div className="card-body mt-5">
+                <div id="table" className="table-editable">
+                    <table className="table table-bordered table-responsive-md  text-center">
+                        <thead>
+                            <tr>
+                                <th className="traning-listing" >#</th>
+                                <th className="traning-listing" >Manager Name</th>
+                                <th className="traning-listing" >Assigned Training</th>  
+                                <th className="traning-listing" style={{ whiteSpace: 'nowrap', minWidth: '30%' }}>                                                
+                                    <div className="form-check">
+                                        <input 
+                                            type="checkbox" 
+                                            className="form-check-input" 
+                                            name="allSelect"  
+                                            checked={!temp.some((user) => user?.isChecked !== true)}                                            
+                                            onChange={handleChange}
+                                        />
+                                        <label className="form-check-label ms-2">All Select</label>
+                                    </div>
+                                </th>  
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {temp && temp.map((user, index) =>
+                                <tr key={user.id}>
+                                     <td className="pt-3-half" contentEditable="false" style={{ minWidth: '40px' }}>{index + 1}</td>
+                                    <td className="traning-listing" contentEditable="false" style={{ minWidth: '40px' }} >{user.managerName}</td>                                    
+                                    {user.numberOfTraining>0 ?                                                                             
+                                        <td className="traning-listing" contentEditable="false" style={{ minWidth: '150px' }} onBlur={(e) => updatedValue(e,index+1)}>
+                                        <input
+                                            disabled
+                                            type="number"
+                                            min="0"
+                                            className="border-0"
+                                            placeholder={user.numberOfTraining ? user.numberOfTraining : "N/A"}                                           
+                                        />
+                                        </td>  : <td className="traning-listing" contentEditable="false" style={{ minWidth: '150px' }}>
+                                        <input                                                
+                                            disabled placeholder={user.numberOfTraining ? user.numberOfTraining : "N/A"}                                           
+                                        />
+                                        </td>
+                                    }
+                                    <td className="traning-listing" style={{ whiteSpace: 'nowrap', minWidth: '30%' }}>
+                                        <div className="form-check" key={index}>
+                                            <input
+                                                type="checkbox"
+                                                className="form-check-input"
+                                                name={user.managerName}
+                                                checked={user?.isChecked || false}
+                                                onChange={handleChange}
+                                                />
+                                        </div>
+                                    </td>
+                                </tr>                                
+                            )}                             
+                        </tbody>                        
+                    </table>
+                    <div className="text-end mt-3">
 
-
+                        <button type="submit" onClick={submitClick} className="btn btn-warning">Submit                                    
+                        </button>                                
+                    </div>
+                </div>
             </div>
-        </>
-    );
+        </div>
+    )
 }
 
-export { AssignUsers };
+export {AssignUsers}

@@ -484,7 +484,7 @@ function List({ history, match }) {
                   ))}
                 {!users && (
                   <tr>
-                    <td colSpan="4" className="text-center">
+                    <td colSpan="10" className="text-center">
                       <span className="spinner-border spinner-border-lg align-center"></span>
                     </td>
                   </tr>

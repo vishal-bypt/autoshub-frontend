@@ -194,7 +194,7 @@ function AddEdit({ history, match }) {
                 </div> */}
                 <div className="card">
                     <h3 className="card-header text-center font-weight-bold text-uppercase py-4">
-                        Editable table
+                        Trainings
                     </h3>
                     <div className="card-body">
                         <div id="table" className="table-editable">
@@ -249,7 +249,7 @@ function AddEdit({ history, match }) {
                                     }
                                     {!users &&
                                         <tr>
-                                            <td colSpan="4" className="text-center">
+                                            <td colSpan="12" className="text-center">
                                                 <span className="spinner-border spinner-border-lg align-center"></span>
                                             </td>
                                         </tr>
