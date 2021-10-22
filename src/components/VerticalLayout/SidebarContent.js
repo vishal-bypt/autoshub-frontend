@@ -14,9 +14,12 @@ import { Link } from "react-router-dom"
 
 //i18n
 import { withTranslation } from "react-i18next"
+import { accountService } from "../../services";
 
 const SidebarContent = props => {
   const ref = useRef()
+  const userDetails = accountService.userValue;
+
   const activateParentDropdown = useCallback((item) => {
     item.classList.add("active")
     const parent = item.parentElement
@@ -120,16 +123,36 @@ const SidebarContent = props => {
                 <span>{props.t("RFC")}</span>
               </Link>
             </li>
-            <li>
-              <Link to="/user" className="">
-                <FeatherIcon
-                  icon="users"
-                />
-                <span>{props.t("Users")}</span>
-              </Link>
-            </li>
-
-
+            {
+              (userDetails && userDetails.role && userDetails.role == "Admin") && <li>
+                <li>
+                  <Link to="/#" className="has-arrow ">
+                    <FeatherIcon
+                      icon="users"
+                    />
+                    <span>{props.t("Users")}</span>
+                  </Link>
+                  <ul className="sub-menu">
+                    <li>
+                      <Link to="/userList" className="">
+                        <FeatherIcon
+                          icon="file-text"
+                        />
+                        <span>{props.t("User List")}</span>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/userAccessView" className="">
+                        <FeatherIcon
+                          icon="users"
+                        />
+                        <span>{props.t("User Access View")}</span>
+                      </Link>
+                    </li>
+                  </ul>
+                </li>
+              </li>
+            }
           </ul>
         </div>
       </SimpleBar>

@@ -27,7 +27,7 @@ export const accountService = {
     delete: _delete,
     assignUser: assignUser,
     user: userSubject.asObservable(),
-    get userValue () { return userSubject.value ? userSubject.value : JSON.parse(localStorage.getItem('authUser')) }
+    get userValue() { return userSubject.value ? userSubject.value : JSON.parse(localStorage.getItem('authUser')) }
 };
 
 function login(email, password) {
@@ -40,7 +40,7 @@ function login(email, password) {
         });
 }
 
-function logout() { 
+function logout() {
     // revoke token, stop refresh timer, publish null to user subscribers and redirect to login page
     fetchWrapper.post(`${baseUrl}/revoke-token`, {});
     stopRefreshTokenTimer();
@@ -50,7 +50,8 @@ function logout() {
 
 function refreshToken() {
     return fetchWrapper.post(`${baseUrl}/refresh-token`, {})
-        .then(user => { console.log("user", user);
+        .then(user => {
+            console.log("user", user);
             // publish user to subscribers and start timer to refresh token
             userSubject.next(user);
             startRefreshTokenTimer();
@@ -78,8 +79,10 @@ function resetPassword({ token, password, confirmPassword }) {
     return fetchWrapper.post(`${baseUrl}/reset-password`, { token, password, confirmPassword });
 }
 
-function getAll() {
-    return fetchWrapper.get(baseUrl);
+function getAll(limit, offset) {
+    return fetchWrapper.get(`${baseUrl}`);
+
+    // return fetchWrapper.get(`${baseUrl}/?limit=${limit}&offset=${offset}`);
 }
 
 function getUserList() {
@@ -115,7 +118,7 @@ function update(id, params) {
         });
 }
 
-function assignUser(data){
+function assignUser(data) {
     return fetchWrapper.post(`${baseUrl2}/assignTask`, data);
 }
 

@@ -9,7 +9,8 @@ export const decimalTobinary = (userRole) => {
     if (userRole !== null && userRole !== "") {
         let binaryValue = userRole.toString(2);
         var newValue = binaryValue.padStart(4, "0");
-        let array = [...newValue].reverse();
+        let array = [...newValue]
+        // let array = [...newValue].reverse();
         array.map((value, index) => {
             if (index === 0 && value === "1") {
                 roleArray.push("executive");

@@ -23,8 +23,10 @@ import EmailVerification from "../pages/AuthenticationInner/EmailVerification";
 import TwoStepVerfication from "../pages/AuthenticationInner/TwoStepVerfication";
 import userProfile from "../pages/Authentication/user-profile";
 import { Training } from "../pages/training/Index";
-import { User } from "../pages/user/Index";
+import { UserAccessView } from "../pages/user/userAccessView/Index";
+import { UserList } from "../pages/user/userList/Index";
 import { AddEdit } from "../pages/training/AddEdit";
+import EditUser from "../pages/user/userList/EditUser";
 import { UploadPrequisites } from "../pages/training/UploadPrequisites";
 import { GetTrainingByRole } from "../pages/training/GetTrainingByRole";
 import { Trainings } from "../pages/training/Trainings";
@@ -39,6 +41,10 @@ import AddEditPage from '../pages/rfpForm/AddEdit';
 import { MyEntries } from '../pages/rfpForm/MyEntries';
 import { EditedEntries } from '../pages/rfpForm/EditedEntries';
 import { LandingEntries } from '../pages/rfpForm/LandingEntries';
+import { accountService } from "../services";
+
+const userDetails = accountService.userValue;
+
 const userRoutes = [
 
   //dashboard
@@ -60,7 +66,9 @@ const userRoutes = [
   { path: "/training/uploadList", component: UploadFieldList },
 
   //User
-  { path: "/user", component: User },
+  { path: "/userAccessView", component: userDetails && userDetails.role === "Admin" ? UserAccessView : null },
+  { path: "/userList", component: userDetails && userDetails.role === "Admin" ? UserList : null },
+  { path: "/userList/editUser", component: userDetails && userDetails.role === "Admin" ? EditUser : null },
 
   //RFC
   { path: "/rfp", component: LandingEntries },
