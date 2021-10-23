@@ -12,7 +12,13 @@ import paginationFactory, {
   PaginationListStandalone,
   SizePerPageDropdownStandalone,
 } from "react-bootstrap-table2-paginator";
-import { decimalTobinary } from "../../../helpers";
+import {
+  hasAdminView,
+  hasExecView,
+  hasManagerView,
+  hasUserView,
+  rolesArray,
+} from "../../../helpers";
 import { accountService, alertService } from "../../../services";
 
 const List = ({ history }) => {
@@ -32,7 +38,7 @@ const List = ({ history }) => {
       dataField: "firstName",
       text: "Users",
       formatter: (cellContent, row) => (
-        <label>{getUserName(row.firstName, row.lastName)}</label>
+        <div>{getUserName(row.firstName, row.lastName)}</div>
       ),
     },
     {
@@ -50,7 +56,7 @@ const List = ({ history }) => {
       align: "center",
       headerAlign: "center",
       formatter: (cellContent, row) => (
-        <label>{row.empId ? row.empId : "N/A"}</label>
+        <div>{row.empId ? row.empId : "N/A"}</div>
       ),
     },
     {
@@ -134,35 +140,27 @@ const List = ({ history }) => {
       let data = accounts.accounts;
       for (let i = 0; i < data.length; i++) {
         const element = data[i];
-        const rolesArray = decimalTobinary(element.userRole);
-        if (rolesArray) {
-          if (rolesArray.includes("executive")) {
-            element["executiveView"] = 1;
-          } else {
-            element["executiveView"] = 0;
-          }
-
-          if (rolesArray.includes("admin")) {
-            element["adminView"] = 1;
-          } else {
-            element["adminView"] = 0;
-          }
-
-          if (rolesArray.includes("manager")) {
-            element["managerView"] = 1;
-          } else {
-            element["managerView"] = 0;
-          }
-
-          if (rolesArray.includes("user")) {
-            element["userView"] = 1;
-          } else {
-            element["userView"] = 0;
-          }
+        if (hasExecView(element.userRole)) {
+          element["executiveView"] = 1;
         } else {
           element["executiveView"] = 0;
+        }
+
+        if (hasAdminView(element.userRole)) {
+          element["adminView"] = 1;
+        } else {
           element["adminView"] = 0;
+        }
+
+        if (hasManagerView(element.userRole)) {
+          element["managerView"] = 1;
+        } else {
           element["managerView"] = 0;
+        }
+
+        if (hasUserView(element.userRole)) {
+          element["userView"] = 1;
+        } else {
           element["userView"] = 0;
         }
 

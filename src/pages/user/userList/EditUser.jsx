@@ -4,7 +4,7 @@ import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Swal from "sweetalert2";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-
+import { Modal } from "reactstrap";
 import {
   accountService,
   alertService,
@@ -65,9 +65,6 @@ function EditUser({ history, match, location }) {
       .update(id, fields)
       .then(() => {
         console.log("success");
-        alertService.success("Update successful", {
-          keepAfterRouteChange: true,
-        });
         history.push("/userList");
       })
       .catch((error) => {
@@ -77,26 +74,34 @@ function EditUser({ history, match, location }) {
       });
   }
 
-  const handleDelete = (id) => {
+  const handleDelete = () => {
     Swal.fire({
       title: "Are you sure?",
-      text: "You want to delete this Training?",
+      text: "Do you want to delete this user?",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
+      console.log("result::", result);
       if (result.isConfirmed) {
-        trainingService.delete(id).then((data) => {
-          alertService.success(data.message, { keepAfterRouteChange: true });
-          history.push("/training/editList");
-        });
-        Swal.fire(
-          "Deleted!",
-          "Your record has been deleted successfully",
-          "success"
-        );
+        accountService
+          .delete(user.id)
+          .then((data) => {
+            alertService.success(data.message, { keepAfterRouteChange: true });
+            history.push("/userList");
+            Swal.fire(
+              "Deleted!",
+              "User has been deleted successfully",
+              "success"
+            );
+          })
+          .catch((error) => {
+            console.log("error::", error);
+            Swal.fire("Error!", error);
+            alertService.error(error, { keepAfterRouteChange: true });
+          });
       }
     });
   };
@@ -246,22 +251,14 @@ function EditUser({ history, match, location }) {
                           disabled={isSubmitting}
                           type="button"
                           className="btn btn-danger"
-                          // onClick={() => openAddEditUser(user)}
+                          onClick={() => handleDelete()}
                         >
                           Delete
                         </button>
                         &nbsp; &nbsp; &nbsp;
-                        <button
-                          disabled={isSubmitting}
-                          type="button"
-                          className="btn btn-light mr-1"
-                          // onClick={() => openAddEditUser(user)}
-                        >
-                          Cancel
-                        </button>
-                        &nbsp; &nbsp; &nbsp;
                       </div>
                     </div>
+                    <Modal className="d-none" isOpen={isSubmitting}></Modal>
                   </>
                 </Form>
               );

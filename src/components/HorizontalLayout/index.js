@@ -25,14 +25,14 @@ const Layout = (props) => {
   const dispatch = useDispatch();
 
   const {
-    topbarTheme, layoutWidth, isPreloader, layoutPosition, layoutMode,layoutType
+    topbarTheme, layoutWidth, isPreloader, layoutPosition, layoutMode, layoutType
   } = useSelector(state => ({
     topbarTheme: state.Layout.topbarTheme,
     layoutWidth: state.Layout.layoutWidth,
     isPreloader: state.Layout.isPreloader,
     layoutPosition: state.Layout.layoutPosition,
     layoutMode: state.Layout.layoutMode,
-    layoutType : state.Layout.layoutType
+    layoutType: state.Layout.layoutType
   }));
 
   /*
@@ -43,7 +43,7 @@ const Layout = (props) => {
     let currentage = title.charAt(1).toUpperCase() + title.slice(2);
 
     document.title =
-      currentage + " | Minia - React Admin & Dashboard Template";
+      currentage + " | Auto S Hub";
   }, [props.location.pathname]);
 
   useEffect(() => {
@@ -95,7 +95,7 @@ const Layout = (props) => {
     if (layoutMode) {
       dispatch(changelayoutMode(layoutMode, layoutType));
     }
-  }, [dispatch,changelayoutMode, layoutMode,layoutType]);
+  }, [dispatch, changelayoutMode, layoutMode, layoutType]);
 
   const [isMenuOpened, setIsMenuOpened] = useState(false);
   const openMenu = () => {

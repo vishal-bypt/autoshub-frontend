@@ -11,7 +11,7 @@ import {
   postJwtLogin,
   postSocialLogin,
 } from "../../../helpers/fakebackend_helper"
-import { decimalTobinary } from "../../../helpers"
+import { rolesArray } from "../../../helpers"
 
 const fireBaseBackend = getFirebaseBackend()
 
@@ -29,7 +29,7 @@ function* loginUser({ payload: { user, history } }) {
         email: user.email,
         password: user.password,
       })
-      response.userRoleArray = decimalTobinary(response.userRole);
+      response.userRoleArray = rolesArray(response.userRole);
       console.log("response::", response)
       localStorage.setItem("authUser", JSON.stringify(response))
       yield put(loginSuccess(response))

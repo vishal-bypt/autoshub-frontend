@@ -24,6 +24,7 @@ export const accountService = {
     getById,
     create,
     update,
+    uploadUsersExcel,
     delete: _delete,
     assignUser: assignUser,
     user: userSubject.asObservable(),
@@ -42,10 +43,11 @@ function login(email, password) {
 
 function logout() {
     // revoke token, stop refresh timer, publish null to user subscribers and redirect to login page
+    history.push('/login');
     fetchWrapper.post(`${baseUrl}/revoke-token`, {});
     stopRefreshTokenTimer();
+    localStorage.clear();
     userSubject.next(null);
-    history.push('/login');
 }
 
 function refreshToken() {
@@ -131,6 +133,14 @@ function _delete(id) {
                 logout();
             }
             return x;
+        });
+}
+
+function uploadUsersExcel(params) {
+    return fetch(`${baseUrl}/uploadUsersExcel`,
+        {
+            body: params,
+            method: "post"
         });
 }
 

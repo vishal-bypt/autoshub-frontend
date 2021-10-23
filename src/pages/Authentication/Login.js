@@ -21,7 +21,8 @@ import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props
 import { loginUser, socialLogin } from "../../store/actions"
 
 // import images
-import logo from "../../assets/images/logo-sm.svg"
+// import logo from "../../assets/images/logo-sm.svg"
+import logo from "../../assets/images/autoshubLogo.png"
 
 //Import config
 import { facebook, google } from "../../config"
@@ -75,7 +76,7 @@ const Login = props => {
   return (
     <React.Fragment>
       <MetaTags>
-        <title>Login | Minia - React Admin & Dashboard Template</title>
+        <title>Login | Auto S Hub</title>
       </MetaTags>
       <div className="auth-page">
         <Container fluid className="p-0">
@@ -84,15 +85,16 @@ const Login = props => {
               <div className="auth-full-page-content d-flex p-sm-5 p-4">
                 <div className="w-100">
                   <div className="d-flex flex-column h-100">
-                    <div className="mb-4 mb-md-5 text-center">
+                    <div className="md-5 text-center">
                       <Link to="/dashboard" className="d-block auth-logo">
-                        <img src={logo} alt="" height="28" /> <span className="logo-txt">Minia</span>
+                        <img src={logo} alt="" height="149" />
+                        {/* <span className="logo-txt">Auto S Hub</span> */}
                       </Link>
                     </div>
                     <div className="auth-content my-auto">
                       <div className="text-center">
                         <h5 className="mb-0">Welcome Back !</h5>
-                        <p className="text-muted mt-2">Sign in to continue to Minia.</p>
+                        <p className="text-muted mt-2">Sign in to continue to Auto S Hub.</p>
                       </div>
                       <AvForm
                         className="custom-form mt-4 pt-2"
@@ -152,7 +154,7 @@ const Login = props => {
                         </div>
                       </AvForm>
 
-                      <div className="mt-4 text-center">
+                      {/* <div className="mt-4 text-center">
                         <h5 className="font-size-14 mb-3">Sign in with</h5>
 
                         <ul className="list-inline">
@@ -190,7 +192,7 @@ const Login = props => {
                             />
                           </li>
                         </ul>
-                      </div>
+                      </div> */}
 
                       <div className="mt-5 text-center">
                         <p className="text-muted mb-0">Don't have an account ? <Link to="/register"
@@ -198,7 +200,7 @@ const Login = props => {
                       </div>
                     </div>
                     <div className="mt-4 mt-md-5 text-center">
-                      <p className="mb-0">© {new Date().getFullYear()} Minia . Crafted with <i className="mdi mdi-heart text-danger"></i> by Themesbrand</p>
+                      <p className="mb-0">© {new Date().getFullYear()} Auto S Hub . Crafted with <br /> <i className="mdi mdi-heart text-danger"></i> by ByPeopleTechnologies</p>
                     </div>
                   </div>
                 </div>

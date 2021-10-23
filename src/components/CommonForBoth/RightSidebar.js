@@ -119,9 +119,9 @@ const RightSidebar = ({ onClose, onChangeLayoutMode }) => {
                   type="radio"
                   id="radioThemeLight"
                   name="radioTheme"
-                  value={layoutTheme.LIGHTMODE}
+                  value={layoutTheme.DARKMODE}
                   className="form-check-input"
-                  checked={layoutMode === layoutTheme.LIGHTMODE}
+                  checked={layoutMode === layoutTheme.DARKMODE}
                   onChange={e => {
                     onChangeMode(e.target.value);
                   }}

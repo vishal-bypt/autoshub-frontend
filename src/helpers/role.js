@@ -1,10 +1,10 @@
-export const Role = {
+const Role = {
     Admin: 'Admin',
     Manager: 'Manager',
     User: 'User'
 }
 
-export const decimalTobinary = (userRole) => {
+const rolesArray = (userRole) => {
     let roleArray = [];
     if (userRole !== null && userRole !== "") {
         let binaryValue = userRole.toString(2);
@@ -24,4 +24,57 @@ export const decimalTobinary = (userRole) => {
         });
         return roleArray
     }
+}
+
+const hasExecView = (userRole) => {
+    let isExec = false;
+    let roleArray = rolesArray(userRole)
+    if (roleArray.includes("executive")) {
+        isExec = true;
+    } else {
+        isExec = false;
+    }
+    return isExec;
+}
+
+const hasAdminView = (userRole) => {
+    let isAdmin = false;
+    let roleArray = rolesArray(userRole)
+    if (roleArray.includes("admin")) {
+        isAdmin = true;
+    } else {
+        isAdmin = false;
+    }
+    return isAdmin;
+}
+
+const hasManagerView = (userRole) => {
+    let isManager = false;
+    let roleArray = rolesArray(userRole)
+    if (roleArray.includes("manager")) {
+        isManager = true;
+    } else {
+        isManager = false;
+    }
+    return isManager;
+}
+
+const hasUserView = (userRole) => {
+    let isUser = false;
+    let roleArray = rolesArray(userRole)
+    if (roleArray.includes("user")) {
+        isUser = true;
+    } else {
+        isUser = false;
+    }
+    return isUser;
+}
+
+module.exports = {
+    Role,
+    rolesArray,
+    hasExecView,
+    hasAdminView,
+    hasManagerView,
+    hasUserView
 }

@@ -11,7 +11,7 @@ const PageRegister = () => {
     return (
         <React.Fragment>
             <MetaTags>
-                <title>Register | Minia - React Admin & Dashboard Template</title>
+                <title>Register | Auto S Hub </title>
             </MetaTags>
             <div className="auth-page">
                 <Container fluid className="p-0">
@@ -22,13 +22,13 @@ const PageRegister = () => {
                                     <div className="d-flex flex-column h-100">
                                         <div className="mb-4 mb-md-5 text-center">
                                             <Link to="/dashboard" className="d-block auth-logo">
-                                                <img src={logo} alt="" height="28" /> <span className="logo-txt">Minia</span>
+                                                <img src={logo} alt="" height="28" /> <span className="logo-txt">Auto S Hub</span>
                                             </Link>
                                         </div>
                                         <div className="auth-content my-auto">
                                             <div className="text-center">
                                                 <h5 className="mb-0">Register Account</h5>
-                                                <p className="text-muted mt-2">Get your free Minia account now.</p>
+                                                <p className="text-muted mt-2">Get your Auto S Hub account now.</p>
                                             </div>
                                             <form className="needs-validation custom-form mt-4 pt-2" novalidate action="index.html">
                                                 <div className="mb-3">
@@ -55,7 +55,7 @@ const PageRegister = () => {
                                                     </div>
                                                 </div>
                                                 <div className="mb-4">
-                                                    <p className="mb-0">By registering you agree to the Minia <Link to="#" className="text-primary">Terms of Use</Link></p>
+                                                    <p className="mb-0">By registering you agree to the Auto S Hub <Link to="#" className="text-primary">Terms of Use</Link></p>
                                                 </div>
                                                 <div className="mb-3">
                                                     <button className="btn btn-primary w-100 waves-effect waves-light" type="submit">Register</button>
@@ -68,7 +68,7 @@ const PageRegister = () => {
                                             </div>
                                         </div>
                                         <div className="mt-4 mt-md-5 text-center">
-                                            <p className="mb-0">© <script>document.write(new Date().getFullYear())</script> Minia   . Crafted with <i className="mdi mdi-heart text-danger"></i> by Themesbrand</p>
+                                            <p className="mb-0">© <script>document.write(new Date().getFullYear())</script> Auto S Hub   . Crafted with <br /><i className="mdi mdi-heart text-danger"></i> by byPeopleTechnologies</p>
                                         </div>
                                     </div>
                                 </div>

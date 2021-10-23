@@ -58,10 +58,13 @@ const ProfileMenu = props => {
           <i className="mdi mdi-chevron-down d-none d-xl-inline-block" />
         </DropdownToggle>
         <DropdownMenu className="dropdown-menu-end">
-          <DropdownItem tag="a" href="/contacts-profile">
-            {" "}
-            <i className="bx bx-user font-size-16 align-middle me-1" />
-            {props.t("Profile")}{" "}
+          {/* <DropdownItem tag="a" href="/contacts-profile"> */}
+          <DropdownItem tag="a" >
+            <Link to="/profile">
+              {" "}
+              <i className="bx bx-user font-size-16 align-middle me-1" />
+              {props.t("Profile")}{" "}
+            </Link>
           </DropdownItem>
           <DropdownItem tag="a" href="/profile">
             <span className="badge bg-success float-end">11</span>

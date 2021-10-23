@@ -4,9 +4,6 @@ import { Redirect } from "react-router-dom"
 //Dashboard
 import Dashboard from "../pages/Dashboard/index";
 
-
-
-
 // Authentication related pages
 import Login from "../pages/Authentication/Login"
 import Logout from "../pages/Authentication/Logout"
@@ -27,6 +24,7 @@ import { UserAccessView } from "../pages/user/userAccessView/Index";
 import { UserList } from "../pages/user/userList/Index";
 import { AddEdit } from "../pages/training/AddEdit";
 import EditUser from "../pages/user/userList/EditUser";
+import AddUsers from "../pages/user/userList/AddUsers";
 import { UploadPrequisites } from "../pages/training/UploadPrequisites";
 import { GetTrainingByRole } from "../pages/training/GetTrainingByRole";
 import { Trainings } from "../pages/training/Trainings";
@@ -69,6 +67,8 @@ const userRoutes = [
   { path: "/userAccessView", component: userDetails && userDetails.role === "Admin" ? UserAccessView : null },
   { path: "/userList", component: userDetails && userDetails.role === "Admin" ? UserList : null },
   { path: "/userList/editUser", component: userDetails && userDetails.role === "Admin" ? EditUser : null },
+  { path: "/userList/addUsers", component: userDetails && userDetails.role === "Admin" ? AddUsers : null },
+
 
   //RFC
   { path: "/rfp", component: LandingEntries },

@@ -21,7 +21,7 @@ const MapsGoogle = props => {
     <React.Fragment>
       <div className="page-content">
         <MetaTags>
-          <title>Google | Minia - React Admin & Dashboard Template</title>
+          <title>Google | Auto S Hub </title>
         </MetaTags>
         <div className="container-fluid">
           <Breadcrumbs title="Maps" breadcrumbItem="Google" />

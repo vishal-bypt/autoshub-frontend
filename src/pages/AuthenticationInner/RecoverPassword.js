@@ -11,7 +11,7 @@ const RecoverPassword = () => {
     return (
         <React.Fragment>
             <MetaTags>
-                <title>Reset Password | Minia - React Admin & Dashboard Template</title>
+                <title>Reset Password | Auto S Hub</title>
             </MetaTags>
             <div className="auth-page">
                 <Container fluid className="p-0">
@@ -22,13 +22,13 @@ const RecoverPassword = () => {
                                     <div className="d-flex flex-column h-100">
                                         <div className="mb-4 mb-md-5 text-center">
                                             <Link to="/dashboard" className="d-block auth-logo">
-                                                <img src={logo} alt="" height="28" /> <span className="logo-txt">Minia</span>
+                                                <img src={logo} alt="" height="28" /> <span className="logo-txt">Auto S Hub</span>
                                             </Link>
                                         </div>
                                         <div className="auth-content my-auto">
                                             <div className="text-center">
                                                 <h5 className="mb-0">Reset Password</h5>
-                                                <p className="text-muted mt-2">Reset Password with Minia.</p>
+                                                <p className="text-muted mt-2">Reset Password with Auto S Hub.</p>
                                             </div>
                                             <div className="alert alert-success text-center mb-4 mt-4 pt-2" role="alert">
                                                 Enter your Email and instructions will be sent to you!
@@ -49,7 +49,7 @@ const RecoverPassword = () => {
                                             </div>
                                         </div>
                                         <div className="mt-4 mt-md-5 text-center">
-                                            <p className="mb-0">© {new Date().getFullYear()} Minia   . Crafted with <i className="mdi mdi-heart text-danger"></i> by Themesbrand</p>
+                                            <p className="mb-0">© {new Date().getFullYear()} Auto S Hub   . Crafted with <br /><i className="mdi mdi-heart text-danger"></i> by byPeopleTechnologies</p>
                                         </div>
                                     </div>
                                 </div>

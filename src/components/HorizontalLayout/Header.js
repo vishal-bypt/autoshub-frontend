@@ -60,7 +60,7 @@ const Header = props => {
                 </span>
                 <span className="logo-lg">
                   <img src={logo} alt="" height="24" />
-                  <span className="logo-txt">Minia</span>
+                  <span className="logo-txt">Auto S Hub</span>
                 </span>
               </Link>
 
@@ -70,7 +70,7 @@ const Header = props => {
                 </span>
                 <span className="logo-lg">
                   <img src={logo} alt="" height="24" />
-                  <span className="logo-txt">Minia</span>
+                  <span className="logo-txt">Auto S Hub</span>
                 </span>
               </Link>
             </div>

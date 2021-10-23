@@ -11,7 +11,7 @@ const EmailVerification = () => {
     return (
         <React.Fragment>
             <MetaTags>
-                <title>Email Verification | Minia - React Admin & Dashboard Template</title>
+                <title>Email Verification | Auto S Hub</title>
             </MetaTags>
             <div className="auth-page">
                 <Container fluid className="p-0">
@@ -22,7 +22,7 @@ const EmailVerification = () => {
                                     <div className="d-flex flex-column h-100">
                                         <div className="mb-4 mb-md-5 text-center">
                                             <Link to="/dashboard" className="d-block auth-logo">
-                                                <img src={logo} alt="" height="28" /> <span className="logo-txt">Minia</span>
+                                                <img src={logo} alt="" height="28" /> <span className="logo-txt">Auto S Hub</span>
                                             </Link>
                                         </div>
                                         <div className="auth-content my-auto">
@@ -46,7 +46,7 @@ const EmailVerification = () => {
                                             </div>
                                         </div>
                                         <div className="mt-4 mt-md-5 text-center">
-                                            <p className="mb-0">© {new Date().getFullYear()} Minia . Crafted with <i className="mdi mdi-heart text-danger"></i> by Themesbrand</p>
+                                            <p className="mb-0">© {new Date().getFullYear()} MiAuto S Hubnia . Crafted with <br /> <i className="mdi mdi-heart text-danger"></i> by byPeopleTechnologies</p>
                                         </div>
                                     </div>
                                 </div>

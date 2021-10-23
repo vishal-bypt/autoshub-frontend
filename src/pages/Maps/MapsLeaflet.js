@@ -19,7 +19,7 @@ const MapsLeaflet = () => {
     <React.Fragment>
       <div className="page-content">
         <MetaTags>
-          <title>Leaflet | Minia - React Admin & Dashboard Template</title>
+          <title>Leaflet | Auto S Hub </title>
         </MetaTags>
         <Container fluid>
           <Breadcrumbs title="Maps" breadcrumbItem="Leaflet" />
