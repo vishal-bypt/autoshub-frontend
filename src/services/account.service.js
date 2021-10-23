@@ -111,7 +111,7 @@ function update(id, params) {
     return fetchWrapper.put(`${baseUrl}/${id}`, params)
         .then(user => {
             // update stored user if the logged in user updated their own record
-            if (user.id === userSubject.value.id) {
+            if (user.id === userSubject.value && userSubject.value.id) {
                 // publish updated user to subscribers
                 user = { ...userSubject.value, ...user };
                 userSubject.next(user);
@@ -141,7 +141,7 @@ function uploadUsersExcel(params) {
         {
             body: params,
             method: "post"
-        });
+        }).then(response => response.json())    ;
 }
 
 // helper functions

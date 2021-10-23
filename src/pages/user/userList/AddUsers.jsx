@@ -50,12 +50,15 @@ function AddUsers({ history, match }) {
   function create(formData) {
     accountService
       .uploadUsersExcel(formData)
-      .then((data) => {
-        setUploadBtn(false);
-        setSuccessBtn(true);
-        alertService.success("Success", { keepAfterRouteChange: true });
-        Swal.fire("Users uploaded successfully.!");
-        history.push("/userList");
+      .then((res) => {
+        if (res.success) {
+          setUploadBtn(false);
+          setSuccessBtn(true);
+          Swal.fire("Users uploaded successfully.!");
+          history.push("/userList");
+        } else {
+          Swal.fire(res.message);
+        }
       })
       .catch((error) => {
         setUploadBtn(false);
