@@ -9,8 +9,8 @@ $sidebar-bg: #fbfaff;
 $sidebar-menu-item-color: #545a6d;
 $sidebar-menu-sub-item-color: #545a6d;
 $sidebar-menu-item-icon-color: #545a6d;
-$sidebar-menu-item-hover-color: #5156be;
-$sidebar-menu-item-active-color: #5156be;
+$sidebar-menu-item-hover-color: #CF3448;
+$sidebar-menu-item-active-color: #CF3448;
 $sidebar-border-color: #e9e9ef;
 $sidebar-width:  250px;
 $sidebar-collapsed-width:  70px;
@@ -44,7 +44,7 @@ $footer-color: #74788d;
 // Horizontal nav
 $topnav-bg:   #fbfaff;
 $menu-item-color: #545a6d;
-$menu-item-active-color: #5156be;
+$menu-item-active-color: #CF3448;
 
 // Horizontal nav
 $topnav-dark-bg:   #363a38;
@@ -126,6 +126,7 @@ $grays: (
 // fusv-enable
 
 // scss-docs-start color-variables
+$autoSHub: #CF3448;
 $blue:    #5156be;
 $indigo:  #564ab1;
 $purple:  #6f42c1;
@@ -140,6 +141,7 @@ $cyan:    #4ba6ef;
 
 // scss-docs-start colors-map
 $colors: (
+    'autoSHub':   $autoSHub,
     "blue":       $blue,
     "indigo":     $indigo,
     "purple":     $purple,
@@ -157,11 +159,11 @@ $colors: (
 // scss-docs-end colors-map
 
 // scss-docs-start theme-color-variables
-$primary:       $blue;
+$primary:       $autoSHub;
 $secondary:     $gray-600;
 $success:       $green;
 $info:          $cyan;
-$warning:       $yellow;
+$warning:       $autoSHub;
 $danger:        $red;
 $light:         $gray-200;
 $dark:          $gray-800;

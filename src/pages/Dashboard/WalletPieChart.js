@@ -2,7 +2,7 @@ import React from "react"
 import ReactApexChart from "react-apexcharts"
 
 const PieChart = () => {
-    const piechartColors = ["#777aca", "#5156be", "#a8aada"]
+    const piechartColors = ["#777aca", "#CF3448", "#a8aada"]
     const series = [35, 70, 15]
     const options = {
         chart: {
