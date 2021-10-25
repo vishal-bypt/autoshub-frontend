@@ -92,6 +92,7 @@ const Layout = (props) => {
   }, [dispatch, layoutWidth]);
 
   useEffect(() => {
+    
     if (layoutMode) {
       dispatch(changelayoutMode(layoutMode, layoutType));
     }
