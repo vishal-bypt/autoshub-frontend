@@ -64,10 +64,14 @@ const userRoutes = [
   { path: "/training/uploadList", component: UploadFieldList },
 
   //User
-  { path: "/userAccessView", component: userDetails && userDetails.role === "Admin" ? UserAccessView : null },
-  { path: "/userList", component: userDetails && userDetails.role === "Admin" ? UserList : null },
-  { path: "/userList/editUser", component: userDetails && userDetails.role === "Admin" ? EditUser : null },
-  { path: "/userList/addUsers", component: userDetails && userDetails.role === "Admin" ? AddUsers : null },
+  // { path: "/userAccessView", component: userDetails && userDetails.role === "Admin" ? UserAccessView : null },
+  // { path: "/userList", component: userDetails && userDetails.role === "Admin" ? UserList : null },
+  // { path: "/userList/editUser", component: userDetails && userDetails.role === "Admin" ? EditUser : null },
+  // { path: "/userList/addUsers", component: userDetails && userDetails.role === "Admin" ? AddUsers : null },
+  { path: "/userAccessView", component: UserAccessView },
+  { path: "/userList", component: UserList },
+  { path: "/userList/editUser", component: EditUser },
+  { path: "/userList/addUsers", component: AddUsers },
 
 
   //RFC

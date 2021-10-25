@@ -21,7 +21,11 @@ import RightSidebar from "../CommonForBoth/RightSidebar";
 import LightDark from "../CommonForBoth/Menus/LightDark";
 
 // import images
-import logoSvg from "../../assets/images/logo-sm.svg";
+// import logoSvg from "../../assets/images/logo-sm.svg";
+import logoSvg from "../../assets/images/autoshubLogo.png";
+import autoshubSmall from "../../assets/images/autoshubSmall.png";
+import logoSvgLight from "../../assets/images/autoshubLogoLight.png";
+import autoshubSmallLight from "../../assets/images/autoshubSmallLight.png";
 import github from "../../assets/images/brands/github.png";
 import bitbucket from "../../assets/images/brands/bitbucket.png";
 import dribbble from "../../assets/images/brands/dribbble.png";
@@ -81,20 +85,34 @@ const Header = props => {
             <div className="navbar-brand-box">
               <Link to="/dashboard" className="logo logo-dark">
                 <span className="logo-sm">
-                  <img src={logoSvg} alt="" height="24" />
+                  <img src={autoshubSmallLight} alt="" height="35" />
                 </span>
                 <span className="logo-lg">
-                  <img src={logoSvg} alt="" height="24" /> <span className="logo-txt">AUTOSHUB</span>
+                  <img src={logoSvgLight} alt="" height="70" />
+                  {/* <span className="logo-txt">AUTOSHUB</span> */}
                 </span>
+                {/* <span className="logo-sm">
+                  <img src={logoSvgLight} alt="" height="24" />
+                </span>
+                <span className="logo-lg">
+                  <img src={logoSvgLight} alt="" height="24" /> 
+                  <span className="logo-txt">AUTOSHUB</span>
+                </span> */}
               </Link>
 
               <Link to="/dashboard" className="logo logo-light">
                 <span className="logo-sm">
+                  <img src={autoshubSmall} alt="" height="35" />
+                </span>
+                <span className="logo-lg">
+                  <img src={logoSvg} alt="" height="70" />
+                </span>
+                {/* <span className="logo-sm">
                   <img src={logoSvg} alt="" height="24" />
                 </span>
                 <span className="logo-lg">
                   <img src={logoSvg} alt="" height="24" /> <span className="logo-txt">AUTOSHUB</span>
-                </span>
+                </span> */}
               </Link>
             </div>
 

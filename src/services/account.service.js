@@ -82,9 +82,9 @@ function resetPassword({ token, password, confirmPassword }) {
 }
 
 function getAll(limit, offset) {
-    return fetchWrapper.get(`${baseUrl}`);
-
-    // return fetchWrapper.get(`${baseUrl}/?limit=${limit}&offset=${offset}`);
+    // return fetchWrapper.get(`${baseUrl}`);
+    return fetchWrapper.get(`${baseUrl}/?limit=${limit}&offset=${offset}`);
+    // return fetchWrapper.get(`${baseUrl}/?limit=${limit}&offset=${offset}&filter=${filter}`);
 }
 
 function getUserList() {
@@ -141,7 +141,7 @@ function uploadUsersExcel(params) {
         {
             body: params,
             method: "post"
-        }).then(response => response.json())    ;
+        }).then(response => response.json());
 }
 
 // helper functions

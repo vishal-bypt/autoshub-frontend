@@ -116,7 +116,8 @@ const SidebarContent = props => {
               </Link>
             </li>
             <li>
-              <Link to="/rfp/all-entries" className="">
+              {/* <Link to="/rfp/all-entries" className=""> */}
+              <Link to="/" className="">
                 <FeatherIcon
                   icon="file-text"
                 />
@@ -124,33 +125,32 @@ const SidebarContent = props => {
               </Link>
             </li>
             {
-              (userDetails && userDetails.role && userDetails.role == "Admin") && <li>
-                <li>
-                  <Link to="/#" className="has-arrow ">
-                    <FeatherIcon
-                      icon="users"
-                    />
-                    <span>{props.t("Users")}</span>
-                  </Link>
-                  <ul className="sub-menu">
-                    <li>
-                      <Link to="/userList" className="">
-                        <FeatherIcon
-                          icon="file-text"
-                        />
-                        <span>{props.t("User List")}</span>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="/userAccessView" className="">
-                        <FeatherIcon
-                          icon="users"
-                        />
-                        <span>{props.t("User Access View")}</span>
-                      </Link>
-                    </li>
-                  </ul>
-                </li>
+              (userDetails && userDetails.role && userDetails.role == "Admin") &&
+              <li>
+                <Link to="/#" className="has-arrow ">
+                  <FeatherIcon
+                    icon="users"
+                  />
+                  <span>{props.t("Users")}</span>
+                </Link>
+                <ul className="sub-menu">
+                  <li>
+                    <Link to="/userList" className="">
+                      <FeatherIcon
+                        icon="file-text"
+                      />
+                      <span>{props.t("User List")}</span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/userAccessView" className="">
+                      <FeatherIcon
+                        icon="users"
+                      />
+                      <span>{props.t("User Access View")}</span>
+                    </Link>
+                  </li>
+                </ul>
               </li>
             }
           </ul>

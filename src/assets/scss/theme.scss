@@ -20,7 +20,7 @@
 }
 
 .ml-1 {
-  margin-left: ($spacer * .25) !important;
+  margin-left: ($spacer * 0.25) !important;
 }
 
 /* close button **/
@@ -34,23 +34,23 @@
   border-radius: 25px;
 }
 
-.blue-header h5{
+.blue-header h5 {
   font-style: 18px;
   font-weight: 900 !important;
 }
 
-.blue-header{
+.blue-header {
   margin-top: 20px;
   font-size: 18px !important;
-  background:#41a8ce ;
+  background: #41a8ce;
   border-radius: 6px;
   color: #fff;
   display: flex;
   align-items: center;
-  padding-bottom:12px!important;
+  padding-bottom: 12px !important;
   padding-left: 27px;
   margin-bottom: 15px;
-  padding: 20px;  
+  padding: 20px;
 }
 
 .close {

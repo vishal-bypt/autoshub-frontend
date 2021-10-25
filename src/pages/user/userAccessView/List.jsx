@@ -1,36 +1,28 @@
 import React, { useEffect, useState } from "react";
-import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
-import MetaTags from "react-meta-tags";
-import { Table, Tbody, Td, Th, Thead, Tr } from "react-super-responsive-table";
-import { Card, CardBody, Col, Row, Modal } from "reactstrap";
-import Breadcrumbs from "../../../components/Common/Breadcrumb";
-import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
 import BootstrapTable from "react-bootstrap-table-next";
-
-import paginationFactory, {
-  PaginationProvider,
-  PaginationListStandalone,
-  SizePerPageDropdownStandalone,
-} from "react-bootstrap-table2-paginator";
+import filterFactory from "react-bootstrap-table2-filter";
+import paginationFactory from "react-bootstrap-table2-paginator";
+import { Card, CardBody, Col, Row } from "reactstrap";
+import Breadcrumbs from "../../../components/Common/Breadcrumb";
+import Loader from "../../../components/Common/Loader";
 import {
   hasAdminView,
   hasExecView,
   hasManagerView,
   hasUserView,
-  rolesArray,
 } from "../../../helpers";
-import { accountService, alertService } from "../../../services";
+import { accountService } from "../../../services";
 
 const List = ({ history }) => {
   const [userData, setUserData] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [currentOffset, setCurrentOffset] = useState(0);
-  const [totalOffset, setTotalOffset] = useState(0);
-  const [limit, setLimit] = useState(10);
+  // const [limit, setLimit] = useState(10);
   const [totalSize, setTotalSize] = useState(0);
+  const [page, setPage] = useState(1);
+  const [sizePerPage, setSizePerPage] = useState(10);
 
   useEffect(() => {
-    getAllUser();
+    getAllUser(10, 0);
   }, []);
 
   const columns = [
@@ -80,7 +72,6 @@ const List = ({ history }) => {
             id="formCheck1"
             checked={row.executiveView}
             onChange={() => onPermissionChange(row.id, 0)}
-            // onChange={() => onPermissionChangeNew(row.id, 0)}
           />
         </div>
       ),
@@ -97,7 +88,6 @@ const List = ({ history }) => {
           id="formCheck1"
           checked={row.adminView}
           onChange={() => onPermissionChange(row.id, 1)}
-          // onChange={() => onPermissionChangeNew(row.id, 1)}
         />
       ),
     },
@@ -113,7 +103,6 @@ const List = ({ history }) => {
           id="formCheck1"
           checked={row.managerView}
           onChange={() => onPermissionChange(row.id, 2)}
-          // onChange={() => onPermissionChangeNew(row.id, 2)}
         />
       ),
     },
@@ -129,48 +118,10 @@ const List = ({ history }) => {
           id="formCheck1"
           checked={row.userView}
           onChange={() => onPermissionChange(row.id, 3)}
-          // onChange={() => onPermissionChangeNew(row.id, 3)}
         />
       ),
     },
   ];
-
-  function getAllUser() {
-    accountService.getAll(limit, currentOffset).then((accounts) => {
-      let data = accounts.accounts;
-      for (let i = 0; i < data.length; i++) {
-        const element = data[i];
-        if (hasExecView(element.userRole)) {
-          element["executiveView"] = 1;
-        } else {
-          element["executiveView"] = 0;
-        }
-
-        if (hasAdminView(element.userRole)) {
-          element["adminView"] = 1;
-        } else {
-          element["adminView"] = 0;
-        }
-
-        if (hasManagerView(element.userRole)) {
-          element["managerView"] = 1;
-        } else {
-          element["managerView"] = 0;
-        }
-
-        if (hasUserView(element.userRole)) {
-          element["userView"] = 1;
-        } else {
-          element["userView"] = 0;
-        }
-
-        if (i === data.length - 1) {
-          setUserData(data);
-          setTotalSize(accounts.count);
-        }
-      }
-    });
-  }
 
   function onPermissionChange(id, type) {
     let newObject = userData.find((item) => item.id === id);
@@ -213,12 +164,83 @@ const List = ({ history }) => {
       return "Anonymous";
     }
   }
-  const { SearchBar } = Search;
+  function getAllUser(sizePerPage, currentOffset) {
+    console.log("sizePerPage, currentOffset", sizePerPage, currentOffset);
 
-  const pageOptions = {
-    sizePerPage: 10,
-    totalSize: totalSize,
-    custom: true,
+    accountService
+      .getAll(sizePerPage, currentOffset)
+      .then((accounts) => {
+        let data = accounts.accounts;
+        for (let i = 0; i < data.length; i++) {
+          const element = data[i];
+          if (hasExecView(element.userRole)) {
+            element["executiveView"] = 1;
+          } else {
+            element["executiveView"] = 0;
+          }
+
+          if (hasAdminView(element.userRole)) {
+            element["adminView"] = 1;
+          } else {
+            element["adminView"] = 0;
+          }
+
+          if (hasManagerView(element.userRole)) {
+            element["managerView"] = 1;
+          } else {
+            element["managerView"] = 0;
+          }
+
+          if (hasUserView(element.userRole)) {
+            element["userView"] = 1;
+          } else {
+            element["userView"] = 0;
+          }
+
+          if (i === data.length - 1) {
+            setUserData(data);
+            setTotalSize(accounts.count);
+            setIsSubmitting(false);
+          }
+        }
+      })
+      .catch((error) => {
+        setIsSubmitting(false);
+      });
+  }
+
+  const RemoteAll = ({ data, page, sizePerPage, onTableChange, totalSize }) => (
+    <div>
+      <BootstrapTable
+        remote
+        keyField="id"
+        data={data}
+        columns={columns}
+        filter={filterFactory()}
+        pagination={paginationFactory({ page, sizePerPage, totalSize })}
+        onTableChange={onTableChange}
+        noDataIndication={() => (
+          <div>
+            <div colSpan="5" className="text-center">
+              <span className="spinner-border spinner-border-lg align-center"></span>
+            </div>
+          </div>
+        )}
+      />
+    </div>
+  );
+
+  const handleTableChange = (
+    type,
+    { page, sizePerPage, filters, sortField, sortOrder, cellEdit }
+  ) => {
+    const currentOffset = (page - 1) * sizePerPage;
+    console.log("sizePerPage, currentOffset", sizePerPage, currentOffset);
+
+    setIsSubmitting(true);
+    getAllUser(sizePerPage, currentOffset);
+    setPage(page);
+    setSizePerPage(sizePerPage);
   };
 
   return (
@@ -230,85 +252,19 @@ const List = ({ history }) => {
             <Col>
               <Card>
                 <CardBody>
-                  <PaginationProvider
-                    pagination={paginationFactory(pageOptions)}
-                    keyField="id"
-                    columns={columns}
+                  <RemoteAll
                     data={userData}
-                  >
-                    {({ paginationProps, paginationTableProps }) => (
-                      <ToolkitProvider
-                        keyField="id"
-                        columns={columns}
-                        data={userData}
-                        search
-                      >
-                        {(toolkitProps) => (
-                          <React.Fragment>
-                            <Row className="mb-2">
-                              <Col md="4">
-                                <div className="search-box me-2 mb-2 d-inline-block">
-                                  <div className="position-relative">
-                                    <SearchBar {...toolkitProps.searchProps} />
-                                    <i className="bx bx-search-alt search-icon" />
-                                  </div>
-                                </div>
-                              </Col>
-                            </Row>
-
-                            <Row>
-                              <Col xl="12">
-                                <div className="table-responsive">
-                                  <BootstrapTable
-                                    keyField={"id"}
-                                    responsive
-                                    bordered={false}
-                                    striped={false}
-                                    classes={"table align-middle table-nowrap"}
-                                    headerWrapperClasses={"thead-light"}
-                                    noDataIndication={() => (
-                                      <div>
-                                        <div
-                                          colSpan="5"
-                                          className="text-center"
-                                        >
-                                          <span className="spinner-border spinner-border-lg align-center"></span>
-                                        </div>
-                                      </div>
-                                    )}
-                                    {...toolkitProps.baseProps}
-                                    {...paginationTableProps}
-                                  />
-                                </div>
-                              </Col>
-                            </Row>
-
-                            <Row className="align-items-md-center mt-30">
-                              <Col className="inner-custom-pagination d-flex">
-                                <div className="d-inline">
-                                  <SizePerPageDropdownStandalone
-                                    {...paginationProps}
-                                  />
-                                </div>
-                                <div className="text-md-right ms-auto">
-                                  <PaginationListStandalone
-                                    {...paginationProps}
-                                    // onPageChange={onPageChange}
-                                  />
-                                </div>
-                              </Col>
-                            </Row>
-                          </React.Fragment>
-                        )}
-                      </ToolkitProvider>
-                    )}
-                  </PaginationProvider>
+                    page={page}
+                    sizePerPage={sizePerPage}
+                    totalSize={totalSize}
+                    onTableChange={handleTableChange}
+                  />
                 </CardBody>
               </Card>
             </Col>
           </Row>
         </div>
-        <Modal className="d-none" isOpen={isSubmitting}></Modal>
+        <Loader loading={isSubmitting} />
       </div>
     </React.Fragment>
   );

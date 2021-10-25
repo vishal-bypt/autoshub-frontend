@@ -2,7 +2,7 @@ import PropTypes from "prop-types"
 import MetaTags from "react-meta-tags"
 import React from "react"
 
-import { Row, Col, Alert, Container } from "reactstrap"
+import { Row, Col, Alert, Container, Modal } from "reactstrap"
 
 //redux
 import { useSelector, useDispatch } from "react-redux"
@@ -23,21 +23,51 @@ import { loginUser, socialLogin } from "../../store/actions"
 // import images
 // import logo from "../../assets/images/logo-sm.svg"
 import logo from "../../assets/images/autoshubLogo.png"
+import logoLight from "../../assets/images/autoshubLogoLight.png"
 
 //Import config
 import { facebook, google } from "../../config"
 import CarouselPage from "../AuthenticationInner/CarouselPage"
-
+import {
+  layoutTypes,
+  layoutTheme,
+  layoutWidthTypes,
+  layoutPositions,
+  topBarThemeTypes,
+  leftSidebarTypes,
+  leftSideBarThemeTypes,
+} from "../../constants/layout";
+import Loader from "../../components/Common/Loader"
 const Login = props => {
   const dispatch = useDispatch()
-
-  const { error } = useSelector(state => ({
+  const [isSubmit, setIsSubmit] = React.useState(false)
+  const {
+    layoutType,
+    layoutMode,
+    layoutWidth,
+    layoutPosition,
+    topbarTheme,
+    leftSideBarType,
+    leftSideBarTheme,
+    error
+  } = useSelector((state) => ({
+    layoutType: state.Layout.layoutType,
+    layoutMode: state.Layout.layoutMode,
+    layoutWidth: state.Layout.layoutWidth,
+    layoutPosition: state.Layout.layoutPosition,
+    topbarTheme: state.Layout.topbarTheme,
+    leftSideBarType: state.Layout.leftSideBarType,
+    leftSideBarTheme: state.Layout.leftSideBarTheme,
     error: state.Login.error,
-  }))
+  }));
 
+  React.useEffect(() => {
+    setIsSubmit(false)
+  }, [error])
   // handleValidSubmit
   const handleValidSubmit = (event, values) => {
     dispatch(loginUser(values, props.history))
+    setIsSubmit(true)
   }
 
   const signIn = (res, type) => {
@@ -72,7 +102,7 @@ const Login = props => {
   const facebookResponse = response => {
     signIn(response, "facebook")
   }
-
+  console.log("layoutMode:::", layoutMode)
   return (
     <React.Fragment>
       <MetaTags>
@@ -86,10 +116,20 @@ const Login = props => {
                 <div className="w-100">
                   <div className="d-flex flex-column h-100">
                     <div className="md-5 text-center">
-                      <Link to="/dashboard" className="d-block auth-logo">
-                        <img src={logo} alt="" height="149" />
-                        {/* <span className="logo-txt">Auto S Hub</span> */}
-                      </Link>
+                      {
+                        layoutMode === layoutTheme.DARKMODE ?
+                          <Link to="/dashboard" className="d-block auth-logo logo logo-dark">
+                            <img src={logo} alt="" height="149" />
+                            {/* <span className="logo-txt">Auto S Hub</span> */}
+                          </Link>
+                          :
+                          <Link to="/dashboard" className="d-block auth-logo logo logo-light">
+                            <img src={logoLight} alt="" height="149" />
+                            {/* <span className="logo-txt">Auto S Hub</span> */}
+                          </Link>
+                      }
+
+
                     </div>
                     <div className="auth-content my-auto">
                       <div className="text-center">
@@ -147,10 +187,14 @@ const Login = props => {
                               </label>
                             </div>
                           </div>
-
                         </div>
                         <div className="mb-3">
-                          <button className="btn btn-primary w-100 waves-effect waves-light" type="submit">Log In</button>
+                          <button className="btn btn-primary w-100 waves-effect waves-light" type="submit">
+                            {isSubmit && (
+                              <i className="bx bx-loader bx-spin font-size-16 align-middle me-2"></i>
+                            )}
+                            Log In
+                          </button>
                         </div>
                       </AvForm>
 
@@ -194,10 +238,10 @@ const Login = props => {
                         </ul>
                       </div> */}
 
-                      <div className="mt-5 text-center">
+                      {/* <div className="mt-5 text-center">
                         <p className="text-muted mb-0">Don't have an account ? <Link to="/register"
                           className="text-primary fw-semibold"> Signup now </Link> </p>
-                      </div>
+                      </div> */}
                     </div>
                     <div className="mt-4 mt-md-5 text-center">
                       <p className="mb-0">© {new Date().getFullYear()} Auto S Hub . Crafted with <br /> <i className="mdi mdi-heart text-danger"></i> by ByPeopleTechnologies</p>
@@ -205,6 +249,7 @@ const Login = props => {
                   </div>
                 </div>
               </div>
+              {/* <Modal className="d-none" isOpen={isSubmit}></Modal> */}
             </Col>
             <CarouselPage />
           </Row>
