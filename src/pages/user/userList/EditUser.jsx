@@ -247,15 +247,14 @@ function EditUser({ history, match, location }) {
                           Save
                         </button>
                         &nbsp; &nbsp; &nbsp;
-                        <button
+                        {/* <button
                           disabled={isSubmitting}
                           type="button"
                           className="btn btn-danger"
                           onClick={() => handleDelete()}
                         >
                           Delete
-                        </button>
-                        &nbsp; &nbsp; &nbsp;
+                        </button> */}
                       </div>
                     </div>
                     <Modal className="d-none" isOpen={isSubmitting}></Modal>
