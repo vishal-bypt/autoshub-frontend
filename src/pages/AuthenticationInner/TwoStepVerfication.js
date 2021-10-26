@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import MetaTags from "react-meta-tags";
 import { Col, Container, Row, Alert } from 'reactstrap';
-
+import Swal from "sweetalert2";
 //Verification code package
 import AuthCode from "react-auth-code-input";
 import CarouselPage from './CarouselPage';
@@ -21,7 +21,7 @@ import {
     leftSideBarThemeTypes,
 } from "../../constants/layout";
 import { accountService } from '../../services';
-import { verifyCode } from "../../store/actions"
+import { verifyCode, loginUser } from "../../store/actions"
 
 
 const TwoStepVerfication = (props) => {
@@ -61,17 +61,36 @@ const TwoStepVerfication = (props) => {
         setEmail(userEmail);
         setAccountId(accountId);
     }, [])
+
+    React.useEffect(() => {
+        setIsSubmit(false)
+    }, [error])
+
     // let userEmail = "sujal.bandhara@bypt.in";
 
     console.log("layoutMode", layoutMode, layoutTheme.DARKMODE, layoutMode === layoutTheme.DARKMODE);
 
     const handleSubmit = () => {
-        
+        setIsSubmit(true)
+        const user = accountService.userValue;
         let values = {
             "accountId": accountId,
             "accountVerificationCode": code,
         }
         dispatch(verifyCode(values, props.history))
+    }
+
+    const handleResend = () => {
+        setIsSubmit(true)
+        accountService
+            .resendVerificationCode(user.id)
+            .then((data) => {
+                setIsSubmit(false)
+                Swal.fire("Verification code sent successfully.!");
+            })
+            .catch((error) => {
+                setIsSubmit(false)
+            });
     }
 
     return (
@@ -134,7 +153,7 @@ const TwoStepVerfication = (props) => {
                                                                             border: "1px solid #ced4da",
                                                                             textTransform: "uppercase",
                                                                         }}
-                                                                        values={code}
+                                                                        key={code}
                                                                         onChange={(val) => setCode(val)}
                                                                     />
                                                                 </div>
@@ -156,8 +175,8 @@ const TwoStepVerfication = (props) => {
                                             </div>
 
                                             <div className="mt-5 text-center">
-                                                <p className="text-muted mb-0">Didn't receive an email ? <Link to="#"
-                                                    className="text-primary fw-semibold"> Resend </Link> </p>
+                                                <p className="text-muted mb-0">Didn't receive an email ? <button onClick={handleResend}
+                                                    className="btn p-0 text-primary fw-semibold"> Resend </button> </p>
                                             </div>
                                         </div>
                                         <div className="mt-4 mt-md-5 text-center">

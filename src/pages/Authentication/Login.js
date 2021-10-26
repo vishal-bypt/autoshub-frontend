@@ -102,7 +102,6 @@ const Login = props => {
   const facebookResponse = response => {
     signIn(response, "facebook")
   }
-  console.log("layoutMode:::", layoutMode)
   return (
     <React.Fragment>
       <MetaTags>
