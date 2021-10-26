@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import MetaTags from "react-meta-tags";
 import { Col, Container, Row, Alert } from 'reactstrap';
@@ -48,16 +48,27 @@ const TwoStepVerfication = (props) => {
     const user = accountService.userValue;
     const [isSubmit, setIsSubmit] = React.useState(false)
     const [code, setCode] = React.useState("")
+    const [email, setEmail] = React.useState("")
+    const [accountId, setAccountId] = React.useState("")
 
+    useEffect(() => {
 
+        const query = new URLSearchParams(props.location.search);
+        let userEmail = user && user.email ? user.email : query && query.get("email") ? query.get("email") : "NA";
+        let accountId = user && user.id ? user.id : query && query.get("id") ? query.get("id") : "";
+        let code = query && query.get("code") ? query.get("code") : "";
+        setCode(code);
+        setEmail(userEmail);
+        setAccountId(accountId);
+    }, [])
     // let userEmail = "sujal.bandhara@bypt.in";
 
     console.log("layoutMode", layoutMode, layoutTheme.DARKMODE, layoutMode === layoutTheme.DARKMODE);
 
     const handleSubmit = () => {
-        const user = accountService.userValue;
+        
         let values = {
-            "accountId": user.id,
+            "accountId": accountId,
             "accountVerificationCode": code,
         }
         dispatch(verifyCode(values, props.history))
@@ -100,7 +111,7 @@ const TwoStepVerfication = (props) => {
                                                     <h4>Verify your email</h4>
                                                     <h6 >Please enter the 4 digit code sent to</h6>
 
-                                                    <p className="mb-5"><span className="fw-bold">{user.email}</span></p>
+                                                    <p className="mb-5"><span className="fw-bold">{email}</span></p>
 
                                                     <form>
                                                         <div className="row">
@@ -123,6 +134,7 @@ const TwoStepVerfication = (props) => {
                                                                             border: "1px solid #ced4da",
                                                                             textTransform: "uppercase",
                                                                         }}
+                                                                        values={code}
                                                                         onChange={(val) => setCode(val)}
                                                                     />
                                                                 </div>
