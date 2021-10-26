@@ -18,7 +18,7 @@ const LockScreen = () => {
                 <Container fluid className="p-0">
                     <Row className="g-0">
                         <Col className="col-xxl-3 col-lg-4 col-md-5">
-                            <div className="auth-full-page-content d-flex p-sm-5 p-4">
+                            <div className="auth-shodow auth-full-page-content d-flex p-sm-5 p-4">
                                 <div className="w-100">
                                     <div className="d-flex flex-column h-100">
                                         <div className="mb-4 mb-md-5 text-center">

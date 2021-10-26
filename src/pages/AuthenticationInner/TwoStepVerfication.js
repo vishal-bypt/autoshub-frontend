@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import MetaTags from "react-meta-tags";
-import { Col, Container, Row } from 'reactstrap';
+import { Col, Container, Row, Alert } from 'reactstrap';
 
 //Verification code package
 import AuthCode from "react-auth-code-input";
@@ -20,9 +20,12 @@ import {
     leftSidebarTypes,
     leftSideBarThemeTypes,
 } from "../../constants/layout";
+import { accountService } from '../../services';
+import { verifyCode } from "../../store/actions"
 
 
-const TwoStepVerfication = () => {
+const TwoStepVerfication = (props) => {
+    const dispatch = useDispatch()
     const {
         layoutType,
         layoutMode,
@@ -42,18 +45,34 @@ const TwoStepVerfication = () => {
         leftSideBarTheme: state.Layout.leftSideBarTheme,
         error: state.Login.error,
     }));
-    let userEmail = "sujal.bandhara@bypt.in";
+    const user = accountService.userValue;
+    const [isSubmit, setIsSubmit] = React.useState(false)
+    const [code, setCode] = React.useState("")
+
+
+    // let userEmail = "sujal.bandhara@bypt.in";
+
     console.log("layoutMode", layoutMode, layoutTheme.DARKMODE, layoutMode === layoutTheme.DARKMODE);
+
+    const handleSubmit = () => {
+        const user = accountService.userValue;
+        let values = {
+            "accountId": user.id,
+            "accountVerificationCode": code,
+        }
+        dispatch(verifyCode(values, props.history))
+    }
+
     return (
         <React.Fragment>
             <MetaTags>
                 <title>Two Step Verfication | Auto S Hub</title>
             </MetaTags>
-            <div className="auth-page" style={{ background: layoutMode === layoutTheme.DARKMODE ? "#2C302E" : "#fbffff" }}>
+            <div className="auth-page" style={{ background: layoutMode === layoutTheme.DARKMODE ? "#12181D" : "#fbffff" }}>
                 <Container fluid className="p-0">
                     <Row className="g-0">
                         <Col lg={4} md={5} className="col-xxl-3">
-                            <div className="auth-full-page-content d-flex p-sm-5 p-4">
+                            <div className="auth-shodow auth-full-page-content d-flex p-sm-5 p-4">
                                 <div className="w-100">
                                     <div className="d-flex flex-column h-100">
                                         <div className="mb-4 mb-md-5 text-center">
@@ -79,12 +98,15 @@ const TwoStepVerfication = () => {
                                                 <div className="p-2 mt-4">
 
                                                     <h4>Verify your email</h4>
-                                                    <p className="mb-5">Please enter the 4 digit code sent to <span className="fw-bold">{userEmail}</span></p>
+                                                    <h6 >Please enter the 4 digit code sent to</h6>
+
+                                                    <p className="mb-5"><span className="fw-bold">{user.email}</span></p>
 
                                                     <form>
                                                         <div className="row">
                                                             <div className="col-12">
                                                                 <div className="mb-3 verification">
+                                                                    {error ? <div className="mb-5"><Alert color="danger">{error}</Alert></div> : null}
                                                                     <label htmlFor="digit1-input" className="visually-hidden">Dight 1</label>
                                                                     <AuthCode
                                                                         characters={4}
@@ -101,7 +123,7 @@ const TwoStepVerfication = () => {
                                                                             border: "1px solid #ced4da",
                                                                             textTransform: "uppercase",
                                                                         }}
-                                                                        onChange={() => null}
+                                                                        onChange={(val) => setCode(val)}
                                                                     />
                                                                 </div>
                                                             </div>
@@ -109,7 +131,13 @@ const TwoStepVerfication = () => {
                                                     </form>
 
                                                     <div className="mt-4">
-                                                        <Link to="/dashboard" className="btn btn-primary w-100">Confirm</Link>
+                                                        <button onClick={handleSubmit} className="btn btn-primary w-100 waves-effect waves-light" type="button">
+                                                            {isSubmit && (
+                                                                <i className="bx bx-loader bx-spin font-size-16 align-middle me-2"></i>
+                                                            )}
+                                                            Confirm
+                                                        </button>
+                                                        {/* <Link to="/dashboard" className="btn btn-primary w-100">Confirm</Link> */}
                                                     </div>
                                                 </div>
 
@@ -130,8 +158,8 @@ const TwoStepVerfication = () => {
                         <CarouselPage />
                     </Row>
                 </Container>
-            </div>
-        </React.Fragment>
+            </div >
+        </React.Fragment >
     );
 };
 

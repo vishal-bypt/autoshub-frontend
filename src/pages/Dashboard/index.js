@@ -22,7 +22,7 @@ const options = {
     type: "line",
     toolbar: { show: false },
   },
-  colors: ["#CF3448"],
+  colors: ["#40A8CE"],
   stroke: {
     curve: "smooth",
     width: 2,

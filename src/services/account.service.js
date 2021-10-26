@@ -10,6 +10,7 @@ const baseUrl2 = `${config.apiUrl}`;
 
 export const accountService = {
     login,
+    verifyCode,
     logout,
     refreshToken,
     register,
@@ -33,6 +34,16 @@ export const accountService = {
 
 function login(email, password) {
     return fetchWrapper.post(`${baseUrl}/authenticate`, { email, password })
+        .then(user => {
+            // publish user to subscribers and start timer to refresh token
+            userSubject.next(user);
+            startRefreshTokenTimer();
+            return user;
+        });
+}
+
+function verifyCode(accountId, accountVerificationCode) {
+    return fetchWrapper.post(`${baseUrl}/verifyCode`, { accountId, accountVerificationCode })
         .then(user => {
             // publish user to subscribers and start timer to refresh token
             userSubject.next(user);
@@ -81,10 +92,9 @@ function resetPassword({ token, password, confirmPassword }) {
     return fetchWrapper.post(`${baseUrl}/reset-password`, { token, password, confirmPassword });
 }
 
-function getAll(limit, offset) {
+function getAll(limit, offset, searchValue) {
     // return fetchWrapper.get(`${baseUrl}`);
-    return fetchWrapper.get(`${baseUrl}/?limit=${limit}&offset=${offset}`);
-    // return fetchWrapper.get(`${baseUrl}/?limit=${limit}&offset=${offset}&filter=${filter}`);
+    return fetchWrapper.get(`${baseUrl}/?limit=${limit}&offset=${offset}&filter=${searchValue}`);
 }
 
 function getUserList() {
@@ -150,12 +160,14 @@ let refreshTokenTimeout;
 
 function startRefreshTokenTimer() {
     // parse json object from base64 encoded jwt token
-    const jwtToken = JSON.parse(atob(userSubject.value.jwtToken.split('.')[1]));
+    if (userSubject.value.jwtToken) {
+        const jwtToken = JSON.parse(atob(userSubject.value.jwtToken.split('.')[1]));
 
-    // set a timeout to refresh the token a minute before it expires
-    const expires = new Date(jwtToken.exp * 1000);
-    const timeout = expires.getTime() - Date.now() - (60 * 1000);
-    refreshTokenTimeout = setTimeout(refreshToken, timeout);
+        // set a timeout to refresh the token a minute before it expires
+        const expires = new Date(jwtToken.exp * 1000);
+        const timeout = expires.getTime() - Date.now() - (60 * 1000);
+        refreshTokenTimeout = setTimeout(refreshToken, timeout);
+    }
 }
 
 function stopRefreshTokenTimer() {

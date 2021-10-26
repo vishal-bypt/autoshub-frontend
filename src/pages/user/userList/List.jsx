@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from "react";
 import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory from "react-bootstrap-table2-paginator";
-import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
 import { Link } from "react-router-dom";
 import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
 import { Card, CardBody, Col, Row } from "reactstrap";
 import Breadcrumbs from "../../../components/Common/Breadcrumb";
 import Loader from "../../../components/Common/Loader";
 import { accountService } from "../../../services";
-import filterFactory, { textFilter } from "react-bootstrap-table2-filter";
 
 function List({ history, match }) {
   const [userData, setUserData] = useState([]);
@@ -16,9 +14,10 @@ function List({ history, match }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [sizePerPage, setSizePerPage] = useState(10);
   const [page, setPage] = useState(1);
+  const [searchValue, setSearchValue] = useState("");
 
   useEffect(() => {
-    getAllUser(10, 0);
+    getAllUser(sizePerPage, 0, searchValue);
   }, []);
 
   const columns = [
@@ -70,9 +69,10 @@ function List({ history, match }) {
     },
   ];
 
-  function getAllUser(sizePerPage, currentOffset) {
+  function getAllUser(sizePerPage, currentOffset, searchValue) {
+    setIsSubmitting(true);
     accountService
-      .getAll(sizePerPage, currentOffset)
+      .getAll(sizePerPage, currentOffset, searchValue)
       .then((data) => {
         setUserData(data.accounts);
         setTotalSize(data.count);
@@ -86,77 +86,90 @@ function List({ history, match }) {
     history.push("/userList/editUser", { user: user });
   };
 
-  const { SearchBar } = Search;
+  function onSearch(value) {
+    setSearchValue(value);
+    if (value.length > 3) {
+      getAllUser(sizePerPage, 0, value);
+    } else if (value === "" || value === null) {
+      getAllUser(sizePerPage, 0, value);
+    }
+  }
 
   const RemoteAll = ({ data, page, sizePerPage, onTableChange, totalSize }) => (
     <div>
-      <ToolkitProvider keyField="id" columns={columns} data={data} search>
-        {(toolkitprops) => [
-          <React.Fragment>
-            <Row className="mb-2">
-              <Col
-                // md="4"
-                className="d-flex justify-content-end"
-              >
-                {/* <div className="search-box me-2 mb-2 d-inline-block">
-                  <div className="position-relative">
-                    <SearchBar {...toolkitprops.searchProps} />
-                    <i className="bx bx-search-alt search-icon" />
-                  </div>
-                </div> */}
-                <div className="search-box me-2 mb-2 d-inline-block">
-                  <div className="position-relative">
-                    <Link to="/userList/addUsers" className="btn btn-primary">
-                      Add Users
-                    </Link>
-                  </div>
-                </div>
-              </Col>
-            </Row>
+      <React.Fragment>
+        <Row className="mb-2">
+          <Col
+            // md="4"
+            className="d-flex justify-content-between"
+          >
+            <div className="search-box me-2 mb-2 d-inline-block">
+              <div className="position-relative">
+                {/* <SearchBar searchText={searchValue} onSearch={onSearch} /> */}
+                <input
+                  key="random1"
+                  type="text"
+                  className="form-control"
+                  placeholder={"Search..."}
+                  value={searchValue}
+                  autoFocus
+                  onChange={(e) => onSearch(e.target.value)}
+                />
+                <i className="bx bx-search-alt search-icon" />
+              </div>
+            </div>
+            <div className="search-box me-2 mb-2 d-inline-block">
+              <div className="position-relative">
+                <Link to="/userList/addUsers" className="btn btn-primary">
+                  Add Users
+                </Link>
+              </div>
+            </div>
+          </Col>
+        </Row>
 
-            <Row>
-              <Col xl="12">
-                <div className="table-responsive">
-                  <BootstrapTable
-                    // {...toolkitprops.baseProps}
-                    keyField="id"
-                    remote
-                    data={data}
-                    columns={columns}
-                    responsive
-                    bordered={false}
-                    striped={false}
-                    classes={"table align-middle table-nowrap"}
-                    headerWrapperClasses={"thead-light"}
-                    pagination={paginationFactory({
-                      page,
-                      sizePerPage,
-                      totalSize,
-                    })}
-                    onTableChange={onTableChange}
-                    noDataIndication={() => (
+        <Row>
+          <Col xl="12">
+            <div className="table-responsive">
+              <BootstrapTable
+                keyField="id"
+                remote
+                data={data}
+                columns={columns}
+                responsive
+                bordered={false}
+                striped={false}
+                classes={"table align-middle table-nowrap"}
+                headerWrapperClasses={"thead-light"}
+                pagination={paginationFactory({
+                  page,
+                  sizePerPage,
+                  totalSize,
+                })}
+                onTableChange={onTableChange}
+                noDataIndication={() => {
+                  if (userData.length === 0 && !isSubmitting)
+                    return (
                       <div>
-                        <div colSpan="5" className="text-center">
-                          <span className="spinner-border spinner-border-lg align-center"></span>
+                        <div colSpan="5" className="flex text-center">
+                          <span className="align-center">
+                            No data available
+                          </span>
                         </div>
                       </div>
-                    )}
-                  />
-                </div>
-              </Col>
-            </Row>
-          </React.Fragment>,
-        ]}
-      </ToolkitProvider>
+                    );
+                }}
+              />
+            </div>
+          </Col>
+        </Row>
+      </React.Fragment>
     </div>
   );
 
   const handleTableChange = (type, { page, sizePerPage }) => {
-    // console.log("filter called::", filters);
     const currentOffset = (page - 1) * sizePerPage;
-    console.log("sizePerPage, currentOffset", sizePerPage, currentOffset);
-    setIsSubmitting(true);
-    getAllUser(sizePerPage, currentOffset);
+    getAllUser(sizePerPage, currentOffset, searchValue);
     setPage(page);
     setSizePerPage(sizePerPage);
   };

@@ -90,6 +90,9 @@ const postJwtRegister = (url, data) => {
 // Login Method
 const postJwtLogin = data => accountService.login(data.email, data.password)
 
+const postJwtVerifyCode = data => accountService.verifyCode(data.accountId, data.accountVerificationCode)
+
+
 // postForgetPwd
 const postJwtForgetPwd = data => {
   console.log("data == ", data.email)
@@ -289,6 +292,7 @@ export {
   postFakeForgetPwd,
   postJwtRegister,
   postJwtLogin,
+  postJwtVerifyCode,
   postJwtForgetPwd,
   postJwtProfile,
   getProductComents,

@@ -7,9 +7,19 @@ html {
   min-height: 100%;
 }
 
-.h1,.h2,.h3,.h4,.h5,.h6,
-h1,h2,h3,h4,h5,h6 {
-  color: $gray-700;
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: $gray-500;
 }
 
 a {
@@ -36,31 +46,33 @@ label {
 
 // container
 
-.container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl{
-  @media (min-width: 1200px){
-      max-width: 1140px;
+.container,
+.container-lg,
+.container-md,
+.container-sm,
+.container-xl,
+.container-xxl {
+  @media (min-width: 1200px) {
+    max-width: 1140px;
   }
 }
 
 // row
 
-.row{
+.row {
   > * {
-      position: relative;
+    position: relative;
   }
 }
 
-
 body[data-layout-mode="dark"] {
-  
   // blockquote
 
-  .blockquote{
-      border-color: $gray-dark-300;
+  .blockquote {
+    border-color: $gray-dark-300;
   }
 
-  .blockquote-footer{
-      color: $gray-dark-400;
+  .blockquote-footer {
+    color: $gray-dark-400;
   }
-
 }

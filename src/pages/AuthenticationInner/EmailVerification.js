@@ -44,11 +44,11 @@ const EmailVerification = () => {
             <MetaTags>
                 <title>Email Verification | Auto S Hub</title>
             </MetaTags>
-            <div className="auth-page" style={{ background: layoutMode === layoutTheme.DARKMODE ? "#2C302E" : "#fbffff" }}>
+            <div className="auth-page" style={{ background: layoutMode === layoutTheme.DARKMODE ? "#12181D" : "#fbffff" }}>
                 <Container fluid className="p-0">
                     <Row className="g-0">
                         <Col lg={4} md={5} className="col-xxl-3">
-                            <div className="auth-full-page-content d-flex p-sm-5 p-4">
+                            <div className="auth-shodow auth-full-page-content d-flex p-sm-5 p-4">
                                 <div className="w-100">
                                     <div className="d-flex flex-column h-100">
                                         <div className="mb-4 mb-md-5 text-center">
