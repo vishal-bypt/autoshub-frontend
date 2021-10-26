@@ -5,18 +5,51 @@ import { Col, Container, Row } from 'reactstrap';
 
 //Verification code package
 import AuthCode from "react-auth-code-input";
-
-//import images
-import logo from "../../assets/images/logo-sm.svg";
 import CarouselPage from './CarouselPage';
 
+//import images 
+import logo from "../../assets/images/autoshubLogo.png"
+import logoLight from "../../assets/images/autoshubLogoLight.png"
+import { useSelector, useDispatch } from "react-redux"
+import {
+    layoutTypes,
+    layoutTheme,
+    layoutWidthTypes,
+    layoutPositions,
+    topBarThemeTypes,
+    leftSidebarTypes,
+    leftSideBarThemeTypes,
+} from "../../constants/layout";
+
+
 const TwoStepVerfication = () => {
+    const {
+        layoutType,
+        layoutMode,
+        layoutWidth,
+        layoutPosition,
+        topbarTheme,
+        leftSideBarType,
+        leftSideBarTheme,
+        error
+    } = useSelector((state) => ({
+        layoutType: state.Layout.layoutType,
+        layoutMode: state.Layout.layoutMode,
+        layoutWidth: state.Layout.layoutWidth,
+        layoutPosition: state.Layout.layoutPosition,
+        topbarTheme: state.Layout.topbarTheme,
+        leftSideBarType: state.Layout.leftSideBarType,
+        leftSideBarTheme: state.Layout.leftSideBarTheme,
+        error: state.Login.error,
+    }));
+    let userEmail = "sujal.bandhara@bypt.in";
+    console.log("layoutMode", layoutMode, layoutTheme.DARKMODE, layoutMode === layoutTheme.DARKMODE);
     return (
         <React.Fragment>
             <MetaTags>
                 <title>Two Step Verfication | Auto S Hub</title>
             </MetaTags>
-            <div className="auth-page">
+            <div className="auth-page" style={{ background: layoutMode === layoutTheme.DARKMODE ? "#2C302E" : "#fbffff" }}>
                 <Container fluid className="p-0">
                     <Row className="g-0">
                         <Col lg={4} md={5} className="col-xxl-3">
@@ -24,9 +57,16 @@ const TwoStepVerfication = () => {
                                 <div className="w-100">
                                     <div className="d-flex flex-column h-100">
                                         <div className="mb-4 mb-md-5 text-center">
-                                            <Link to="/dashboard" className="d-block auth-logo">
-                                                <img src={logo} alt="" height="28" /> <span className="logo-txt">Auto S Hub</span>
-                                            </Link>
+                                            {
+                                                layoutMode === layoutTheme.DARKMODE ?
+                                                    <Link to="/dashboard" className="d-block auth-logo logo logo-dark">
+                                                        <img src={logo} alt="" height="100" />
+                                                    </Link>
+                                                    :
+                                                    <Link to="/dashboard" className="d-block auth-logo logo logo-light">
+                                                        <img src={logoLight} alt="" height="100" />
+                                                    </Link>
+                                            }
                                         </div>
                                         <div className="auth-content my-auto">
                                             <div className="text-center">
@@ -39,7 +79,7 @@ const TwoStepVerfication = () => {
                                                 <div className="p-2 mt-4">
 
                                                     <h4>Verify your email</h4>
-                                                    <p className="mb-5">Please enter the 4 digit code sent to <span className="fw-bold">example@abc.com</span></p>
+                                                    <p className="mb-5">Please enter the 4 digit code sent to <span className="fw-bold">{userEmail}</span></p>
 
                                                     <form>
                                                         <div className="row">
@@ -51,7 +91,7 @@ const TwoStepVerfication = () => {
                                                                         className="form-control form-control-lg text-center"
                                                                         allowedCharacters="^[0-9]"
                                                                         inputStyle={{
-                                                                            width: "50px",
+                                                                            width: "42px",
                                                                             height: "42px",
                                                                             padding: "8px",
                                                                             borderRadius: "8px",
@@ -81,7 +121,7 @@ const TwoStepVerfication = () => {
                                             </div>
                                         </div>
                                         <div className="mt-4 mt-md-5 text-center">
-                                            <p className="mb-0">© {new Date().getFullYear()} Auto S Hub   . Crafted with <br /><i className="mdi mdi-heart text-danger"></i> by byPeopleTechnologies</p>
+                                            <p className="mb-0">Auto S Hub © {new Date().getFullYear()}. <br />Crafted with <i className="mdi mdi-heart text-danger"></i> by ByPeople technologies</p>
                                         </div>
                                     </div>
                                 </div>

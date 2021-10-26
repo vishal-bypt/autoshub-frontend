@@ -108,7 +108,7 @@ const Login = props => {
       <MetaTags>
         <title>Login | Auto S Hub</title>
       </MetaTags>
-      <div className="auth-page">
+      <div className="auth-page" style={{ background: layoutMode === layoutTheme.DARKMODE ? "#2C302E" : "#fbffff" }}>
         <Container fluid className="p-0">
           <Row className="g-0">
             <Col lg={4} md={5} className="col-xxl-3">
@@ -119,12 +119,12 @@ const Login = props => {
                       {
                         layoutMode === layoutTheme.DARKMODE ?
                           <Link to="/dashboard" className="d-block auth-logo logo logo-dark">
-                            <img src={logo} alt="" height="149" />
+                            <img src={logo} alt="" height="100" />
                             {/* <span className="logo-txt">Auto S Hub</span> */}
                           </Link>
                           :
                           <Link to="/dashboard" className="d-block auth-logo logo logo-light">
-                            <img src={logoLight} alt="" height="149" />
+                            <img src={logoLight} alt="" height="100" />
                             {/* <span className="logo-txt">Auto S Hub</span> */}
                           </Link>
                       }
@@ -134,7 +134,7 @@ const Login = props => {
                     <div className="auth-content my-auto">
                       <div className="text-center">
                         <h5 className="mb-0">Welcome Back !</h5>
-                        <p className="text-muted mt-2">Sign in to continue to Auto S Hub.</p>
+                        <p className="text-muted mt-2">Sign in to continue with Auto S Hub.</p>
                       </div>
                       <AvForm
                         className="custom-form mt-4 pt-2"
@@ -147,7 +147,7 @@ const Login = props => {
                           <AvField
                             name="email"
                             label="Email"
-                            value="zalaparth186@gmail.com"
+                            value="sujal.bandhara@bypt.in"
                             className="form-control"
                             placeholder="Enter email"
                             type="email"
@@ -244,7 +244,7 @@ const Login = props => {
                       </div> */}
                     </div>
                     <div className="mt-4 mt-md-5 text-center">
-                      <p className="mb-0">© {new Date().getFullYear()} Auto S Hub . Crafted with <br /> <i className="mdi mdi-heart text-danger"></i> by ByPeopleTechnologies</p>
+                      <p className="mb-0">Auto S Hub © {new Date().getFullYear()}. <br />Crafted with <i className="mdi mdi-heart text-danger"></i> by ByPeople technologies</p>
                     </div>
                   </div>
                 </div>

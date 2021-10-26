@@ -27,10 +27,10 @@ import {
 const INIT_STATE = {
   layoutType: layoutTypes.VERTICAL,
   layoutWidth: layoutWidthTypes.FLUID,
-  leftSideBarTheme: leftSideBarThemeTypes.LIGHT,
+  leftSideBarTheme: leftSideBarThemeTypes.DARK,
   leftSideBarType: leftSidebarTypes.DEFAULT,
-  layoutMode: layoutTheme.LIGHTMODE,
-  topbarTheme: topBarThemeTypes.LIGHT,
+  layoutMode: layoutTheme.DARKMODE,
+  topbarTheme: topBarThemeTypes.DARK,
   isPreloader: true,
   showRightSidebar: false,
   layoutPosition: layoutPositions.SCROLLABLE_FALSE,

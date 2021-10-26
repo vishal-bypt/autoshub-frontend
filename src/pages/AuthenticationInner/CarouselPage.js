@@ -64,7 +64,7 @@ const CarouselPage = (props) => {
             >
                 <div className="carousel-item active">
                     <div className="testi-contain text-white">
-                        <i className="bx bxs-quote-alt-left text-success display-6"></i>
+                        {/* <i className="bx bxs-quote-alt-left text-success display-6"></i> */}
 
                         <h4 className="mt-4 fw-medium lh-base text-white">“{item.description}”
                         </h4>

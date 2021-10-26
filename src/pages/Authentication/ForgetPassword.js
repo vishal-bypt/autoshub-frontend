@@ -15,16 +15,47 @@ import { AvForm, AvField } from "availity-reactstrap-validation"
 import { userForgetPassword } from "../../store/actions"
 
 // import images
-import logo from "../../assets/images/logo-sm.svg"
+// import logo from "../../assets/images/logo-sm.svg"
+import logo from "../../assets/images/autoshubLogo.png"
+import logoLight from "../../assets/images/autoshubLogoLight.png"
 import CarouselPage from "../AuthenticationInner/CarouselPage"
+import {
+  layoutTypes,
+  layoutTheme,
+  layoutWidthTypes,
+  layoutPositions,
+  topBarThemeTypes,
+  leftSidebarTypes,
+  leftSideBarThemeTypes,
+} from "../../constants/layout";
 
 const ForgetPasswordPage = props => {
   const dispatch = useDispatch()
 
-  const { forgetError, forgetSuccessMsg } = useSelector(state => ({
+  const {
+    layoutType,
+    layoutMode,
+    layoutWidth,
+    layoutPosition,
+    topbarTheme,
+    leftSideBarType,
+    leftSideBarTheme,
+    error,
+    forgetError,
+    forgetSuccessMsg
+  } = useSelector((state) => ({
+    layoutType: state.Layout.layoutType,
+    layoutMode: state.Layout.layoutMode,
+    layoutWidth: state.Layout.layoutWidth,
+    layoutPosition: state.Layout.layoutPosition,
+    topbarTheme: state.Layout.topbarTheme,
+    leftSideBarType: state.Layout.leftSideBarType,
+    leftSideBarTheme: state.Layout.leftSideBarTheme,
+    error: state.Login.error,
     forgetError: state.ForgetPassword.forgetError,
     forgetSuccessMsg: state.ForgetPassword.forgetSuccessMsg,
-  }))
+  }));
+
 
   function handleValidSubmit(event, values) {
     dispatch(userForgetPassword(values, props.history))
@@ -37,7 +68,7 @@ const ForgetPasswordPage = props => {
           Forget Password
         </title>
       </MetaTags>
-      <div className="auth-page">
+      <div className="auth-page" style={{ background: layoutMode === layoutTheme.DARKMODE ? "#2C302E" : "#fbffff" }}>
         <Container fluid className="p-0">
           <Row className="g-0">
             <Col lg={4} md={5} className="col-xxl-3">
@@ -45,9 +76,19 @@ const ForgetPasswordPage = props => {
                 <div className="w-100">
                   <div className="d-flex flex-column h-100">
                     <div className="mb-4 mb-md-5 text-center">
-                      <Link to="/dashboard" className="d-block auth-logo">
-                        <img src={"http://52.42.196.59:4000/ReactImages/autoshubLogo2.png"} alt="" height="28" /> <span className="logo-txt">Auto S Hub</span>
-                      </Link>
+                      {
+                        layoutMode === layoutTheme.DARKMODE ?
+                          <Link to="/dashboard" className="d-block auth-logo logo logo-dark">
+                            <img src={logo} alt="" height="100" />
+                            {/* <span className="logo-txt">Auto S Hub</span> */}
+                          </Link>
+                          :
+                          <Link to="/dashboard" className="d-block auth-logo logo logo-light">
+                            <img src={logoLight} alt="" height="100" />
+                            {/* <span className="logo-txt">Auto S Hub</span> */}
+                          </Link>
+                      }
+
                     </div>
                     <div className="auth-content my-auto">
                       <div className="text-center">
@@ -84,12 +125,12 @@ const ForgetPasswordPage = props => {
                         </div>
                       </AvForm>
 
-                      <div className="mt-5 text-center"> 
-                        <p className="text-muted mb-0">Remember It ?  <Link to="login" className="text-muted" style={{marginTop:"-10px",fontSize:"13px"}}>Sign in</Link> </p>
+                      <div className="mt-5 text-center">
+                        <p className="text-muted mb-0">Remember It ?  <Link to="login" className="text-muted" style={{ marginTop: "-10px", fontSize: "13px" }}>Sign in</Link> </p>
                       </div>
                     </div>
                     <div className="mt-4 mt-md-5 text-center">
-                      <p className="mb-0">© {new Date().getFullYear()}. Crafted with <i className="mdi mdi-heart text-danger"></i> by ByPeople technologies</p>
+                      <p className="mb-0">Auto S Hub © {new Date().getFullYear()}. <br />Crafted with <i className="mdi mdi-heart text-danger"></i> by ByPeople technologies</p>
                     </div>
                   </div>
                 </div>

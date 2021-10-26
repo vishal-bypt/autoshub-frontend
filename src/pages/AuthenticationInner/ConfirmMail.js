@@ -42,7 +42,7 @@ const ConfirmMail = () => {
                                             </div>
                                         </div>
                                         <div className="mt-4 mt-md-5 text-center">
-                                            <p className="mb-0">© {new Date().getFullYear()} Auto S Hub   . Crafted with <br /> <i className="mdi mdi-heart text-danger"></i> by byPeopleTechnologies</p>
+                                            <p className="mb-0">Auto S Hub © {new Date().getFullYear()}. <br />Crafted with <i className="mdi mdi-heart text-danger"></i> by ByPeople technologies</p>
                                         </div>
                                     </div>
                                 </div>

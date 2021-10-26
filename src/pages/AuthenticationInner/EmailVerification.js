@@ -2,18 +2,49 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import MetaTags from "react-meta-tags";
 import { Col, Container, Row } from 'reactstrap';
-
-//import images 
-import logo from "../../assets/images/logo-sm.svg";
 import CarouselPage from './CarouselPage';
 
+//import images 
+import logo from "../../assets/images/autoshubLogo.png"
+import logoLight from "../../assets/images/autoshubLogoLight.png"
+import { useSelector, useDispatch } from "react-redux"
+import {
+    layoutTypes,
+    layoutTheme,
+    layoutWidthTypes,
+    layoutPositions,
+    topBarThemeTypes,
+    leftSidebarTypes,
+    leftSideBarThemeTypes,
+} from "../../constants/layout";
+
+
 const EmailVerification = () => {
+    const {
+        layoutType,
+        layoutMode,
+        layoutWidth,
+        layoutPosition,
+        topbarTheme,
+        leftSideBarType,
+        leftSideBarTheme,
+        error
+    } = useSelector((state) => ({
+        layoutType: state.Layout.layoutType,
+        layoutMode: state.Layout.layoutMode,
+        layoutWidth: state.Layout.layoutWidth,
+        layoutPosition: state.Layout.layoutPosition,
+        topbarTheme: state.Layout.topbarTheme,
+        leftSideBarType: state.Layout.leftSideBarType,
+        leftSideBarTheme: state.Layout.leftSideBarTheme,
+        error: state.Login.error,
+    }));
     return (
         <React.Fragment>
             <MetaTags>
                 <title>Email Verification | Auto S Hub</title>
             </MetaTags>
-            <div className="auth-page">
+            <div className="auth-page" style={{ background: layoutMode === layoutTheme.DARKMODE ? "#2C302E" : "#fbffff" }}>
                 <Container fluid className="p-0">
                     <Row className="g-0">
                         <Col lg={4} md={5} className="col-xxl-3">
@@ -21,9 +52,18 @@ const EmailVerification = () => {
                                 <div className="w-100">
                                     <div className="d-flex flex-column h-100">
                                         <div className="mb-4 mb-md-5 text-center">
-                                            <Link to="/dashboard" className="d-block auth-logo">
-                                                <img src={logo} alt="" height="28" /> <span className="logo-txt">Auto S Hub</span>
-                                            </Link>
+                                            {
+                                                layoutMode === layoutTheme.DARKMODE ?
+                                                    <Link to="/dashboard" className="d-block auth-logo logo logo-dark">
+                                                        <img src={logo} alt="" height="100" />
+                                                        {/* <span className="logo-txt">Auto S Hub</span> */}
+                                                    </Link>
+                                                    :
+                                                    <Link to="/dashboard" className="d-block auth-logo logo logo-light">
+                                                        <img src={logoLight} alt="" height="100" />
+                                                        {/* <span className="logo-txt">Auto S Hub</span> */}
+                                                    </Link>
+                                            }
                                         </div>
                                         <div className="auth-content my-auto">
                                             <div className="text-center">
@@ -34,7 +74,7 @@ const EmailVerification = () => {
                                                 </div>
                                                 <div className="p-2 mt-4">
                                                     <h4>Verify your email</h4>
-                                                    <p>We have sent you verification email <span className="fw-bold">example@abc.com</span>, Please check it</p>
+                                                    <p>We have sent you verification email <span className="fw-bold">sujal.bandhara@byot.in</span>, Please check it</p>
                                                     <div className="mt-4">
                                                         <Link to="/dashboard" className="btn btn-primary w-10">Verify email</Link>
                                                     </div>
@@ -46,7 +86,7 @@ const EmailVerification = () => {
                                             </div>
                                         </div>
                                         <div className="mt-4 mt-md-5 text-center">
-                                            <p className="mb-0">© {new Date().getFullYear()} MiAuto S Hubnia . Crafted with <br /> <i className="mdi mdi-heart text-danger"></i> by byPeopleTechnologies</p>
+                                            <p className="mb-0">Auto S Hub © {new Date().getFullYear()}. <br />Crafted with <i className="mdi mdi-heart text-danger"></i> by ByPeople technologies</p>
                                         </div>
                                     </div>
                                 </div>
