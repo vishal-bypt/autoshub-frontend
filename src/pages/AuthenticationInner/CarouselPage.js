@@ -68,7 +68,7 @@ const CarouselPage = (props) => {
 
                         <h4 className="mt-4 fw-medium lh-base text-white">“{item.description}”
                         </h4>
-                        <div className="mt-4 pt-3 pb-5">
+                        <div className="mt-4 pt-3">
                             <div className="d-flex align-items-start">
                                 <div className="flex-shrink-0">
                                     <img src={item.img} className="avatar-md img-fluid rounded-circle" alt="..." />
@@ -106,7 +106,7 @@ const CarouselPage = (props) => {
                     <div className="row justify-content-center align-items-center" >
                         <div className="col-xl-7">
                             <div className="p-0 p-sm-4 px-xl-0">
-                                <div id="reviewcarouselIndicators" className="carousel slide" data-bs-ride="carousel" style={{ backdropFilter: "blur(6px)" }}>
+                                <div id="reviewcarouselIndicators" className="review-carousel-indicators carousel slide" data-bs-ride="carousel" >
                                     <CarouselIndicators items={items} activeIndex={activeIndex} onClickHandler={goToIndex} />
                                     <Carousel
                                         activeIndex={activeIndex}

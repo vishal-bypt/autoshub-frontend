@@ -2,7 +2,7 @@ import { call, put, takeEvery, takeLatest } from "redux-saga/effects"
 
 // Login Redux States
 import { LOGIN_USER, LOGOUT_USER, SOCIAL_LOGIN, VERIFY_CODE } from "./actionTypes"
-import { apiError, loginSuccess, logoutUserSuccess } from "./actions"
+import { apiError, loginSuccess, logoutUserSuccess, verifyCodeSuccess } from "./actions"
 
 //Include Both Helper File with needed methods
 import { getFirebaseBackend } from "../../../helpers/firebase_helper"
@@ -67,6 +67,7 @@ function* verifyCode({ payload: { user, history } }) {
       response.userRoleArray = rolesArray(response.userRole);
       console.log("verifyCode response::", response)
       localStorage.setItem("authUser", JSON.stringify(response))
+      yield put(verifyCodeSuccess(response))
     } else if (process.env.REACT_APP_DEFAULTAUTH === "fake") {
       const response = yield call(postFakeLogin, {
         email: user.email,

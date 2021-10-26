@@ -49,12 +49,16 @@ const TwoStepVerfication = (props) => {
     const [isSubmit, setIsSubmit] = React.useState(false)
     const [code, setCode] = React.useState("")
 
+    React.useEffect(() => {
+        setIsSubmit(false)
+    }, [error])
 
     // let userEmail = "sujal.bandhara@bypt.in";
 
     console.log("layoutMode", layoutMode, layoutTheme.DARKMODE, layoutMode === layoutTheme.DARKMODE);
 
     const handleSubmit = () => {
+        setIsSubmit(true)
         const user = accountService.userValue;
         let values = {
             "accountId": user.id,

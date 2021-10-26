@@ -32,6 +32,11 @@
   min-height: 100vh;
 }
 
+.review-carousel-indicators {
+  backdrop-filter: blur(6px);
+  padding-left: 25px;
+  padding-right: 25px;
+}
 // auth 2
 
 .auth-logo {

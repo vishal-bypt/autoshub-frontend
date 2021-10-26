@@ -2,6 +2,7 @@ import {
   LOGIN_USER,
   LOGIN_SUCCESS,
   VERIFY_CODE,
+  VERIFY_CODE_SUCCESS,
   LOGOUT_USER,
   LOGOUT_USER_SUCCESS,
   API_ERROR,
@@ -19,6 +20,13 @@ export const verifyCode = (user, history) => {
   return {
     type: VERIFY_CODE,
     payload: { user, history },
+  }
+}
+
+export const verifyCodeSuccess = user => {
+  return {
+    type: VERIFY_CODE_SUCCESS,
+    payload: user,
   }
 }
 
