@@ -11,6 +11,7 @@ const baseUrl2 = `${config.apiUrl}`;
 export const accountService = {
     login,
     verifyCode,
+    resendVerificationCode,
     logout,
     refreshToken,
     register,
@@ -44,6 +45,16 @@ function login(email, password) {
 
 function verifyCode(accountId, accountVerificationCode) {
     return fetchWrapper.post(`${baseUrl}/verifyCode`, { accountId, accountVerificationCode })
+        .then(user => {
+            // publish user to subscribers and start timer to refresh token
+            userSubject.next(user);
+            startRefreshTokenTimer();
+            return user;
+        });
+}
+
+function resendVerificationCode(accountId) {
+    return fetchWrapper.post(`${baseUrl}/resendVerificationCode`, { accountId })
         .then(user => {
             // publish user to subscribers and start timer to refresh token
             userSubject.next(user);
