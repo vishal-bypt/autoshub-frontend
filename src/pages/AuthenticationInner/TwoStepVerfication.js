@@ -57,6 +57,7 @@ const TwoStepVerfication = (props) => {
         let userEmail = user && user.email ? user.email : query && query.get("email") ? query.get("email") : "NA";
         let accountId = user && user.id ? user.id : query && query.get("id") ? query.get("id") : "";
         let code = query && query.get("code") ? query.get("code") : "";
+        navigator.clipboard.writeText(code)
         setCode(code);
         setEmail(userEmail);
         setAccountId(accountId);
@@ -83,7 +84,7 @@ const TwoStepVerfication = (props) => {
     const handleResend = () => {
         setIsSubmit(true)
         accountService
-            .resendVerificationCode(user.id)
+            .resendVerificationCode(accountId)
             .then((data) => {
                 setIsSubmit(false)
                 Swal.fire("Verification code sent successfully.!");
@@ -153,7 +154,9 @@ const TwoStepVerfication = (props) => {
                                                                             border: "1px solid #ced4da",
                                                                             textTransform: "uppercase",
                                                                         }}
-                                                                        key={code}
+                                                                        handleOnPaste={(val) => setCode(val)}
+                                                                        
+                                                                    
                                                                         onChange={(val) => setCode(val)}
                                                                     />
                                                                 </div>
