@@ -40,6 +40,7 @@ import { MyEntries } from '../pages/rfpForm/MyEntries';
 import { EditedEntries } from '../pages/rfpForm/EditedEntries';
 import { LandingEntries } from '../pages/rfpForm/LandingEntries';
 import { accountService } from "../services";
+import Landing from "../pages/Dashboard/Landing";
 
 const userDetails = accountService.userValue;
 
@@ -47,6 +48,7 @@ const userRoutes = [
 
   //dashboard
   { path: "/dashboard", component: Dashboard },
+  { path: "/landing", component: Landing },
 
   //profile
   { path: "/profile", component: userProfile },

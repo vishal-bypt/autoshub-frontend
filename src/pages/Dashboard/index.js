@@ -15,6 +15,7 @@ import {
 
 // import chartJs
 import EPieChart from "../../components/AllCharts/echart/piechart";
+import GaugeChart from "../../components/AllCharts/echart/gaugechart";
 
 const options = {
   chart: {
@@ -165,6 +166,14 @@ const Dashboard = () => {
                 </CardBody>
               </Card>
             </Col>
+          </Row>
+          <Row className="justify-content-center">
+                    <Col sm={12}>
+                    <Row className="justify-content-center text-center">
+                      <h3 className="card-title">Attended</h3>
+                    </Row>
+                    <GaugeChart/>
+                    </Col>
           </Row>
           <Row>
             <Col xl={12}>
