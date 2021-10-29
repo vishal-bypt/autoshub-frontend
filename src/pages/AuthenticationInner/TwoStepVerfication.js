@@ -155,8 +155,6 @@ const TwoStepVerfication = (props) => {
                                                                             textTransform: "uppercase",
                                                                         }}
                                                                         handleOnPaste={(val) => setCode(val)}
-                                                                        
-                                                                    
                                                                         onChange={(val) => setCode(val)}
                                                                     />
                                                                 </div>
@@ -180,6 +178,9 @@ const TwoStepVerfication = (props) => {
                                             <div className="mt-5 text-center">
                                                 <p className="text-muted mb-0">Didn't receive an email ? <button onClick={handleResend}
                                                     className="btn p-0 text-primary fw-semibold"> Resend </button> </p>
+                                            </div>
+                                            <div className="mt-3 text-center">
+                                                <p className="text-muted mb-0">Change email ? return <Link to="login" className="text-primary fw-semibold" style={{ marginTop: "-10px", fontSize: "13px" }}>Sign In</Link> </p>
                                             </div>
                                         </div>
                                         <div className="mt-4 mt-md-5 text-center">

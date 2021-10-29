@@ -12,7 +12,9 @@ const Authmiddleware = ({
     {...rest}
     render={props => {
       let localData = localStorage.getItem("authUser")
-      if ((isAuthProtected && !localData) || (localData && localData["jwtToken"] === null && props.history.location && props.history.location.pathname !== "/page-two-step-verification")) {
+      const obj = JSON.parse(localData);
+      let jwtToken = localData && obj.jwtToken || null
+      if ((isAuthProtected && !localData) || (localData && jwtToken === null && props.history.location && props.history.location.pathname !== "/page-two-step-verification")) {
         localStorage.clear()
         return (
           <Redirect

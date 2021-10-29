@@ -30,6 +30,7 @@ import {
 } from "../../constants/layout";
 
 const ForgetPasswordPage = props => {
+  const [isSubmit, setIsSubmit] = React.useState(false)
   const dispatch = useDispatch()
 
   const {
@@ -42,7 +43,8 @@ const ForgetPasswordPage = props => {
     leftSideBarTheme,
     error,
     forgetError,
-    forgetSuccessMsg
+    forgetSuccessMsg,
+    state
   } = useSelector((state) => ({
     layoutType: state.Layout.layoutType,
     layoutMode: state.Layout.layoutMode,
@@ -54,13 +56,20 @@ const ForgetPasswordPage = props => {
     error: state.Login.error,
     forgetError: state.ForgetPassword.forgetError,
     forgetSuccessMsg: state.ForgetPassword.forgetSuccessMsg,
+    state: state
   }));
 
+  React.useEffect(() => {
+    if (forgetSuccessMsg && forgetSuccessMsg !== "") {
+      setIsSubmit(false)
+      props.history.push("/login")
+    }
+  }, [forgetSuccessMsg])
 
   function handleValidSubmit(event, values) {
+    setIsSubmit(true)
     dispatch(userForgetPassword(values, props.history))
   }
-
   return (
     <React.Fragment>
       <MetaTags>
@@ -95,21 +104,19 @@ const ForgetPasswordPage = props => {
                         <h5 className="mb-0">Reset Password</h5>
                         {/* <p className="text-muted mt-2">Reset Password with Minia.</p> */}
                       </div>
-
-                      {forgetError && forgetError ? (
-                        <Alert color="danger" style={{ marginTop: "13px" }}>
-                          {forgetError}
-                        </Alert>
-                      ) : null}
-                      {forgetSuccessMsg ? (
-                        <Alert color="success" style={{ marginTop: "13px" }}>
-                          {forgetSuccessMsg}
-                        </Alert>
-                      ) : null}
-
                       <AvForm className="custom-form mt-4"
                         onValidSubmit={(e, v) => handleValidSubmit(e, v)}
                       >
+                        {forgetError ? (
+                          <Alert color="danger" style={{ marginTop: "13px" }}>
+                            {forgetError}
+                          </Alert>
+                        ) : null}
+                        {forgetSuccessMsg ? (
+                          <Alert color="success" style={{ marginTop: "13px" }}>
+                            {forgetSuccessMsg}
+                          </Alert>
+                        ) : null}
                         <div className="mb-3">
                           <AvField
                             name="email"
@@ -121,7 +128,11 @@ const ForgetPasswordPage = props => {
                           />
                         </div>
                         <div className="mb-3 mt-4">
-                          <button className="btn btn-primary w-100 waves-effect waves-light" type="submit">Reset</button>
+                          <button className="btn btn-primary w-100 waves-effect waves-light" type="submit">
+                            {isSubmit && (
+                              <i className="bx bx-loader bx-spin font-size-16 align-middle me-2"></i>
+                            )}
+                            Reset</button>
                         </div>
                       </AvForm>
 

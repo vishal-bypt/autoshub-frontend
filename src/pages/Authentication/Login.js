@@ -188,7 +188,7 @@ const Login = props => {
                           </div>
                         </div>
                         <div className="mb-3">
-                          <button className="btn btn-primary w-100 waves-effect waves-light" type="submit">
+                            <button className="btn btn-primary w-100 waves-effect waves-light" type="submit">
                             {isSubmit && (
                               <i className="bx bx-loader bx-spin font-size-16 align-middle me-2"></i>
                             )}
