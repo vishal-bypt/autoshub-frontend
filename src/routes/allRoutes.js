@@ -76,7 +76,7 @@ const userRoutes = [
   { path: "/revenue/addProgram", component: RevenueAddEdit },
   { path: "/revenue/allProgram", component: RevenueList },
   { path: "/revenue/uploadData", component: UploadProgramData },
-  { path: "/revenue/edit/:id", component: EditProgram },
+  { path: "/revenue/edit/:id/:programName", component: EditProgram },
 
   //User
   // { path: "/userAccessView", component: userDetails && userDetails.role === "Admin" ? UserAccessView : null },

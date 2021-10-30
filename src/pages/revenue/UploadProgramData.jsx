@@ -26,6 +26,8 @@ function UploadProgramData({ history, match }) {
   const [successBtn, setSuccessBtn] = useState(false);
   const [errorBtn, setErrorBtn] = useState(false);
   const [assignedUsers, setAssignedUsers] = useState(null);
+  const [selectedProgramId, setSelectedProgramId] = useState(null);
+
   const user = accountService.userValue;
   const assignUserIds = [];
   let userDropDownData = [];
@@ -70,7 +72,6 @@ function UploadProgramData({ history, match }) {
 
   const getAllPrograms = async () => {
     let userDropDownData = [];
-    console.log("userDetails::", userDetails);
     if (userDetails.role == "Admin") {
       programService
         .getAll()
@@ -80,7 +81,7 @@ function UploadProgramData({ history, match }) {
             programs.map((programData, index) => {
               userDropDownData.push({
                 label: programData.programName,
-                value: programData.programName,
+                value: programData.id,
               });
             });
           }
@@ -114,12 +115,16 @@ function UploadProgramData({ history, match }) {
       );
     }
     let oneDate = moment(fields.month, "YYYY-MM");
-    var monthName = oneDate.format("MMMM-YYYY");
+    var monthName = oneDate.format("MMMM");
+    var yearName = oneDate.format("YYYY");
+
     formData.append("filePath", fields.file);
     formData.append("monthName", monthName);
-    formData.append("programName", fields.programName);
+    formData.append("yearName ", yearName);
+    formData.append("programId", selectedProgramId);
+    formData.append("revenueId", 0);
     revenueService
-      .uploadRevenueExcel(formData, 1)
+      .uploadRevenueExcel(formData)
       .then((data) => {
         setUploadBtn(false);
         setSuccessBtn(true);
@@ -182,6 +187,10 @@ function UploadProgramData({ history, match }) {
                             component={CustomSelect}
                             isMulti={false}
                             placeholder="Select Program"
+                            onChangeValue={(value) => {
+                              console.log("Value == ", value);
+                              setSelectedProgramId(value);
+                            }}
                           />
                           <ErrorMessage
                             name="programName"

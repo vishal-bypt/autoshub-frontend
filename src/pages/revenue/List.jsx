@@ -44,7 +44,10 @@ function List({ history, match }) {
       text: "",
       formatter: (cellContent, row) => (
         <div className="text-end me-5">
-          <Link to={`/revenue/edit/${row.id}`} className="btn btn-warning">
+          <Link
+            to={`/revenue/edit/${row.id}/${row.programName}`}
+            className="btn btn-warning"
+          >
             Edit
           </Link>
         </div>

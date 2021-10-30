@@ -14,12 +14,10 @@ import {
 
 function EditProgram({ history, match }) {
   const user = accountService.userValue;
-  const { id } = match.params;
-  const isAddMode = !id;
+  const { id, programName } = match.params;
 
   const initialValues = {
-    //programName: ''
-    programName: "",
+    programName: programName,
   };
 
   const validationSchema = Yup.object().shape({
@@ -31,11 +29,7 @@ function EditProgram({ history, match }) {
   function onSubmit(fields, { setStatus, setSubmitting }) {
     setStatus();
     const data = { ...fields, userId: user.id };
-    if (isAddMode) {
-      createUser(data, setSubmitting);
-    } else {
-      updateUser(id, data, setSubmitting);
-    }
+    updateUser(id, data, setSubmitting);
   }
 
   function createUser(fields, setSubmitting) {
@@ -114,18 +108,6 @@ function EditProgram({ history, match }) {
             onSubmit={onSubmit}
           >
             {({ errors, touched, isSubmitting, setFieldValue }) => {
-              //   useEffect(() => {
-              //     if (!isAddMode) {
-              //       // get user and set form fields
-              //       programService.getById(id).then((user) => {
-              //         const fields = ["programName"];
-              //         fields.forEach((field) =>
-              //           setFieldValue(field, user[field], false)
-              //         );
-              //       });
-              //     }
-              //   }, []);
-
               return (
                 <Form>
                   <div className="form-row mt-5">
@@ -156,7 +138,7 @@ function EditProgram({ history, match }) {
                       className="btn btn-primary"
                     >
                       {isSubmitting && (
-                        <span className="spinner-border spinner-border-sm mr-1"></span>
+                        <i className="bx bx-loader bx-spin font-size-16 align-middle me-2"></i>
                       )}
                       Save
                     </button>

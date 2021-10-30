@@ -17,7 +17,7 @@ function Revenue({ match }) {
       <Route exact path={path} component={Resources} />
       <Route exact path={`${path}/addProgram`} component={AddEdit} />
       <Route exact path={`${path}/allProgram`} component={List} />
-      <Route path={`${path}/edit/:id`} component={EditProgram} />
+      <Route path={`${path}/edit/:id/:programName`} component={EditProgram} />
       <Route path={`${path}/uploadData`} component={UploadProgramData} />
       {/* 
             <Route path={`${path}/uploadPrequisites`} component={UploadPrequisites} />
