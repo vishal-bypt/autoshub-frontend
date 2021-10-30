@@ -70,11 +70,19 @@ const hasUserView = (userRole) => {
     return isUser;
 }
 
+function setCurrentUserRole(role) {
+    let localData = localStorage.getItem("authUser")
+    const data = JSON.parse(localData);
+    data.currentRole = role
+    localStorage.setItem("authUser", JSON.stringify(data))
+}
+
 module.exports = {
     Role,
     rolesArray,
     hasExecView,
     hasAdminView,
     hasManagerView,
-    hasUserView
+    hasUserView,
+    setCurrentUserRole
 }

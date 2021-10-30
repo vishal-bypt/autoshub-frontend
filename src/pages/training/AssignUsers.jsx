@@ -39,7 +39,7 @@ function AssignUsers({ history, match }) {
     console.log("main temmp == ",temp);
     console.log("users == ",users)
     useEffect(() => {
-        if(userDetails.role == "Admin"){ 
+        if(userDetails.currentRole == "Admin"){ 
             trainingService.getById(id).then((x)=>{
                 setTrainingData(x)
             })   
@@ -65,7 +65,7 @@ function AssignUsers({ history, match }) {
             });
             setAssignedUsers(assignUserIds);
         }  
-        if(userDetails.role == "Manager"){            
+        if(userDetails.currentRole == "Manager"){            
             accountService.getUserList().then((x) => {
                 setUsers(x);                
                 x && x.map((userdata, index) => {

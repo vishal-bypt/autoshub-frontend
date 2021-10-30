@@ -11,12 +11,12 @@ function GetTrainingByRole({ match }) {
     const [users, setUsers] = useState(null);
 
     useEffect(() => {        
-        if (userDetails.role == "Admin" || userDetails.role == "Manager" ) {           
+        if (userDetails.currentRole == "Admin" || userDetails.currentRole == "Manager" ) {           
             trainingService.getTrainingByRole().then((x) => {                
                 setUsers(x)
             });
         }
-        if (userDetails.role == "User") {
+        if (userDetails.currentRole == "User") {
             let userData = [];
             trainingService.listTaskToUser().then((x) => {
                 x.map((data) => {

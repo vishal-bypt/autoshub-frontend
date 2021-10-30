@@ -9,14 +9,14 @@ function UploadFieldList({ match }) {
     const [users, setUsers] = useState(null);
 
     useEffect(() => {        
-        if (userDetails.role == "Admin") {            ;
+        if (userDetails.currentRole == "Admin") {            ;
             trainingService.getAll().then((x) => {
                 //console.log("x == ", x);
                 setUsers(x)
             });
 
         }
-        if (userDetails.role == "User") {
+        if (userDetails.currentRole == "User") {
             let userData = [];
             trainingService.listTaskToUser().then((x) => {
                 x.map((data) => {
@@ -28,7 +28,7 @@ function UploadFieldList({ match }) {
         }
     }, []);
 
-    /* if (userDetails.role === "user") {        
+    /* if (userDetails.currentRole === "user") {        
         useEffect(() => {
             trainingService.listTaskToUser().then(x => setUsers(x));
         }, []);
@@ -47,7 +47,7 @@ function UploadFieldList({ match }) {
     return (
         <div className="container mt-5">
             <h1>Trainings</h1>
-            {/* { userDetails.role == "Admin" && <div >          
+            {/* { userDetails.currentRole == "Admin" && <div >          
             <Link to={`${path}/add`} className="btn btn-success btn-lg mb-2 mr-3 p-2">Upload Trainings</Link>
             <Link to={`${path}/add`} className="btn btn-secondary btn-lg mb-2 mr-3">Edit Trainings</Link>
             <Link to={`${path}/add`} className="btn btn-primary btn-lg mb-2 mr-3">My Trainings</Link>
@@ -73,7 +73,7 @@ function UploadFieldList({ match }) {
                         {users && users.map((user, index) =>
                             <tr key={user.id}>
                                 <td className="traning-listing" style={{ whiteSpace: 'nowrap', minWidth: '30%' }}>
-                                    {userDetails.role == "Admin" && <div >
+                                    {userDetails.currentRole == "Admin" && <div >
                                         {/* <Link to={`${path}/edit/${user.id}`} className="btn btn-sm btn-primary mr-1">Edit</Link>
                                 <button onClick={() => deleteUser(user.id)} className="btn btn-sm btn-danger" style={{ width: '60px', marginRight:'5px' }} disabled={user.isDeleting}>
                                     {user.isDeleting 
@@ -88,7 +88,7 @@ function UploadFieldList({ match }) {
 
 
                                 {/* <td style={{ whiteSpace: 'nowrap', minWidth: '30%'}}>
-                                { userDetails.role == "User" && <div >  
+                                { userDetails.currentRole == "User" && <div >  
                                     <Link to={`${path}/uploadPrequisites`} className="btn btn-sm btn-primary mr-1">Upload</Link>
                                 </div>}                
                             </td> */}

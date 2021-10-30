@@ -13,7 +13,7 @@ function AllNominations({ history, match }) {
     const [users, setUsers] = useState(null);
     let filteredData = []
     useEffect(() => {       
-        if (userDetails.role == "Admin") {           
+        if (userDetails.currentRole == "Admin") {           
             trainingService.getActiveTrainingList().then((x) => {                
                 for (let i = 0; i < x.length; i++) {
                     if (x[i].assignedByName != null && x[i].assignedToName != null) {                        
@@ -93,13 +93,13 @@ function AllNominations({ history, match }) {
             <div className="container-fluid">
                 <div className="row">
                     <div className="col-md-6">
-                        {userDetails.role == "Admin" &&
+                        {userDetails.currentRole == "Admin" &&
                             <h1 className="header-text">Nominated Trainings</h1>
                         }
-                        {userDetails.role == "User" &&
+                        {userDetails.currentRole == "User" &&
                             <h1 className="header-text">My Trainings</h1>
                         }
-                        {userDetails.role == "Manager" &&
+                        {userDetails.currentRole == "Manager" &&
                             <h1 className="header-text">Trainings</h1>
                         } 
                     </div>
@@ -113,13 +113,13 @@ function AllNominations({ history, match }) {
                 <div className="row">
                     <div className="container">
                         <div className="col-md-12">
-                            {userDetails.role == "Admin" &&
+                            {userDetails.currentRole == "Admin" &&
                                 <h1 className="header-text">Nominated Trainings</h1>
                             }
-                            {userDetails.role == "User" &&
+                            {userDetails.currentRole == "User" &&
                                 <h1 className="header-text">My Trainings</h1>
                             }
-                            {userDetails.role == "Manager" &&
+                            {userDetails.currentRole == "Manager" &&
                                 <h1 className="header-text">Trainings</h1>
                             }                            
                         </div>
@@ -133,45 +133,45 @@ function AllNominations({ history, match }) {
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    {userDetails.role == "Admin" &&
+                                    {userDetails.currentRole == "Admin" &&
                                         <th className="traning-listing">Nominated Employee</th>
                                     }
-                                    {userDetails.role == "User" &&
+                                    {userDetails.currentRole == "User" &&
                                         <th className="traning-listing" >Nominated Employee</th>
                                     }
-                                    {userDetails.role == "Admin" &&
+                                    {userDetails.currentRole == "Admin" &&
                                         <th className="traning-listing" >Nominated By</th>
                                     }
-                                    {userDetails.role == "User" &&
+                                    {userDetails.currentRole == "User" &&
                                         <th className="traning-listing" >Nominated By</th>
                                     }
                                     <th className="traning-listing" >Training Name</th>
-                                    {userDetails.role == "Manager" &&
+                                    {userDetails.currentRole == "Manager" &&
                                         <th className="traning-listing" >Training Type</th>
                                     }
                                     <th className="traning-listing" >Start Date</th>
                                     <th className="traning-listing" >End Date</th>
                                     <th className="traning-listing" >Required Prerequisites</th>                                    
-                                    {userDetails.role == "Manager" &&
+                                    {userDetails.currentRole == "Manager" &&
                                         <th className="traning-listing" >Nomination End Date</th>
                                     }                                    
-                                    {userDetails.role == "Admin" &&
+                                    {userDetails.currentRole == "Admin" &&
                                         <th className="traning-listing" >Submitted Prerequisites</th>
                                     }
-                                    {userDetails.role == "User" &&
+                                    {userDetails.currentRole == "User" &&
                                         <th className="traning-listing" >Status</th>
                                     }
-                                    {userDetails.role == "Admin" &&
+                                    {userDetails.currentRole == "Admin" &&
                                         <th className="traning-listing">Status</th>
                                     }
-                                    {userDetails.role == "Admin" &&
+                                    {userDetails.currentRole == "Admin" &&
                                         <th className="traning-listing" >Approve / Decline Prerequisites</th>
                                     }
 
-                                    {userDetails.role == "User" &&
+                                    {userDetails.currentRole == "User" &&
                                         <th className="traning-listing" >Upload Prequisites</th>
                                     }
-                                    {userDetails.role == "Manager" &&
+                                    {userDetails.currentRole == "Manager" &&
                                         <th></th>
                                     }
                                 </tr>
@@ -180,40 +180,40 @@ function AllNominations({ history, match }) {
                                 {users && users.map((user, index) =>
                                     <tr key={index}>                                        
                                         <td className="traning-listing" style={{ minWidth: '40px' }}>{index + 1}</td>
-                                        {userDetails.role == "Admin" &&
+                                        {userDetails.currentRole == "Admin" &&
                                             <td className="traning-listing" style={{ minWidth: '100px' }}>{user.assignedToName} </td>
                                         }
-                                        {userDetails.role == "User" &&
+                                        {userDetails.currentRole == "User" &&
                                             <td className="traning-listing" style={{ minWidth: '100px' }}>{user.assignedToName} </td>
                                         }
-                                        {userDetails.role == "Admin" &&
+                                        {userDetails.currentRole == "Admin" &&
                                             <td className="traning-listing" style={{ minWidth: '100px' }}>{user.assignedByName ? user.assignedByName : "NA"}</td>
                                         }
-                                        {userDetails.role == "User" &&
+                                        {userDetails.currentRole == "User" &&
                                             <td className="traning-listing" style={{ minWidth: '100px' }}>{user.assignedByName} </td>
                                         }
                                         <td className="traning-listing" style={{ minWidth: '150px' }}>{user.trainingName}</td>
-                                        {userDetails.role == "Manager" &&
+                                        {userDetails.currentRole == "Manager" &&
                                             <td className="traning-listing">{user.trainingType}</td>
                                         }
                                         <td className="traning-listing" style={{ minWidth: '130px' }}>{moment(user.trainingStartDate).format("DD/MM/YYYY")}</td>
                                         <td className="traning-listing" style={{ minWidth: '130px' }}>{moment(user.trainingEndDate).format("DD/MM/YYYY")}</td>
                                         <td className="traning-listing" style={{ minWidth: '130px' }}>{user.trainingPrequisites}</td>
-                                        {userDetails.role == "Manager" &&
+                                        {userDetails.currentRole == "Manager" &&
                                             <td>{moment(user.nominationEndDate).format("DD/MM/YYYY")}</td>
                                         } 
-                                        {userDetails.role == "Admin" &&
+                                        {userDetails.currentRole == "Admin" &&
                                             <td className="traning-listing" style={{ minWidth: '150px' }}>
                                                 {user.preRequisites != "N/A" ? <a style={{ color: '#12f339',fontWeight:"bolder", textDecoration: 'underline' }} target="_blank" /* href={config.apiUrl + "/" + user.preRequisites} */ onClick={viewPreRequisited(user)} >Check</a>
                                                     :
                                                     "N/A"}</td>
                                         }
-                                        {userDetails.role == "Admin" &&
+                                        {userDetails.currentRole == "Admin" &&
                                             <td className="traning-listing" style={{ minWidth: '150px' }}>
                                                 Pending
                                             </td>
                                         }                                        
-                                        {userDetails.role == "Admin" &&
+                                        {userDetails.currentRole == "Admin" &&
                                             <td className="traning-listing" style={{ minWidth: '150px' }}>
                                                 {user.preRequisites != "N/A" ?
                                                     <div>
@@ -232,14 +232,14 @@ function AllNominations({ history, match }) {
                                                 }
                                             </td>
                                         }
-                                        {userDetails.role == "User" &&
+                                        {userDetails.currentRole == "User" &&
                                             <td className="traning-listing" style={{ minWidth: '150px' }}>
                                                 {user.acceptRejectStatus == 0 ?
                                                     "Pending" : "Completed"
                                                 }
                                             </td>
                                         }
-                                        {userDetails.role == "User" &&
+                                        {userDetails.currentRole == "User" &&
                                             <td>
                                                 {user.acceptRejectStatus != "1" ?
                                                     <PopUpFileUpload id={user.id} userDetails={userDetails} /> :
@@ -247,7 +247,7 @@ function AllNominations({ history, match }) {
                                                 }
                                             </td>
                                         }
-                                        {userDetails.role == "Manager" &&
+                                        {userDetails.currentRole == "Manager" &&
                                             <td className="traning-listing" style={{ minWidth: '150px' }}>
                                                 <Link className="traning-listing" to={`/training/assign/${user.id}`} className="btn btn-sm btn-primary mr-1 link-color">Nominate</Link>
                                             </td>

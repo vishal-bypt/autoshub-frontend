@@ -45,7 +45,6 @@ function UploadProgramData({ history, match }) {
         setSuccessBtn(true);
         alertService.success("Success", { keepAfterRouteChange: true });
         Swal.fire("Training uploaded successfully.!");
-        trainingService.getAll().then((x) => setUsers(x));
       })
       .catch((error) => {
         setUploadBtn(false);
@@ -120,7 +119,7 @@ function UploadProgramData({ history, match }) {
 
     formData.append("filePath", fields.file);
     formData.append("monthName", monthName);
-    formData.append("yearName ", yearName);
+    formData.append("yearName", yearName);
     formData.append("programId", selectedProgramId);
     formData.append("revenueId", 0);
     revenueService
@@ -129,8 +128,9 @@ function UploadProgramData({ history, match }) {
         setUploadBtn(false);
         setSuccessBtn(true);
         alertService.success("Success", { keepAfterRouteChange: true });
-        Swal.fire("Program data uploaded successfully.!");
-        programService.getAll().then((x) => setUsers(x));
+        Swal.fire("Revenue data uploaded successfully.!").then(function () {
+          history.push("/revenue");
+        });
       })
       .catch((error) => {
         setUploadBtn(false);

@@ -240,7 +240,7 @@ function AddEdit({ history, match }) {
                                             />
                                             </td>  
                                             <td className="traning-listing" style={{ whiteSpace: 'nowrap', minWidth: '30%' }}>
-                                                {userDetails.role == "Admin" && <div >
+                                                {userDetails.currentRole == "Admin" && <div >
                                                     <Link to={`/training/assign/${user.id}`} className="btn btn-sm btn-primary mr-1">Assign</Link>
                                                 </div>}
                                             </td>

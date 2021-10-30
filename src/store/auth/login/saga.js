@@ -30,7 +30,7 @@ function* loginUser({ payload: { user, history } }) {
         email: user.email,
         password: user.password,
       })
-      response.userRoleArray = rolesArray(response.userRole);
+      // response.userRoleArray = rolesArray(response.userRole);
       console.log("loginUser response::", response)
       localStorage.setItem("authUser", JSON.stringify(response))
       yield put(loginSuccess(response))
