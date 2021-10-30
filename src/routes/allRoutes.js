@@ -20,9 +20,13 @@ import EmailVerification from "../pages/AuthenticationInner/EmailVerification";
 import TwoStepVerfication from "../pages/AuthenticationInner/TwoStepVerfication";
 import userProfile from "../pages/Authentication/user-profile";
 import { Training } from "../pages/training/Index";
+import { Revenue } from "../pages/revenue/Index";
 import { UserAccessView } from "../pages/user/userAccessView/Index";
 import { UserList } from "../pages/user/userList/Index";
 import { AddEdit } from "../pages/training/AddEdit";
+import { AddEdit as RevenueAddEdit } from "../pages/revenue/AddEdit";
+import { List as RevenueList } from "../pages/revenue/List";
+import { UploadProgramData } from "../pages/revenue/UploadProgramData";
 import EditUser from "../pages/user/userList/EditUser";
 import AddUsers from "../pages/user/userList/AddUsers";
 import { UploadPrequisites } from "../pages/training/UploadPrequisites";
@@ -31,6 +35,8 @@ import { Trainings } from "../pages/training/Trainings";
 import { AllNominations } from "../pages/training/AllNominations";
 import { EditTrainingList } from "../pages/training/EditTrainingList";
 import { EditTraining } from "../pages/training/EditTraining";
+import { EditProgram } from "../pages/revenue/EditProgram";
+
 import { AssignUsers } from "../pages/training/AssignUsers";
 import { UploadFieldList } from "../pages/training/UploadFieldList";
 import { RFPForm } from "../pages/rfpForm/Index";
@@ -64,6 +70,13 @@ const userRoutes = [
   { path: "/training/edit/:id", component: EditTraining },
   { path: "/training/assign/:id", component: AssignUsers },
   { path: "/training/uploadList", component: UploadFieldList },
+
+  //Revenue
+  { path: "/revenue", component: Revenue },
+  { path: "/revenue/addProgram", component: RevenueAddEdit },
+  { path: "/revenue/allProgram", component: RevenueList },
+  { path: "/revenue/uploadData", component: UploadProgramData },
+  { path: "/revenue/edit/:id", component: EditProgram },
 
   //User
   // { path: "/userAccessView", component: userDetails && userDetails.role === "Admin" ? UserAccessView : null },

@@ -6,24 +6,24 @@ import { fetchWrapper, history } from '../helpers';
 const userSubject = new BehaviorSubject(null);
 const baseUrl = `${config.apiUrl}/program`;
 
-export const programService = {  
+export const programService = {
     create,
-    update,  
+    update,
     getById,
-    getAll,  
+    getAll,
     delete: _delete,
     user: userSubject.asObservable(),
-    get userValue () { return userSubject.value }
+    get userValue() { return userSubject.value }
 };
 
-function _delete(id) {    
+function _delete(id) {
     return fetchWrapper.delete(`${baseUrl}/${id}`)
-        .then(x => {            
+        .then(x => {
             // auto logout if the logged in user deleted their own record
             /* if (id === userSubject.value.id) {
                 logout();
             } */
-            console.log("x == ",x);
+            console.log("x == ", x);
             return x;
         });
 }
