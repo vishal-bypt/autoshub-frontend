@@ -21,6 +21,7 @@ import {
 import EPieChart from "../../components/AllCharts/echart/piechart";
 import GaugeChart from "../../components/AllCharts/echart/gaugechart";
 import { dashboardService } from "../../services/dashboard.service";
+import { accountService } from "../../services/account.service";
 import AdminGraphs from "./AdminGraphs";
 import ManagerGraphs from "./ManagerGraphs";
 import UserGraphs from "./UserGraphs";
@@ -80,6 +81,7 @@ const EmployeedWiseAssigned = [
 const Dashboard = () => {
   const [trainingPartnerAssigned, setTrainingPartnerAssigned] = useState([]);
   const [trainingPartnerAttended, setTrainingPartnerAttended] = useState([]);
+  const [trainingReport, setTrainingReport] = useState([]);
   const [
     trainingPartnerAssignedAttended,
     setTrainingPartnerAssignedAttended,
@@ -92,6 +94,9 @@ const Dashboard = () => {
   const [employeedWiseAssigned, setEmployeedWiseAssigned] = useState([]);
   const [startDate, setStartDate] = useState(undefined);
   const [endDate, setEndDate] = useState(undefined);
+  const userDetails = accountService.userValue;
+  const roles = userDetails.userRoleArray;
+
 
   useEffect(() => {
     apiCalls();
@@ -119,6 +124,11 @@ const Dashboard = () => {
     dashboardService
       .getEmployeedWiseAssigned(startDate, endDate)
       .then((x) => setEmployeedWiseAssigned(x));
+    
+      dashboardService
+      .getTrainingReport()
+      .then((x) => setTrainingReport(x));
+      
   }
 
   const handleStartDate = (e) => {
@@ -134,7 +144,7 @@ const Dashboard = () => {
       console.log("endDate", endDate);
       apiCalls(startDate, endDate);
   }
-  
+  console.log("trainingReport", trainingReport);
   return (
     <React.Fragment>
       <div className="page-content">
@@ -175,92 +185,16 @@ const Dashboard = () => {
             </Col>
           </Row>
           &nbsp;
+
+          {userDetails && userDetails.userRoleArray.includes("Admin" || "Executive") &&
           <AdminGraphs trainingPartnerAssigned={trainingPartnerAssigned} trainingPartnerAttended={trainingPartnerAttended} trainingPartnerAssignedAttended={trainingPartnerAssignedAttended} />
-          {/* <Row>
-            <Col xl={12}>
-              <Card>
-                <CardHeader>
-                  <CardTitle>
-                    Training Partner - Assigned Vs Attended view
-                  </CardTitle>
-                </CardHeader>
-                <CardBody>
-                  <Row className="justify-content-center">
-                    <Col sm={6}>
-                      <Row className="justify-content-center text-center">
-                        <h3 className="card-title">Assigned</h3>
-                      </Row>
-                      <EPieChart data={trainingPartnerAssigned} />
-                    </Col>
-                    <Col sm={6}>
-                      <Row className="justify-content-center text-center">
-                        <h3 className="card-title">Attended</h3>
-                      </Row>
-                      <EPieChart data={trainingPartnerAttended} />
-                    </Col>
-                  </Row>
-                  <Row className="mt-5">&nbsp;</Row>
-                  <Row className="justify-content-center">
-                    <Col sm={6}>
-                      <Row className="justify-content-center text-center">
-                        <h3 className="card-title">Assigned vs Attended</h3>
-                      </Row>
-                      <EPieChart data={trainingPartnerAssignedAttended} />
-                    </Col>
-                    <Col sm={6}>
-                      <Row className="justify-content-center text-center">
-                        <h3 className="card-title">Attended</h3>
-                      </Row>
-                      <GaugeChart />
-                    </Col>
-                  </Row>
-                </CardBody>
-              </Card>
-            </Col>
-          </Row> */}
-          {/* <Row className="justify-content-center">
-                    <Col sm={12}>
-                    <Row className="justify-content-center text-center">
-                      <h3 className="card-title">Attended</h3>
-                    </Row>
-                    <GaugeChart/>
-                    </Col>
-          </Row> */}
-          {/* <Row>
-            <Col xl={12}>
-              <Card>
-                <CardHeader>
-                  <CardTitle>Employee wise - Nominated Vs Attended</CardTitle>
-                </CardHeader>
-                <CardBody>
-                  <Row className="justify-content-center">
-                    <Col sm={4}>
-                      <Row className="justify-content-center text-center">
-                        <h3 className="card-title">Nominated</h3>
-                      </Row>
-                      <EPieChart data={employeedWiseNominated} />
-                    </Col>
-                    <Col sm={4}>
-                      <Row className="justify-content-center text-center">
-                        <h3 className="card-title">Attended</h3>
-                      </Row>
-                      <EPieChart data={employeedWiseAttended} />
-                    </Col>
-                    <Col sm={4}>
-                      <Row className="justify-content-center text-center">
-                        <h3 className="card-title">
-                          Nominated vs Accepted vs Rejected
-                        </h3>
-                      </Row>
-                      <EPieChart data={nominatedAcceptedRejected} />
-                    </Col>
-                  </Row>
-                </CardBody>
-              </Card>
-            </Col>
-          </Row> */}
+          }
+          {userDetails && userDetails.userRoleArray.includes("User" || "Executive") &&
           <UserGraphs employeedWiseNominated={employeedWiseNominated} employeedWiseAttended={employeedWiseAttended} nominatedAcceptedRejected={nominatedAcceptedRejected} />
+          }
+          {userDetails && userDetails.userRoleArray.includes("Manager" || "Executive") &&
           <ManagerGraphs employeedWiseAssigned={employeedWiseAssigned} employeedWiseNominated={employeedWiseNominated} />
+          }
         </Container>
       </div>
     </React.Fragment>

@@ -16,6 +16,7 @@ export const dashboardService = {
     getEmployeedWiseAttended,
     getNominatedAcceptedRejected,
     getEmployeedWiseAssigned,
+    getTrainingReport,
     user: userSubject.asObservable(),
     get userValue() { return userSubject.value ? userSubject.value : JSON.parse(localStorage.getItem('authUser')) }
 };
@@ -111,6 +112,10 @@ function getEmployeedWiseAssigned(startDate, endDate) {
         { value: 15, name: "AWS" },
         { value: 20, name: "Automation" },
       ]);
+}
+
+function getTrainingReport() {
+  return fetchWrapper.get(`${baseUrl}/getTrainingReport`);
 }
 
 

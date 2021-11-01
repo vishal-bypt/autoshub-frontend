@@ -65,17 +65,17 @@ function resendVerificationCode(accountId) {
 
 function logout() {
     // revoke token, stop refresh timer, publish null to user subscribers and redirect to login page
-    history.push('/login');
-    fetchWrapper.post(`${baseUrl}/revoke-token`, {});
+    //fetchWrapper.post(`${baseUrl}/revoke-token`, {});
     stopRefreshTokenTimer();
     localStorage.clear();
     userSubject.next(null);
+    history.push('/login');
+    window.location.href="/login";
 }
 
 function refreshToken() {
     return fetchWrapper.post(`${baseUrl}/refresh-token`, {})
         .then(user => {
-            console.log("user", user);
             // publish user to subscribers and start timer to refresh token
             userSubject.next(user);
             startRefreshTokenTimer();
