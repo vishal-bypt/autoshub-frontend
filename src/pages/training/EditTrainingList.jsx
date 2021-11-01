@@ -4,6 +4,7 @@ import moment from "moment";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 
 import { accountService, trainingService } from "../../services";
+import { Role } from "../../helpers/role";
 
 function EditTrainingList({ match }) {
   const { path } = match;
@@ -11,12 +12,12 @@ function EditTrainingList({ match }) {
   const [users, setUsers] = useState(null);
 
   useEffect(() => {
-    if (userDetails.currentRole == "Admin") {
+    if (userDetails.currentRole == Role.Admin) {
       trainingService.getAll().then((x) => {
         setUsers(x);
       });
     }
-    if (userDetails.currentRole == "User") {
+    if (userDetails.currentRole == Role.User) {
       let userData = [];
       trainingService.listTaskToUser().then((x) => {
         x.map((data) => {
@@ -116,7 +117,7 @@ function EditTrainingList({ match }) {
                         className="traning-listing"
                         style={{ whiteSpace: "nowrap", minWidth: "30%" }}
                       >
-                        {userDetails.currentRole == "Admin" && (
+                        {userDetails.currentRole == Role.Admin && (
                           <div>
                             <Link
                               to={`/training/edit/${user.id}`}

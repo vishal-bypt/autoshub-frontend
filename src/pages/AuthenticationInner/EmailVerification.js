@@ -54,12 +54,12 @@ const EmailVerification = () => {
                                         <div className="mb-4 mb-md-5 text-center">
                                             {
                                                 layoutMode === layoutTheme.DARKMODE ?
-                                                    <Link to="/dashboard" className="d-block auth-logo logo logo-dark">
+                                                    <Link to="/landing" className="d-block auth-logo logo logo-dark">
                                                         <img src={logo} alt="" height="100" />
                                                         {/* <span className="logo-txt">Auto S Hub</span> */}
                                                     </Link>
                                                     :
-                                                    <Link to="/dashboard" className="d-block auth-logo logo logo-light">
+                                                    <Link to="/landing" className="d-block auth-logo logo logo-light">
                                                         <img src={logoLight} alt="" height="100" />
                                                         {/* <span className="logo-txt">Auto S Hub</span> */}
                                                     </Link>
@@ -76,7 +76,7 @@ const EmailVerification = () => {
                                                     <h4>Verify your email</h4>
                                                     <p>We have sent you verification email <span className="fw-bold">sujal.bandhara@byot.in</span>, Please check it</p>
                                                     <div className="mt-4">
-                                                        <Link to="/dashboard" className="btn btn-primary w-10">Verify email</Link>
+                                                        <Link to="/landing" className="btn btn-primary w-10">Verify email</Link>
                                                     </div>
                                                 </div>
                                             </div>

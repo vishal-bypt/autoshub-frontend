@@ -12,6 +12,7 @@ import BackupIcon from '@material-ui/icons/Backup';
 import CloudDoneIcon from '@material-ui/icons/CloudDone';
 import CloudOffIcon from '@material-ui/icons/CloudOff';
 import { IconButton } from '@material-ui/core';
+import { Role } from '../../helpers';
 var FormData = require('form-data');
 
 function AddEdit({ history, match }) {
@@ -240,7 +241,7 @@ function AddEdit({ history, match }) {
                                             />
                                             </td>  
                                             <td className="traning-listing" style={{ whiteSpace: 'nowrap', minWidth: '30%' }}>
-                                                {userDetails.currentRole == "Admin" && <div >
+                                                {userDetails.currentRole == Role.Admin && <div >
                                                     <Link to={`/training/assign/${user.id}`} className="btn btn-sm btn-primary mr-1">Assign</Link>
                                                 </div>}
                                             </td>

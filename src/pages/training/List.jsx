@@ -4,6 +4,7 @@ import Refresh from '@material-ui/icons/Refresh';
 import moment from "moment";
 import { accountService, trainingService, alertService } from "../../services";
 import PopUpFileUpload from "./PopUpFileUpload";
+import { Role } from "./../../helpers/role";
 
 function List({ history, match }) {
   const { path } = match;
@@ -12,13 +13,13 @@ function List({ history, match }) {
   //console.log("userDetails role == ", userDetails.currentRole);
   const [users, setUsers] = useState(null);
   let filteredData = [];
-  useEffect(() => {    
-      trainingService.getAll().then((x) => {
-        console.log("x == ", x);
-        setUsers(x);
-      });   
+  useEffect(() => {
+    trainingService.getAll().then((x) => {
+      console.log("x == ", x);
+      setUsers(x);
+    });
 
-    if (userDetails.currentRole == "Admin") {
+    if (userDetails.currentRole == Role.Admin) {
       trainingService.getAll().then((x) => {
         /* for (let i = 0; i < x.length; i++) {
                     if (x[i].assignedByName != null && x[i].assignedToName != null) {
@@ -33,7 +34,7 @@ function List({ history, match }) {
         setUsers(x);
       });
     }
-    if (userDetails.currentRole == "Manager") {
+    if (userDetails.currentRole == Role.Manager) {
       let userData = [];
       trainingService.listTaskToUser().then((x) => {
         //console.log("x == ", x)
@@ -44,7 +45,7 @@ function List({ history, match }) {
         setUsers(userData);
       });
     }
-    if (userDetails.currentRole == "User") {
+    if (userDetails.currentRole == Role.User) {
       let userData = [];
       trainingService.listTaskToUser().then((x) => {
         x.map((data) => {
@@ -132,18 +133,18 @@ function List({ history, match }) {
       <div className="container-fluid">
         <div className="row">
           <div className="col-md-6">
-            {userDetails.currentRole == "Admin" && (
+            {userDetails.currentRole == Role.Admin && (
               <h1 className="header-text">Trainings</h1>
             )}
-            {userDetails.currentRole == "User" && (
+            {userDetails.currentRole == Role.User && (
               <h1 className="header-text">My Trainings</h1>
             )}
-            {userDetails.currentRole == "Manager" && (
+            {userDetails.currentRole == Role.Manager && (
               <h1 className="header-text">Trainings</h1>
             )}
           </div>
           <div className="col-md-6 text-end">
-            {userDetails.currentRole == "Admin" && (
+            {userDetails.currentRole == Role.Admin && (
               <>
                 <Link to={`/training/add`} className="btn btn-primary">
                   Upload Trainings
@@ -170,11 +171,11 @@ function List({ history, match }) {
                   to={`/training`}
                   className="btn btn-primary ml-1"
                 >
-                  <Refresh/>
+                  <Refresh />
                 </Link>
               </>
             )}
-            {userDetails.currentRole == "Manager" && (
+            {userDetails.currentRole == Role.Manager && (
               <>
                 <Link to={`/training/getAllByRole`} className="btn btn-primary">
                   My Trainings
@@ -196,76 +197,76 @@ function List({ history, match }) {
               <thead>
                 <tr>
                   <th>#</th>
-                  {userDetails.currentRole == "Admin" && (
+                  {userDetails.currentRole == Role.Admin && (
                     <th className="traning-listing">Month</th>
                   )}
-                  {userDetails.currentRole == "Admin" && (
+                  {userDetails.currentRole == Role.Admin && (
                     <th className="traning-listing">Start Date</th>
                   )}
-                  {userDetails.currentRole == "Admin" && (
+                  {userDetails.currentRole == Role.Admin && (
                     <th className="traning-listing">End Date</th>
                   )}
-                  {userDetails.currentRole == "Admin" && (
+                  {userDetails.currentRole == Role.Admin && (
                     <th className="traning-listing">Training Name</th>
                   )}
-                  {userDetails.currentRole == "Admin" && (
+                  {userDetails.currentRole == Role.Admin && (
                     <th className="traning-listing">Stream</th>
                   )}
-                  {userDetails.currentRole == "Admin" && (
+                  {userDetails.currentRole == Role.Admin && (
                     <th className="traning-listing">Tool Name</th>
                   )}
-                  {userDetails.currentRole == "Admin" && (
+                  {userDetails.currentRole == Role.Admin && (
                     <th className="traning-listing">No. of Nominations</th>
                   )}
-                  {userDetails.currentRole == "Admin" && (
+                  {userDetails.currentRole == Role.Admin && (
                     <th className="traning-listing">No. of Attended</th>
                   )}
-                  {userDetails.currentRole == "Admin" && (
+                  {userDetails.currentRole == Role.Admin && (
                     <th className="traning-listing">No. of Absentees</th>
                   )}
-                  {userDetails.currentRole == "User" && (
+                  {userDetails.currentRole == Role.User && (
                     <th className="traning-listing">Nominated Employee</th>
                   )}
-                  {userDetails.currentRole == "User" && (
+                  {userDetails.currentRole == Role.User && (
                     <th className="traning-listing">Nominated By</th>
                   )}
-                  {userDetails.currentRole == "User" && (
+                  {userDetails.currentRole == Role.User && (
                     <th className="traning-listing">Training Name</th>
                   )}
-                  {userDetails.currentRole == "Manager" && (
+                  {userDetails.currentRole == Role.Manager && (
                     <th className="traning-listing">Training Name</th>
                   )}
-                  {userDetails.currentRole == "Manager" && (
+                  {userDetails.currentRole == Role.Manager && (
                     <th className="traning-listing">Training Type</th>
                   )}
-                  {userDetails.currentRole == "Manager" && (
+                  {userDetails.currentRole == Role.Manager && (
                     <th className="traning-listing">Start Date</th>
                   )}
-                  {userDetails.currentRole == "User" && (
+                  {userDetails.currentRole == Role.User && (
                     <th className="traning-listing">Start Date</th>
                   )}
-                  {userDetails.currentRole == "User" && (
+                  {userDetails.currentRole == Role.User && (
                     <th className="traning-listing">End Date</th>
                   )}
-                  {userDetails.currentRole == "Manager" && (
+                  {userDetails.currentRole == Role.Manager && (
                     <th className="traning-listing">End Date</th>
                   )}
-                  {userDetails.currentRole == "User" && (
+                  {userDetails.currentRole == Role.User && (
                     <th className="traning-listing">Required Prerequisites</th>
                   )}
-                  {userDetails.currentRole == "Manager" && (
+                  {userDetails.currentRole == Role.Manager && (
                     <th className="traning-listing">Required Prerequisites</th>
                   )}
-                  {userDetails.currentRole == "Manager" && (
+                  {userDetails.currentRole == Role.Manager && (
                     <th className="traning-listing">Nomination End Date</th>
                   )}
-                  {userDetails.currentRole == "User" && (
+                  {userDetails.currentRole == Role.User && (
                     <th className="traning-listing">Status</th>
                   )}
-                  {userDetails.currentRole == "User" && (
+                  {userDetails.currentRole == Role.User && (
                     <th className="traning-listing">Upload Prequisites</th>
                   )}
-                  {userDetails.currentRole == "Manager" && <th></th>}
+                  {userDetails.currentRole == Role.Manager && <th></th>}
                 </tr>
               </thead>
               <tbody>
@@ -278,7 +279,7 @@ function List({ history, match }) {
                       >
                         {index + 1}
                       </td>
-                      {userDetails.currentRole == "Admin" && (
+                      {userDetails.currentRole == Role.Admin && (
                         <td
                           className="traning-listing"
                           style={{ minWidth: "100px" }}
@@ -286,7 +287,7 @@ function List({ history, match }) {
                           {moment(user.trainingStartDate).format("MMMM")}{" "}
                         </td>
                       )}
-                      {userDetails.currentRole == "Admin" && (
+                      {userDetails.currentRole == Role.Admin && (
                         <td
                           className="traning-listing"
                           style={{ minWidth: "130px" }}
@@ -294,7 +295,7 @@ function List({ history, match }) {
                           {moment(user.trainingStartDate).format("DD/MM/YYYY")}
                         </td>
                       )}
-                      {userDetails.currentRole == "Admin" && (
+                      {userDetails.currentRole == Role.Admin && (
                         <td
                           className="traning-listing"
                           style={{ minWidth: "130px" }}
@@ -302,7 +303,7 @@ function List({ history, match }) {
                           {moment(user.trainingEndDate).format("DD/MM/YYYY")}
                         </td>
                       )}
-                      {userDetails.currentRole == "Admin" && (
+                      {userDetails.currentRole == Role.Admin && (
                         <td
                           className="traning-listing"
                           style={{ minWidth: "150px" }}
@@ -310,7 +311,7 @@ function List({ history, match }) {
                           {user.trainingName}
                         </td>
                       )}
-                      {userDetails.currentRole == "Admin" && (
+                      {userDetails.currentRole == Role.Admin && (
                         <td
                           className="traning-listing"
                           style={{ minWidth: "150px" }}
@@ -318,7 +319,7 @@ function List({ history, match }) {
                           {user.stream}
                         </td>
                       )}
-                      {userDetails.currentRole == "Admin" && (
+                      {userDetails.currentRole == Role.Admin && (
                         <td
                           className="traning-listing"
                           style={{ minWidth: "150px" }}
@@ -326,7 +327,7 @@ function List({ history, match }) {
                           {user.toolName}
                         </td>
                       )}
-                      {userDetails.currentRole == "Admin" && (
+                      {userDetails.currentRole == Role.Admin && (
                         <td
                           className="traning-listing"
                           style={{ minWidth: "100px" }}
@@ -334,7 +335,7 @@ function List({ history, match }) {
                           {user.nominationCount ? user.nominationCount : 0}{" "}
                         </td>
                       )}
-                      {userDetails.currentRole == "User" && (
+                      {userDetails.currentRole == Role.User && (
                         <td
                           className="traning-listing"
                           style={{ minWidth: "100px" }}
@@ -342,7 +343,7 @@ function List({ history, match }) {
                           {user.assignedToName}{" "}
                         </td>
                       )}
-                      {userDetails.currentRole == "Admin" && (
+                      {userDetails.currentRole == Role.Admin && (
                         <td
                           className="traning-listing"
                           style={{ minWidth: "100px" }}
@@ -350,7 +351,7 @@ function List({ history, match }) {
                           0
                         </td>
                       )}
-                      {userDetails.currentRole == "Admin" && (
+                      {userDetails.currentRole == Role.Admin && (
                         <td
                           className="traning-listing"
                           style={{ minWidth: "100px" }}
@@ -358,7 +359,7 @@ function List({ history, match }) {
                           0
                         </td>
                       )}
-                      {userDetails.currentRole == "User" && (
+                      {userDetails.currentRole == Role.User && (
                         <td
                           className="traning-listing"
                           style={{ minWidth: "100px" }}
@@ -366,7 +367,7 @@ function List({ history, match }) {
                           {user.assignedByName}{" "}
                         </td>
                       )}
-                      {userDetails.currentRole == "Manager" && (
+                      {userDetails.currentRole == Role.Manager && (
                         <td
                           className="traning-listing"
                           style={{ minWidth: "150px" }}
@@ -374,7 +375,7 @@ function List({ history, match }) {
                           {user.trainingName}
                         </td>
                       )}
-                      {userDetails.currentRole == "User" && (
+                      {userDetails.currentRole == Role.User && (
                         <td
                           className="traning-listing"
                           style={{ minWidth: "150px" }}
@@ -382,10 +383,10 @@ function List({ history, match }) {
                           {user.trainingName}
                         </td>
                       )}
-                      {userDetails.currentRole == "Manager" && (
+                      {userDetails.currentRole == Role.Manager && (
                         <td className="traning-listing">{user.trainingType}</td>
                       )}
-                      {userDetails.currentRole == "Manager" && (
+                      {userDetails.currentRole == Role.Manager && (
                         <td
                           className="traning-listing"
                           style={{ minWidth: "130px" }}
@@ -393,7 +394,7 @@ function List({ history, match }) {
                           {moment(user.trainingStartDate).format("DD/MM/YYYY")}
                         </td>
                       )}
-                      {userDetails.currentRole == "User" && (
+                      {userDetails.currentRole == Role.User && (
                         <td
                           className="traning-listing"
                           style={{ minWidth: "130px" }}
@@ -401,7 +402,7 @@ function List({ history, match }) {
                           {moment(user.trainingStartDate).format("DD/MM/YYYY")}
                         </td>
                       )}
-                      {userDetails.currentRole == "Manager" && (
+                      {userDetails.currentRole == Role.Manager && (
                         <td
                           className="traning-listing"
                           style={{ minWidth: "130px" }}
@@ -409,7 +410,7 @@ function List({ history, match }) {
                           {moment(user.trainingEndDate).format("DD/MM/YYYY")}
                         </td>
                       )}
-                      {userDetails.currentRole == "User" && (
+                      {userDetails.currentRole == Role.User && (
                         <td
                           className="traning-listing"
                           style={{ minWidth: "130px" }}
@@ -417,7 +418,7 @@ function List({ history, match }) {
                           {moment(user.trainingEndDate).format("DD/MM/YYYY")}
                         </td>
                       )}
-                      {userDetails.currentRole == "Manager" && (
+                      {userDetails.currentRole == Role.Manager && (
                         <td
                           className="traning-listing"
                           style={{ minWidth: "130px" }}
@@ -425,7 +426,7 @@ function List({ history, match }) {
                           {user.trainingPrequisites}
                         </td>
                       )}
-                      {userDetails.currentRole == "User" && (
+                      {userDetails.currentRole == Role.User && (
                         <td
                           className="traning-listing"
                           style={{ minWidth: "130px" }}
@@ -433,12 +434,12 @@ function List({ history, match }) {
                           {user.trainingPrequisites}
                         </td>
                       )}
-                      {userDetails.currentRole == "Manager" && (
+                      {userDetails.currentRole == Role.Manager && (
                         <td>
                           {moment(user.nominationEndDate).format("DD/MM/YYYY")}
                         </td>
                       )}
-                      {userDetails.currentRole == "User" && (
+                      {userDetails.currentRole == Role.User && (
                         <td
                           className="traning-listing"
                           style={{ minWidth: "150px" }}
@@ -449,7 +450,7 @@ function List({ history, match }) {
                           Pending
                         </td>
                       )}
-                      {userDetails.currentRole == "User" && (
+                      {userDetails.currentRole == Role.User && (
                         <td>
                           {user.trainingPrequisites != "NA" ? (
                             <div>
@@ -467,7 +468,7 @@ function List({ history, match }) {
                           )}
                         </td>
                       )}
-                      {userDetails.currentRole == "Manager" && (
+                      {userDetails.currentRole == Role.Manager && (
                         <td
                           className="traning-listing"
                           style={{ minWidth: "150px" }}

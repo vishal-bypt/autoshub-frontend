@@ -21,7 +21,7 @@ const ConfirmMail = () => {
                                 <div className="w-100">
                                     <div className="d-flex flex-column h-100">
                                         <div className="mb-4 mb-md-5 text-center">
-                                            <Link to="/dashboard" className="d-block auth-logo">
+                                            <Link to="/landing" className="d-block auth-logo">
                                                 <img src={logo} alt="" height="28" /> <span className="logo-txt">Auto S Hub</span>
                                             </Link>
                                         </div>
@@ -36,7 +36,7 @@ const ConfirmMail = () => {
                                                     <h4>Success !</h4>
                                                     <p className="text-muted">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et</p>
                                                     <div className="mt-4">
-                                                        <Link to="/dashboard" className="btn btn-primary w-100">Back to Home</Link>
+                                                        <Link to="/landing" className="btn btn-primary w-100">Back to Home</Link>
                                                     </div>
                                                 </div>
                                             </div>

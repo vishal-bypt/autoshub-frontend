@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-
+import { Role } from '../../helpers';
 import { accountService, trainingService } from '../../services';
 
 function GetTrainingByRole({ match }) {
@@ -11,12 +11,12 @@ function GetTrainingByRole({ match }) {
     const [users, setUsers] = useState(null);
 
     useEffect(() => {        
-        if (userDetails.currentRole == "Admin" || userDetails.currentRole == "Manager" ) {           
+        if (userDetails.currentRole == Role.Admin || userDetails.currentRole == Role.Manager ) {           
             trainingService.getTrainingByRole().then((x) => {                
                 setUsers(x)
             });
         }
-        if (userDetails.currentRole == "User") {
+        if (userDetails.currentRole == Role.User) {
             let userData = [];
             trainingService.listTaskToUser().then((x) => {
                 x.map((data) => {

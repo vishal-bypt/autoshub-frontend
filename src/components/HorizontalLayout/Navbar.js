@@ -85,7 +85,7 @@ const Navbar = props => {
             >
               <ul className="navbar-nav">
                 <li className="nav-item dropdown">
-                  <Link className="nav-link dropdown-toggle arrow-none" to="/dashboard">
+                  <Link className="nav-link dropdown-toggle arrow-none" to="/landing">
                     <FeatherIcon
                       icon="home"
                     />

@@ -2,21 +2,23 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 import { accountService, trainingService } from '../../services';
+import { Role } from '../../helpers/role';
 
 function UploadFieldList({ match }) {
     const { path } = match;
-    const userDetails = accountService.userValue;    
+    const userDetails = accountService.userValue;
     const [users, setUsers] = useState(null);
 
-    useEffect(() => {        
-        if (userDetails.currentRole == "Admin") {            ;
+    useEffect(() => {
+        if (userDetails.currentRole == Role.Admin) {
+            ;
             trainingService.getAll().then((x) => {
                 //console.log("x == ", x);
                 setUsers(x)
             });
 
         }
-        if (userDetails.currentRole == "User") {
+        if (userDetails.currentRole == Role.User) {
             let userData = [];
             trainingService.listTaskToUser().then((x) => {
                 x.map((data) => {
@@ -33,13 +35,13 @@ function UploadFieldList({ match }) {
             trainingService.listTaskToUser().then(x => setUsers(x));
         }, []);
     } */
-    function deleteUser(id) {        
+    function deleteUser(id) {
         setUsers(users.map(x => {
             if (x.id === id) { x.isDeleting = true; }
             return x;
         }));
         trainingService.delete(id).then(() => {
-            setUsers(users => users.filter(x => x.id !== id));            
+            setUsers(users => users.filter(x => x.id !== id));
         });
     }
     //console.log("users -== ", users);
@@ -47,7 +49,7 @@ function UploadFieldList({ match }) {
     return (
         <div className="container mt-5">
             <h1>Trainings</h1>
-            {/* { userDetails.currentRole == "Admin" && <div >          
+            {/* { userDetails.currentRole == Role.Admin && <div >          
             <Link to={`${path}/add`} className="btn btn-success btn-lg mb-2 mr-3 p-2">Upload Trainings</Link>
             <Link to={`${path}/add`} className="btn btn-secondary btn-lg mb-2 mr-3">Edit Trainings</Link>
             <Link to={`${path}/add`} className="btn btn-primary btn-lg mb-2 mr-3">My Trainings</Link>
@@ -73,7 +75,7 @@ function UploadFieldList({ match }) {
                         {users && users.map((user, index) =>
                             <tr key={user.id}>
                                 <td className="traning-listing" style={{ whiteSpace: 'nowrap', minWidth: '30%' }}>
-                                    {userDetails.currentRole == "Admin" && <div >
+                                    {userDetails.currentRole == Role.Admin && <div >
                                         {/* <Link to={`${path}/edit/${user.id}`} className="btn btn-sm btn-primary mr-1">Edit</Link>
                                 <button onClick={() => deleteUser(user.id)} className="btn btn-sm btn-danger" style={{ width: '60px', marginRight:'5px' }} disabled={user.isDeleting}>
                                     {user.isDeleting 
@@ -88,7 +90,7 @@ function UploadFieldList({ match }) {
 
 
                                 {/* <td style={{ whiteSpace: 'nowrap', minWidth: '30%'}}>
-                                { userDetails.currentRole == "User" && <div >  
+                                { userDetails.currentRole == Role.User && <div >  
                                     <Link to={`${path}/uploadPrequisites`} className="btn btn-sm btn-primary mr-1">Upload</Link>
                                 </div>}                
                             </td> */}

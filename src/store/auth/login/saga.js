@@ -12,7 +12,8 @@ import {
   postSocialLogin,
   postJwtVerifyCode
 } from "../../../helpers/fakebackend_helper"
-import { rolesArray } from "../../../helpers"
+import { Role, hasAdminView, hasManagerView, hasUserView, hasExecView, rolesArray, setCurrentUserRole } from "../../../helpers"
+
 
 const fireBaseBackend = getFirebaseBackend()
 
@@ -65,7 +66,20 @@ function* verifyCode({ payload: { user, history } }) {
         accountVerificationCode: user.accountVerificationCode,
       })
       response.userRoleArray = rolesArray(response.userRole);
+      if (hasAdminView(response.userRole)) {
+        setCurrentUserRole(Role.Admin);
+      }
+      else if (hasManagerView(response.userRole)) {
+        setCurrentUserRole(Role.Manager);
+      }
+      else if (hasUserView(response.userRole)) {
+        setCurrentUserRole(Role.User);
+      }
+      else if (hasExecView(response.userRole)) {
+        setCurrentUserRole(Role.Exec);
+      }
       console.log("verifyCode response::", response)
+
       localStorage.setItem("authUser", JSON.stringify(response))
       yield put(verifyCodeSuccess(response))
     } else if (process.env.REACT_APP_DEFAULTAUTH === "fake") {

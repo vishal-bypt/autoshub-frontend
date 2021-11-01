@@ -1,7 +1,8 @@
 const Role = {
     Admin: 'Admin',
     Manager: 'Manager',
-    User: 'User'
+    User: 'User',
+    Exec:'Executive'
 }
 
 const rolesArray = (userRole) => {
@@ -13,13 +14,13 @@ const rolesArray = (userRole) => {
         // let array = [...newValue].reverse();
         array.map((value, index) => {
             if (index === 0 && value === "1") {
-                roleArray.push("executive");
+                roleArray.push(Role.Exec);
             } else if (index === 1 && value === "1") {
-                roleArray.push("admin");
+                roleArray.push(Role.Admin);
             } else if (index === 2 && value === "1") {
-                roleArray.push("manager");
+                roleArray.push(Role.Manager);
             } else if (index === 3 && value === "1") {
-                roleArray.push("user");
+                roleArray.push(Role.User);
             }
         });
         return roleArray
@@ -29,7 +30,7 @@ const rolesArray = (userRole) => {
 const hasExecView = (userRole) => {
     let isExec = false;
     let roleArray = rolesArray(userRole)
-    if (roleArray.includes("executive")) {
+    if (roleArray.includes(Role.Exec)) {
         isExec = true;
     } else {
         isExec = false;
@@ -40,7 +41,7 @@ const hasExecView = (userRole) => {
 const hasAdminView = (userRole) => {
     let isAdmin = false;
     let roleArray = rolesArray(userRole)
-    if (roleArray.includes("admin")) {
+    if (roleArray.includes(Role.Admin)) {
         isAdmin = true;
     } else {
         isAdmin = false;
@@ -51,7 +52,7 @@ const hasAdminView = (userRole) => {
 const hasManagerView = (userRole) => {
     let isManager = false;
     let roleArray = rolesArray(userRole)
-    if (roleArray.includes("manager")) {
+    if (roleArray.includes(Role.Manager)) {
         isManager = true;
     } else {
         isManager = false;
@@ -62,7 +63,7 @@ const hasManagerView = (userRole) => {
 const hasUserView = (userRole) => {
     let isUser = false;
     let roleArray = rolesArray(userRole)
-    if (roleArray.includes("user")) {
+    if (roleArray.includes(Role.User)) {
         isUser = true;
     } else {
         isUser = false;
@@ -76,6 +77,7 @@ function setCurrentUserRole(role) {
     data.currentRole = role
     localStorage.setItem("authUser", JSON.stringify(data))
 }
+
 
 module.exports = {
     Role,

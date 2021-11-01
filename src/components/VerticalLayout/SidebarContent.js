@@ -100,7 +100,7 @@ const SidebarContent = props => {
           <ul className="metismenu list-unstyled" id="side-menu">
             <li className="menu-title">{props.t("Menu")} </li>
             <li>
-              <Link to="/dashboard" className="">
+              <Link to="/landing" className="">
                 <FeatherIcon
                   icon="home"
                 />

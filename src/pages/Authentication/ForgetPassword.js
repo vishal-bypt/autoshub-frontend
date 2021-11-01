@@ -87,12 +87,12 @@ const ForgetPasswordPage = props => {
                     <div className="mb-4 mb-md-5 text-center">
                       {
                         layoutMode === layoutTheme.DARKMODE ?
-                          <Link to="/dashboard" className="d-block auth-logo logo logo-dark">
+                          <Link to="/landing" className="d-block auth-logo logo logo-dark">
                             <img src={logo} alt="" height="100" />
                             {/* <span className="logo-txt">Auto S Hub</span> */}
                           </Link>
                           :
-                          <Link to="/dashboard" className="d-block auth-logo logo logo-light">
+                          <Link to="/landing" className="d-block auth-logo logo logo-light">
                             <img src={logoLight} alt="" height="100" />
                             {/* <span className="logo-txt">Auto S Hub</span> */}
                           </Link>

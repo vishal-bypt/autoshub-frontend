@@ -22,7 +22,7 @@ const LockScreen = () => {
                                 <div className="w-100">
                                     <div className="d-flex flex-column h-100">
                                         <div className="mb-4 mb-md-5 text-center">
-                                            <Link to="/dashboard" className="d-block auth-logo">
+                                            <Link to="/landing" className="d-block auth-logo">
                                                 <img src={logo} alt="" height="28" /> <span className="logo-txt">Auto S Hub</span>
                                             </Link>
                                         </div>

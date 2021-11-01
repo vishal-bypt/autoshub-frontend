@@ -4,8 +4,11 @@ import { Link } from "react-router-dom";
 //import Breadcrumbs
 import Breadcrumbs from "../../components/Common/Breadcrumb";
 import { Container } from "reactstrap";
-import { setCurrentUserRole } from "../../helpers";
+import { setCurrentUserRole, Role } from "../../helpers";
 
+import traning from "../../assets/images/tiles/trainingTile.jpeg";
+import rfp from "../../assets/images/tiles/rfpTile.jpeg";
+import revenue from "../../assets/images/tiles/revenueTile.jpeg";
 const Landing = () => {
   return (
     <React.Fragment>
@@ -18,22 +21,31 @@ const Landing = () => {
           <Breadcrumbs title="Dashboard" breadcrumbItem="Dashboard" />
           &nbsp;
           <div className="web-form">
-            <div className="tile-div">
-              <Link onClick={() => {
-                setCurrentUserRole("Admin")
-              }} to={`/rfp/landing-entries`} className="mb-2">
-                <img src="http://52.42.196.59:4000/ReactImages/tile1.jpeg" />
-              </Link>
-              <Link onClick={() => {
-                setCurrentUserRole("Manager")
-              }} to={`training`} className="mb-2">
-                <img src="http://52.42.196.59:4000/ReactImages/tile2.jpeg" />
-              </Link>
-              <Link onClick={() => {
-                setCurrentUserRole("User")
-              }} to={`training`} className="mb-2">
-                <img src="http://52.42.196.59:4000/ReactImages/tile2.jpeg" />
-              </Link>
+            <div className="tile-div d-flex flex-row h-100">
+              <div className="mb-4 mb-md-5">
+                <Link onClick={() => {
+                  setCurrentUserRole(Role.Admin)
+                }} to={`training`} className="mb-3">
+                  <img src={rfp} />
+                </Link>
+                <div className="text-center">RFP</div>
+              </div>
+              <div className="mb-4 mb-md-5">
+                <Link onClick={() => {
+                  setCurrentUserRole(Role.Manager)
+                }} to={`training`} className="mb-3">
+                  <img src={traning} />
+                </Link>
+                <div className="text-center">Training</div>
+              </div>
+              <div className="mb-4 mb-md-5">
+                <Link onClick={() => {
+                  setCurrentUserRole(Role.User)
+                }} to={`training`} className="mb-3">
+                  <img src={revenue} />
+                </Link>
+                <div className="text-center">Revenue</div>
+              </div>
             </div>
           </div>
         </Container>

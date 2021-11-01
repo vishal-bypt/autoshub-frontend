@@ -13,6 +13,8 @@ import BackupIcon from '@material-ui/icons/Backup';
 import CloudDoneIcon from '@material-ui/icons/CloudDone';
 import CloudOffIcon from '@material-ui/icons/CloudOff';
 import { IconButton } from '@material-ui/core';
+import { Role } from '../../helpers';
+
 var FormData = require('form-data');
 
 function AssignUsers({ history, match }) {
@@ -39,7 +41,7 @@ function AssignUsers({ history, match }) {
     console.log("main temmp == ",temp);
     console.log("users == ",users)
     useEffect(() => {
-        if(userDetails.currentRole == "Admin"){ 
+        if(userDetails.currentRole == Role.Admin){ 
             trainingService.getById(id).then((x)=>{
                 setTrainingData(x)
             })   
@@ -65,7 +67,7 @@ function AssignUsers({ history, match }) {
             });
             setAssignedUsers(assignUserIds);
         }  
-        if(userDetails.currentRole == "Manager"){            
+        if(userDetails.currentRole == Role.Manager){            
             accountService.getUserList().then((x) => {
                 setUsers(x);                
                 x && x.map((userdata, index) => {
