@@ -10,15 +10,23 @@ class Pie extends Component {
   getOption = () => {
     return {
       toolbox: {
-        show: false,
+        show: true,
+        feature: {
+          mark : {show: true},
+          dataView: { readOnly: true, title : "Download Data",  lang: ['Data View', 'Cancel', 'Refresh'] },
+          restore: {title : "Restore"},
+          saveAsImage: {
+            title: 'Save As picture'
+          }
+        }
       },
       tooltip: {
         trigger: "item",
         formatter: "{a} <br/>{b} : {c} ({d}%)",
       },
       legend: {
-        orient: "horizontal",
-        left: "center",
+        orient: "vertical",
+        bottom: 'bottom',
         //data: ["Laptop", "Tablet", "Mobile", "Others", "Desktop"],
         textStyle: {
           color: ["#74788d"],

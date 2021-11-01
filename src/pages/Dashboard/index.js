@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import MetaTags from "react-meta-tags";
 //import Breadcrumbs
 import Breadcrumbs from "../../components/Common/Breadcrumb";
@@ -11,58 +11,20 @@ import {
   CardBody,
   CardTitle,
   CardHeader,
+  FormGroup,
+  Label,
+  Input, 
+  Button  
 } from "reactstrap";
 
 // import chartJs
 import EPieChart from "../../components/AllCharts/echart/piechart";
 import GaugeChart from "../../components/AllCharts/echart/gaugechart";
+import { dashboardService } from "../../services/dashboard.service";
+import AdminGraphs from "./AdminGraphs";
+import ManagerGraphs from "./ManagerGraphs";
+import UserGraphs from "./UserGraphs";
 
-const options = {
-  chart: {
-    height: 50,
-    type: "line",
-    toolbar: { show: false },
-  },
-  colors: ["#40A8CE"],
-  stroke: {
-    curve: "smooth",
-    width: 2,
-  },
-  xaxis: {
-    labels: {
-      show: false,
-    },
-    axisTicks: {
-      show: false,
-    },
-    axisBorder: {
-      show: false,
-    },
-  },
-  yaxis: {
-    labels: {
-      show: false,
-    },
-  },
-  tooltip: {
-    fixed: {
-      enabled: false,
-    },
-    x: {
-      show: false,
-    },
-    y: {
-      title: {
-        formatter: function (seriesName) {
-          return "";
-        },
-      },
-    },
-    marker: {
-      show: false,
-    },
-  },
-};
 
 const TrainingPartnerAssigned = [
   { value: 200, name: "UiPaths" },
@@ -116,6 +78,63 @@ const EmployeedWiseAssigned = [
 ];
 
 const Dashboard = () => {
+  const [trainingPartnerAssigned, setTrainingPartnerAssigned] = useState([]);
+  const [trainingPartnerAttended, setTrainingPartnerAttended] = useState([]);
+  const [
+    trainingPartnerAssignedAttended,
+    setTrainingPartnerAssignedAttended,
+  ] = useState([]);
+  const [employeedWiseNominated, setEmployeedWiseNominated] = useState([]);
+  const [employeedWiseAttended, setEmployeedWiseAttended] = useState([]);
+  const [nominatedAcceptedRejected, setNominatedAcceptedRejected] = useState(
+    []
+  );
+  const [employeedWiseAssigned, setEmployeedWiseAssigned] = useState([]);
+  const [startDate, setStartDate] = useState(undefined);
+  const [endDate, setEndDate] = useState(undefined);
+
+  useEffect(() => {
+    apiCalls();
+  }, []);
+
+  const apiCalls = (startDate, endDate) => {
+    dashboardService
+      .getTrainingPartnerAssigned(startDate, endDate)
+      .then((x) => setTrainingPartnerAssigned(x));
+    dashboardService
+      .getTrainingPartnerAttended(startDate, endDate)
+      .then((x) => setTrainingPartnerAttended(x));
+    dashboardService
+      .getTrainingPartnerAssignedAttended(startDate, endDate)
+      .then((x) => setTrainingPartnerAssignedAttended(x));
+    dashboardService
+      .getEmployeedWiseNominated(startDate, endDate)
+      .then((x) => setEmployeedWiseNominated(x));
+    dashboardService
+      .getEmployeedWiseAttended(startDate, endDate)
+      .then((x) => setEmployeedWiseAttended(x));
+    dashboardService
+      .getNominatedAcceptedRejected(startDate, endDate)
+      .then((x) => setNominatedAcceptedRejected(x));
+    dashboardService
+      .getEmployeedWiseAssigned(startDate, endDate)
+      .then((x) => setEmployeedWiseAssigned(x));
+  }
+
+  const handleStartDate = (e) => {
+      setStartDate(e.target.value);
+  }
+
+  const handleEndDate = (e) => {
+    setEndDate(e.target.value);
+  }
+  
+  const handleSubmit = (e) => {
+      console.log("startDate", startDate);
+      console.log("endDate", endDate);
+      apiCalls(startDate, endDate);
+  }
+  
   return (
     <React.Fragment>
       <div className="page-content">
@@ -126,15 +145,38 @@ const Dashboard = () => {
           {/* Render Breadcrumbs */}
           <Breadcrumbs title="Dashboard" breadcrumbItem="Dashboard" />
           <Row>
-            <Col xl={12}>
-              <select>
-                <option>JAN</option>
-                <option>FEB</option>
-              </select>
+            <Col xl={5}>
+              <FormGroup>
+                <Label for="exampleDate">Start Date</Label>
+                <Input
+                  id="startDate"
+                  name="startDate"
+                  placeholder="Start Date"
+                  type="date"
+                  onChange={handleStartDate}
+                />
+              </FormGroup>
+            </Col>
+            <Col xl={5}>
+              <FormGroup>
+                <Label for="exampleDate">End Date</Label>
+                <Input
+                  id="endDate"
+                  name="endDate"
+                  placeholder="End date"
+                  type="date"
+                  onChange={handleEndDate}
+                />
+              </FormGroup>
+            </Col>
+            <Col xl={2}>
+            { startDate && endDate && <Button name="btnFilter" className="mt-4" color="primary" id="btnFilter"  onClick={handleSubmit}>Filter</Button> }
+            { (startDate === undefined || endDate === undefined) && <Button name="btnFilter" disabled className="mt-4" color="primary" id="btnFilter" >Filter</Button> }
             </Col>
           </Row>
           &nbsp;
-          <Row>
+          <AdminGraphs trainingPartnerAssigned={trainingPartnerAssigned} trainingPartnerAttended={trainingPartnerAttended} trainingPartnerAssignedAttended={trainingPartnerAssignedAttended} />
+          {/* <Row>
             <Col xl={12}>
               <Card>
                 <CardHeader>
@@ -144,38 +186,47 @@ const Dashboard = () => {
                 </CardHeader>
                 <CardBody>
                   <Row className="justify-content-center">
-                    <Col sm={4}>
+                    <Col sm={6}>
                       <Row className="justify-content-center text-center">
                         <h3 className="card-title">Assigned</h3>
                       </Row>
-                      <EPieChart data={TrainingPartnerAssigned} />
+                      <EPieChart data={trainingPartnerAssigned} />
                     </Col>
-                    <Col sm={4}>
+                    <Col sm={6}>
                       <Row className="justify-content-center text-center">
                         <h3 className="card-title">Attended</h3>
                       </Row>
-                      <EPieChart data={TrainingPartnerAttended} />
+                      <EPieChart data={trainingPartnerAttended} />
                     </Col>
-                    <Col sm={4}>
+                  </Row>
+                  <Row className="mt-5">&nbsp;</Row>
+                  <Row className="justify-content-center">
+                    <Col sm={6}>
                       <Row className="justify-content-center text-center">
                         <h3 className="card-title">Assigned vs Attended</h3>
                       </Row>
-                      <EPieChart data={TrainingPartnerAssignedAttended} />
+                      <EPieChart data={trainingPartnerAssignedAttended} />
+                    </Col>
+                    <Col sm={6}>
+                      <Row className="justify-content-center text-center">
+                        <h3 className="card-title">Attended</h3>
+                      </Row>
+                      <GaugeChart />
                     </Col>
                   </Row>
                 </CardBody>
               </Card>
             </Col>
-          </Row>
-          <Row className="justify-content-center">
+          </Row> */}
+          {/* <Row className="justify-content-center">
                     <Col sm={12}>
                     <Row className="justify-content-center text-center">
                       <h3 className="card-title">Attended</h3>
                     </Row>
                     <GaugeChart/>
                     </Col>
-          </Row>
-          <Row>
+          </Row> */}
+          {/* <Row>
             <Col xl={12}>
               <Card>
                 <CardHeader>
@@ -187,13 +238,13 @@ const Dashboard = () => {
                       <Row className="justify-content-center text-center">
                         <h3 className="card-title">Nominated</h3>
                       </Row>
-                      <EPieChart data={EmployeedWiseNominated} />
+                      <EPieChart data={employeedWiseNominated} />
                     </Col>
                     <Col sm={4}>
                       <Row className="justify-content-center text-center">
                         <h3 className="card-title">Attended</h3>
                       </Row>
-                      <EPieChart data={EmployeedWiseAttended} />
+                      <EPieChart data={employeedWiseAttended} />
                     </Col>
                     <Col sm={4}>
                       <Row className="justify-content-center text-center">
@@ -201,38 +252,15 @@ const Dashboard = () => {
                           Nominated vs Accepted vs Rejected
                         </h3>
                       </Row>
-                      <EPieChart data={NominatedAcceptedRejected} />
+                      <EPieChart data={nominatedAcceptedRejected} />
                     </Col>
                   </Row>
                 </CardBody>
               </Card>
             </Col>
-          </Row>
-          <Row>
-            <Col xl={12}>
-              <Card>
-                <CardHeader>
-                  <CardTitle>Employee wise - Assigned vs Nominated</CardTitle>
-                </CardHeader>
-                <CardBody>
-                  <Row className="justify-content-center">
-                    <Col sm={6}>
-                      <Row className="justify-content-center text-center">
-                        <h3 className="card-title">Assigned</h3>
-                      </Row>
-                      <EPieChart data={EmployeedWiseAssigned} />
-                    </Col>
-                    <Col sm={6}>
-                      <Row className="justify-content-center text-center">
-                        <h3 className="card-title">Nominated</h3>
-                      </Row>
-                      <EPieChart data={EmployeedWiseNominated} />
-                    </Col>
-                  </Row>
-                </CardBody>
-              </Card>
-            </Col>
-          </Row>
+          </Row> */}
+          <UserGraphs employeedWiseNominated={employeedWiseNominated} employeedWiseAttended={employeedWiseAttended} nominatedAcceptedRejected={nominatedAcceptedRejected} />
+          <ManagerGraphs employeedWiseAssigned={employeedWiseAssigned} employeedWiseNominated={employeedWiseNominated} />
         </Container>
       </div>
     </React.Fragment>
