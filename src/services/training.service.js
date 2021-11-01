@@ -7,7 +7,7 @@ import { fetchWrapper, history } from '../helpers';
 const baseUrl = `${config.apiUrl}/training`;
 const baseUrl2 = `${config.apiUrl}/trainingAssign`
 const baseUrl3 = `${config.apiUrl}/trainingPreRequisites`
-export const trainingService = {    
+export const trainingService = {
     getAll,
     getById,
     create,
@@ -21,17 +21,18 @@ export const trainingService = {
     acceptOrRejectPreRequisites,
     getActiveTrainingList,
     viewPreRequisites,
+    getTrainingReport
     /* rejectPreRequisites,
     acceptPreRequisites, */
     //user: userSubject.asObservable(),
     //get userValue () { return userSubject.value }
 };
 
-function viewPreRequisites(id, userId) {     
+function viewPreRequisites(id, userId) {
     return fetchWrapper.get(`${baseUrl3}/${id}/${userId}`);
- }
+}
 
-function acceptOrRejectPreRequisites(params){    
+function acceptOrRejectPreRequisites(params) {
     return fetchWrapper.put(`${baseUrl3}/acceptOrRejectPreRequisites/`, params)
         .then(user => {
             // update stored user if the logged in user updated their own record
@@ -44,31 +45,31 @@ function acceptOrRejectPreRequisites(params){
         });
 }
 
-function rejectPreRequisites() { 
+function rejectPreRequisites() {
     return fetchWrapper.get(`${baseUrl3}/rejectPreRequisites`);
- }
+}
 
-function acceptPreRequisites() { 
+function acceptPreRequisites() {
     return fetchWrapper.get(`${baseUrl3}/acceptPreRequisites`);
- }
+}
 
-function getTrainingByRole() { 
+function getTrainingByRole() {
     return fetchWrapper.get(`${baseUrl}/getTrainingByRole`);
- }
+}
 
-function listTaskToUser() { 
+function listTaskToUser() {
     return fetchWrapper.get(`${baseUrl2}/listTaskToUser`);
- }
+}
 
 function getUserByTrainingId(id) {
     return fetchWrapper.get(`${baseUrl2}/${id}`);
 }
 
-function assignTraining(data){
+function assignTraining(data) {
     return fetchWrapper.post(`${baseUrl2}`, data);
 }
 
-function uploadExcel(params,id) {    
+function uploadExcel(params, id) {
     //params = { 'filePath' : params} 
     return fetch(`${baseUrl}/uploadExcel/${id}`,
         {
@@ -94,8 +95,8 @@ function create(params) {
     return fetchWrapper.post(baseUrl, params);
 }
 
-function update(id, params) {    
-    return fetchWrapper.put(`${baseUrl}/${id}`, {slots:params})
+function update(id, params) {
+    return fetchWrapper.put(`${baseUrl}/${id}`, { slots: params })
         .then(user => {
             // update stored user if the logged in user updated their own record
             /* if (user.id === userSubject.value.id) {
@@ -108,18 +109,21 @@ function update(id, params) {
 }
 
 // prefixed with underscore because 'delete' is a reserved word in javascript
-function _delete(id) {    
+function _delete(id) {
     return fetchWrapper.delete(`${baseUrl}/${id}`)
-        .then(x => {            
+        .then(x => {
             // auto logout if the logged in user deleted their own record
             /* if (id === userSubject.value.id) {
                 logout();
             } */
-            console.log("x == ",x);
+            console.log("x == ", x);
             return x;
         });
 }
 
+function getTrainingReport() {
+    return fetchWrapper.get(`${baseUrl}/getTrainingReport`);
+}
 // helper functions
 
 
