@@ -1,77 +1,66 @@
 import React, { useEffect, useState } from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
-import cellEditFactory from "react-bootstrap-table2-editor"
-import moment from 'moment';
 import { Link } from 'react-router-dom';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import AllInclusive from '@material-ui/icons/AllInclusive';
-import BootstrapTable from "react-bootstrap-table-next"
 import { trainingService, accountService, alertService } from '../../services';
 import Swal from 'sweetalert2'
-import CloudQueueIcon from '@material-ui/icons/CloudQueue';
-import BackupIcon from '@material-ui/icons/Backup';
-import CloudDoneIcon from '@material-ui/icons/CloudDone';
-import CloudOffIcon from '@material-ui/icons/CloudOff';
-import { IconButton } from '@material-ui/core';
-import { Role } from '../../helpers';
-
+import { Role } from "./../../helpers/role";
 var FormData = require('form-data');
 
 function AssignUsers({ history, match }) {
-
     const { id } = match.params;    
     const userDetails = accountService.userValue;
-    const user = accountService.userValue;
+    console.log("userDetails == ",userDetails);    
     const [users, setUsers] = useState(null);
-    const [trainingData, setTrainingData] = useState({});
-    const [selectedFile, setSelectedFile] = useState(null);
-    const [selectBtn, setSelectBtn] = useState(true)
+    const [trainingData, setTrainingData] = useState({});    
     const [temp, setTemp] = useState([]);
     const [uploadBtn, setUploadBtn] = useState(false)
     const [successBtn, setSuccessBtn] = useState(false)
     const [errorBtn, setErrorBtn] = useState(false)
     const [click, setClick] = useState(true)
+    const [checkedUser ,setCheckedUser] = useState([])
+    const [isDisabled, setIsDisabled] = useState(true)
     let userDropDownData = [];
     const assignUserIds = [];
-    
+    let checkedData=[]  
     const [assignedUsers, setAssignedUsers] = useState(null);
     const [perManager, setPerManager] = useState()
     const [finalValue, setFinalValue] = useState(0)
     const [final, setFinal] = useState(null)
-    console.log("main temmp == ",temp);
-    console.log("users == ",users)
-    useEffect(() => {
+   
+    useEffect(() => {        
         if(userDetails.currentRole == Role.Admin){ 
-            trainingService.getById(id).then((x)=>{
+            trainingService.getById(id).then((x)=>{                
                 setTrainingData(x)
             })   
             accountService.getManagerList().then((x) => {
                 setUsers(x);                
-                x && x.map((userdata, index) => {   
-                    console.log("userData == ",userdata);                 
+                x && x.map((userdata, index) => {  
                     userDropDownData.push(
                         {
                             label: userdata.firstName + " " + userdata.lastName,
                             value: userdata.id
                         }
                     );
-                });  
-                console.log("userDropDownData == ", userDropDownData);              
+                });                          
                 setTemp(userDropDownData);                
             })                   
             trainingService.getUserByTrainingId(id).then((x) => {
-                x.map((row) => {
-                    console.log("rows == ",row);
+                x.map((row) => {                    
                     assignUserIds.push(row.assignedTo);
                 });
             });
             setAssignedUsers(assignUserIds);
         }  
-        if(userDetails.currentRole == Role.Manager){            
+        if(userDetails.currentRole == Role.Manager){   
+            console.log("1st")
+            trainingService.getUserByTrainingId(id).then((x)=>{                
+                setTrainingData(x[0])
+            })        
+            console.log("2nd")  
             accountService.getUserList().then((x) => {
                 setUsers(x);                
-                x && x.map((userdata, index) => {
-                    //console.log("userData == ",userdata);                   
+                x && x.map((userdata, index) => {                    ;                   
                     userDropDownData.push(                       
                         {
                             label: userdata.firstName + " " + userdata.lastName,
@@ -81,40 +70,24 @@ function AssignUsers({ history, match }) {
                 });               
                 setTemp(userDropDownData);
             })        
+            console.log("3rd")
             trainingService.getUserByTrainingId(id).then((x) => {
-                x.map((row) => {
-                    //console.log("rows == ",row);
+                x.map((row) => {                    
                     assignUserIds.push(row.assignedTo);
                 });
             });
             setAssignedUsers(assignUserIds);
+            console.log("4th")
         } 
 
-        let data = parseInt(trainingData?.slots/(temp?.length))        
+        let data = parseInt(trainingData?.slots/(temp?.length)) 
         setPerManager(data)        
     }, []);   
 
-    const handleSubmit = (e) => {
-        try {
-            console.log("in submit")
-            debugger;
-            e.preventDefault();
-            var formData = new FormData();
-            if (!selectedFile) {
-                return Swal.fire('Oops...', 'Please attach excel file!', 'error')
-            }
-            formData.append('filePath', selectedFile);//append the values with key, value pair 
-            create(formData, user.id);
-        } catch (error) {
-            console.log("error == ", error);
-        }
-    }
-
-    function create(data) {
-        console.log("formData == ",data) 
-              var formData = new FormData();                
-                formData.append('data1',data) 
-                trainingService.assignTraining(data)        
+    function create(data) {        
+        var formData = new FormData();                
+        formData.append('data1',data)         
+            trainingService.assignTraining(data) 
             .then((data) => {               
                 alertService.success('Success', { keepAfterRouteChange: true });
                 Swal.fire('Training Assign successfully.!')
@@ -123,132 +96,242 @@ function AssignUsers({ history, match }) {
             .catch(error => {                
                 alertService.error(error);
             });
+           
     }
-    function updatedValue(e, index){   
-        ///console.log("index == ",index)              
-        let value = parseInt(e.target.value)  
 
-        //console.log("plaveholder == ",e.target.placeholder)  
-        //.log("updated value == ",value)       
+    function createNomination(data){
+        var formData = new FormData();                
+        formData.append('data1',data) 
+        trainingService.nominateTraining(data) 
+            .then((data) => {               
+                alertService.success('Success', { keepAfterRouteChange: true });
+                Swal.fire('Training Nominated successfully.!')
+                //trainingService.getAll().then(x => setUsers(x));
+            })
+            .catch(error => {                
+                alertService.error(error);
+            });   
+    }
+    function updatedValue(e, index){                      
+        let value = parseInt(e.target.value)  
+        
         for(let i=0;i<temp.length;i++){
             if((index-1)==i){
                 temp[i].numberOfTraining=value
             }            
         }
         let totalSlot = trainingData.slots 
-        //console.log("totalSlot == ",totalSlot)
-
-        let minus = totalSlot-e.target.placeholder
-        //console.log("minus == ",minus)
-
+        let minus = totalSlot-e.target.placeholder  
         let lastValue = minus+value
 
-        setFinalValue(lastValue)
-       
-        //console.log("lastValue = ",lastValue)
-        if(lastValue>totalSlot || lastValue<totalSlot){
-            console.log("lastValue inside == ",lastValue)
+        setFinalValue(lastValue)       
+        if(lastValue>totalSlot || lastValue<totalSlot){           
             setClick(false)
         }
     }  
 
-    useEffect(() => {          
-        if(trainingData.slots){               
-            let slotData = parseInt((trainingData?.slots)/(temp?.length))  
-            let userData=[]
-            setPerManager(slotData)
-            let totalAssignedTraining = slotData*(temp?.length) 
-            for(let i=0;i<temp?.length;i++){
-                let data=temp[i];             
-                data = { 
-                    numberOfTraining:slotData?slotData:0,
-                    managerName: temp[i].label,
-                    id: temp[i].value,
-                    trainingId: parseInt(id)
-                }                
-                userData[i]=(data);        
-                console.log(" userData[i] == ", userData[i])         
-            }; 
-            setTemp(userData)  
-            //setTemp(userData)
-            let diffenceInSlot=0; 
-            if(trainingData?.slots){            
-                diffenceInSlot = trainingData.slots-totalAssignedTraining
-            }           
-                    
-            let modifiedData=userData            
-            if(diffenceInSlot>0){            
-                for(let j = 0; j < userData?.length; j++){
-                    if(diffenceInSlot<=0){                    
-                        break;
-                    } 
-                    let data=userData[j];   
-                    //console.log("data == ",data)              
-                    data = {
-                        managerName: userData[j].managerName,                        
-                        numberOfTraining:(slotData?slotData:0)+1, 
-                        id: userData[j].id,
+    useEffect(() => {  
+        console.log("6th");            
+        if(userDetails.currentRole == Role.Admin)  {
+            if(trainingData.slots){  
+                let slotData = parseInt((trainingData?.slots)/(temp?.length))  
+                let userData=[]
+                setPerManager(slotData)
+                let totalAssignedTraining = slotData*(temp?.length) 
+                for(let i=0;i<temp?.length;i++){
+                    let data=temp[i];             
+                    data = { 
+                        numberOfTraining:slotData?slotData:0,
+                        managerName: temp[i].label,
+                        id: temp[i].value,
                         trainingId: parseInt(id)
-                    }
-                    modifiedData[j]=(data);                       
-                    diffenceInSlot--  
-                }   
-                //console.log("modified Data?? = ",modifiedData)          
-                setTemp(modifiedData)                    
-            } else {
-                setTemp(modifiedData)
+                    }                
+                    userData[i]=(data);    
+                }; 
+                setTemp(userData) 
+                let diffenceInSlot=0; 
+                if(trainingData?.slots){            
+                    diffenceInSlot = trainingData.slots-totalAssignedTraining
+                }           
+                        
+                let modifiedData=userData            
+                if(diffenceInSlot>0){            
+                    for(let j = 0; j < userData?.length; j++){
+                        if(diffenceInSlot<=0){                    
+                            break;
+                        } 
+                        let data=userData[j];                                      
+                        data = {
+                            managerName: userData[j].managerName,                        
+                            numberOfTraining:(slotData?slotData:0)+1, 
+                            id: userData[j].id,
+                            trainingId: parseInt(id)
+                        }
+                        modifiedData[j]=(data);                       
+                        diffenceInSlot--  
+                    }                               
+                    setTemp(modifiedData)                    
+                } else {                                        
+                    setTemp(modifiedData)
+                }
+            }
+            else{                           
+                let userData=[];
+                setPerManager("N/A")
+                for(let i=0;i<temp?.length;i++){
+                    let data=temp[i];                                            
+                    data = { 
+                        numberOfTraining:0,
+                        managerName: temp[i].label,
+                        trainingId: parseInt(id),
+                        id: temp[i].value,
+                    }               
+                    userData[i]=(data);                 
+                }; 
+                setTemp(userData)           
+            }        
+        } else if(userDetails.currentRole == Role.Manager){   
+            console.log("7th");                  
+            if(trainingData.assignedSlots >= 0){                
+                let userData=[]                
+                for(let i=0;i<temp?.length;i++){
+                    let data=temp[i];             
+                    data = {                         
+                        userName: temp[i].label,
+                        id: temp[i].value,
+                        trainingId: parseInt(id)
+                    }                
+                    userData[i]=(data);  
+                }; 
+                setTemp(userData)  
+            } else {  
+                console.log("in else of manager")              
+                let userData=[]; 
+                console.log("temp == ",temp)               
+                for(let i=0;i<temp?.length;i++){
+                    let data=temp[i]; 
+                    console.log("temp[i] == ",data)                                           
+                    data = { 
+                        numberOfTraining:0,
+                        userName: temp[i].label,
+                        trainingId: parseInt(id),
+                        id: temp[i].value,
+                    }               
+                    userData[i]=(data);                 
+                }; 
+                console.log("userData == ",userData)
+                setTemp(userData) 
             }
         }
-        else{            
-            let userData=[];
-            setPerManager("N/A")
-            for(let i=0;i<temp?.length;i++){
-                let data=temp[i];                         
-                data = { 
-                    numberOfTraining:0,
-                    managerName: temp[i].label,
-                    trainingId: parseInt(id),
-                    id: temp[i].id,
-                }               
-                userData[i]=(data);                 
-            }; 
-            setTemp(userData)           
-        }
-    },[trainingData])
+        },[trainingData])
 
-    const handleChange = (e) => {        
-        const { name, checked } = e.target;        
-        if (name === "allSelect") {            
-            let tempUser = temp.map((user) => {
-                return { ...user, isChecked: checked };
-            });            
+    const handleChange = (e) => {    
+        if(userDetails.currentRole == Role.Admin){    
+            const { name, checked } = e.target;        
+            if (name === "allSelect") {                        
+                let tempUser = temp.map((user) => {
+                    return { ...user, isChecked: checked };
+            });    
+            for(let i = 0; i <tempUser?.length;i++){                
+                if(tempUser[i].isChecked == true){
+                    checkedData.push(tempUser[i])
+                }
+            }          
             setTemp(tempUser);
-        } 
-        else {            
-            let tempUser = temp.map((user) =>
-                user.managerName === name ? { ...user, isChecked: checked } : user
-            );            
-            setTemp(tempUser);
+            setCheckedUser(tempUser);                      
+            if(checkedData.length>trainingData?.assignedSlots) {
+                setIsDisabled(true)
+            } else{
+                setIsDisabled(false)
+            }         
+            setCheckedUser(tempUser);
+            } else {            
+                let tempUser = temp.map((user) =>
+                    user.managerName === name ? { ...user, isChecked: checked } : user
+                );                  
+                for(let i = 0; i <tempUser?.length;i++){
+                    if(tempUser[i].isChecked == true){
+                        checkedData.push(tempUser[i])
+                    }
+                }            
+                setTemp(tempUser);
+                setCheckedUser(checkedData);                
+                if(checkedData.length>trainingData?.assignedSlots) {
+                    setIsDisabled(true)
+                } 
+                else{
+                    setIsDisabled(false)
+                } 
+                }
+        } else if(userDetails.currentRole == Role.Manager){                       
+            const { name, checked } = e.target;                 
+            if (name === "allSelect") {                         
+                let tempUser = temp.map((user) => {
+                    return { ...user, isChecked: checked };
+                }); 
+                for(let i = 0; i <tempUser?.length;i++){
+                    if(tempUser[i].isChecked == true){                        
+                        checkedData.push(tempUser[i])
+                    }
+                }  
+                setTemp(tempUser); 
+                setCheckedUser(checkedData); 
+            if(trainingData?.assignedSlots > 0){
+                if(checkedData.length>trainingData?.assignedSlots) {
+                    setIsDisabled(true)
+                } 
+                else{
+                    setIsDisabled(false)
+                }         
+            } else if(trainingData?.assignedSlots == 0){
+                setIsDisabled(false)
             }
-    };
-    /* if(temp){
-        let finalTest[];
-        for(let i=0;i<temp.length;i++){
-            if(temp[i].isChecked == true){
-                finalTest.push(temp[i])
-            }
+            
+            setCheckedUser(tempUser);
+            } else {         
+                console.log("temp == > ",temp);                        
+                let tempUser = temp.map((user) =>
+                    user.userName === name ? { ...user, isChecked: checked } : user,
+                    
+                );          
+                for(let i = 0; i <tempUser?.length;i++){
+                    console.log("tempuser == ",tempUser);
+                    if(tempUser[i].isChecked == true){
+                        tempUser[i].nominatedBy = userDetails.id
+                        tempUser[i].nominatedTo = tempUser[i].id
+                        checkedData.push(tempUser[i])
+                    }
+                }  
+                setTemp(tempUser); 
+                setCheckedUser(checkedData);                         
+                if( trainingData?.assignedSlots == 0 ) {                    
+                    setIsDisabled(false)
+                } else if(checkedData.length>trainingData?.assignedSlots){                    
+                    setIsDisabled(true)
+                }
+                else{
+                    setIsDisabled(false)
+                }    
+            }            
         }
-        setFinal(finalTest)
-    } */
-    function submitClick(e){
+    };
+    
+    
+    function submitClick(e){        
         try {
-            e.preventDefault();  
-            create(temp);
+            e.preventDefault();             
+            if(userDetails.currentRole == "Admin"){
+                create(checkedUser);
+            } else{
+                //trainingServiceconsole.log("checkedUser == ",checkedUser)
+                createNomination(checkedUser)
+            }            
         } catch (error) {
             console.log("error == ", error);
         }
     }
 
+    console.log("temp == ",temp);
     return (
         <div className="page-content">
                 <div className="container-fluid">
@@ -263,9 +346,22 @@ function AssignUsers({ history, match }) {
                         Assign Training
                     </h3>
                     <div className="card-header">
-                        <h6>Total number of Slots:- <b>{trainingData?.slots ? trainingData.slots : "N/A"}</b></h6>
-                        <h6>Total Reporting Managers:- <b>{temp?.length? temp.length : "N/A"}</b></h6>
-                        <h6>Slot for each reporing manager :-  <b>{Math.floor(perManager ? perManager : 0)}</b>&nbsp;</h6>
+                        {userDetails.currentRole == Role.Admin &&
+                            <h6>Total number of Slots:- <b>{trainingData?.slots ? trainingData.slots : "N/A"}</b></h6>
+                        }   
+                         {userDetails.currentRole == Role.Manager &&
+                            <h6>Total number of Slots:- <b>{trainingData?.assignedSlots ? trainingData.assignedSlots : "N/A"}</b></h6>
+                        } 
+                        {userDetails.currentRole == Role.Admin &&
+                                <h6>Total Reporting Managers:- <b>{temp?.length? temp.length : "N/A"}</b></h6>
+                        }
+                        {userDetails.currentRole == Role.Manager &&
+                                <h6>Total Reporting Employees:- <b>{temp?.length? temp.length : "N/A"}</b></h6>
+                        }
+                        {userDetails.currentRole == Role.Admin &&
+                            <h6>Slot for each reporing manager :-  <b>{Math.floor(perManager ? perManager : 0)}</b>&nbsp;</h6>
+                        }
+                        
                     </div>
                 </div>
             <div className="card-body mt-5">
@@ -274,60 +370,89 @@ function AssignUsers({ history, match }) {
                         <thead>
                             <tr>
                                 <th className="traning-listing" >#</th>
-                                <th className="traning-listing" >Manager Name</th>
-                                <th className="traning-listing" >Assigned Training</th>  
-                                <th className="traning-listing" style={{ whiteSpace: 'nowrap', minWidth: '30%' }}>                                                
-                                    <div className="form-check">
-                                        <input 
-                                            type="checkbox" 
-                                            className="form-check-input" 
-                                            name="allSelect"  
-                                            checked={!temp.some((user) => user?.isChecked !== true)}                                            
-                                            onChange={handleChange}
-                                        />
-                                        <label className="form-check-label ms-2">All Select</label>
-                                    </div>
-                                </th>  
+                                {userDetails.currentRole == Role.Admin &&
+                                    <th className="traning-listing" >Manager Name</th>
+                                }
+                                {userDetails.currentRole == Role.Manager &&
+                                    <th className="traning-listing" >User Name</th>
+                                }
+                                {userDetails.currentRole == Role.Admin &&
+                                    <th className="traning-listing" >Assigned Training</th> 
+                                } 
+                                <th className="traning-listing form-check" style={{ whiteSpace: 'nowrap', minWidth: '30%' }}>                                               
+                                    <input 
+                                        type="checkbox" 
+                                       /*  className="form-check-input"  */
+                                        name="allSelect"  
+                                        checked={!temp.some((user) => user?.isChecked !== true)}                                            
+                                        onChange={handleChange}
+                                    />
+                                    <label className="form-check-label ms-2">All Select</label>                                    
+                                </th>                                 
                             </tr>
                         </thead>
                         <tbody>
                             {temp && temp.map((user, index) =>
-                                <tr key={user.id}>
-                                     <td className="pt-3-half" contentEditable="false" style={{ minWidth: '40px' }}>{index + 1}</td>
-                                    <td className="traning-listing" contentEditable="false" style={{ minWidth: '40px' }} >{user.managerName}</td>                                    
-                                    {user.numberOfTraining>0 ?                                                                             
-                                        <td className="traning-listing" contentEditable="false" style={{ minWidth: '150px' }} onBlur={(e) => updatedValue(e,index+1)}>
-                                        <input
-                                            disabled
-                                            type="number"
-                                            min="0"
-                                            className="border-0"
-                                            placeholder={user.numberOfTraining ? user.numberOfTraining : "N/A"}                                           
-                                        />
-                                        </td>  : <td className="traning-listing" contentEditable="false" style={{ minWidth: '150px' }}>
-                                        <input                                                
-                                            disabled placeholder={user.numberOfTraining ? user.numberOfTraining : "N/A"}                                           
-                                        />
+                                <tr key={index}>
+                                     <td className="pt-3-half" contentEditable={false} style={{ minWidth: '40px' }}>{index + 1}</td>
+                                    {userDetails.currentRole == Role.Admin &&
+                                        <td className="traning-listing" contentEditable={false} style={{ minWidth: '40px' }} >{user.managerName}</td> 
+                                    } 
+                                    {userDetails.currentRole == Role.Manager &&
+                                        <td className="traning-listing" contentEditable={false} style={{ minWidth: '40px' }} >{user.userName}</td> 
+                                    }
+                                    {userDetails.currentRole == Role.Admin &&     
+                                    <div>                               
+                                        { user.numberOfTraining>0 ?                                                                             
+                                            <td className="traning-listing" contentEditable={false} style={{ minWidth: '150px' }} onBlur={(e) => updatedValue(e,index+1)}>
+                                            <input
+                                                disabled
+                                                type="number"
+                                                min="0"
+                                                className="border-0"
+                                                placeholder={user.numberOfTraining ? user.numberOfTraining : "N/A"}                                            
+                                            />
+                                            </td>  : <td className="traning-listing" contentEditable={false} style={{ minWidth: '150px' }}>
+                                            <input                                                
+                                                disabled placeholder={user.numberOfTraining ? user.numberOfTraining : "N/A"}                                           
+                                            />
+                                            </td>
+                                        } 
+                                      </div>     
+                                    }
+                                    {userDetails.currentRole == Role.Admin &&
+                                        <td className="traning-listing" style={{ whiteSpace: 'nowrap', minWidth: '30%' }}>
+                                            <div className="form-check" key={index}>
+                                                <input
+                                                    type="checkbox"
+                                                    className="form-check-input"
+                                                    name={user.managerName}
+                                                    checked={user?.isChecked || false}
+                                                    onChange={handleChange}
+                                                    />
+                                            </div>
                                         </td>
                                     }
-                                    <td className="traning-listing" style={{ whiteSpace: 'nowrap', minWidth: '30%' }}>
-                                        <div className="form-check" key={index}>
-                                            <input
-                                                type="checkbox"
-                                                className="form-check-input"
-                                                name={user.managerName}
-                                                checked={user?.isChecked || false}
-                                                onChange={handleChange}
-                                                />
-                                        </div>
-                                    </td>
+                                    {userDetails.currentRole == Role.Manager &&
+                                        <td className="traning-listing" style={{ whiteSpace: 'nowrap', minWidth: '30%' }}>
+                                            <div className="form-check" key={index}>
+                                                <input
+                                                    type="checkbox"
+                                                    className="form-check-input"
+                                                    name={user.userName}
+                                                    checked={user?.isChecked || false}
+                                                    onChange={handleChange}
+                                                    />
+                                            </div>
+                                        </td>
+                                    }
                                 </tr>                                
                             )}                             
                         </tbody>                        
                     </table>
                     <div className="text-end mt-3">
 
-                        <button type="submit" onClick={submitClick} className="btn btn-warning">Submit                                    
+                        <button type="submit" onClick={submitClick} className="btn btn-warning" disabled={isDisabled} >Submit                                    
                         </button>                                
                     </div>
                 </div>

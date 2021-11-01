@@ -15,6 +15,7 @@ export const trainingService = {
     uploadExcel,
     delete: _delete,
     assignTraining,
+    nominateTraining,
     getUserByTrainingId,
     listTaskToUser,
     getTrainingByRole,
@@ -67,6 +68,10 @@ function getUserByTrainingId(id) {
 
 function assignTraining(data) {
     return fetchWrapper.post(`${baseUrl2}`, data);
+}
+
+function nominateTraining(data) {
+    return fetchWrapper.post(`${baseUrl2}/nominate`, data);
 }
 
 function uploadExcel(params, id) {

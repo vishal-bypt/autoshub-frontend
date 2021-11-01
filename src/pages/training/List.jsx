@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import Refresh from "@material-ui/icons/Refresh";
+import Refresh from '@material-ui/icons/Refresh';
 import moment from "moment";
 import { accountService, trainingService, alertService } from "../../services";
 import PopUpFileUpload from "./PopUpFileUpload";
@@ -8,34 +8,20 @@ import { Role } from "./../../helpers/role";
 
 function List1({ history, match }) {
   const { path } = match;
+  //const [userDetails, setUserDetails]=useState({});  
   const userDetails = accountService.userValue;
-  console.log("userDetails == ", userDetails);
+  console.log("userValue == ",accountService.userValue)  
+  
   //console.log("userDetails role == ", userDetails.currentRole);
-  const [users, setUsers] = useState(null);
+  const [trainings, setTrainings] = useState(null);
   let filteredData = [];
-
-  useEffect(() => {
-    /* trainingService.getAll().then((x) => {
-      console.log("x == ", x);
-      setUsers(x);
-    }); */
-
-    if (userDetails.currentRole == Role.Admin) {
-      trainingService.getAll().then((x) => {
-        /* for (let i = 0; i < x.length; i++) {
-                    if (x[i].assignedByName != null && x[i].assignedToName != null) {
-                        console.log("x[1] == ", x[i]);
-                        if (x[i].acceptRejectStatus == 1) {
-                            x[i].acceptRejectStatus = "Completed"
-                            console.log("x[i].acceptRejectStatus == ", x[i].acceptRejectStatus);
-                        }
-                        filteredData.push(x[i])
-                    }
-                } */
-        setUsers(x);
+  useEffect(() => {    
+    if (userDetails?.currentRole == Role.Admin) {     
+      trainingService.getAll().then((x) => {       
+        setTrainings(x);
       });
     }
-    if (userDetails.currentRole == Role.Manager) {
+    if (userDetails?.currentRole == Role.Manager) {
       let userData = [];
       trainingService.listTaskToUser().then((x) => {
         //console.log("x == ", x)
@@ -43,24 +29,23 @@ function List1({ history, match }) {
           x = data.training;
           userData.push(x);
         });
-        setUsers(userData);
+        setTrainings(userData);
       });
     }
-    if (userDetails.currentRole == Role.User) {
+    if (userDetails?.currentRole == Role.User) {
       let userData = [];
       trainingService.listTaskToUser().then((x) => {
-        x.map((data) => {
-          //console.log("data of user == ", data);
+        x.map((data) => {          
           x = data.training;
           x.assignedByName = `${data.assignBy.firstName}  ${data.assignBy.lastName}`;
           x.assignedToName = `${data.assignTo.firstName}  ${data.assignTo.lastName}`;
           x.acceptRejectStatus = data.acceptRejectStatus;
           userData.push(x);
         });
-        setUsers(userData);
+        setTrainings(userData);
       });
     }
-  }, []);
+  }, [userDetails]);
 
   const viewPreRequisited = (e) => () => {
     let id = e.id;
@@ -96,7 +81,7 @@ function List1({ history, match }) {
             filteredData.push(x[i]);
           }
         }
-        setUsers(filteredData);
+        setTrainings(filteredData);
       });
       history.push("/training");
     });
@@ -124,36 +109,34 @@ function List1({ history, match }) {
             filteredData.push(x[i]);
           }
         }
-        setUsers(filteredData);
+        setTrainings(filteredData);
       });
       history.push("/training");
     });
   };
+  console.log("details = ",userDetails)
   return (
     <div className="page-content">
       <div className="container-fluid">
         <div className="row">
           <div className="col-md-6">
-            {userDetails.currentRole == Role.Admin && (
+            {userDetails?.currentRole == Role.Admin && (
               <h1 className="header-text">Trainings</h1>
             )}
-            {userDetails.currentRole == Role.User && (
+            {userDetails?.currentRole == Role.User && (
               <h1 className="header-text">My Trainings</h1>
             )}
-            {userDetails.currentRole == Role.Manager && (
+            {userDetails?.currentRole == Role.Manager && (
               <h1 className="header-text">Trainings</h1>
             )}
           </div>
           <div className="col-md-6 text-end">
-            {userDetails.currentRole == Role.Admin && (
+            {userDetails?.currentRole == Role.Admin && (
               <>
                 <Link to={`/training/add`} className="btn btn-primary">
                   Upload Trainings
                 </Link>
-                <Link
-                  to={`/training/editList`}
-                  className="btn btn-primary ml-1"
-                >
+                <Link to={`/training/editList`} className="btn btn-primary ml-1">
                   Edit Trainings
                 </Link>
                 <Link
@@ -171,12 +154,15 @@ function List1({ history, match }) {
                 >
                   All Nominations
                 </Link>
-                <Link to={`/training`} className="btn btn-primary ml-1">
+                <Link
+                  to={`/training`}
+                  className="btn btn-primary ml-1"
+                >
                   <Refresh />
                 </Link>
               </>
             )}
-            {userDetails.currentRole == Role.Manager && (
+            {userDetails?.currentRole == Role.Manager && (
               <>
                 <Link to={`/training/getAllByRole`} className="btn btn-primary">
                   My Trainings
@@ -198,7 +184,7 @@ function List1({ history, match }) {
               <thead>
                 <tr>
                   <th>#</th>
-                  {userDetails.currentRole == Role.Admin && (
+                  {userDetails?.currentRole == Role.Admin && (
                     <>
                       <th className="traning-listing">Month</th>
                       <th className="traning-listing">Start Date</th>
@@ -212,39 +198,35 @@ function List1({ history, match }) {
                     </>
                   )}
 
-                  {userDetails.currentRole == Role.Manager && (
+                  {userDetails?.currentRole == Role.Manager && (
                     <>
                       <th className="traning-listing">Training Name</th>
                       <th className="traning-listing">Training Type</th>
                       <th className="traning-listing">Start Date</th>
                       <th className="traning-listing">End Date</th>
-                      <th className="traning-listing">
-                        Required Prerequisites
-                      </th>
+                      <th className="traning-listing">Required Prerequisites</th>
                       <th className="traning-listing">Nomination End Date</th>
                       <th></th>
                     </>
                   )}
 
-                  {userDetails.currentRole == Role.User && (
+                  {userDetails?.currentRole == Role.User && (
                     <>
                       <th className="traning-listing">Nominated Employee</th>
                       <th className="traning-listing">Nominated By</th>
                       <th className="traning-listing">Training Name</th>
                       <th className="traning-listing">Start Date</th>
                       <th className="traning-listing">End Date</th>
-                      <th className="traning-listing">
-                        Required Prerequisites
-                      </th>
+                      <th className="traning-listing">Required Prerequisites</th>
                       <th className="traning-listing">Status</th>
                       <th className="traning-listing">Upload Prequisites</th>
                     </>
-                  )}
+                  )}              
                 </tr>
               </thead>
               <tbody>
-                {users &&
-                  users.map((user, index) => (
+                {trainings &&
+                  trainings.map((user, index) => (
                     <tr key={user.id}>
                       <td
                         className="traning-listing"
@@ -252,175 +234,104 @@ function List1({ history, match }) {
                       >
                         {index + 1}
                       </td>
-                      {userDetails.currentRole == Role.Admin && (
+                      {userDetails?.currentRole == Role.Admin && (
                         <>
-                          <td
-                            className="traning-listing"
-                            style={{ minWidth: "100px" }}
-                          >
+                          <td className="traning-listing" style={{ minWidth: "100px" }}>
                             {moment(user.trainingStartDate).format("MMMM")}{" "}
                           </td>
-                          <td
-                            className="traning-listing"
-                            style={{ minWidth: "130px" }}
-                          >
-                            {moment(user.trainingStartDate).format(
-                              "DD/MM/YYYY"
-                            )}
+                          <td className="traning-listing" style={{ minWidth: "130px" }}>
+                            {moment(user.trainingStartDate).format("DD/MM/YYYY")}
                           </td>
-                          <td
-                            className="traning-listing"
-                            style={{ minWidth: "130px" }}
-                          >
+                          <td className="traning-listing" style={{ minWidth: "130px" }}>
                             {moment(user.trainingEndDate).format("DD/MM/YYYY")}
                           </td>
-                          <td
-                            className="traning-listing"
-                            style={{ minWidth: "150px" }}
-                          >
+                          <td className="traning-listing" style={{ minWidth: "150px" }}>
                             {user.trainingName}
                           </td>
-                          <td
-                            className="traning-listing"
-                            style={{ minWidth: "150px" }}
-                          >
+                          <td className="traning-listing" style={{ minWidth: "150px" }}>
                             {user.stream}
                           </td>
-                          <td
-                            className="traning-listing"
-                            style={{ minWidth: "150px" }}
-                          >
+                          <td className="traning-listing" style={{ minWidth: "150px" }}>
                             {user.toolName}
                           </td>
-                          <td
-                            className="traning-listing"
-                            style={{ minWidth: "100px" }}
-                          >
+                          <td className="traning-listing" style={{ minWidth: "100px" }}>
                             {user.nominationCount ? user.nominationCount : 0}{" "}
                           </td>
-                          <td
-                            className="traning-listing"
-                            style={{ minWidth: "100px" }}
-                          >
+                          <td className="traning-listing" style={{ minWidth: "100px" }}>
                             0
                           </td>
-                          <td
-                            className="traning-listing"
-                            style={{ minWidth: "100px" }}
-                          >
+                          <td className="traning-listing" style={{ minWidth: "100px" }}>
                             0
                           </td>
                         </>
                       )}
-
-                      {userDetails.currentRole == Role.User && (
+                      
+                      {userDetails?.currentRole == Role.User && (
                         <>
-                          <td
-                            className="traning-listing"
-                            style={{ minWidth: "100px" }}
-                          >
+                          <td className="traning-listing" style={{ minWidth: "100px" }}>
                             {user.assignedToName}{" "}
                           </td>
-                          <td
-                            className="traning-listing"
-                            style={{ minWidth: "100px" }}
-                          >
+                          <td className="traning-listing" style={{ minWidth: "100px" }}>
                             {user.assignedByName}{" "}
                           </td>
-                          <td
-                            className="traning-listing"
-                            style={{ minWidth: "150px" }}
-                          >
+                          <td className="traning-listing" style={{ minWidth: "150px" }}>
                             {user.trainingName}
                           </td>
-                          <td
-                            className="traning-listing"
-                            style={{ minWidth: "130px" }}
-                          >
-                            {moment(user.trainingStartDate).format(
-                              "DD/MM/YYYY"
-                            )}
+                          <td className="traning-listing" style={{ minWidth: "130px" }}>
+                            {moment(user.trainingStartDate).format("DD/MM/YYYY")}
                           </td>
-                          <td
-                            className="traning-listing"
-                            style={{ minWidth: "130px" }}
-                          >
+                          <td className="traning-listing" style={{ minWidth: "130px" }}>
                             {moment(user.trainingEndDate).format("DD/MM/YYYY")}
                           </td>
-                          <td
-                            className="traning-listing"
-                            style={{ minWidth: "130px" }}
-                          >
+                          <td className="traning-listing" style={{ minWidth: "130px" }}>
                             {user.trainingPrequisites}
                           </td>
-                          <td
-                            className="traning-listing"
-                            style={{ minWidth: "150px" }}
-                          >
+                          <td className="traning-listing" style={{ minWidth: "150px" }}>
                             {/* {user.acceptRejectStatus == 0 ?
                                           "Pending" : "Completed"
                                       } */}
                             Pending
                           </td>
                           <td>
-                            {user.trainingPrequisites != "NA" ? (
-                              <div>
-                                {user.acceptRejectStatus != "1" ? (
-                                  <PopUpFileUpload
-                                    id={user.id}
-                                    userDetails={userDetails}
-                                  />
-                                ) : (
-                                  "-"
-                                )}{" "}
-                              </div>
-                            ) : (
-                              "-"
-                            )}
-                          </td>
+                          {user.trainingPrequisites != "NA" ? (
+                            <div>
+                              {user.acceptRejectStatus != "1" ? (
+                                <PopUpFileUpload
+                                  id={user.id}
+                                  userDetails={userDetails}
+                                />
+                              ) : (
+                                "-"
+                              )}{" "}
+                            </div>
+                          ) : (
+                            "-"
+                          )}
+                        </td>
                         </>
                       )}
 
-                      {userDetails.currentRole == Role.Manager && (
+                      {userDetails?.currentRole == Role.Manager && (
                         <>
-                          <td
-                            className="traning-listing"
-                            style={{ minWidth: "150px" }}
-                          >
+                          <td className="traning-listing" style={{ minWidth: "150px" }}>
                             {user.trainingName}
                           </td>
                           <td className="traning-listing">
                             {user.trainingType}
                           </td>
-                          <td
-                            className="traning-listing"
-                            style={{ minWidth: "130px" }}
-                          >
-                            {moment(user.trainingStartDate).format(
-                              "DD/MM/YYYY"
-                            )}
+                          <td className="traning-listing" style={{ minWidth: "130px" }}>
+                            {moment(user.trainingStartDate).format("DD/MM/YYYY")}
                           </td>
-                          <td
-                            className="traning-listing"
-                            style={{ minWidth: "130px" }}
-                          >
+                          <td className="traning-listing" style={{ minWidth: "130px" }}>
                             {moment(user.trainingEndDate).format("DD/MM/YYYY")}
                           </td>
-                          <td
-                            className="traning-listing"
-                            style={{ minWidth: "130px" }}
-                          >
+                          <td className="traning-listing" style={{ minWidth: "130px" }}>
                             {user.trainingPrequisites}
                           </td>
                           <td>
-                            {moment(user.nominationEndDate).format(
-                              "DD/MM/YYYY"
-                            )}
+                            {moment(user.nominationEndDate).format("DD/MM/YYYY")}
                           </td>
-                          <td
-                            className="traning-listing"
-                            style={{ minWidth: "150px" }}
-                          >
+                          <td className="traning-listing" style={{ minWidth: "150px" }}>
                             <Link
                               to={`/training/assign/${user.id}`}
                               className="btn btn-warning"
@@ -429,10 +340,11 @@ function List1({ history, match }) {
                             </Link>
                           </td>
                         </>
-                      )}
+
+                      )} 
                     </tr>
                   ))}
-                {!users && (
+                {!trainings && (
                   <tr>
                     <td colSpan="10" className="text-center">
                       <span className="spinner-border spinner-border-lg align-center"></span>
