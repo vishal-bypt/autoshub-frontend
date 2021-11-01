@@ -22,14 +22,14 @@ const Landing = () => {
           &nbsp;
           <div className="web-form">
             <div className="tile-div d-flex flex-row h-100">
-              <div className="mb-4 mb-md-5">
+              {/* <div className="mb-4 mb-md-5">
                 <Link onClick={() => {
                   setCurrentUserRole(Role.Admin)
                 }} to={`training`} className="mb-3">
                   <img src={rfp} />
                 </Link>
                 <div className="text-center">RFP</div>
-              </div>
+              </div> */}
               <div className="mb-4 mb-md-5">
                 <Link onClick={() => {
                   setCurrentUserRole(Role.Manager)
@@ -38,14 +38,14 @@ const Landing = () => {
                 </Link>
                 <div className="text-center">Training</div>
               </div>
-              <div className="mb-4 mb-md-5">
+              {/* <div className="mb-4 mb-md-5">
                 <Link onClick={() => {
                   setCurrentUserRole(Role.User)
                 }} to={`training`} className="mb-3">
                   <img src={revenue} />
                 </Link>
                 <div className="text-center">Revenue</div>
-              </div>
+              </div> */}
             </div>
           </div>
         </Container>
