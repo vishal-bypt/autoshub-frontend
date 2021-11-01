@@ -2,7 +2,7 @@ const Role = {
     Admin: 'Admin',
     Manager: 'Manager',
     User: 'User',
-    Exec:'Executive'
+    Exec: 'Executive'
 }
 
 const rolesArray = (userRole) => {
@@ -78,6 +78,46 @@ function setCurrentUserRole(role) {
     localStorage.setItem("authUser", JSON.stringify(data))
 }
 
+function getUserName(firstName, lastName) {
+    if (firstName !== "" || firstName !== null) {
+        const userName = firstName + " " + lastName;
+        return userName;
+    } else if (lastName !== "" || lastName !== null) {
+        return lastName;
+    } else {
+        return "Anonymous";
+    }
+}
+
+function getInitials(name) {
+
+    //splits words to array
+    var nameArray = name.split(" ");
+
+    var initials = '';
+
+    //if it's a single word, return 1st and 2nd character
+    if (nameArray.length === 1) {
+        return nameArray[0].charAt(0) + "" + nameArray[0].charAt(1);
+    } else {
+        initials = nameArray[0].charAt(0);
+    }
+    //else it's more than one, concat the initials in a loop
+    //we've gotten the first word, get the initial of the last word
+
+
+    //first word
+
+    for (let i = nameArray.length - 1; i < nameArray.length; i++) {
+        initials += nameArray[i].charAt(0);
+    }
+
+    // for (i = (nameArray.length - 1); i < nameArray.length; i++) {
+    //     initials += nameArray[i].charAt(0);
+    // }
+    //return capitalized initials
+    return initials.toUpperCase();
+}
 
 module.exports = {
     Role,
@@ -86,5 +126,7 @@ module.exports = {
     hasAdminView,
     hasManagerView,
     hasUserView,
-    setCurrentUserRole
+    setCurrentUserRole,
+    getUserName,
+    getInitials
 }

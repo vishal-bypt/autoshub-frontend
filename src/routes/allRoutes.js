@@ -47,7 +47,7 @@ import { EditedEntries } from '../pages/rfpForm/EditedEntries';
 import { LandingEntries } from '../pages/rfpForm/LandingEntries';
 import { accountService } from "../services";
 import Landing from "../pages/Dashboard/Landing";
-
+import {List1} from "../pages/training/List"
 const userDetails = accountService.userValue;
 
 const userRoutes = [
@@ -61,6 +61,7 @@ const userRoutes = [
 
   //Training
   { path: "/training", component: Training },
+  { path: "/training/list", component: List1 },
   { path: "/training/add", component: AddEdit },
   { path: "/training/uploadPrequisites", component: UploadPrequisites },
   { path: "/training/getAllByRole", component: GetTrainingByRole },

@@ -32,6 +32,7 @@ import avatar from "../../assets/images/users/avatar-1.jpg"
 // actions
 import { editProfile, resetProfileFlag } from "../../store/actions"
 import { UserList } from "../user/userList/Index";
+import { getInitials, getUserName } from "../../helpers";
 
 const UserProfile = props => {
   const dispatch = useDispatch()
@@ -109,6 +110,8 @@ const UserProfile = props => {
     email: user.email || ""
   };
 
+  const userName = getUserName(user.firstName || "", user.lastName || "")
+
   return (
     <React.Fragment>
       <div className="page-content">
@@ -128,16 +131,19 @@ const UserProfile = props => {
                 <CardBody>
                   <div className="d-flex">
                     <div className="ms-3">
-                      <img
+                      {/* <img
                         src={avatar}
                         alt=""
                         className="avatar-md rounded-circle img-thumbnail"
-                      />
+                      /> */}
+                      <div className="avatar-md rounded-circle header-profile-user d-flex align-items-center justify-content-center">
+                        <span>{getInitials(userName)}</span>
+                      </div>
                     </div>
                     <div className="flex-grow-1 align-self-center ms-3">
                       <div className="text-muted">
                         <div className="d-flex flex-wrap align-items-start gap-2 gap-lg-3 text-muted font-size-13">
-                          <h5>{user.firstName} {user.lastName}</h5>
+                          <h5>{userName}</h5>
                           {
                             user && userRoleArray && userRoleArray.map((item, index) => {
                               return (
