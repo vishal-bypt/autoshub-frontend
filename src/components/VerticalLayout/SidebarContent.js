@@ -115,8 +115,7 @@ const SidebarContent = props => {
                 <span>{props.t("Training")}</span>
               </Link>
             </li>
-            <li>
-              {/* <Link to="/rfp/all-entries" className=""> */}
+            {/* <li>
               <Link to="/" className="">
                 <FeatherIcon
                   icon="file-text"
@@ -131,7 +130,7 @@ const SidebarContent = props => {
                 />
                 <span>{props.t("Revenue")}</span>
               </Link>
-            </li>
+            </li> */}
             {
               (userDetails && userDetails.role && userDetails.role == "Admin") &&
               <li>

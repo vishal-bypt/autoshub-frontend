@@ -76,6 +76,7 @@ function setCurrentUserRole(role) {
     const data = JSON.parse(localData);
     data.currentRole = role
     localStorage.setItem("authUser", JSON.stringify(data))
+    return true
 }
 
 function getUserName(firstName, lastName) {

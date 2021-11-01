@@ -113,7 +113,7 @@ const Navbar = props => {
                   </Link>
                 </li>
 
-                <li className="nav-item dropdown">
+                {/* <li className="nav-item dropdown">
                   <Link
                     to="/"
                     className="nav-link arrow-none"
@@ -123,9 +123,9 @@ const Navbar = props => {
                     />
                     {props.t("RFC")}
                   </Link>
-                </li>
+                </li> */}
 
-                <li className="nav-item dropdown">
+                {/* <li className="nav-item dropdown">
                   <Link
                     to="/revenue"
                     className="nav-link arrow-none"
@@ -135,7 +135,7 @@ const Navbar = props => {
                     />
                     {props.t("Revenue")}
                   </Link>
-                </li>
+                </li> */}
 
                 <li className="nav-item dropdown">
                   <Link
