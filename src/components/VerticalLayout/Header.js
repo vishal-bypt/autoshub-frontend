@@ -197,12 +197,12 @@ const Header = props => {
               </div>
             </div>
 
-            <LanguageDropdown />
+            {/* <LanguageDropdown /> */}
 
             {/* light / dark mode */}
             <LightDark layoutMode={props['layoutMode']} onChangeLayoutMode={onChangeLayoutMode} />
 
-            <Dropdown
+            {/* <Dropdown
               className="d-none d-lg-inline-block ms-1"
               isOpen={socialDrp}
               toggle={() => {
@@ -265,7 +265,7 @@ const Header = props => {
               </DropdownMenu>
             </Dropdown>
 
-            <NotificationDropdown />
+            <NotificationDropdown /> */}
             <div
               onClick={toggleTopDrawer} disabled={open}
               className="dropdown d-inline-block"

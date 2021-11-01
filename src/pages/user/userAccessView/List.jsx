@@ -6,6 +6,7 @@ import { Card, CardBody, Col, Row } from "reactstrap";
 import Breadcrumbs from "../../../components/Common/Breadcrumb";
 import Loader from "../../../components/Common/Loader";
 import {
+  getUserName,
   hasAdminView,
   hasExecView,
   hasManagerView,
@@ -155,16 +156,6 @@ const List = ({ history }) => {
       });
   }
 
-  function getUserName(firstName, lastName) {
-    if (firstName !== "" || firstName !== null) {
-      const userName = firstName + " " + lastName;
-      return userName;
-    } else if (lastName !== "" || lastName !== null) {
-      return lastName;
-    } else {
-      return "Anonymous";
-    }
-  }
   function getAllUser(sizePerPage, currentOffset, searchValue) {
     setIsSubmitting(true);
     accountService
