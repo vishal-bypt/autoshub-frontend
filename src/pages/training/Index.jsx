@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
 
-import { List } from "./List";
+import { List1 } from "./List";
 import { AddEdit } from "./AddEdit";
 import { EditTraining } from "./EditTraining";
 import { AssignUsers } from "./AssignUsers";
@@ -11,13 +11,15 @@ import { EditTrainingList } from "./EditTrainingList";
 import { GetTrainingByRole } from "./GetTrainingByRole";
 import { AllNominations } from "./AllNominations";
 import { Trainings } from "./Trainings";
+import { RoleWiseTile } from "./RoleWiseTile";
 
 function Training({ match }) {
   const { path } = match;
 
   return (
     <Switch>
-      <Route exact path={path} component={List} />
+      <Route exact path={`${path}/list`} component={List1} /> 
+      <Route exact path={path} component={RoleWiseTile} />
       <Route exact path={`${path}/add`} component={AddEdit} />
       <Route
         exact
