@@ -140,6 +140,9 @@ const Navbar = props => {
                 <li className="nav-item dropdown">
                   <Link
                     to="/#"
+                    onClick={e => {
+                      e.preventDefault();
+                    }}
                     className="nav-link dropdown-togglez arrow-none"
                   >
                     <FeatherIcon

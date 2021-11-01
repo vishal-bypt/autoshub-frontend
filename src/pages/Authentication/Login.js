@@ -108,7 +108,7 @@ const Login = props => {
         <title>Login | Auto S Hub</title>
       </MetaTags>
       <div className="auth-page" style={{ background: layoutMode === layoutTheme.DARKMODE ? "#12181D" : "#fbffff" }}>
-        <Container fluid className="p-0" style={{ maxWidth: '100%' }}>
+        <Container fluid className="p-0 mw-100">
           <Row className="g-0">
             <Col lg={4} md={5} className="col-xxl-3">
               <div className="auth-shodow auth-full-page-content d-flex p-sm-5 p-4">

@@ -57,7 +57,7 @@ const ProfileMenu = props => {
           /> */}
           <div className="d-flex align-items-center">
             <div className="rounded-circle header-profile-user d-flex align-items-center justify-content-center">
-              <span>{getInitials(username)}</span>
+              <span className="text-white">{getInitials(username)}</span>
             </div>
             <span className="d-none d-xl-inline-block ms-2 me-1">{username}</span>
             <i className="mdi mdi-chevron-down d-none d-xl-inline-block" />
