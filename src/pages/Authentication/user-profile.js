@@ -137,7 +137,7 @@ const UserProfile = props => {
                         className="avatar-md rounded-circle img-thumbnail"
                       /> */}
                       <div className="avatar-md rounded-circle header-profile-user d-flex align-items-center justify-content-center">
-                        <span>{getInitials(userName)}</span>
+                        <span className="text-white">{getInitials(userName)}</span>
                       </div>
                     </div>
                     <div className="flex-grow-1 align-self-center ms-3">

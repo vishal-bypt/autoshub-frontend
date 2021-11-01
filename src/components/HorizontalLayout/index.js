@@ -57,20 +57,20 @@ const Layout = (props) => {
     dispatch(changeLayout("horizontal"));
   }, [dispatch]);
 
-  useEffect(() => {
-    if (isPreloader === true) {
-      document.getElementById("preloader").style.display = "block";
-      document.getElementById("status").style.display = "block";
+  // useEffect(() => {
+  //   if (isPreloader === true) {
+  //     document.getElementById("preloader").style.display = "block";
+  //     document.getElementById("status").style.display = "block";
 
-      setTimeout(function () {
-        document.getElementById("preloader").style.display = "none";
-        document.getElementById("status").style.display = "none";
-      }, 2500);
-    } else {
-      document.getElementById("preloader").style.display = "none";
-      document.getElementById("status").style.display = "none";
-    }
-  }, [isPreloader]);
+  //     setTimeout(function () {
+  //       document.getElementById("preloader").style.display = "none";
+  //       document.getElementById("status").style.display = "none";
+  //     }, 2500);
+  //   } else {
+  //     document.getElementById("preloader").style.display = "none";
+  //     document.getElementById("status").style.display = "none";
+  //   }
+  // }, [isPreloader]);
   const { changelayoutMode } = props;
 
   useEffect(() => {
@@ -92,7 +92,7 @@ const Layout = (props) => {
   }, [dispatch, layoutWidth]);
 
   useEffect(() => {
-    
+
     if (layoutMode) {
       dispatch(changelayoutMode(layoutMode, layoutType));
     }

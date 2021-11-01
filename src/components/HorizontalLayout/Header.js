@@ -58,7 +58,7 @@ const Header = props => {
         <div className="navbar-header">
           <div className="d-flex">
             <div className="navbar-brand-box">
-              <Link to="/landing" className="logo logo-dark">
+              <a href="https://www.techmahindra.com/en-in/business-process-services/" className="logo logo-dark">
                 <span className="logo-sm">
                   <img src={autoshubSmallLight} alt="" height="35" />
                 </span>
@@ -73,9 +73,9 @@ const Header = props => {
                   <img src={logo} alt="" height="24" />
                   <span className="logo-txt">Auto S Hub</span>
                 </span> */}
-              </Link>
+              </a>
 
-              <Link to="/landing" className="logo logo-light">
+              <a href="https://www.techmahindra.com/en-in/business-process-services/" className="logo logo-light">
                 <span className="logo-sm">
                   <img src={autoshubSmall} alt="" height="35" />
                 </span>
@@ -89,7 +89,7 @@ const Header = props => {
                   <img src={logo} alt="" height="24" />
                   <span className="logo-txt">Auto S Hub</span>
                 </span> */}
-              </Link>
+              </a>
             </div>
 
             <button
@@ -104,14 +104,14 @@ const Header = props => {
               <i className="fa fa-fw fa-bars" />
             </button>
 
-            <form className="app-search d-none d-lg-block">
+            {/* <form className="app-search d-none d-lg-block">
               <div className="position-relative">
                 <input type="text" className="form-control"
                   placeholder="Search..." />
                 <button className="btn btn-primary" type="button"><i
                   className="bx bx-search-alt align-middle"></i></button>
               </div>
-            </form>
+            </form> */}
           </div>
 
           <div className="d-flex">
@@ -244,7 +244,7 @@ const Header = props => {
       >
         <RightSidebar onClose={onDrawerClose} onChangeLayoutMode={onChangeLayoutMode} />
       </ReactDrawer>
-    </React.Fragment>
+    </React.Fragment >
   )
 }
 
