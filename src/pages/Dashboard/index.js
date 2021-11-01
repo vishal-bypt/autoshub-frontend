@@ -13,8 +13,8 @@ import {
   CardHeader,
   FormGroup,
   Label,
-  Input, 
-  Button  
+  Input,
+  Button
 } from "reactstrap";
 
 // import chartJs
@@ -25,6 +25,7 @@ import { accountService } from "../../services/account.service";
 import AdminGraphs from "./AdminGraphs";
 import ManagerGraphs from "./ManagerGraphs";
 import UserGraphs from "./UserGraphs";
+import { trainingService } from "../../services";
 
 
 const TrainingPartnerAssigned = [
@@ -124,25 +125,25 @@ const Dashboard = () => {
     dashboardService
       .getEmployeedWiseAssigned(startDate, endDate)
       .then((x) => setEmployeedWiseAssigned(x));
-    
-      dashboardService
+
+    trainingService
       .getTrainingReport()
       .then((x) => setTrainingReport(x));
-      
+
   }
 
   const handleStartDate = (e) => {
-      setStartDate(e.target.value);
+    setStartDate(e.target.value);
   }
 
   const handleEndDate = (e) => {
     setEndDate(e.target.value);
   }
-  
+
   const handleSubmit = (e) => {
-      console.log("startDate", startDate);
-      console.log("endDate", endDate);
-      apiCalls(startDate, endDate);
+    console.log("startDate", startDate);
+    console.log("endDate", endDate);
+    apiCalls(startDate, endDate);
   }
   console.log("trainingReport", trainingReport);
   return (
@@ -180,20 +181,20 @@ const Dashboard = () => {
               </FormGroup>
             </Col>
             <Col xl={2}>
-            { startDate && endDate && <Button name="btnFilter" className="mt-4" color="primary" id="btnFilter"  onClick={handleSubmit}>Filter</Button> }
-            { (startDate === undefined || endDate === undefined) && <Button name="btnFilter" disabled className="mt-4" color="primary" id="btnFilter" >Filter</Button> }
+              {startDate && endDate && <Button name="btnFilter" className="mt-4" color="primary" id="btnFilter" onClick={handleSubmit}>Filter</Button>}
+              {(startDate === undefined || endDate === undefined) && <Button name="btnFilter" disabled className="mt-4" color="primary" id="btnFilter" >Filter</Button>}
             </Col>
           </Row>
           &nbsp;
 
           {userDetails && userDetails.userRoleArray.includes("Admin" || "Executive") &&
-          <AdminGraphs trainingPartnerAssigned={trainingPartnerAssigned} trainingPartnerAttended={trainingPartnerAttended} trainingPartnerAssignedAttended={trainingPartnerAssignedAttended} />
+            <AdminGraphs trainingPartnerAssigned={trainingPartnerAssigned} trainingPartnerAttended={trainingPartnerAttended} trainingPartnerAssignedAttended={trainingPartnerAssignedAttended} />
           }
           {userDetails && userDetails.userRoleArray.includes("User" || "Executive") &&
-          <UserGraphs employeedWiseNominated={employeedWiseNominated} employeedWiseAttended={employeedWiseAttended} nominatedAcceptedRejected={nominatedAcceptedRejected} />
+            <UserGraphs employeedWiseNominated={employeedWiseNominated} employeedWiseAttended={employeedWiseAttended} nominatedAcceptedRejected={nominatedAcceptedRejected} />
           }
           {userDetails && userDetails.userRoleArray.includes("Manager" || "Executive") &&
-          <ManagerGraphs employeedWiseAssigned={employeedWiseAssigned} employeedWiseNominated={employeedWiseNominated} />
+            <ManagerGraphs employeedWiseAssigned={employeedWiseAssigned} employeedWiseNominated={employeedWiseNominated} />
           }
         </Container>
       </div>
