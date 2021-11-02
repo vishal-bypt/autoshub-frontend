@@ -6,6 +6,7 @@ import { fetchWrapper, history } from '../helpers';
 const userSubject = new BehaviorSubject(null);
 const baseUrl = `${config.apiUrl}/accounts`;
 const baseUrl2 = `${config.apiUrl}`;
+const baseUrlTraining = `${config.apiUrl}/training`;
 
 
 export const dashboardService = {
@@ -30,87 +31,93 @@ function login(email, password) {
         });
 }
 
-function getTrainingPartnerAssigned(startDate, endDate) {
+function getTrainingPartnerAssigned(startDate="", endDate="") {
     
     console.log("startDate", startDate);
     console.log("endDate", endDate);
     //return fetchWrapper.get(`${baseUrl}`);
-    //return fetchWrapper.get(`${baseUrl}/?limit=${limit}&offset=${offset}&filter=${searchValue}`);
-      return Promise.all([
-        { value: 200, name: "UiPaths" },
-        { value: 45, name: "BluePrism" },
-        { value: 31, name: "Google Cloud" },
-        { value: 15, name: "AWS" },
-        { value: 20, name: "Automation" },
-      ]);
+    return fetchWrapper.get(`${baseUrlTraining}/getTrainingPartnerAssigned?startDate=${startDate}&endDate=${endDate}`);
+      // return Promise.all([
+      //   { value: 200, name: "UiPaths" },
+      //   { value: 45, name: "BluePrism" },
+      //   { value: 31, name: "Google Cloud" },
+      //   { value: 15, name: "AWS" },
+      //   { value: 20, name: "Automation" },
+      // ]);
 }
 
-function getTrainingPartnerAttended(startDate, endDate) {
+function getTrainingPartnerAttended(startDate="", endDate="") {
     // return fetchWrapper.get(`${baseUrl}`);
-    //return fetchWrapper.get(`${baseUrl}/?limit=${limit}&offset=${offset}&filter=${searchValue}`);
-      return Promise.all([
-        { value: 200, name: "UiPaths" },
-        { value: 45, name: "BluePrism" },
-        { value: 31, name: "Google Cloud" },
-        { value: 15, name: "AWS" },
-        { value: 20, name: "Automation" },
-      ]);
+      return fetchWrapper.get(`${baseUrlTraining}/getTrainingPartnerAttended?startDate=${startDate}&endDate=${endDate}`);
+      // return Promise.all([
+      //   { value: 200, name: "UiPaths" },
+      //   { value: 45, name: "BluePrism" },
+      //   { value: 31, name: "Google Cloud" },
+      //   { value: 15, name: "AWS" },
+      //   { value: 20, name: "Automation" },
+      // ]);
 }
 
-function getTrainingPartnerAssignedAttended(startDate, endDate) {
+function getTrainingPartnerAssignedAttended(startDate="", endDate="") {
     // return fetchWrapper.get(`${baseUrl}`);
-    //return fetchWrapper.get(`${baseUrl}/?limit=${limit}&offset=${offset}&filter=${searchValue}`);
+      return fetchWrapper.get(`${baseUrlTraining}/getTrainingPartnerAssignedAttended?startDate=${startDate}&endDate=${endDate}`);
       return Promise.all([
         { value: 135, name: "Assigned" },
         { value: 65, name: "Attended" },
       ]);
 }
 
-function getEmployeedWiseNominated(startDate, endDate) {
+function getEmployeedWiseNominated(startDate="", endDate="") {
     // return fetchWrapper.get(`${baseUrl}`);
-    //return fetchWrapper.get(`${baseUrl}/?limit=${limit}&offset=${offset}&filter=${searchValue}`);
-      return Promise.all([
-        { value: 200, name: "UiPaths" },
-        { value: 45, name: "BluePrism" },
-        { value: 31, name: "Google Cloud" },
-        { value: 15, name: "AWS" },
-        { value: 20, name: "Automation" },
-      ]);
+      return fetchWrapper.get(`${baseUrlTraining}/getTrainingPartnerNominated?startDate=${startDate}&endDate=${endDate}`);
+      // return Promise.all([
+      //   { value: 200, name: "UiPaths" },
+      //   { value: 45, name: "BluePrism" },
+      //   { value: 31, name: "Google Cloud" },
+      //   { value: 15, name: "AWS" },
+      //   { value: 20, name: "Automation" },
+      // ]);
 }
 
-function getEmployeedWiseAttended(startDate, endDate) {
+function getEmployeedWiseAttended(startDate="", endDate="") {
     // return fetchWrapper.get(`${baseUrl}`);
-    //return fetchWrapper.get(`${baseUrl}/?limit=${limit}&offset=${offset}&filter=${searchValue}`);
-      return Promise.all([
-        { value: 200, name: "UiPaths" },
-        { value: 45, name: "BluePrism" },
-        { value: 31, name: "Google Cloud" },
-        { value: 15, name: "AWS" },
-        { value: 20, name: "Automation" },
-      ]);
+      return fetchWrapper.get(`${baseUrlTraining}/getTrainingPartnerAssigned?startDate=${startDate}&endDate=${endDate}`);
+      // return Promise.all([
+      //   { value: 200, name: "UiPaths" },
+      //   { value: 45, name: "BluePrism" },
+      //   { value: 31, name: "Google Cloud" },
+      //   { value: 15, name: "AWS" },
+      //   { value: 20, name: "Automation" },
+      // ]);
 }
 
-function getNominatedAcceptedRejected(startDate, endDate) {
+function getNominatedAcceptedRejected(startDate="", endDate="") {
     // return fetchWrapper.get(`${baseUrl}`);
-    //return fetchWrapper.get(`${baseUrl}/?limit=${limit}&offset=${offset}&filter=${searchValue}`);
-      return Promise.all([
-        { value: 335, name: "Nominated" },
-        { value: 310, name: "Accepted" },
-        { value: 234, name: "Rejected" },
-      ]);
+     return fetchWrapper.get(`${baseUrlTraining}/getNominatedAcceptedRejected?startDate=${startDate}&endDate=${endDate}`);
+      // return Promise.all([
+      //   { value: response['nominated'], name: response['category'] },
+      //   { value: response['accepted'], name: response['category'] },
+      //   { value: response['rejected'], name: response['category'] },
+      // ]);
+      // return Promise.all([
+      //   { value: 335, name: "Nominated" },
+      //   { value: 310, name: "Accepted" },
+      //   { value: 234, name: "Rejected" },
+      // ]);
 }
 
 
-function getEmployeedWiseAssigned(startDate, endDate) {
+function getEmployeedWiseAssigned(startDate="", endDate="") {
     // return fetchWrapper.get(`${baseUrl}`);
     //return fetchWrapper.get(`${baseUrl}/?limit=${limit}&offset=${offset}&filter=${searchValue}`);
-      return Promise.all([
-        { value: 200, name: "UiPaths" },
-        { value: 45, name: "BluePrism" },
-        { value: 31, name: "Google Cloud" },
-        { value: 15, name: "AWS" },
-        { value: 20, name: "Automation" },
-      ]);
+    return fetchWrapper.get(`${baseUrlTraining}/getTrainingPartnerAssigned?startDate=${startDate}&endDate=${endDate}`);  
+    // return Promise.all([
+    //     { value: 200, name: "UiPaths" },
+    //     { value: 45, name: "BluePrism" },
+    //     { value: 31, name: "Google Cloud" },
+    //     { value: 15, name: "AWS" },
+    //     { value: 20, name: "Automation" },
+    //   ]);
 }
 
 function refreshToken() {

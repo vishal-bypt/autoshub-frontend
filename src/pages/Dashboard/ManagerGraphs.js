@@ -18,13 +18,13 @@ const ManagerGraphs = (props) => {
                   <Row className="justify-content-center text-center">
                     <h3 className="card-title">Assigned</h3>
                   </Row>
-                  <EPieChart data={props.employeedWiseAssigned} />
+                  <EPieChart title="Assigned" data={props.employeedWiseAssigned} />
                 </Col>
                 <Col sm={6}>
                   <Row className="justify-content-center text-center">
                     <h3 className="card-title">Nominated</h3>
                   </Row>
-                  <EPieChart data={props.employeedWiseNominated} />
+                  <EPieChart title="Nominated" data={props.employeedWiseNominated} />
                 </Col>
               </Row>
             </CardBody>

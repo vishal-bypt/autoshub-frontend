@@ -26,13 +26,13 @@ const UserGraphs = (props) => {
                   <Row className="justify-content-center text-center">
                     <h3 className="card-title">Nominated</h3>
                   </Row>
-                  <EPieChart data={props.employeedWiseNominated} />
+                  <EPieChart title="Nominated" data={props.employeedWiseNominated} />
                 </Col>
                 <Col sm={4}>
                   <Row className="justify-content-center text-center">
                     <h3 className="card-title">Attended</h3>
                   </Row>
-                  <EPieChart data={props.employeedWiseAttended} />
+                  <EPieChart title="Attended" data={props.employeedWiseAttended} />
                 </Col>
                 <Col sm={4}>
                   <Row className="justify-content-center text-center">
@@ -40,7 +40,7 @@ const UserGraphs = (props) => {
                       Nominated vs Accepted vs Rejected
                     </h3>
                   </Row>
-                  <EPieChart data={props.nominatedAcceptedRejected} />
+                  <EPieChart title="Nominated vs Accepted vs Rejected" data={props.nominatedAcceptedRejected} />
                 </Col>
               </Row>
             </CardBody>

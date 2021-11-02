@@ -28,13 +28,13 @@ const AdminGraphs = (props) => {
                   <Row className="justify-content-center text-center">
                     <h3 className="card-title">Assigned</h3>
                   </Row>
-                  <EPieChart data={props.trainingPartnerAssigned} />
+                  <EPieChart title="Assigned" data={props.trainingPartnerAssigned} />
                 </Col>
                 <Col sm={6}>
                   <Row className="justify-content-center text-center">
                     <h3 className="card-title">Attended</h3>
                   </Row>
-                  <EPieChart data={props.trainingPartnerAttended} />
+                  <EPieChart title="Attended"  data={props.trainingPartnerAttended} />
                 </Col>
               </Row>
               <Row className="mt-5">&nbsp;</Row>
@@ -43,7 +43,7 @@ const AdminGraphs = (props) => {
                   <Row className="justify-content-center text-center">
                     <h3 className="card-title">Assigned vs Attended</h3>
                   </Row>
-                  <EPieChart data={props.trainingPartnerAssignedAttended} />
+                  <EPieChart title="Assigned vs Attended" data={props.trainingPartnerAssignedAttended} />
                 </Col>
                 <Col sm={6}>
                   <Row className="justify-content-center text-center">

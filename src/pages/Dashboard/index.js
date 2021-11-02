@@ -27,58 +27,6 @@ import ManagerGraphs from "./ManagerGraphs";
 import UserGraphs from "./UserGraphs";
 import { trainingService } from "../../services";
 
-
-const TrainingPartnerAssigned = [
-  { value: 200, name: "UiPaths" },
-  { value: 45, name: "BluePrism" },
-  { value: 31, name: "Google Cloud" },
-  { value: 15, name: "AWS" },
-  { value: 20, name: "Automation" },
-];
-
-const TrainingPartnerAttended = [
-  { value: 200, name: "UiPaths" },
-  { value: 45, name: "BluePrism" },
-  { value: 31, name: "Google Cloud" },
-  { value: 15, name: "AWS" },
-  { value: 20, name: "Automation" },
-];
-
-const TrainingPartnerAssignedAttended = [
-  { value: 135, name: "Assigned" },
-  { value: 65, name: "Attended" },
-];
-
-const EmployeedWiseNominated = [
-  { value: 200, name: "UiPaths" },
-  { value: 45, name: "BluePrism" },
-  { value: 31, name: "Google Cloud" },
-  { value: 15, name: "AWS" },
-  { value: 20, name: "Automation" },
-];
-
-const EmployeedWiseAttended = [
-  { value: 200, name: "UiPaths" },
-  { value: 45, name: "BluePrism" },
-  { value: 31, name: "Google Cloud" },
-  { value: 15, name: "AWS" },
-  { value: 20, name: "Automation" },
-];
-
-const NominatedAcceptedRejected = [
-  { value: 335, name: "Nominated" },
-  { value: 310, name: "Accepted" },
-  { value: 234, name: "Rejected" },
-];
-
-const EmployeedWiseAssigned = [
-  { value: 200, name: "UiPaths" },
-  { value: 45, name: "BluePrism" },
-  { value: 31, name: "Google Cloud" },
-  { value: 15, name: "AWS" },
-  { value: 20, name: "Automation" },
-];
-
 const Dashboard = () => {
   const [trainingPartnerAssigned, setTrainingPartnerAssigned] = useState([]);
   const [trainingPartnerAttended, setTrainingPartnerAttended] = useState([]);
@@ -86,7 +34,7 @@ const Dashboard = () => {
   const [
     trainingPartnerAssignedAttended,
     setTrainingPartnerAssignedAttended,
-  ] = useState([]);
+  ] = useState([{value : trainingPartnerAssigned}]);
   const [employeedWiseNominated, setEmployeedWiseNominated] = useState([]);
   const [employeedWiseAttended, setEmployeedWiseAttended] = useState([]);
   const [nominatedAcceptedRejected, setNominatedAcceptedRejected] = useState(
@@ -145,6 +93,13 @@ const Dashboard = () => {
     console.log("endDate", endDate);
     apiCalls(startDate, endDate);
   }
+
+  const handleClear = (e) => {
+    setStartDate("");
+    setEndDate("");
+    apiCalls(startDate, endDate);
+  }
+
   console.log("trainingReport", trainingReport);
   return (
     <React.Fragment>
@@ -164,6 +119,7 @@ const Dashboard = () => {
                   name="startDate"
                   placeholder="Start Date"
                   type="date"
+                  value={startDate}
                   onChange={handleStartDate}
                 />
               </FormGroup>
@@ -176,13 +132,15 @@ const Dashboard = () => {
                   name="endDate"
                   placeholder="End date"
                   type="date"
+                  value={endDate}
                   onChange={handleEndDate}
                 />
               </FormGroup>
             </Col>
             <Col xl={2}>
               {startDate && endDate && <Button name="btnFilter" className="mt-4" color="primary" id="btnFilter" onClick={handleSubmit}>Filter</Button>}
-              {(startDate === undefined || endDate === undefined) && <Button name="btnFilter" disabled className="mt-4" color="primary" id="btnFilter" >Filter</Button>}
+              {(startDate === undefined || endDate === undefined) && <Button name="btnFilter" disabled className="mt-4" color="primary" id="btnFilter" >Filter</Button>}&nbsp;
+              <Button name="btnClear" onClick={handleClear} className="mt-4" color="danger" id="btnClear" >Clear</Button>
             </Col>
           </Row>
           &nbsp;
