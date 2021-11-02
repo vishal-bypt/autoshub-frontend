@@ -101,7 +101,7 @@ function AddEdit({ history, match }) {
                   />
                 </div>
               </form>
-              <div className="variantsPopUpFileUpload">
+              <div className="variantsPopUpFileUpload ">
                 {selectBtn && (
                   <IconButton
                     onClick={() => {
@@ -109,7 +109,7 @@ function AddEdit({ history, match }) {
                     }}
                   >
                     {" "}
-                    <div className="filePopUpFileUpload ">
+                    <div className="filePopUpFileUpload text-white bg-danger p-2 ">
                       <label htmlFor="input-file selectAndUpload">
                         <CloudQueueIcon />
                         &nbsp;SelectFile & upload
@@ -120,7 +120,7 @@ function AddEdit({ history, match }) {
                 {uploadBtn && (
                   <IconButton onClick={handleSubmit}>
                     <div className="filePopUpFileUpload file--uploadingPopUpFileUpload">
-                      <label htmlFor="input-file">
+                      <label htmlFor="input-file text-white">
                         <BackupIcon />
                         Upload
                       </label>
@@ -136,7 +136,7 @@ function AddEdit({ history, match }) {
                     }}
                   >
                     <div className="filePopUpFileUpload file--successPopUpFileUpload">
-                      <label htmlFor="input-file">
+                      <label htmlFor="input-file text-white">
                         <CloudDoneIcon />
                         Success
                       </label>
@@ -152,7 +152,7 @@ function AddEdit({ history, match }) {
                     }}
                   >
                     <div className="filePopUpFileUpload file--dangerPopUpFileUpload">
-                      <label htmlFor="input-file">
+                      <label htmlFor="input-file text-white">
                         <CloudOffIcon />
                         Error
                       </label>
@@ -161,7 +161,7 @@ function AddEdit({ history, match }) {
                 )}
               </div>
             </div>
-            <div className="col-md-4 text-end">
+            <div className="col-md-4 text-end ">
               <Link to={"."} className="btn btn-danger ">
                 <ArrowBackIcon className="mr-1" />
                 Back
@@ -467,7 +467,7 @@ function AddEdit({ history, match }) {
                     onBlur={(e) => updatedValue(e, index + 1)}
                   >
                     <input
-                      style={{ backgroundColor: "black" }}
+                      style={{ backgroundColor: "transparent" }}
                       type="number"
                       min="0"
                       className="border-0"
