@@ -1,50 +1,31 @@
-import PropTypes from "prop-types"
-import MetaTags from "react-meta-tags"
-import React from "react"
-import { Row, Col, Alert, Container } from "reactstrap"
-import { history } from '../../helpers';
-//redux
-import { useSelector, useDispatch } from "react-redux"
-
-import { withRouter, Link } from "react-router-dom"
-
 // availity-reactstrap-validation
-import { AvForm, AvField } from "availity-reactstrap-validation"
-
-// action
-import { userForgetPassword } from "../../store/actions"
-
+import { AvField, AvForm } from "availity-reactstrap-validation";
+import PropTypes from "prop-types";
+import React from "react";
+import MetaTags from "react-meta-tags";
+//redux
+import { useDispatch, useSelector } from "react-redux";
+import { Link, withRouter } from "react-router-dom";
+import { Alert, Col, Container, Row } from "reactstrap";
 // import images
 // import logo from "../../assets/images/logo-sm.svg"
-import logo from "../../assets/images/autoshubLogo.png"
-import logoLight from "../../assets/images/autoshubLogoLight.png"
-import CarouselPage from "../AuthenticationInner/CarouselPage"
+import logo from "../../assets/images/autoshubLogo.png";
+import logoLight from "../../assets/images/autoshubLogoLight.png";
 import {
-  layoutTypes,
-  layoutTheme,
-  layoutWidthTypes,
-  layoutPositions,
-  topBarThemeTypes,
-  leftSidebarTypes,
-  leftSideBarThemeTypes,
+  layoutTheme
 } from "../../constants/layout";
+// action
+import { userForgetPassword } from "../../store/actions";
+import CarouselPage from "../AuthenticationInner/CarouselPage";
 
 const ForgetPasswordPage = props => {
   const [isSubmit, setIsSubmit] = React.useState(false)
   const dispatch = useDispatch()
 
   const {
-    layoutType,
     layoutMode,
-    layoutWidth,
-    layoutPosition,
-    topbarTheme,
-    leftSideBarType,
-    leftSideBarTheme,
-    error,
     forgetError,
     forgetSuccessMsg,
-    state
   } = useSelector((state) => ({
     layoutType: state.Layout.layoutType,
     layoutMode: state.Layout.layoutMode,

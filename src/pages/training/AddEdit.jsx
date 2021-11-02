@@ -1,25 +1,10 @@
-import React, { useEffect, useState } from "react";
-import cellEditFactory from "react-bootstrap-table2-editor";
-import moment from "moment";
-import { Link } from "react-router-dom";
-import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-import AllInclusive from "@material-ui/icons/AllInclusive";
-import BootstrapTable from "react-bootstrap-table-next";
-import { trainingService, accountService, alertService } from "../../services";
-import Swal from "sweetalert2";
-import CloudQueueIcon from "@material-ui/icons/CloudQueue";
-import BackupIcon from "@material-ui/icons/Backup";
-import CloudDoneIcon from "@material-ui/icons/CloudDone";
-import CloudOffIcon from "@material-ui/icons/CloudOff";
-import { Table, Thead, Tbody, Tr, Th, Td } from "react-super-responsive-table";
+import React from "react";
+import { Table, Tbody, Td, Th, Thead, Tr } from "react-super-responsive-table";
 import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
-import { IconButton } from "@material-ui/core";
-import { Role } from "../../helpers";
 import "../../assets/scss/custom/components/_tableblur.scss";
 var FormData = require("form-data");
 
 function AddEdit({ history, match }) {
-  const { path } = match;
   const userDetails = accountService.userValue;
   const user = accountService.userValue;
   const [users, setUsers] = useState(null);
@@ -481,7 +466,7 @@ function AddEdit({ history, match }) {
                     className="traning-listing"
                     style={{ whiteSpace: "nowrap", minWidth: "30%" }}
                   >
-                    {userDetails.currentRole == Role.Admin && (
+                    {userDetails.currentRole === Role.Admin && (
                       <div>
                         <Link
                           to={`/training/assign/${user.id}`}

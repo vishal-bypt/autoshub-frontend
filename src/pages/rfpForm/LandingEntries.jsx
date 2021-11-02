@@ -1,18 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { history } from '../../helpers';
 import moment from "moment";
-import { accountService, rfcService, alertService } from '../../services';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { accountService, alertService, rfcService } from '../../services';
 
 function LandingEntries({ match }) {
-    const { path } = match;
     const [users, setUsers] = useState(null);
     const userDetails = accountService.userValue;
 
     useEffect(() => {       
-       
             rfcService.getAll('latest').then(x => setUsers(x));
-          
     }, []);
 
     function deleteUser(id) {
@@ -73,8 +69,8 @@ function LandingEntries({ match }) {
                                     <th className="traning-listing">Program Lead</th>
                                     <th className="traning-listing">Status</th>
                                     <th className="traning-listing">Stage</th>
-                                    {(userDetails.role == "Manager" ||
-                                        userDetails.role == "Admin") && <th className="traning-listing" >Ageing Days</th>}
+                                    {(userDetails.role === "Manager" ||
+                                        userDetails.role === "Admin") && <th className="traning-listing" >Ageing Days</th>}
                                     < th className="traning-listing" >Actions</th>
 
                                 </tr>
@@ -95,8 +91,8 @@ function LandingEntries({ match }) {
                                             <td className="traning-listing" style={{ minWidth: "180px" }}>{user.programLead}</td>
                                             <td className="traning-listing" >{user.status}</td>
                                             <td className="traning-listing" style={{ minWidth: "150px" }}>{user.stage}</td>
-                                            {(userDetails.role == "Manager" ||
-                                                userDetails.role == "Admin") && <td className="traning-listing" style={{ textAlign: 'center', minWidth: "150px" }}>{dynemicAgeing}</td>}
+                                            {(userDetails.role === "Manager" ||
+                                                userDetails.role === "Admin") && <td className="traning-listing" style={{ textAlign: 'center', minWidth: "150px" }}>{dynemicAgeing}</td>}
                                             <td className="traning-listing" style={{ whiteSpace: 'nowrap' }}>
                                                 <Link to={`/rfp/edit/${user.id}`} className="btn btn-warning">Edit</Link>
                                                 {/* {(userDetails.role == "Manager" || userDetails.role == "Admin") && <button onClick={() => deleteUser(user.id)} className="btn btn-sm del-button" disabled={user.isDeleting}>

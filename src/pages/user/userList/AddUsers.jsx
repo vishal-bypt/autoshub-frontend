@@ -4,18 +4,13 @@ import BackupIcon from "@material-ui/icons/Backup";
 import CloudDoneIcon from "@material-ui/icons/CloudDone";
 import CloudOffIcon from "@material-ui/icons/CloudOff";
 import CloudQueueIcon from "@material-ui/icons/CloudQueue";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
-import {
-  accountService,
-  alertService,
-  trainingService,
-} from "../../../services";
+import { accountService, alertService } from "../../../services";
 var FormData = require("form-data");
 
 function AddUsers({ history, match }) {
-  const { path } = match;
   const [selectedFile, setSelectedFile] = useState(null);
   const [selectBtn, setSelectBtn] = useState(true);
   const [uploadBtn, setUploadBtn] = useState(false);

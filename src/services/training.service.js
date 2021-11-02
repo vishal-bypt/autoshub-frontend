@@ -1,7 +1,5 @@
-import { BehaviorSubject } from 'rxjs';
-
 import config from '../config';
-import { fetchWrapper, history } from '../helpers';
+import { fetchWrapper } from '../helpers';
 
 //const userSubject = new BehaviorSubject(null);
 const baseUrl = `${config.apiUrl}/training`;

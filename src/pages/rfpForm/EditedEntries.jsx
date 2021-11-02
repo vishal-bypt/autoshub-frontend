@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { history } from '../../helpers';
 import moment from "moment";
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { accountService, alertService, rfcService } from '../../services';
 
-import { accountService, rfcService, alertService } from '../../services';
 
 function EditedEntries({ match }) {
-    const { path } = match;
     const [users, setUsers] = useState(null);
     const userDetails = accountService.userValue;
     const filterType = 'edit';
@@ -172,7 +170,7 @@ function EditedEntries({ match }) {
                     <div className="col-md-12">
                     <h1 className="header-text">Edited Entries</h1>
                     <Link to={`/rfp/add`} className="newbutton mb-2">Add</Link>
-                    {userDetails.role != "User" && <Link to={`/rfp/add`} className="newbutton mb-2">All Entries</Link>}
+                    {userDetails.role !== "User" && <Link to={`/rfp/add`} className="newbutton mb-2">All Entries</Link>}
                     <Link to={`/rfp/my-entries`} className="newbutton mb-2">My Entries</Link>
                     <Link to="#" onClick={handleExportData} className="newbutton mb-2">Export</Link>
                     
@@ -272,7 +270,7 @@ function EditedEntries({ match }) {
                         <td style={{minWidth: '180px'}}>{user.programLead}</td>
                         <td style={{ whiteSpace: 'nowrap' }}>
                             <Link to={`/rfp/edit/${user.id}`} className="btn btn-sm edit-button mr-1">Edit</Link>
-                            { (userDetails.role == "Manager" || userDetails.role == "Admin") && <button onClick={() => deleteUser(user.id)} className="btn btn-sm del-button "  disabled={user.isDeleting}>
+                            { (userDetails.role === "Manager" || userDetails.role === "Admin") && <button onClick={() => deleteUser(user.id)} className="btn btn-sm del-button "  disabled={user.isDeleting}>
                                 {user.isDeleting 
                                     ? <span className="spinner-border spinner-border-sm"></span>
                                     : <span>Delete</span>

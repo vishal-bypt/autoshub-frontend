@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import Refresh from "@material-ui/icons/Refresh";
 import moment from "moment";
-import { accountService, trainingService, alertService } from "../../services";
-import { Table, Thead, Tbody, Tr, Th, Td } from "react-super-responsive-table";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { Table, Tbody, Td, Th, Thead, Tr } from "react-super-responsive-table";
+import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
+import "../../assets/scss/custom/components/_tableblur.scss";
+import { accountService, alertService, trainingService } from "../../services";
+import { Role } from "./../../helpers/role";
 // import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
 import PopUpFileUpload from "./PopUpFileUpload";
-import { Role } from "./../../helpers/role";
-import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
-import "../../assets/scss/custom/components/_tableblur.scss"
 function List1({ history, match }) {
   const { path } = match;
   //const [userDetails, setUserDetails]=useState({});
@@ -17,36 +17,58 @@ function List1({ history, match }) {
 
   //console.log("userDetails role == ", userDetails.currentRole);
   const [trainings, setTrainings] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(true);
+  const [currentRole, setCurrentRole] = useState(
+    accountService.userValue.currentRole
+  );
+
   let filteredData = [];
+
+  // const { currentRole } = useSelector((state) => ({
+  //   currentRole: state.Profile.currentRole,
+  // }));
+
   useEffect(() => {
-    if (userDetails?.currentRole == Role.Admin) {
-      trainingService.getAll().then((x) => {
-        setTrainings(x);
-      });
+    console.log("currentRole:::", currentRole);
+    if (currentRole === Role.Admin) {
+      trainingService
+        .getAll()
+        .then((x) => {
+          setIsSubmitting(false);
+          setTrainings(x);
+        })
+        .catch(() => setIsSubmitting(false));
     }
-    if (userDetails?.currentRole == Role.Manager) {
+    if (currentRole === Role.Manager) {
       let userData = [];
-      trainingService.listTaskToUser().then((x) => {
-        //console.log("x == ", x)
-        x.map((data) => {
-          x = data.training;
-          userData.push(x);
-        });
-        setTrainings(userData);
-      });
+      trainingService
+        .listTaskToUser()
+        .then((x) => {
+          setIsSubmitting(false);
+          x.map((data) => {
+            x = data.training;
+            userData.push(x);
+          });
+          setTrainings(userData);
+        })
+        .catch(() => setIsSubmitting(false));
     }
-    if (userDetails?.currentRole == Role.User) {
+    if (currentRole === Role.User) {
       let userData = [];
-      trainingService.listTaskToUser().then((x) => {
-        x.map((data) => {
-          x = data.training;
-          x.assignedByName = `${data.assignBy.firstName}  ${data.assignBy.lastName}`;
-          x.assignedToName = `${data.assignTo.firstName}  ${data.assignTo.lastName}`;
-          x.acceptRejectStatus = data.acceptRejectStatus;
-          userData.push(x);
-        });
-        setTrainings(userData);
-      });
+      trainingService
+        .listTaskToUser()
+        .then((x) => {
+          setIsSubmitting(false);
+          x.map((data) => {
+            x = data.training;
+            x.assignedByName = `${data.assignBy.firstName}  ${data.assignBy.lastName}`;
+            x.assignedToName = `${data.assignTo.firstName}  ${data.assignTo.lastName}`;
+            x.acceptRejectStatus = data.acceptRejectStatus;
+            userData.push(x);
+          });
+          setTrainings(userData);
+        })
+        .catch(() => setIsSubmitting(false));
     }
   }, [userDetails]);
 
@@ -77,7 +99,7 @@ function List1({ history, match }) {
         for (let i = 0; i < x.length; i++) {
           if (x[i].assignedByName != null && x[i].assignedToName != null) {
             //console.log("x[1] == ", x[i]);
-            if (x[i].acceptRejectStatus == 1) {
+            if (x[i].acceptRejectStatus === 1) {
               x[i].acceptRejectStatus = "Completed";
               //console.log("x[i].acceptRejectStatus == ", x[i].acceptRejectStatus);
             }
@@ -103,9 +125,9 @@ function List1({ history, match }) {
       });
       trainingService.getActiveTrainingList().then((x) => {
         for (let i = 0; i < x.length; i++) {
-          if (x[i].assignedByName != null && x[i].assignedToName != null) {
+          if (x[i].assignedByName !== null && x[i].assignedToName !== null) {
             //console.log("x[1] == ", x[i]);
-            if (x[i].acceptRejectStatus == 1) {
+            if (x[i].acceptRejectStatus === 1) {
               x[i].acceptRejectStatus = "Completed";
               //console.log("x[i].acceptRejectStatus == ", x[i].acceptRejectStatus);
             }
@@ -117,24 +139,23 @@ function List1({ history, match }) {
       history.push("/training");
     });
   };
-  console.log("details = ", userDetails);
   return (
     <div className="page-content">
       <div className="container-fluid">
         <div className="row">
           <div className="col-md-6">
-            {userDetails?.currentRole == Role.Admin && (
+            {currentRole === Role.Admin && (
               <h1 className="header-text">Trainings</h1>
             )}
-            {userDetails?.currentRole == Role.User && (
+            {currentRole === Role.User && (
               <h1 className="header-text">My Trainings</h1>
             )}
-            {userDetails?.currentRole == Role.Manager && (
+            {currentRole === Role.Manager && (
               <h1 className="header-text">Trainings</h1>
             )}
           </div>
           <div className="col-md-6 text-end">
-            {userDetails?.currentRole == Role.Admin && (
+            {currentRole === Role.Admin && (
               <>
                 <Link to={`/training/add`} className="btn btn-primary">
                   Upload Trainings
@@ -165,7 +186,7 @@ function List1({ history, match }) {
                 </Link>
               </>
             )}
-            {userDetails?.currentRole == Role.Manager && (
+            {currentRole === Role.Manager && (
               <>
                 <Link to={`/training/getAllByRole`} className="btn btn-primary">
                   My Trainings
@@ -187,7 +208,7 @@ function List1({ history, match }) {
               {/* <thead>
                 <tr>
                   <th>#</th>
-                  {userDetails?.currentRole == Role.Admin && (
+                  {currentRole === Role.Admin && (
                     <>
                       <th>Month</th>
                       <th className="traning-listing">Start Date</th>
@@ -201,7 +222,7 @@ function List1({ history, match }) {
                     </>
                   )}
 
-                  {userDetails?.currentRole == Role.Manager && (
+                  {currentRole === Role.Manager && (
                     <>
                       <th className="traning-listing">Training Name</th>
                       <th className="traning-listing">Training Type</th>
@@ -215,7 +236,7 @@ function List1({ history, match }) {
                     </>
                   )}
 
-                  {userDetails?.currentRole == Role.User && (
+                  {currentRole === Role.User && (
                     <>
                       <th className="traning-listing">Nominated Employee</th>
                       <th className="traning-listing">Nominated By</th>

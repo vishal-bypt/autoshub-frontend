@@ -3,18 +3,14 @@ import ReactEcharts from "echarts-for-react"
 
 class Pie extends Component {
 
-  constructor(props) {
-    super(props);
-  }
-
   getOption = () => {
     return {
       toolbox: {
         show: true,
         feature: {
-          mark : {show: true},
-          dataView: { readOnly: true, title : "Download Data",  lang: ['Data View', 'Cancel', 'Refresh'] },
-          restore: {title : "Restore"},
+          mark: { show: true },
+          dataView: { readOnly: true, title: "Download Data", lang: ['Data View', 'Cancel', 'Refresh'] },
+          restore: { title: "Restore" },
           saveAsImage: {
             title: 'Save As picture'
           }

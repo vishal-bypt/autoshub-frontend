@@ -1,27 +1,18 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-
-import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-import Swal from "sweetalert2";
-import moment from "moment";
-import { accountService, trainingService, alertService } from "../../services";
-import PopUpFileUpload from "./PopUpFileUpload";
-import { Table, Thead, Tbody, Tr, Th, Td } from "react-super-responsive-table";
+import React from "react";
+import { Table, Tbody, Td, Th, Thead, Tr } from "react-super-responsive-table";
 import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
 import "../../assets/scss/custom/components/_tableblur.scss";
-import { Role } from "../../helpers";
 
 function AllNominations({ history, match }) {
-  const { path } = match;
   const userDetails = accountService.userValue;
   const [users, setUsers] = useState(null);
   let filteredData = [];
   useEffect(() => {
-    if (userDetails.currentRole == Role.Admin) {
+    if (userDetails.currentRole === Role.Admin) {
       trainingService.getActiveTrainingList().then((x) => {
         for (let i = 0; i < x.length; i++) {
-          if (x[i].assignedByName != null && x[i].assignedToName != null) {
-            if (x[i].acceptRejectStatus == 1) {
+          if (x[i].assignedByName !== null && x[i].assignedToName !== null) {
+            if (x[i].acceptRejectStatus === 1) {
               x[i].acceptRejectStatus = "Completed";
             }
             filteredData.push(x[i]);
@@ -52,8 +43,8 @@ function AllNominations({ history, match }) {
       Swal.fire("Submitted Prerequisite of the employee has been approved.");
       trainingService.getActiveTrainingList().then((x) => {
         for (let i = 0; i < x.length; i++) {
-          if (x[i].assignedByName != null && x[i].assignedToName != null) {
-            if (x[i].acceptRejectStatus == 1) {
+          if (x[i].assignedByName !== null && x[i].assignedToName !== null) {
+            if (x[i].acceptRejectStatus === 1) {
               x[i].acceptRejectStatus = "Completed";
             }
             filteredData.push(x[i]);
@@ -79,8 +70,8 @@ function AllNominations({ history, match }) {
       Swal.fire("Submitted Prerequisite of the employee has been declined.");
       trainingService.getActiveTrainingList().then((x) => {
         for (let i = 0; i < x.length; i++) {
-          if (x[i].assignedByName != null && x[i].assignedToName != null) {
-            if (x[i].acceptRejectStatus == 1) {
+          if (x[i].assignedByName !== null && x[i].assignedToName !== null) {
+            if (x[i].acceptRejectStatus === 1) {
               x[i].acceptRejectStatus = "Completed";
             }
             filteredData.push(x[i]);
@@ -96,13 +87,13 @@ function AllNominations({ history, match }) {
       <div className="container-fluid">
         <div className="row">
           <div className="col-md-6">
-            {userDetails.currentRole == Role.Admin && (
+            {userDetails.currentRole === Role.Admin && (
               <h1 className="header-text">Nominated Trainings</h1>
             )}
-            {userDetails.currentRole == Role.User && (
+            {userDetails.currentRole === Role.User && (
               <h1 className="header-text">My Trainings</h1>
             )}
-            {userDetails.currentRole == Role.Manager && (
+            {userDetails.currentRole === Role.Manager && (
               <h1 className="header-text">Trainings</h1>
             )}
           </div>
@@ -143,40 +134,40 @@ function AllNominations({ history, match }) {
               <Thead>
                 <Tr>
                   <Th>#</Th>
-                  {userDetails.currentRole == Role.Admin && (
+                  {userDetails.currentRole === Role.Admin && (
                     <Th>Nominated Employee</Th>
                   )}
-                  {userDetails.currentRole == Role.User && (
+                  {userDetails.currentRole === Role.User && (
                     <Th>Nominated Employee</Th>
                   )}
-                  {userDetails.currentRole == Role.Admin && (
+                  {userDetails.currentRole === Role.Admin && (
                     <Th>Nominated By</Th>
                   )}
-                  {userDetails.currentRole == Role.User && (
+                  {userDetails.currentRole === Role.User && (
                     <Th>Nominated By</Th>
                   )}
                   <Th>Training Name</Th>
-                  {userDetails.currentRole == Role.Manager && (
+                  {userDetails.currentRole === Role.Manager && (
                     <Th>Training Type</Th>
                   )}
                   <Th>Start Date</Th>
                   <Th>End Date</Th>
                   <Th>Required Prerequisites</Th>
-                  {userDetails.currentRole == Role.Manager && (
+                  {userDetails.currentRole === Role.Manager && (
                     <Th>Nomination End Date</Th>
                   )}
-                  {userDetails.currentRole == Role.Admin && (
+                  {userDetails.currentRole ===Role.Admin && (
                     <Th>Submitted Prerequisites</Th>
                   )}
-                  {userDetails.currentRole == Role.User && <Th>Status</Th>}
-                  {userDetails.currentRole == Role.Admin && <Th>Status</Th>}
-                  {userDetails.currentRole == Role.Admin && (
+                  {userDetails.currentRole === Role.User && <Th>Status</Th>}
+                  {userDetails.currentRole === Role.Admin && <Th>Status</Th>}
+                  {userDetails.currentRole === Role.Admin && (
                     <Th>Approve / Decline Prerequisites</Th>
                   )}
-                  {userDetails.currentRole == Role.User && (
+                  {userDetails.currentRole === Role.User && (
                     <Th>Upload Prequisites</Th>
                   )}
-                  {userDetails.currentRole == Role.Manager && <Th></Th>}
+                  {userDetails.currentRole === Role.Manager && <Th></Th>}
                 </Tr>
               </Thead>
               <Tbody>
@@ -189,7 +180,7 @@ function AllNominations({ history, match }) {
                       >
                         {index + 1}
                       </Td>
-                      {userDetails.currentRole == Role.Admin && (
+                      {userDetails.currentRole === Role.Admin && (
                         <Td
                           className="traning-listing"
                           style={{ minWidth: "100px" }}
@@ -197,7 +188,7 @@ function AllNominations({ history, match }) {
                           {user.assignedToName}{" "}
                         </Td>
                       )}
-                      {userDetails.currentRole == Role.User && (
+                      {userDetails.currentRole === Role.User && (
                         <Td
                           className="traning-listing"
                           style={{ minWidth: "100px" }}
@@ -205,7 +196,7 @@ function AllNominations({ history, match }) {
                           {user.assignedToName}{" "}
                         </Td>
                       )}
-                      {userDetails.currentRole == Role.Admin && (
+                      {userDetails.currentRole === Role.Admin && (
                         <Td
                           className="traning-listing"
                           style={{ minWidth: "100px" }}
@@ -213,7 +204,7 @@ function AllNominations({ history, match }) {
                           {user.assignedByName ? user.assignedByName : "NA"}
                         </Td>
                       )}
-                      {userDetails.currentRole == Role.User && (
+                      {userDetails.currentRole === Role.User && (
                         <Td
                           className="traning-listing"
                           style={{ minWidth: "100px" }}
@@ -227,7 +218,7 @@ function AllNominations({ history, match }) {
                       >
                         {user.trainingName}
                       </Td>
-                      {userDetails.currentRole == Role.Manager && (
+                      {userDetails.currentRole === Role.Manager && (
                         <Td className="traning-listing">{user.trainingType}</Td>
                       )}
                       <Td
@@ -248,12 +239,12 @@ function AllNominations({ history, match }) {
                       >
                         {user.trainingPrequisites}
                       </Td>
-                      {userDetails.currentRole == Role.Manager && (
+                      {userDetails.currentRole === Role.Manager && (
                         <Td>
                           {moment(user.nominationEndDate).format("DD/MM/YYYY")}
                         </Td>
                       )}
-                      {userDetails.currentRole == Role.Admin && (
+                      {userDetails.currentRole === Role.Admin && (
                         <Td
                           className="traning-listing"
                           style={{ minWidth: "150px" }}
@@ -277,7 +268,7 @@ function AllNominations({ history, match }) {
                           )}
                         </Td>
                       )}
-                      {userDetails.currentRole == Role.Admin && (
+                      {userDetails.currentRole === Role.Admin && (
                         <Td
                           className="traning-listing"
                           style={{ minWidth: "150px" }}
@@ -285,14 +276,14 @@ function AllNominations({ history, match }) {
                           Pending
                         </Td>
                       )}
-                      {userDetails.currentRole == Role.Admin && (
+                      {userDetails.currentRole === Role.Admin && (
                         <Td
                           className="traning-listing"
                           style={{ minWidth: "150px" }}
                         >
                           {user.preRequisites != "N/A" ? (
                             <div>
-                              {user.acceptRejectStatus == "Completed" ? (
+                              {user.acceptRejectStatus === "Completed" ? (
                                 <a
                                   style={{
                                     color: "#12f339",
@@ -305,7 +296,7 @@ function AllNominations({ history, match }) {
                                 </a>
                               ) : (
                                 <div>
-                                  {user.acceptRejectStatus == "Pending" ? (
+                                  {user.acceptRejectStatus === "Pending" ? (
                                     <div>
                                       <a
                                         style={{
@@ -351,17 +342,17 @@ function AllNominations({ history, match }) {
                           )}
                         </Td>
                       )}
-                      {userDetails.currentRole == Role.User && (
+                      {userDetails.currentRole === Role.User && (
                         <Td
                           className="traning-listing"
                           style={{ minWidth: "150px" }}
                         >
-                          {user.acceptRejectStatus == 0
+                          {user.acceptRejectStatus === 0
                             ? "Pending"
                             : "Completed"}
                         </Td>
                       )}
-                      {userDetails.currentRole == Role.User && (
+                      {userDetails.currentRole === Role.User && (
                         <Td>
                           {user.acceptRejectStatus != "1" ? (
                             <PopUpFileUpload
@@ -373,7 +364,7 @@ function AllNominations({ history, match }) {
                           )}
                         </Td>
                       )}
-                      {userDetails.currentRole == Role.Manager && (
+                      {userDetails.currentRole === Role.Manager && (
                         <Td
                           className="traning-listing"
                           style={{ minWidth: "150px" }}

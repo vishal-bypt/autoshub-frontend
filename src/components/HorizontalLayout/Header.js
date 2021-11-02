@@ -1,41 +1,24 @@
-import React, { useState } from "react"
-import PropTypes from 'prop-types'
-import ReactDrawer from 'react-drawer';
-import 'react-drawer/lib/react-drawer.css';
-import { connect } from "react-redux"
-
-import { Link } from "react-router-dom"
-
 //Import Icons
 import FeatherIcon from "feather-icons-react";
-
-// Redux Store
-import { showRightSidebarAction, toggleLeftmenu } from "../../store/actions"
-// reactstrap
-import { Row, Col, Dropdown, DropdownToggle, DropdownMenu } from "reactstrap"
-
-// Import menuDropdown
-import LanguageDropdown from "../CommonForBoth/TopbarDropdown/LanguageDropdown";
-import NotificationDropdown from "../CommonForBoth/TopbarDropdown/NotificationDropdown";
-import ProfileMenu from "../CommonForBoth/TopbarDropdown/ProfileMenu";
-import RightSidebar from "../CommonForBoth/RightSidebar";
-import LightDark from "../CommonForBoth/Menus/LightDark";
-
+import PropTypes from 'prop-types';
+import React, { useState } from "react";
+import ReactDrawer from 'react-drawer';
+import 'react-drawer/lib/react-drawer.css';
+//i18n
+import { withTranslation } from "react-i18next";
+import { connect } from "react-redux";
 // import images
 // import logo from "../../assets/images/logo-sm.svg";
 import logoSvg from "../../assets/images/autoshubLogo.png";
-import autoshubSmall from "../../assets/images/autoshubSmall.png";
 import logoSvgLight from "../../assets/images/autoshubLogoLight.png";
+import autoshubSmall from "../../assets/images/autoshubSmall.png";
 import autoshubSmallLight from "../../assets/images/autoshubSmallLight.png";
-import github from "../../assets/images/brands/github.png"
-import bitbucket from "../../assets/images/brands/bitbucket.png"
-import dribbble from "../../assets/images/brands/dribbble.png"
-import dropbox from "../../assets/images/brands/dropbox.png"
-import mail_chimp from "../../assets/images/brands/mail_chimp.png"
-import slack from "../../assets/images/brands/slack.png"
+// Redux Store
+import { showRightSidebarAction, toggleLeftmenu } from "../../store/actions";
+import LightDark from "../CommonForBoth/Menus/LightDark";
+import RightSidebar from "../CommonForBoth/RightSidebar";
+import ProfileMenu from "../CommonForBoth/TopbarDropdown/ProfileMenu";
 
-//i18n
-import { withTranslation } from "react-i18next"
 
 const Header = props => {
   const { onChangeLayoutMode } = props;
