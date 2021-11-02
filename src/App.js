@@ -2,9 +2,6 @@ import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { BrowserRouter as Router, Switch } from "react-router-dom";
-import "./assets/scss/preloader.scss";
-// Import scss
-import "./assets/scss/theme.scss";
 import HorizontalLayout from "./components/HorizontalLayout/";
 import NonAuthLayout from "./components/NonAuthLayout";
 // layouts Format
@@ -15,6 +12,8 @@ import { authRoutes, userRoutes } from "./routes/allRoutes";
 import Authmiddleware from "./routes/middleware/Authmiddleware";
 import { accountService } from './services/account.service';
 
+import "./assets/scss/preloader.scss";
+import "./assets/scss/theme.scss";
 // Activating fake backend
 //fakeBackend();
 
