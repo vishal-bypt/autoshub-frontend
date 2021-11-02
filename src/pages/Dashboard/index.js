@@ -1,32 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import MetaTags from "react-meta-tags";
+import {
+  Button, Col,
+  Container, FormGroup, Input, Label, Row
+} from "reactstrap";
 //import Breadcrumbs
 import Breadcrumbs from "../../components/Common/Breadcrumb";
-
-import {
-  Col,
-  Container,
-  Row,
-  Card,
-  CardBody,
-  CardTitle,
-  CardHeader,
-  FormGroup,
-  Label,
-  Input,
-  Button
-} from "reactstrap";
-
-// import chartJs
-import EPieChart from "../../components/AllCharts/echart/piechart";
-import GaugeChart from "../../components/AllCharts/echart/gaugechart";
-import { dashboardService } from "../../services/dashboard.service";
+import { trainingService } from "../../services";
 import { accountService } from "../../services/account.service";
+import { dashboardService } from "../../services/dashboard.service";
 import AdminGraphs from "./AdminGraphs";
 import ManagerGraphs from "./ManagerGraphs";
 import UserGraphs from "./UserGraphs";
-import { trainingService } from "../../services";
-
 
 const TrainingPartnerAssigned = [
   { value: 200, name: "UiPaths" },
@@ -96,7 +81,6 @@ const Dashboard = () => {
   const [startDate, setStartDate] = useState(undefined);
   const [endDate, setEndDate] = useState(undefined);
   const userDetails = accountService.userValue;
-  const roles = userDetails.userRoleArray;
 
 
   useEffect(() => {

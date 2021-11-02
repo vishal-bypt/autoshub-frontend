@@ -1,24 +1,15 @@
-import { accountService, programService } from "../../services";
-import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-import { ErrorMessage, Field, Form, Formik, FastField } from "formik";
+import { ErrorMessage, Field, Form, Formik } from "formik";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import * as Yup from "yup";
 import CustomSelect from "../../components/CustomSelect";
+import { accountService, programService } from "../../services";
 
 function Resources({ history, match }) {
-  const { id } = match.params;
-  const isAddMode = !id;
   const userDetails = accountService.userValue;
   const [temp, setTemp] = useState([]);
-  const [users, setUsers] = useState([]);
-  const [assignedUsers, setAssignedUsers] = useState(null);
-  const user = accountService.userValue;
-  const assignUserIds = [];
   var date = getCurrentDate("-");
-  console.log("date == ", date);
-  let userIdArray = [];
 
   function getCurrentDate(separator = "") {
     let newDate = new Date();
@@ -38,7 +29,7 @@ function Resources({ history, match }) {
 
   const getAllPrograms = async () => {
     let userDropDownData = [];
-    if (userDetails.role == "Admin") {
+    if (userDetails.role === "Admin") {
       programService.getAll().then((programs) => {
         if (programs && programs.length > 0) {
           programs.map((programData, index) => {
@@ -71,7 +62,6 @@ function Resources({ history, match }) {
     console.log("month name == ", monthName);
   }
 
-  console.log("temp::", temp);
   return (
     <React.Fragment>
       <div className="page-content">

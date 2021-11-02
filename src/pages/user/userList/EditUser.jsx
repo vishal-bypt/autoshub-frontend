@@ -1,19 +1,12 @@
-import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
-import { Formik, Field, Form, ErrorMessage } from "formik";
-import * as Yup from "yup";
-import Swal from "sweetalert2";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import { ErrorMessage, Field, Form, Formik } from "formik";
+import React from "react";
+import { Link } from "react-router-dom";
 import { Modal } from "reactstrap";
-import {
-  accountService,
-  alertService,
-  trainingService,
-} from "../../../services";
-let aFormik = null;
+import * as Yup from "yup";
+import { accountService, alertService } from "../../../services";
 
 function EditUser({ history, match, location }) {
-  // const user = accountService.userValue;
   const { user } = location.state;
 
   const initialValues = {
@@ -74,37 +67,37 @@ function EditUser({ history, match, location }) {
       });
   }
 
-  const handleDelete = () => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "Do you want to delete this user?",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
-    }).then((result) => {
-      console.log("result::", result);
-      if (result.isConfirmed) {
-        accountService
-          .delete(user.id)
-          .then((data) => {
-            alertService.success(data.message, { keepAfterRouteChange: true });
-            history.push("/userList");
-            Swal.fire(
-              "Deleted!",
-              "User has been deleted successfully",
-              "success"
-            );
-          })
-          .catch((error) => {
-            console.log("error::", error);
-            Swal.fire("Error!", error);
-            alertService.error(error, { keepAfterRouteChange: true });
-          });
-      }
-    });
-  };
+  // const handleDelete = () => {
+  //   Swal.fire({
+  //     title: "Are you sure?",
+  //     text: "Do you want to delete this user?",
+  //     icon: "warning",
+  //     showCancelButton: true,
+  //     confirmButtonColor: "#3085d6",
+  //     cancelButtonColor: "#d33",
+  //     confirmButtonText: "Yes, delete it!",
+  //   }).then((result) => {
+  //     console.log("result::", result);
+  //     if (result.isConfirmed) {
+  //       accountService
+  //         .delete(user.id)
+  //         .then((data) => {
+  //           alertService.success(data.message, { keepAfterRouteChange: true });
+  //           history.push("/userList");
+  //           Swal.fire(
+  //             "Deleted!",
+  //             "User has been deleted successfully",
+  //             "success"
+  //           );
+  //         })
+  //         .catch((error) => {
+  //           console.log("error::", error);
+  //           Swal.fire("Error!", error);
+  //           alertService.error(error, { keepAfterRouteChange: true });
+  //         });
+  //     }
+  //   });
+  // };
 
   return (
     <div className="page-content">

@@ -2,16 +2,18 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import moment from "moment";
 import { Role } from "../../helpers";
+import { Table, Thead, Tbody, Tr, Th, Td } from "react-super-responsive-table";
+import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
+
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import { accountService, trainingService } from "../../services";
-
+import "../../assets/scss/custom/components/_tableblur.scss";
 function Trainings({ match }) {
-  const { path } = match;
   const userDetails = accountService.userValue;
   const [users, setUsers] = useState(null);
   let filteredData = [];
   useEffect(() => {
-    if (userDetails.currentRole == Role.Admin) {
+    if (userDetails.currentRole === Role.Admin) {
       trainingService.getAll().then((x) => {
         for (let i = 0; i < x.length; i++) {
           if (x[i].assignedByName != null && x[i].assignedToName != null) {
@@ -21,7 +23,7 @@ function Trainings({ match }) {
         setUsers(x);
       });
     }
-    if (userDetails.currentRole == Role.User) {
+    if (userDetails.currentRole === Role.User) {
       let userData = [];
       trainingService.listTaskToUser().then((x) => {
         x.map((data) => {
@@ -66,7 +68,7 @@ function Trainings({ match }) {
       <div className="data-table-div">
         <div className="data-table">
           <div className="table-responsive">
-            <table className="table">
+            {/* <table className="table">
               <thead>
                 <tr>
                   <th className="traning-listing">#</th>
@@ -134,7 +136,52 @@ function Trainings({ match }) {
                   </tr>
                 )}
               </tbody>
-            </table>
+            </table> */}
+            <Table
+              id="tech-companies-1"
+              className="table tableBlur table-bordered"
+            >
+              <Thead>
+                <Tr>
+                  <Th>#</Th>
+                  <Th>Nominated Employee</Th>
+                  <Th>Nominated By</Th>
+                  <Th>Training Name</Th>
+                  <Th>Start Date</Th>
+                  <Th>End Date</Th>
+                  <Th>Required Prerequisites</Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+                {users &&
+                  users.map((user, index) => (
+                    <Tr key={user.id}>
+                      <Td>{index + 1}</Td>
+                      <Td>
+                        {user.assignedToName ? user.assignedToName : "NA"}
+                      </Td>
+                      <Td>
+                        {user.assignedByName ? user.assignedByName : "NA"}
+                      </Td>
+                      <Td>{user.trainingName}</Td>
+                      <Td>
+                        {moment(user.trainingStarTdate).format("DD/MM/YYYY")}
+                      </Td>
+                      <Td>
+                        {moment(user.trainingEndDate).format("DD/MM/YYYY")}
+                      </Td>
+                      <Td>{user.trainingPrequisites}</Td>
+                    </Tr>
+                  ))}
+                {!users && (
+                  <Tr>
+                    <Td colSpan="4" className="text-center">
+                      <span className="spinner-border spinner-border-lg align-center"></span>
+                    </Td>
+                  </Tr>
+                )}
+              </Tbody>
+            </Table>
           </div>
         </div>
       </div>

@@ -1,6 +1,4 @@
-import React from 'react';
-
-import { makeStyles } from '@material-ui/core/styles';
+import { IconButton } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -8,19 +6,13 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import FormControl from '@material-ui/core/FormControl';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import Switch from '@material-ui/core/Switch';
-import CloudQueueIcon from '@material-ui/icons/CloudQueue';
+import { makeStyles } from '@material-ui/core/styles';
 import BackupIcon from '@material-ui/icons/Backup';
 import CloudDoneIcon from '@material-ui/icons/CloudDone';
 import CloudOffIcon from '@material-ui/icons/CloudOff';
-import LockIcon from '@material-ui/icons/Lock';
-import { rfcService, alertService } from '../../services';
-
-import { IconButton } from '@material-ui/core';
+import CloudQueueIcon from '@material-ui/icons/CloudQueue';
+import React from 'react';
+import { alertService, rfcService } from '../../services';
 
 var FormData = require('form-data');
 const useStyles = makeStyles((theme) => ({
@@ -60,7 +52,7 @@ export default function PopUpFileUpload({ id,userDetails }) {
         if (e.target.files[0]) {
             var re = /(?:\.([^.]+))?$/;
             var ext = re.exec(e.target.files[0].name)[1];
-            if (ext == `xls` || ext == `xlsx` || ext == `png` || ext == `jpg` || ext == `jpeg` || ext == `PNG` || ext == `doc` || ext == `docx` || ext == `pdf` || ext == `xlsx`) {
+            if (ext === `xls` || ext === `xlsx` || ext === `png` || ext === `jpg` || ext === `jpeg` || ext === `PNG` || ext === `doc` || ext === `docx` || ext === `pdf` || ext === `xlsx`) {
                 var formData = new FormData();
                 formData.append('file', e.target.files[0]);
                 formData.append('fileName', e.target.files[0].name);

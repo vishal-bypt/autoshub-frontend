@@ -1,37 +1,17 @@
-import PropTypes from "prop-types";
-import React, { useState, useEffect, useRef } from "react";
-import { Row, Col, Collapse } from "reactstrap";
-import { Link, withRouter } from "react-router-dom";
 import classname from "classnames";
-
 //Import Icons
 import FeatherIcon from "feather-icons-react";
-
+import PropTypes from "prop-types";
+import React, { useEffect, useState } from "react";
 //i18n
 import { withTranslation } from "react-i18next";
-import SimpleBar from "simplebar-react"
 import { connect } from "react-redux";
-import { accountService } from "../../services";
+import { Link, withRouter } from "react-router-dom";
+import { Collapse } from "reactstrap";
 
 const Navbar = props => {
 
-  const [ui, setui] = useState(false);
   const [app, setapp] = useState(false);
-  const [email, setemail] = useState(false);
-  const [contact, setcontact] = useState(false);
-  const [component, setcomponent] = useState(false);
-  const [form, setform] = useState(false);
-  const [table, settable] = useState(false);
-  const [chart, setchart] = useState(false);
-  const [icon, seticon] = useState(false);
-  const [map, setmap] = useState(false);
-  const [extra, setextra] = useState(false);
-  const [invoice, setinvoice] = useState(false);
-  const [auth, setauth] = useState(false);
-  const [utility, setutility] = useState(false);
-
-  const ref = useRef()
-  const userDetails = accountService.userValue;
 
   useEffect(() => {
     var matchingMenuItem = null;
@@ -100,10 +80,6 @@ const Navbar = props => {
                 <li>
                   <Link
                     to="/training"
-                    // onClick={e => {
-                    //   e.preventDefault();
-                    //   setui(!ui);
-                    // }}
                     className="nav-link arrow-none"
                   >
                     <FeatherIcon
@@ -157,28 +133,6 @@ const Navbar = props => {
                     <Link to="/userAccessView" className="dropdown-item">
                       {props.t("User Access View")}
                     </Link>
-                    {/* <div className="dropdown">
-                      <Link
-                        to="/#"
-                        className="dropdown-item dropdown-toggle arrow-none"
-                        onClick={e => {
-                          e.preventDefault();
-                          setemail(!email);
-                        }}
-                      >
-                        {props.t("Email")} <div className="arrow-down"></div>
-                      </Link>
-                      <div
-                        className={classname("dropdown-menu", { show: email })}
-                      >
-                        <Link to="/email-inbox" className="dropdown-item">
-                          {props.t("Inbox")}
-                        </Link>
-                        <Link to="/email-read" className="dropdown-item">
-                          {props.t("Read Email")}
-                        </Link>
-                      </div>
-                    </div> */}
                   </div>
                 </li>
               </ul>

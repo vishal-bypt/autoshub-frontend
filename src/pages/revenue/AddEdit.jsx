@@ -1,16 +1,15 @@
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import { ErrorMessage, FastField, Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Formik, Field, FastField, Form, ErrorMessage } from "formik";
+import Swal from "sweetalert2";
 import * as Yup from "yup";
 import {
-  rfcService,
-  alertService,
   accountService,
+  alertService,
   programService,
+  rfcService,
 } from "../../services";
-import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-import moment from "moment";
-import Swal from "sweetalert2";
 
 function AddEdit({ history, match }) {
   const user = accountService.userValue;
@@ -18,12 +17,9 @@ function AddEdit({ history, match }) {
   const [countries, setCountries] = useState(null);
   const [geo, setGeo] = useState(null);
   const [geoOptions, setGeoOptions] = useState(null);
-  const [currencySymbol, setCurrencySymbol] = useState(null);
 
   let locationData = [];
   let geoData = [];
-
-  const [editedUser, setEditedUser] = useState(null);
 
   useEffect(() => {
     rfcService.getCountries().then((x) => {

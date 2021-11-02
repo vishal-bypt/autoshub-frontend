@@ -19,22 +19,16 @@ function UploadProgramData({ history, match }) {
   const isAddMode = !id;
   const userDetails = accountService.userValue;
   const [temp, setTemp] = useState([]);
-  const [users, setUsers] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
-  const [selectBtn, setSelectBtn] = useState(true);
   const [uploadBtn, setUploadBtn] = useState(false);
   const [successBtn, setSuccessBtn] = useState(false);
   const [errorBtn, setErrorBtn] = useState(false);
-  const [assignedUsers, setAssignedUsers] = useState(null);
   const [selectedProgramId, setSelectedProgramId] = useState(null);
 
-  const user = accountService.userValue;
-  const assignUserIds = [];
   let userDropDownData = [];
   console.log("selectedFile >> = ", selectedFile);
   var date = getCurrentDate("-");
   console.log("date == ", date);
-  let userIdArray = [];
 
   function create(formData, id) {
     console.log("form Data == ", formData);
@@ -71,7 +65,7 @@ function UploadProgramData({ history, match }) {
 
   const getAllPrograms = async () => {
     let userDropDownData = [];
-    if (userDetails.role == "Admin") {
+    if (userDetails.role === "Admin") {
       programService
         .getAll()
         .then((programs) => {
