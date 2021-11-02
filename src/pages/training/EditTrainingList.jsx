@@ -2,9 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import moment from "moment";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import { Table, Thead, Tbody, Tr, Th, Td } from "react-super-responsive-table";
 
 import { accountService, trainingService } from "../../services";
 import { Role } from "../../helpers/role";
+import "../../assets/scss/custom/components/_tableblur.scss";
 
 function EditTrainingList({ match }) {
   const { path } = match;
@@ -61,10 +63,10 @@ function EditTrainingList({ match }) {
       <div className="data-table-div">
         <div className="data-table">
           <div className="table-responsive">
-            <table className="table">
+            {/* <table className="table ">
               <thead>
                 <tr>
-                  <th className="traning-listing">#</th>
+                  <th>#</th>
                   <th className="traning-listing">Training Name</th>
                   <th className="traning-listing">Start Date</th>
                   <th className="traning-listing">End Date</th>
@@ -138,7 +140,88 @@ function EditTrainingList({ match }) {
                   </tr>
                 )}
               </tbody>
-            </table>
+            </table> */}
+            <Table
+              id="tech-companies-1"
+              className="table tableBlur table-bordered"
+            >
+              <Thead>
+                <tr>
+                  <Th>#</Th>
+                  <Th>Training Name</Th>
+                  <Th>Start Date</Th>
+                  <Th>End Date</Th>
+                  <Th>Required Prerequisites</Th>
+                  <Th>Status</Th>
+                  <Th></Th>
+                </tr>
+              </Thead>
+              <Tbody>
+              {users &&
+                  users.map((user, index) => (
+                    <tr key={user.id}>
+                      <Td
+                        className="traning-listing"
+                        style={{ minWidth: "40px" }}
+                      >
+                        {index + 1}
+                      </Td>
+                      <Td
+                        className="traning-listing"
+                        style={{ minWidth: "200px" }}
+                      >
+                        {user.trainingName}
+                      </Td>
+                      <Td
+                        className="traning-listing"
+                        style={{ minWidth: "200px" }}
+                      >
+                        {moment(user.trainingStartDate).format("DD/MM/YYYY")}
+                      </Td>
+                      <Td
+                        className="traning-listing"
+                        style={{ minWidth: "200px" }}
+                      >
+                        {moment(user.trainingEndDate).format("DD/MM/YYYY")}
+                      </Td>
+                      <Td
+                        className="traning-listing"
+                        style={{ minWidth: "200px" }}
+                      >
+                        {user.trainingPrequisites}
+                      </Td>
+                      <Td
+                        className="traning-listing"
+                        style={{ minWidth: "200px" }}
+                      >
+                        Pending
+                      </Td>
+                      <Td
+                        className="traning-listing"
+                        style={{ whiteSpace: "nowrap", minWidth: "30%" }}
+                      >
+                        {userDetails.currentRole == Role.Admin && (
+                          <div>
+                            <Link
+                              to={`/training/edit/${user.id}`}
+                              className="btn btn-warning"
+                            >
+                              Edit
+                            </Link>
+                          </div>
+                        )}
+                      </Td>
+                    </tr>
+                  ))}
+                {!users && (
+                  <Tr>
+                    <Td colSpan="4" className="text-center">
+                      <span className="spinner-border spinner-border-lg align-center"></span>
+                    </Td>
+                  </Tr>
+                )}
+              </Tbody>
+            </Table>
           </div>
         </div>
       </div>
