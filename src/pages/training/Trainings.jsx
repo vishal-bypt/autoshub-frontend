@@ -6,12 +6,11 @@ import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import { accountService, trainingService } from "../../services";
 
 function Trainings({ match }) {
-  const { path } = match;
   const userDetails = accountService.userValue;
   const [users, setUsers] = useState(null);
   let filteredData = [];
   useEffect(() => {
-    if (userDetails.currentRole == Role.Admin) {
+    if (userDetails.currentRole === Role.Admin) {
       trainingService.getAll().then((x) => {
         for (let i = 0; i < x.length; i++) {
           if (x[i].assignedByName != null && x[i].assignedToName != null) {
@@ -21,7 +20,7 @@ function Trainings({ match }) {
         setUsers(x);
       });
     }
-    if (userDetails.currentRole == Role.User) {
+    if (userDetails.currentRole === Role.User) {
       let userData = [];
       trainingService.listTaskToUser().then((x) => {
         x.map((data) => {

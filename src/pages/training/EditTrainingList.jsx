@@ -7,17 +7,16 @@ import { accountService, trainingService } from "../../services";
 import { Role } from "../../helpers/role";
 
 function EditTrainingList({ match }) {
-  const { path } = match;
   const userDetails = accountService.userValue;
   const [users, setUsers] = useState(null);
 
   useEffect(() => {
-    if (userDetails.currentRole == Role.Admin) {
+    if (userDetails.currentRole === Role.Admin) {
       trainingService.getAll().then((x) => {
         setUsers(x);
       });
     }
-    if (userDetails.currentRole == Role.User) {
+    if (userDetails.currentRole === Role.User) {
       let userData = [];
       trainingService.listTaskToUser().then((x) => {
         x.map((data) => {
@@ -117,7 +116,7 @@ function EditTrainingList({ match }) {
                         className="traning-listing"
                         style={{ whiteSpace: "nowrap", minWidth: "30%" }}
                       >
-                        {userDetails.currentRole == Role.Admin && (
+                        {userDetails.currentRole === Role.Admin && (
                           <div>
                             <Link
                               to={`/training/edit/${user.id}`}

@@ -1,48 +1,27 @@
+//Import Icons
+import FeatherIcon from "feather-icons-react";
 import PropTypes from 'prop-types';
 import React, { useState } from "react";
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-
 //import drawer
 import ReactDrawer from 'react-drawer';
 import 'react-drawer/lib/react-drawer.css';
-
-//Import Icons
-import FeatherIcon from "feather-icons-react";
-
-// Reactstrap
-import { Dropdown, DropdownToggle, DropdownMenu, Row, Col } from "reactstrap";
-
-// Import menuDropdown
-import LanguageDropdown from "../CommonForBoth/TopbarDropdown/LanguageDropdown";
-import NotificationDropdown from "../CommonForBoth/TopbarDropdown/NotificationDropdown";
-import ProfileMenu from "../CommonForBoth/TopbarDropdown/ProfileMenu";
-import RightSidebar from "../CommonForBoth/RightSidebar";
-import LightDark from "../CommonForBoth/Menus/LightDark";
-
+//i18n
+import { withTranslation } from "react-i18next";
+import { connect } from "react-redux";
 // import images
 // import logoSvg from "../../assets/images/logo-sm.svg";
 import logoSvg from "../../assets/images/autoshubLogo.png";
-import autoshubSmall from "../../assets/images/autoshubSmall.png";
 import logoSvgLight from "../../assets/images/autoshubLogoLight.png";
+import autoshubSmall from "../../assets/images/autoshubSmall.png";
 import autoshubSmallLight from "../../assets/images/autoshubSmallLight.png";
-import github from "../../assets/images/brands/github.png";
-import bitbucket from "../../assets/images/brands/bitbucket.png";
-import dribbble from "../../assets/images/brands/dribbble.png";
-import dropbox from "../../assets/images/brands/dropbox.png";
-import mail_chimp from "../../assets/images/brands/mail_chimp.png";
-import slack from "../../assets/images/brands/slack.png";
-
-//i18n
-import { withTranslation } from "react-i18next";
-
 // Redux Store
 import {
-  showRightSidebarAction,
-  toggleLeftmenu,
-  changeSidebarType,
-  changelayoutMode
+  changelayoutMode, changeSidebarType, showRightSidebarAction,
+  toggleLeftmenu
 } from "../../store/actions";
+import LightDark from "../CommonForBoth/Menus/LightDark";
+import RightSidebar from "../CommonForBoth/RightSidebar";
+import ProfileMenu from "../CommonForBoth/TopbarDropdown/ProfileMenu";
 
 const Header = props => {
   const { onChangeLayoutMode } = props;

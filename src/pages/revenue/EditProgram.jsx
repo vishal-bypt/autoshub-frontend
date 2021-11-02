@@ -1,15 +1,12 @@
-import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
-import { Formik, Field, Form, ErrorMessage } from "formik";
-import * as Yup from "yup";
-import Swal from "sweetalert2";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-
+import { ErrorMessage, Field, Form, Formik } from "formik";
+import React from "react";
+import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
+import * as Yup from "yup";
 import {
   accountService,
-  alertService,
-  trainingService,
-  programService,
+  alertService, programService
 } from "../../services";
 
 function EditProgram({ history, match }) {

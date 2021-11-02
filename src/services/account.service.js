@@ -30,7 +30,8 @@ export const accountService = {
     delete: _delete,
     assignUser: assignUser,
     user: userSubject.asObservable(),
-    get userValue() { return userSubject.value ? userSubject.value : JSON.parse(localStorage.getItem('authUser')) }
+    get userValue() { return JSON.parse(localStorage.getItem('authUser')) }
+    // get userValue() { return userSubject.value ? userSubject.value : JSON.parse(localStorage.getItem('authUser')) }
 };
 
 function login(email, password) {
@@ -70,7 +71,7 @@ function logout() {
     localStorage.clear();
     userSubject.next(null);
     history.push('/login');
-    window.location.href="/login";
+    window.location.href = "/login";
 }
 
 function refreshToken() {

@@ -1,32 +1,22 @@
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+// import { createFilterOptions } from "@material-ui/lab/Autocomplete";
+import React, { useEffect, useState } from "react";
+import BootstrapTable from "react-bootstrap-table-next";
+import { Link } from "react-router-dom";
+import { Col, Row } from "reactstrap";
+import Loader from "../../components/Common/Loader";
 import {
   accountService,
   alertService,
   programService,
-  trainingService,
+  trainingService
 } from "../../services";
-import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-// import { createFilterOptions } from "@material-ui/lab/Autocomplete";
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-// const filter = createFilterOptions();
-import paginationFactory from "react-bootstrap-table2-paginator";
-import { Card, CardBody, Col, Row } from "reactstrap";
-import BootstrapTable from "react-bootstrap-table-next";
-import Loader from "../../components/Common/Loader";
 
 function List({ history, match }) {
-  const options = ["One", "Two", "Three", "Four"];
-  const { path } = match;
   const userDetails = accountService.userValue;
-  //console.log("userDetails == ", userDetails);
-  //console.log("userDetails role == ", userDetails.role);
 
   const [users, setUsers] = useState(null);
-  const [totalSize, setTotalSize] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(true);
-  const [sizePerPage, setSizePerPage] = useState(10);
-  const [page, setPage] = useState(1);
-  const [searchValue, setSearchValue] = useState("");
 
   let filteredData = [];
 
@@ -56,7 +46,7 @@ function List({ history, match }) {
   ];
 
   useEffect(() => {
-    if (userDetails.role == "Admin") {
+    if (userDetails.role === "Admin") {
       programService.getAll().then((x) => {
         /* for (let i = 0; i < x.length; i++) {
                     if (x[i].assignedByName != null && x[i].assignedToName != null) {
@@ -72,7 +62,7 @@ function List({ history, match }) {
         setIsSubmitting(false);
       });
     }
-    if (userDetails.role == "Manager") {
+    if (userDetails.role === "Manager") {
       let userData = [];
       trainingService.listTaskToUser().then((x) => {
         //console.log("x == ", x)
@@ -84,7 +74,7 @@ function List({ history, match }) {
         setIsSubmitting(false);
       });
     }
-    if (userDetails.role == "User") {
+    if (userDetails.role === "User") {
       let userData = [];
       trainingService.listTaskToUser().then((x) => {
         x.map((data) => {
@@ -128,7 +118,7 @@ function List({ history, match }) {
         for (let i = 0; i < x.length; i++) {
           if (x[i].assignedByName != null && x[i].assignedToName != null) {
             //console.log("x[1] == ", x[i]);
-            if (x[i].acceptRejectStatus == 1) {
+            if (x[i].acceptRejectStatus === 1) {
               x[i].acceptRejectStatus = "Completed";
               //console.log("x[i].acceptRejectStatus == ", x[i].acceptRejectStatus);
             }
@@ -154,9 +144,9 @@ function List({ history, match }) {
       });
       trainingService.getActiveTrainingList().then((x) => {
         for (let i = 0; i < x.length; i++) {
-          if (x[i].assignedByName != null && x[i].assignedToName != null) {
+          if (x[i].assignedByName !== null && x[i].assignedToName !== null) {
             //console.log("x[1] == ", x[i]);
-            if (x[i].acceptRejectStatus == 1) {
+            if (x[i].acceptRejectStatus === 1) {
               x[i].acceptRejectStatus = "Completed";
               //console.log("x[i].acceptRejectStatus == ", x[i].acceptRejectStatus);
             }

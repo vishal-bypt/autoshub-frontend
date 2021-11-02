@@ -1,14 +1,13 @@
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import { ErrorMessage, FastField, Field, Form, Formik } from 'formik';
+import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Formik, Field, FastField, Form, ErrorMessage } from 'formik';
+import Swal from 'sweetalert2';
 import * as Yup from 'yup';
-import { rfcService, alertService, accountService } from '../../services';
+import Breadcrumbs from "../../components/Common/Breadcrumb";
 import CustomSelect from '../../components/CustomSelect';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import moment from 'moment';
-import Swal from 'sweetalert2'
-import Breadcrumbs from "../../components/Common/Breadcrumb"
-
+import { accountService, alertService, rfcService } from '../../services';
 
 function AddEditPage({ history, match }) {
     const user = accountService.userValue;
@@ -24,7 +23,6 @@ function AddEditPage({ history, match }) {
     if (beforeMonth < 10) {
         beforeMonth = "0" + beforeMonth;
     }
-    var today = new Date();
     var date = getCurrentDate('-');
     var before3Month = nowY + '-' + beforeMonth + '-' + '01';
     var nextMonthDate = nowY + '-' + (Number(currentMonth) + 1) + '-' + '01';
@@ -331,7 +329,7 @@ function AddEditPage({ history, match }) {
         automationType: Yup.string().required('Cannot be left blank - Automation Type selection is mandatory'),
         rpaPlatform: Yup.string()
             .when('automationType', (automationType) => {
-                if (automationType == "RPA") {
+                if (automationType === "RPA") {
                     return Yup.string()
                         .required('Cannot be left blank - RPA Platform selection is mandatory')
                         .typeError('Cannot be left blank - RPA Platform selection is mandatory')
@@ -359,7 +357,7 @@ function AddEditPage({ history, match }) {
         //platform: Yup.string().required('Platform filed is required'),
         //( values.stage == "Tailwind" || values.stage == "Tailwind-Transformation-Delivery" || values.stage == "Tailwind-Due Dilligence" || values.stage == "Won" )
         projectStartDate: Yup.date().when('stage', (stage) => {
-            if (stage == "Tailwind" || stage == "Tailwind-Transformation-Delivery" || stage == "Tailwind-Due Dilligence" || stage == "Won") {
+            if (stage === "Tailwind" || stage === "Tailwind-Transformation-Delivery" || stage === "Tailwind-Due Dilligence" || stage === "Won") {
                 return Yup.string()
                     .required('Cannot be left blank -Date Selection is mandatory')
                     .typeError('Cannot be left blank -Date Selection is mandatory')
@@ -369,7 +367,7 @@ function AddEditPage({ history, match }) {
             Yup.ref('projectStartDate'),
             "Project End Date can't be before Project Start Date"
         ).when('stage', (stage) => {
-            if (stage == "Tailwind" || stage == "Tailwind-Transformation-Delivery" || stage == "Tailwind-Due Dilligence" || stage == "Won") {
+            if (stage === "Tailwind" || stage === "Tailwind-Transformation-Delivery" || stage === "Tailwind-Due Dilligence" || stage === "Won") {
                 return Yup.string()
                     .required('Cannot be left blank -Date Selection is mandatory')
                     .typeError('Cannot be left blank -Date Selection is mandatory')
@@ -466,12 +464,12 @@ function AddEditPage({ history, match }) {
     useEffect(() => {
         if (!isAddMode) {
             rfcService.getById(id).then(user => {
-                if (currencySymbol == null) {
-                    if (user.currency == "USD") {
+                if (currencySymbol === null) {
+                    if (user.currency === "USD") {
 
                         setCurrencySymbol("$");
 
-                    } else if (user.currency == "GBP") {
+                    } else if (user.currency === "GBP") {
                         setCurrencySymbol("£");
                     } else {
                         setCurrencySymbol("₹");
@@ -488,15 +486,15 @@ function AddEditPage({ history, match }) {
 
     function onSubmit(fields, { setStatus, setSubmitting }) {
         alert("buttibn cklick")
-        const platform = typeof fields?.platform != 'string' ? fields?.platform?.join() : fields?.platform;
-        const consideration = typeof fields?.consideration != 'string' ? fields?.consideration?.join() : fields?.consideration;
+        const platform = typeof fields?.platform !== 'string' ? fields?.platform?.join() : fields?.platform;
+        const consideration = typeof fields?.consideration !== 'string' ? fields?.consideration?.join() : fields?.consideration;
         let data = { ...fields, monthCalendar: fields.monthCalendar, consideration: consideration, platform: platform, geoLeads: '0' }
         setStatus();
         if (isAddMode) {
             data.userId = user.id;
             create(data, setSubmitting);
         } else {
-            if (editedUser && editedUser.userId != 0) {
+            if (editedUser && editedUser.userId !== 0) {
                 data.userId = editedUser.userId;
             }
             else {
@@ -854,8 +852,8 @@ function AddEditPage({ history, match }) {
                                                 <Field name="rfpRespondedDate" type="date" min={values.rfpReceivedDate} max={date} className={'form-control' + (errors.rfpRespondedDate && touched.rfpRespondedDate ? ' is-invalid' : '')}
                                                     onChange={e => {                                                        
                                                         values.rfpRespondedDate = e.target.value;
-                                                        if (user.role == "Admin") {
-                                                            if (values.status == "Open" && e.target.value != "") {
+                                                        if (user.role === "Admin") {
+                                                            if (values.status === "Open" && e.target.value !== "") {
                                                                 var new_date = moment(values.rfpRespondedDate, "YYYY-MM-DD").add(60, 'days');
                                                                 const dateA = moment(values.endDate, 'YYYY-MM-DD');
                                                                 const dateB = moment(new Date(), 'YYYY-MM-DD');
@@ -875,7 +873,7 @@ function AddEditPage({ history, match }) {
                                                 <Field name="endDate" type="date" min={values.rfpRespondedDate} className={'form-control' + (errors.endDate && touched.endDate ? ' is-invalid' : '')}
                                                     onChange={e => {                                                        
                                                         values.endDate = e.target.value;
-                                                        if (user.role == "User" && values.status == "Open" && e.target.value != "") {
+                                                        if (user.role === "User" && values.status === "Open" && e.target.value !== "") {
                                                             values.endDate = e.target.value;
                                                             const dateA = moment(values.endDate, 'YYYY-MM-DD');
                                                             const dateB = moment(new Date(), 'YYYY-MM-DD');
@@ -923,11 +921,11 @@ function AddEditPage({ history, match }) {
                                                     component={CustomSelect}
                                                     onChangeValue={value => {
                                                         values.status = value;
-                                                        if (user.role == "Admin") {
-                                                            if (value != "Open") {
+                                                        if (user.role === "Admin") {
+                                                            if (value !== "Open") {
                                                                 setFieldValue('ageing', '');
                                                             }
-                                                            if (values.status == "Open") {
+                                                            if (values.status === "Open") {
                                                                 if (values.rfpRespondedDate) {
                                                                     console.log("rfpRespondedDate", values.rfpRespondedDate);
 
@@ -1278,14 +1276,14 @@ function AddEditPage({ history, match }) {
                                                     isMulti={true}
                                                     placeholder=""
                                                     onChangeValue={value => {
-                                                        if (value == "") {
+                                                        if (value === "") {
                                                            return;     
                                                         } 
                                                     }}
                                                 />                                                
                                                 <ErrorMessage name="consideration" component="div" className="invalid-feedback" />
                                             </div>
-                                            {values.automationType == "RPA" && <div className="col-md-6">
+                                            {values.automationType === "RPA" && <div className="col-md-6">
                                                 <label>RPA Partner</label>
                                                 <FastField  name="rpaPlatform" as="select" className={(errors.rpaPlatform && touched.rpaPlatform ? ' is-invalid' : '')}>
                                                     <option value=""></option>
@@ -1298,7 +1296,7 @@ function AddEditPage({ history, match }) {
                                                 <ErrorMessage name="rpaPlatform" component="div" className="invalid-feedback" />
                                                 </div>
                                             }
-                                            {values.automationType == "Point Solutions" && <div className="col-md-6">                                            
+                                            {values.automationType === "Point Solutions" && <div className="col-md-6">                                            
                                                 <label>Solution Services</label>
                                                 <FastField  name="rpaPlatform" as="select" className={(errors.rpaPlatform && touched.rpaPlatform ? ' is-invalid' : '')}>
                                                     <option value=""></option>
@@ -1315,7 +1313,7 @@ function AddEditPage({ history, match }) {
                                                 <ErrorMessage name="rpaPlatform" component="div" className="invalid-feedback" />
                                                 </div>
                                             }
-                                            {values.automationType == "Conversational AI" && <div className="form-group col-4">
+                                            {values.automationType === "Conversational AI" && <div className="form-group col-4">
                                             <label>AI Partner</label>
                                                 <FastField  name="rpaPlatform" as="select" className={(errors.rpaPlatform && touched.rpaPlatform ? ' is-invalid' : '')}>
                                                     <option value=""></option>
@@ -1403,7 +1401,7 @@ function AddEditPage({ history, match }) {
                                                     onChangeValue={value => {
                                                         if (value) {
                                                             var newArray = currencyIcon.filter(function (el) {
-                                                                return el.currency == value;
+                                                                return el.currency === value;
                                                             });
                                                             setCurrencySymbol(newArray[0].icon);
                                                         } else {
@@ -1500,7 +1498,7 @@ function AddEditPage({ history, match }) {
                                     {isSubmitting && <span className="spinner-border spinner-border-sm mr-1"></span>}
                                     {!id ? 'Submit' : 'Submit'}
                                 </button>
-                                {!isAddMode && user.role == "Admin" && <Link to="#" onClick={(e) => handleDelete(id)} className="btn del-button">Delete</Link>}
+                                {!isAddMode && user.role === "Admin" && <Link to="#" onClick={(e) => handleDelete(id)} className="btn del-button">Delete</Link>}
                                 <Link to="#" onClick={() => history.goBack()} className="btn btn-warning ml-1">Cancel</Link>
                             </div>
                         </div>

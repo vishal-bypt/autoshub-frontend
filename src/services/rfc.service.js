@@ -1,7 +1,6 @@
 import { BehaviorSubject } from 'rxjs';
-
 import config from '../config';
-import { fetchWrapper, history } from '../helpers';
+import { fetchWrapper } from '../helpers';
 
 const userSubject = new BehaviorSubject(null);
 const baseUrl = `${config.apiUrl}/rfcForm`;
@@ -17,24 +16,24 @@ export const rfcService = {
     getCountries,
     uploadPreRequisitesData,
     user: userSubject.asObservable(),
-    get userValue () { return userSubject.value }
+    get userValue() { return userSubject.value }
 };
 
 
-function getAll(filter=null) {
-    if(filter == null){
+function getAll(filter = null) {
+    if (filter == null) {
         return fetchWrapper.get(`${baseUrl}/?filterType=my&selectType=Imp`);
     } else {
         return fetchWrapper.get(`${baseUrl}/?filterType=${filter}&selectType=Imp`);
     }
-    
+
 }
 
 function getById(id) {
     return fetchWrapper.get(`${baseUrl}/${id}`);
 }
 
-function getCountries(){
+function getCountries() {
     return fetchWrapper.get(`${baseUrl}/country`);
 }
 
@@ -44,7 +43,8 @@ function create(params) {
 
 function update(id, params) {
     return fetchWrapper.put(`${baseUrl}/${id}`, params)
-        .then(user => { console.log("user", user);return false;
+        .then(user => {
+            console.log("user", user); return false;
             // update stored user if the logged in user updated their own record
             if (user.id === userSubject.value.id) {
                 // publish updated user to subscribers
@@ -89,10 +89,10 @@ function stopRefreshTokenTimer() {
         });
 } */
 
-function exportData(filter='all') {
+function exportData(filter = 'all') {
     return fetchWrapper.get(`${baseUrl}/export?filterType=${filter}&selectType=all`);
 }
-function uploadPreRequisitesData(formData,id) {
+function uploadPreRequisitesData(formData, id) {
     console.log(formData)
     return fetch(`${baseUrl}/upload/${id}`,
         {
