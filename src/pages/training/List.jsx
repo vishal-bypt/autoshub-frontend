@@ -8,16 +8,17 @@ import { Role } from "./../../helpers/role";
 
 function List1({ history, match }) {
   const { path } = match;
-  //const [userDetails, setUserDetails]=useState({});  
   const userDetails = accountService.userValue;
-  console.log("userValue == ",accountService.userValue)  
-  
+  console.log("userValue == ", accountService.userValue)
+
   //console.log("userDetails role == ", userDetails.currentRole);
   const [trainings, setTrainings] = useState(null);
+  const [accept, setAccept] = useState(false);
+  const [reject, setReject] = useState(false);
   let filteredData = [];
-  useEffect(() => {    
-    if (userDetails?.currentRole == Role.Admin) {     
-      trainingService.getAll().then((x) => {       
+  useEffect(() => {
+    if (userDetails?.currentRole == Role.Admin) {
+      trainingService.getAll().then((x) => {
         setTrainings(x);
       });
     }
@@ -35,8 +36,9 @@ function List1({ history, match }) {
     if (userDetails?.currentRole == Role.User) {
       let userData = [];
       trainingService.listTaskToUser().then((x) => {
-        x.map((data) => {          
-          x = data.training;
+        console.log("x of user == ", x);
+        x.map((data) => {
+          x = data;
           x.assignedByName = `${data.assignBy.firstName}  ${data.assignBy.lastName}`;
           x.assignedToName = `${data.assignTo.firstName}  ${data.assignTo.lastName}`;
           x.acceptRejectStatus = data.acceptRejectStatus;
@@ -45,7 +47,7 @@ function List1({ history, match }) {
         setTrainings(userData);
       });
     }
-  }, [userDetails]);
+  }, []);
 
   const viewPreRequisited = (e) => () => {
     let id = e.id;
@@ -57,37 +59,37 @@ function List1({ history, match }) {
     });
   };
 
-  const handleClickAccept = (e) => () => {
-    //console.log(e);
-    let params = {
-      trainingId: e.id,
-      userId: e.assignedToId,
-      isAccept: 1,
-      managerId: e.assignedById,
-    };
-    trainingService.acceptOrRejectPreRequisites(params).then((data) => {
-      alertService.success("Successfully accepted training prerequisites", {
-        keepAfterRouteChange: true,
-      });
-      trainingService.getActiveTrainingList().then((x) => {
-        //console.log("x == ", x.length);
-        for (let i = 0; i < x.length; i++) {
-          if (x[i].assignedByName != null && x[i].assignedToName != null) {
-            //console.log("x[1] == ", x[i]);
-            if (x[i].acceptRejectStatus == 1) {
-              x[i].acceptRejectStatus = "Completed";
-              //console.log("x[i].acceptRejectStatus == ", x[i].acceptRejectStatus);
-            }
-            filteredData.push(x[i]);
-          }
-        }
-        setTrainings(filteredData);
-      });
-      history.push("/training");
-    });
-  };
+  /*  const handleClickAccept = (e) => () => {
+     //console.log(e);
+     let params = {
+       trainingId: e.id,
+       userId: e.assignedToId,
+       isAccept: 1,
+       managerId: e.assignedById,
+     };
+     trainingService.acceptOrRejectPreRequisites(params).then((data) => {
+       alertService.success("Successfully accepted training prerequisites", {
+         keepAfterRouteChange: true,
+       });
+       trainingService.getActiveTrainingList().then((x) => {
+         //console.log("x == ", x.length);
+         for (let i = 0; i < x.length; i++) {
+           if (x[i].assignedByName != null && x[i].assignedToName != null) {
+             //console.log("x[1] == ", x[i]);
+             if (x[i].acceptRejectStatus == 1) {
+               x[i].acceptRejectStatus = "Completed";
+               //console.log("x[i].acceptRejectStatus == ", x[i].acceptRejectStatus);
+             }
+             filteredData.push(x[i]);
+           }
+         }
+         setTrainings(filteredData);
+       });
+       history.push("/training");
+     });
+   }; */
 
-  const handleClickReject = (e) => () => {
+ /*  const handleClickReject = (e) => () => {
     let params = {
       trainingId: e.id,
       userId: e.assignedToId,
@@ -113,8 +115,45 @@ function List1({ history, match }) {
       });
       history.push("/training");
     });
-  };
-  console.log("details = ",userDetails)
+  }; */
+
+  function handleClickAccept(e) {
+    console.log(e); 
+    console.log("trainingId -- ",e.training.id)   
+    console.log("user -- ",e.assignTo.id)   
+    console.log("manager -- ",e.assignBy.id)   
+    let params = {
+      trainingId: e.training.id,
+      userId: e.assignTo.id,
+      isAccept: 1,
+      managerId: e.assignBy.id,
+    };
+    console.log("params -=-= ",params);
+    trainingService.acceptOrRejectPreRequisites(params).then((data) => {
+      alertService.success('Successfully accepted training', { keepAfterRouteChange: true });
+      history.push('/training');
+    })
+  }
+
+  function handleClickReject(e) {
+    console.log("reject e == ",e);
+    console.log("reject id == ",e.id);
+    let params = {
+      trainingId: e.training.id,
+      nominatedTo: e.assignTo.id,
+      isAccept: 2,
+      nominatedBy: e.assignBy.id,
+    };
+    console.log("params == ",params)
+    trainingService.acceptOrRejectPreRequisites(params).then((data) => {
+      alertService.success('Successfully accepted training prerequisites', { keepAfterRouteChange: true });
+      history.push('/training');
+    })
+  }
+
+  console.log("trainings = ", trainings)
+  console.log("accept == ", accept);
+  console.log("reject == ",reject);
   return (
     <div className="page-content">
       <div className="container-fluid">
@@ -221,7 +260,7 @@ function List1({ history, match }) {
                       <th className="traning-listing">Status</th>
                       <th className="traning-listing">Upload Prequisites</th>
                     </>
-                  )}              
+                  )}
                 </tr>
               </thead>
               <tbody>
@@ -236,23 +275,23 @@ function List1({ history, match }) {
                       </td>
                       {userDetails?.currentRole == Role.Admin && (
                         <>
-                          <td className="traning-listing" style={{ minWidth: "100px" }}>
-                            {moment(user.trainingStartDate).format("MMMM")}{" "}
+                          <td className="traning-listing" style={{ minWidth: "100px" }}>
+                            {moment(user.training.trainingStartDate).format("MMMM")}{" "}
                           </td>
                           <td className="traning-listing" style={{ minWidth: "130px" }}>
-                            {moment(user.trainingStartDate).format("DD/MM/YYYY")}
+                            {moment(user.training.trainingStartDate).format("DD/MM/YYYY")}
                           </td>
                           <td className="traning-listing" style={{ minWidth: "130px" }}>
-                            {moment(user.trainingEndDate).format("DD/MM/YYYY")}
+                            {moment(user.training.trainingEndDate).format("DD/MM/YYYY")}
                           </td>
                           <td className="traning-listing" style={{ minWidth: "150px" }}>
-                            {user.trainingName}
+                            {user.training.trainingName}
                           </td>
                           <td className="traning-listing" style={{ minWidth: "150px" }}>
-                            {user.stream}
+                            {user.training.stream}
                           </td>
                           <td className="traning-listing" style={{ minWidth: "150px" }}>
-                            {user.toolName}
+                            {user.training.toolName}
                           </td>
                           <td className="traning-listing" style={{ minWidth: "100px" }}>
                             {user.nominationCount ? user.nominationCount : 0}{" "}
@@ -265,26 +304,26 @@ function List1({ history, match }) {
                           </td>
                         </>
                       )}
-                      
+
                       {userDetails?.currentRole == Role.User && (
                         <>
                           <td className="traning-listing" style={{ minWidth: "100px" }}>
-                            {user.assignedToName}{" "}
+                            {user.assignedToName}
                           </td>
                           <td className="traning-listing" style={{ minWidth: "100px" }}>
-                            {user.assignedByName}{" "}
+                            {user.assignedByName}
                           </td>
                           <td className="traning-listing" style={{ minWidth: "150px" }}>
-                            {user.trainingName}
+                            {user.training.trainingName}
                           </td>
                           <td className="traning-listing" style={{ minWidth: "130px" }}>
-                            {moment(user.trainingStartDate).format("DD/MM/YYYY")}
+                            {moment(user.training.trainingStartDate).format("DD/MM/YYYY")}
                           </td>
                           <td className="traning-listing" style={{ minWidth: "130px" }}>
-                            {moment(user.trainingEndDate).format("DD/MM/YYYY")}
+                            {moment(user.training.trainingEndDate).format("DD/MM/YYYY")}
                           </td>
                           <td className="traning-listing" style={{ minWidth: "130px" }}>
-                            {user.trainingPrequisites}
+                            {user.training.trainingPrequisites == "" ? "-" : user.training.trainingPrequisites}
                           </td>
                           <td className="traning-listing" style={{ minWidth: "150px" }}>
                             {/* {user.acceptRejectStatus == 0 ?
@@ -293,21 +332,47 @@ function List1({ history, match }) {
                             Pending
                           </td>
                           <td>
-                          {user.trainingPrequisites != "NA" ? (
-                            <div>
-                              {user.acceptRejectStatus != "1" ? (
-                                <PopUpFileUpload
+                            {user.training.trainingPrequisites != "-" && user.isAccepted == 0 && accept == false && reject == false ? (
+                              <div>
+                                {user.isPrerequisiteUploaded === false ? (
+                                  <div>
+                                    <a style={{ color: 'blue', textDecoration: 'underline' }}
+                                      onClick={() => {
+                                        handleClickAccept(user)
+                                        setAccept(true);
+                                      }}>Approve</a>
+                                    /
+                                    <a style={{ color: 'blue', textDecoration: 'underline' }}
+                                      onClick={() => {
+                                        handleClickReject(user)
+                                        setReject(true);
+                                    }}>Reject</a>
+                                  </div>
+                                ) : (                                  
+                                  "-"
+                                )}
+
+                              </div>
+                            ) : (
+                              <div>
+                                {reject == true && (
+                                  <h6>You Rejected</h6>
+                                )}
+                                {accept == true && (
+                                  <PopUpFileUpload
                                   id={user.id}
                                   userDetails={userDetails}
                                 />
-                              ) : (
-                                "-"
-                              )}{" "}
-                            </div>
-                          ) : (
-                            "-"
-                          )}
-                        </td>
+                                )}
+                             </div>
+                            )}
+                            {/* {accept == true && (
+                               <PopUpFileUpload
+                               id={user.id}
+                               userDetails={userDetails}
+                             />
+                            )} */}
+                          </td>
                         </>
                       )}
 
@@ -341,7 +406,7 @@ function List1({ history, match }) {
                           </td>
                         </>
 
-                      )} 
+                      )}
                     </tr>
                   ))}
                 {!trainings && (
