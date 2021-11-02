@@ -1,34 +1,32 @@
 import { BehaviorSubject } from 'rxjs';
-
 import config from '../config';
-import { fetchWrapper, history } from '../helpers';
+import { fetchWrapper } from '../helpers';
 
 const userSubject = new BehaviorSubject(null);
 const baseUrl = `${config.apiUrl}/accounts`;
 const baseUrl2 = `${config.apiUrl}`;
 const baseUrlTraining = `${config.apiUrl}/training`;
 
-
 export const dashboardService = {
-    getTrainingPartnerAssigned,
-    getTrainingPartnerAttended,
-    getTrainingPartnerAssignedAttended,
-    getEmployeedWiseNominated,
-    getEmployeedWiseAttended,
-    getNominatedAcceptedRejected,
-    getEmployeedWiseAssigned,
-    user: userSubject.asObservable(),
-    get userValue() { return userSubject.value ? userSubject.value : JSON.parse(localStorage.getItem('authUser')) }
+  getTrainingPartnerAssigned,
+  getTrainingPartnerAttended,
+  getTrainingPartnerAssignedAttended,
+  getEmployeedWiseNominated,
+  getEmployeedWiseAttended,
+  getNominatedAcceptedRejected,
+  getEmployeedWiseAssigned,
+  user: userSubject.asObservable(),
+  get userValue() { return userSubject.value ? userSubject.value : JSON.parse(localStorage.getItem('authUser')) }
 };
 
 function login(email, password) {
-    return fetchWrapper.post(`${baseUrl}/authenticate`, { email, password })
-        .then(user => {
-            // publish user to subscribers and start timer to refresh token
-            userSubject.next(user);
-            startRefreshTokenTimer();
-            return user;
-        });
+  return fetchWrapper.post(`${baseUrl}/authenticate`, { email, password })
+    .then(user => {
+      // publish user to subscribers and start timer to refresh token
+      userSubject.next(user);
+      startRefreshTokenTimer();
+      return user;
+    });
 }
 
 function getTrainingPartnerAssigned(startDate="", endDate="") {
@@ -121,14 +119,14 @@ function getEmployeedWiseAssigned(startDate="", endDate="") {
 }
 
 function refreshToken() {
-    return fetchWrapper.post(`${baseUrl}/refresh-token`, {})
-        .then(user => {
-            console.log("user", user);
-            // publish user to subscribers and start timer to refresh token
-            userSubject.next(user);
-            startRefreshTokenTimer();
-            return user;
-        });
+  return fetchWrapper.post(`${baseUrl}/refresh-token`, {})
+    .then(user => {
+      console.log("user", user);
+      // publish user to subscribers and start timer to refresh token
+      userSubject.next(user);
+      startRefreshTokenTimer();
+      return user;
+    });
 }
 
 
@@ -137,19 +135,19 @@ function refreshToken() {
 let refreshTokenTimeout;
 
 function startRefreshTokenTimer() {
-    // parse json object from base64 encoded jwt token
-    if (userSubject.value.jwtToken) {
-        const jwtToken = JSON.parse(atob(userSubject.value.jwtToken.split('.')[1]));
+  // parse json object from base64 encoded jwt token
+  if (userSubject.value.jwtToken) {
+    const jwtToken = JSON.parse(atob(userSubject.value.jwtToken.split('.')[1]));
 
-        // set a timeout to refresh the token a minute before it expires
-        const expires = new Date(jwtToken.exp * 1000);
-        const timeout = expires.getTime() - Date.now() - (60 * 1000);
-        refreshTokenTimeout = setTimeout(refreshToken, timeout);
-    }
+    // set a timeout to refresh the token a minute before it expires
+    const expires = new Date(jwtToken.exp * 1000);
+    const timeout = expires.getTime() - Date.now() - (60 * 1000);
+    refreshTokenTimeout = setTimeout(refreshToken, timeout);
+  }
 }
 
 function stopRefreshTokenTimer() {
-    clearTimeout(refreshTokenTimeout);
+  clearTimeout(refreshTokenTimeout);
 }
 
 

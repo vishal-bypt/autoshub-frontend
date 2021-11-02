@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import '../../assets/scss/custom/components/_loader.scss';
 
 function Loader({ loading }) {
     return (
         <>
-            {loading == true ?
+            {loading === true ?
                 <div className="loaderclass"></div>
                 :
                 ``

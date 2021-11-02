@@ -51,7 +51,7 @@ export const CustomSelect = ({
   };
 
   const getValue = () => {
-    if (field.value == undefined) {
+    if (field.value === undefined) {
       field.value = [];
     }
     if (options) {

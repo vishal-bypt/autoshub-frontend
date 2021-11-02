@@ -76,7 +76,18 @@ function setCurrentUserRole(role) {
     const data = JSON.parse(localData);
     data.currentRole = role
     localStorage.setItem("authUser", JSON.stringify(data))
-    return true
+    // return new Promise(function (resolve, reject) {
+    //     if (true) { // Try changing to 'false'
+    //         setTimeout(function () {
+    //             console.log('waitForMe\'s function succeeded');
+    //             let localData = localStorage.getItem("authUser")
+    //             const data = JSON.parse(localData);
+    //             data.currentRole = role
+    //             localStorage.setItem("authUser", JSON.stringify(data))
+    //             resolve();
+    //         }, 5000);
+    //     }
+    // });
 }
 
 function getUserName(firstName, lastName) {

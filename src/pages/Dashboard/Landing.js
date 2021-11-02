@@ -1,14 +1,12 @@
 import React from "react";
 import MetaTags from "react-meta-tags";
 import { Link } from "react-router-dom";
+import { Container } from "reactstrap";
+import traning from "../../assets/images/tiles/trainingTile.jpeg";
 //import Breadcrumbs
 import Breadcrumbs from "../../components/Common/Breadcrumb";
-import { Container } from "reactstrap";
-import { setCurrentUserRole, Role } from "../../helpers";
+import { Role, setCurrentUserRole } from "../../helpers";
 
-import traning from "../../assets/images/tiles/trainingTile.jpeg";
-import rfp from "../../assets/images/tiles/rfpTile.jpeg";
-import revenue from "../../assets/images/tiles/revenueTile.jpeg";
 const Landing = () => {
   return (
     <React.Fragment>

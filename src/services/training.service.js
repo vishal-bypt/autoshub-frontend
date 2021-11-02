@@ -1,12 +1,11 @@
-import { BehaviorSubject } from 'rxjs';
-
 import config from '../config';
-import { fetchWrapper, history } from '../helpers';
+import { fetchWrapper } from '../helpers';
 
 //const userSubject = new BehaviorSubject(null);
 const baseUrl = `${config.apiUrl}/training`;
 const baseUrl2 = `${config.apiUrl}/trainingAssign`
 const baseUrl3 = `${config.apiUrl}/trainingPreRequisites`
+const baseUrl4 = `${config.apiUrl}/trainingNominations`
 export const trainingService = {
     getAll,
     getById,
@@ -22,7 +21,8 @@ export const trainingService = {
     acceptOrRejectPreRequisites,
     getActiveTrainingList,
     viewPreRequisites,
-    getTrainingReport
+    getTrainingReport,
+    acceptPreRequisites
     /* rejectPreRequisites,
     acceptPreRequisites, */
     //user: userSubject.asObservable(),
@@ -50,8 +50,8 @@ function rejectPreRequisites() {
     return fetchWrapper.get(`${baseUrl3}/rejectPreRequisites`);
 }
 
-function acceptPreRequisites() {
-    return fetchWrapper.get(`${baseUrl3}/acceptPreRequisites`);
+function acceptPreRequisites(data) {
+    return fetchWrapper.post(`${baseUrl4}/acceptPreRequisites`,data);
 }
 
 function getTrainingByRole() {
