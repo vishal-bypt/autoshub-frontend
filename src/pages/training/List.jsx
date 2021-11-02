@@ -9,16 +9,16 @@ import { accountService, alertService, trainingService } from "../../services";
 import { Role } from "./../../helpers/role";
 // import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
 import PopUpFileUpload from "./PopUpFileUpload";
-import Loader from "./../../components/Common/Loader";
 function List1({ history, match }) {
   const { path } = match;
   const userDetails = accountService.userValue;
   console.log("userValue == ", accountService.userValue)
 
-  //console.log("userDetails role == ", userDetails.currentRole);
   const [trainings, setTrainings] = useState(null);
-  const [accept, setAccept] = useState(false);
-  const [reject, setReject] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(true);
+  const [currentRole, setCurrentRole] = useState(
+    accountService.userValue.currentRole
+  );
   let filteredData = [];
   useEffect(() => {
     if (userDetails?.currentRole == Role.Admin) {
@@ -159,8 +159,7 @@ function List1({ history, match }) {
   }
 
   console.log("trainings = ", trainings)
-  console.log("accept == ", accept);
-  console.log("reject == ",reject);
+
   return (
     <div className="page-content">
       <div className="container-fluid">
