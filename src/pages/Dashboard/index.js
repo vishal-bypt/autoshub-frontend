@@ -12,7 +12,7 @@ import { dashboardService } from "../../services/dashboard.service";
 import AdminGraphs from "./AdminGraphs";
 import ManagerGraphs from "./ManagerGraphs";
 import UserGraphs from "./UserGraphs";
-import { trainingService } from "../../services";
+
 
 const Dashboard = () => {
   const [trainingPartnerAssigned, setTrainingPartnerAssigned] = useState([]);
@@ -77,13 +77,13 @@ const Dashboard = () => {
   const handleSubmit = (e) => {
     console.log("startDate", startDate);
     console.log("endDate", endDate);
-    apiCalls(startDate, endDate);
+    apiCalls();
   }
 
   const handleClear = (e) => {
     setStartDate("");
     setEndDate("");
-    apiCalls(startDate, endDate);
+    apiCalls("", "");
   }
 
   console.log("trainingReport", trainingReport);
