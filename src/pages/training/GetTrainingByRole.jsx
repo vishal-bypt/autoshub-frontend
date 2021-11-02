@@ -1,11 +1,13 @@
-import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-import moment from "moment";
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import moment from "moment";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import { Role } from "../../helpers";
+import { accountService, trainingService } from "../../services";
+
 import { Table, Tbody, Td, Th, Thead, Tr } from "react-super-responsive-table";
 import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
 import "../../assets/scss/custom/components/_tableblur.scss";
-import { Role } from "../../helpers";
 
 function GetTrainingByRole({ match }) {
   const userDetails = accountService.userValue;

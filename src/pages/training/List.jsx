@@ -9,6 +9,7 @@ import { accountService, alertService, trainingService } from "../../services";
 import { Role } from "./../../helpers/role";
 // import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
 import PopUpFileUpload from "./PopUpFileUpload";
+import Loader from "./../../components/Common/Loader";
 function List1({ history, match }) {
   const { path } = match;
   //const [userDetails, setUserDetails]=useState({});
@@ -587,15 +588,16 @@ function List1({ history, match }) {
                       )}
                     </Tr>
                   ))}
-                {/* {!trainings && (
+                {!trainings && (
                   <Tr>
                     <Td colSpan="10" className="text-center">
                       <span className="spinner-border spinner-border-lg align-center"></span>
                     </Td>
                   </Tr>
-                )} */}
+                )}
               </Tbody>
             </Table>
+                {/* <Loader loading={isSubmitting} /> */}
             
           {/* </div>
         </div> */}

@@ -1,4 +1,12 @@
-import React from "react";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import moment from "moment";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
+import { Role } from "../../helpers";
+import { accountService, alertService, trainingService } from "../../services";
+import PopUpFileUpload from "./PopUpFileUpload";
+
 import { Table, Tbody, Td, Th, Thead, Tr } from "react-super-responsive-table";
 import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
 import "../../assets/scss/custom/components/_tableblur.scss";
