@@ -64,7 +64,7 @@ const TileComponent = (props) => {
 };
 
 TileComponent.propTypes = {
-  userRoleInfo: PropTypes.object,
+  userRoleInfo: PropTypes.string,
 };
 
 export default TileComponent;
