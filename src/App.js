@@ -1,18 +1,31 @@
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
+
+import { Switch, BrowserRouter as Router } from "react-router-dom";
 import { connect } from "react-redux";
-import { BrowserRouter as Router, Switch } from "react-router-dom";
+
 import "./assets/scss/preloader.scss";
 // Import scss
 import "./assets/scss/theme.scss";
-import HorizontalLayout from "./components/HorizontalLayout/";
-import NonAuthLayout from "./components/NonAuthLayout";
-// layouts Format
-import VerticalLayout from "./components/VerticalLayout/";
 // Import Routes all
+
 import { authRoutes, userRoutes } from "./routes/allRoutes";
 // Import all middleware
 import Authmiddleware from "./routes/middleware/Authmiddleware";
+
+// layouts Format
+import VerticalLayout from "./components/VerticalLayout/";
+import HorizontalLayout from "./components/HorizontalLayout/";
+import NonAuthLayout from "./components/NonAuthLayout";
+
+// Import scss
+import "./assets/scss/theme.scss";
+import "./assets/scss/preloader.scss";
+
+// Import Firebase Configuration file
+// import { initFirebaseBackend } from "./helpers/firebase_helper"
+
+import fakeBackend from "./helpers/AuthType/fakeBackend";
 import { accountService } from './services/account.service';
 
 // Activating fake backend

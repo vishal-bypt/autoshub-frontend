@@ -19,8 +19,8 @@ $sidebar-width-sm: 160px;
 // Vertical Sidebar - Dark
 $sidebar-dark-bg: #12181d; //2c313a
 $sidebar-dark-menu-item-color: #99a4b1;
-$sidebar-dark-menu-sub-item-color: #858d98;
-$sidebar-dark-menu-item-icon-color: #858d98;
+$sidebar-dark-menu-sub-item-color: #658d98;
+$sidebar-dark-menu-item-icon-color: #658d98;
 $sidebar-dark-menu-item-hover-color: #ffffff;
 $sidebar-dark-menu-item-active-color: #ffffff;
 
@@ -79,7 +79,7 @@ $table-dark-border-color: tint-color($gray-800, 7.5%);
 $gray-dark-100: #212529;
 $gray-dark-200: #121212;
 $gray-dark-300: #3b403d;
-$gray-dark-400: #858d98;
+$gray-dark-400: white;//#958d98;
 $gray-dark-500: #adb5bd;
 $gray-dark-600: #ced4da;
 $gray-dark-700: #f6f6f6;

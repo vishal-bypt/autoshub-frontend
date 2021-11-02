@@ -1,23 +1,38 @@
-import { ErrorMessage, Field, Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import MetaTags from "react-meta-tags";
-//redux
-import { useDispatch, useSelector } from "react-redux";
-import { withRouter } from "react-router-dom";
+import MetaTags from "react-meta-tags"
+import React, { useState, useEffect } from "react"
 import {
-  Alert, Card, CardBody, Col, Container, Modal, Row
-} from "reactstrap";
+  Container,
+  Row,
+  Col,
+  Card,
+  Alert,
+  CardBody,
+  Button,
+} from "reactstrap"
+import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
-//Import Breadcrumb
-import Breadcrumb from "../../components/Common/Breadcrumb";
-import { getInitials, getUserName } from "../../helpers";
+import { Modal } from "reactstrap";
 import {
   accountService,
-  alertService
+  alertService,
+  trainingService,
 } from "../../services";
+// availity-reactstrap-validation
+import { AvForm, AvField } from "availity-reactstrap-validation"
+
+//redux
+import { useSelector, useDispatch } from "react-redux"
+
+import { withRouter } from "react-router-dom"
+
+//Import Breadcrumb
+import Breadcrumb from "../../components/Common/Breadcrumb"
+
+import avatar from "../../assets/images/users/avatar-1.jpg"
 // actions
-import { resetProfileFlag } from "../../store/actions";
+import { editProfile, resetProfileFlag } from "../../store/actions"
 import { UserList } from "../user/userList/Index";
+import { getInitials, getUserName } from "../../helpers";
 
 const UserProfile = props => {
   const dispatch = useDispatch()

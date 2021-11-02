@@ -1,19 +1,34 @@
 import React from 'react';
-import MetaTags from "react-meta-tags";
-import { useSelector } from "react-redux";
 import { Link } from 'react-router-dom';
+import MetaTags from "react-meta-tags";
 import { Col, Container, Row } from 'reactstrap';
-//import images 
-import logo from "../../assets/images/autoshubLogo.png";
-import logoLight from "../../assets/images/autoshubLogoLight.png";
-import {
-    layoutTheme
-} from "../../constants/layout";
 import CarouselPage from './CarouselPage';
+
+//import images 
+import logo from "../../assets/images/autoshubLogo.png"
+import logoLight from "../../assets/images/autoshubLogoLight.png"
+import { useSelector, useDispatch } from "react-redux"
+import {
+    layoutTypes,
+    layoutTheme,
+    layoutWidthTypes,
+    layoutPositions,
+    topBarThemeTypes,
+    leftSidebarTypes,
+    leftSideBarThemeTypes,
+} from "../../constants/layout";
+
 
 const EmailVerification = () => {
     const {
+        layoutType,
         layoutMode,
+        layoutWidth,
+        layoutPosition,
+        topbarTheme,
+        leftSideBarType,
+        leftSideBarTheme,
+        error
     } = useSelector((state) => ({
         layoutType: state.Layout.layoutType,
         layoutMode: state.Layout.layoutMode,

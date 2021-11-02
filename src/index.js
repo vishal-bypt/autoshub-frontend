@@ -5,7 +5,7 @@ import { BrowserRouter } from "react-router-dom"
 import { PersistGate } from 'redux-persist/integration/react'
 import "./i18n"
 import { Provider } from "react-redux"
-import { store, persistor } from './store';
+import { store, persistor, sagaMiddleware } from './store';
 
 
 const app = (

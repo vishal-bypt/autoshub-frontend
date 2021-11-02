@@ -1,47 +1,54 @@
-import React from "react";
-import { Redirect } from "react-router-dom";
-import ForgetPwd from "../pages/Authentication/ForgetPassword";
+import React from "react"
+import { Redirect } from "react-router-dom"
+
+//Dashboard
+import Dashboard from "../pages/Dashboard/index";
+
 // Authentication related pages
-import Login from "../pages/Authentication/Login";
-import Logout from "../pages/Authentication/Logout";
-import Register from "../pages/Authentication/Register";
-import userProfile from "../pages/Authentication/user-profile";
-import ConfirmMail from "../pages/AuthenticationInner/ConfirmMail";
-import EmailVerification from "../pages/AuthenticationInner/EmailVerification";
-import LockScreen from "../pages/AuthenticationInner/LockScreen";
+import Login from "../pages/Authentication/Login"
+import Logout from "../pages/Authentication/Logout"
+import Register from "../pages/Authentication/Register"
+import ForgetPwd from "../pages/Authentication/ForgetPassword"
+
 //AuthenticationInner related pages
 import PageLogin from "../pages/AuthenticationInner/PageLogin";
 import PageRegister from "../pages/AuthenticationInner/PageRegister";
 import RecoverPassword from "../pages/AuthenticationInner/RecoverPassword";
+import LockScreen from "../pages/AuthenticationInner/LockScreen";
+import ConfirmMail from "../pages/AuthenticationInner/ConfirmMail";
+import EmailVerification from "../pages/AuthenticationInner/EmailVerification";
 import TwoStepVerfication from "../pages/AuthenticationInner/TwoStepVerfication";
-//Dashboard
-import Dashboard from "../pages/Dashboard/index";
-import Landing from "../pages/Dashboard/Landing";
-import { AddEdit as RevenueAddEdit } from "../pages/revenue/AddEdit";
-import { EditProgram } from "../pages/revenue/EditProgram";
+import userProfile from "../pages/Authentication/user-profile";
+import { Training } from "../pages/training/Index";
 import { Revenue } from "../pages/revenue/Index";
+import { UserAccessView } from "../pages/user/userAccessView/Index";
+import { UserList } from "../pages/user/userList/Index";
+import { AddEdit } from "../pages/training/AddEdit";
+import { AddEdit as RevenueAddEdit } from "../pages/revenue/AddEdit";
 import { List as RevenueList } from "../pages/revenue/List";
 import { UploadProgramData } from "../pages/revenue/UploadProgramData";
+import EditUser from "../pages/user/userList/EditUser";
+import AddUsers from "../pages/user/userList/AddUsers";
+import { UploadPrequisites } from "../pages/training/UploadPrequisites";
+import { GetTrainingByRole } from "../pages/training/GetTrainingByRole";
+import { Trainings } from "../pages/training/Trainings";
+import { AllNominations } from "../pages/training/AllNominations";
+import { EditTrainingList } from "../pages/training/EditTrainingList";
+import { EditTraining } from "../pages/training/EditTraining";
+import { EditProgram } from "../pages/revenue/EditProgram";
+
+import { AssignUsers } from "../pages/training/AssignUsers";
+import { UploadFieldList } from "../pages/training/UploadFieldList";
+import { RFPForm } from "../pages/rfpForm/Index";
+import { List } from '../pages/rfpForm/List';
 import AddEditPage from '../pages/rfpForm/AddEdit';
+import { MyEntries } from '../pages/rfpForm/MyEntries';
 import { EditedEntries } from '../pages/rfpForm/EditedEntries';
 import { LandingEntries } from '../pages/rfpForm/LandingEntries';
-import { List } from '../pages/rfpForm/List';
-import { MyEntries } from '../pages/rfpForm/MyEntries';
-import { AddEdit } from "../pages/training/AddEdit";
-import { AllNominations } from "../pages/training/AllNominations";
-import { AssignUsers } from "../pages/training/AssignUsers";
-import { EditTraining } from "../pages/training/EditTraining";
-import { EditTrainingList } from "../pages/training/EditTrainingList";
-import { GetTrainingByRole } from "../pages/training/GetTrainingByRole";
-import { Training } from "../pages/training/Index";
-import { List1 } from "../pages/training/List";
-import { Trainings } from "../pages/training/Trainings";
-import { UploadFieldList } from "../pages/training/UploadFieldList";
-import { UploadPrequisites } from "../pages/training/UploadPrequisites";
-import { UserAccessView } from "../pages/user/userAccessView/Index";
-import AddUsers from "../pages/user/userList/AddUsers";
-import EditUser from "../pages/user/userList/EditUser";
-import { UserList } from "../pages/user/userList/Index";
+import { accountService } from "../services";
+import Landing from "../pages/Dashboard/Landing";
+import { List1 } from "../pages/training/List"
+const userDetails = accountService.userValue;
 
 const userRoutes = [
 
@@ -112,5 +119,4 @@ const authRoutes = [
   { path: "/page-two-step-verification", component: TwoStepVerfication },
 ]
 
-export { userRoutes, authRoutes };
-
+export { userRoutes, authRoutes }

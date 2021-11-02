@@ -37,6 +37,7 @@
     width: $sidebar-width;
     z-index: 1001;
     background: $sidebar-bg;
+    // backdrop-filter: blur(60px);
     bottom: 0;
     margin-top: 0;
     position: fixed;
@@ -323,6 +324,7 @@ body[data-sidebar-size="sm"] {
                             width: calc(190px + #{$sidebar-collapsed-width});
                             color: $primary;
                             background-color: darken($sidebar-bg, 4%);
+                            // backdrop-filter: blur(60px);
                             transition: none;
 
                             i{

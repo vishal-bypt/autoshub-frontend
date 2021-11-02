@@ -1,28 +1,54 @@
-// availity-reactstrap-validation
-import { AvField, AvForm } from "availity-reactstrap-validation"
 import PropTypes from "prop-types"
-import React from "react"
 import MetaTags from "react-meta-tags"
+import React from "react"
+
+import { Row, Col, Alert, Container, Modal } from "reactstrap"
+
 //redux
-import { useDispatch, useSelector } from "react-redux"
-import { Link, withRouter } from "react-router-dom"
-import { Alert, Col, Container, Row } from "reactstrap"
+import { useSelector, useDispatch } from "react-redux"
+
+import { withRouter, Link } from "react-router-dom"
+
+// availity-reactstrap-validation
+import { AvForm, AvField } from "availity-reactstrap-validation"
+
+//Social Media Imports
+import { GoogleLogin } from "react-google-login"
+// import TwitterLogin from "react-twitter-auth"
+import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props"
+
+// actions
+import { loginUser, socialLogin } from "../../store/actions"
+
 // import images
 // import logo from "../../assets/images/logo-sm.svg"
 import logo from "../../assets/images/autoshubLogo.png"
 import logoLight from "../../assets/images/autoshubLogoLight.png"
-import {
-  layoutTheme
-} from "../../constants/layout"
-// actions
-import { loginUser, socialLogin } from "../../store/actions"
-import CarouselPage from "../AuthenticationInner/CarouselPage"
 
+//Import config
+import { facebook, google } from "../../config"
+import CarouselPage from "../AuthenticationInner/CarouselPage"
+import {
+  layoutTypes,
+  layoutTheme,
+  layoutWidthTypes,
+  layoutPositions,
+  topBarThemeTypes,
+  leftSidebarTypes,
+  leftSideBarThemeTypes,
+} from "../../constants/layout";
+import Loader from "../../components/Common/Loader"
 const Login = props => {
   const dispatch = useDispatch()
   const [isSubmit, setIsSubmit] = React.useState(false)
   const {
+    layoutType,
     layoutMode,
+    layoutWidth,
+    layoutPosition,
+    topbarTheme,
+    leftSideBarType,
+    leftSideBarTheme,
     error
   } = useSelector((state) => ({
     layoutType: state.Layout.layoutType,

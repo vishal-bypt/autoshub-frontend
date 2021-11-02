@@ -132,7 +132,7 @@ const SidebarContent = props => {
               </Link>
             </li> */}
             {
-              (userDetails && userDetails.role && userDetails.role === "Admin") &&
+              (userDetails && userDetails.role && userDetails.role == "Admin") &&
               <li>
                 <Link to="/#" className="has-arrow ">
                   <FeatherIcon

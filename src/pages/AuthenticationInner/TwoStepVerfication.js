@@ -1,25 +1,39 @@
 import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import MetaTags from "react-meta-tags";
+import { Col, Container, Row, Alert } from 'reactstrap';
+import Swal from "sweetalert2";
 //Verification code package
 import AuthCode from "react-auth-code-input";
-import MetaTags from "react-meta-tags";
-import { useDispatch, useSelector } from "react-redux";
-import { Link } from 'react-router-dom';
-import { Alert, Col, Container, Row } from 'reactstrap';
-import Swal from "sweetalert2";
+import CarouselPage from './CarouselPage';
+
 //import images 
-import logo from "../../assets/images/autoshubLogo.png";
-import logoLight from "../../assets/images/autoshubLogoLight.png";
+import logo from "../../assets/images/autoshubLogo.png"
+import logoLight from "../../assets/images/autoshubLogoLight.png"
+import { useSelector, useDispatch } from "react-redux"
 import {
-    layoutTheme
+    layoutTypes,
+    layoutTheme,
+    layoutWidthTypes,
+    layoutPositions,
+    topBarThemeTypes,
+    leftSidebarTypes,
+    leftSideBarThemeTypes,
 } from "../../constants/layout";
 import { accountService } from '../../services';
-import { verifyCode } from "../../store/actions";
-import CarouselPage from './CarouselPage';
+import { verifyCode, loginUser } from "../../store/actions"
+
 
 const TwoStepVerfication = (props) => {
     const dispatch = useDispatch()
     const {
+        layoutType,
         layoutMode,
+        layoutWidth,
+        layoutPosition,
+        topbarTheme,
+        leftSideBarType,
+        leftSideBarTheme,
         error
     } = useSelector((state) => ({
         layoutType: state.Layout.layoutType,
@@ -59,6 +73,7 @@ const TwoStepVerfication = (props) => {
 
     const handleSubmit = () => {
         setIsSubmit(true)
+        const user = accountService.userValue;
         let values = {
             "accountId": accountId,
             "accountVerificationCode": code,
