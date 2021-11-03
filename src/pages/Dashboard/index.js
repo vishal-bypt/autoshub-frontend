@@ -77,13 +77,13 @@ const Dashboard = () => {
   const handleSubmit = (e) => {
     console.log("startDate", startDate);
     console.log("endDate", endDate);
-    apiCalls();
+    apiCalls(startDate, endDate);
   }
 
   const handleClear = (e) => {
     setStartDate("");
     setEndDate("");
-    apiCalls("", "");
+    apiCalls();
   }
 
   console.log("trainingReport", trainingReport);

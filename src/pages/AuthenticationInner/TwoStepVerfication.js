@@ -43,7 +43,7 @@ const TwoStepVerfication = (props) => {
         let userEmail = user && user.email ? user.email : query && query.get("email") ? query.get("email") : "NA";
         let accountId = user && user.id ? user.id : query && query.get("id") ? query.get("id") : "";
         let code = query && query.get("code") ? query.get("code") : "";
-        navigator.clipboard.writeText(code)
+        navigator?.clipboard?.writeText(code)
         setCode(code);
         setEmail(userEmail);
         setAccountId(accountId);
