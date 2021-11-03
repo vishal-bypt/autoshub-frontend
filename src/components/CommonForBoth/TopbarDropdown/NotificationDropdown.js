@@ -8,11 +8,14 @@ import SimpleBar from "simplebar-react"
 import FeatherIcon from "feather-icons-react";
 
 //Import images
-import avatar3 from "../../../assets/images/users/avatar-3.jpg"
-import avatar4 from "../../../assets/images/users/avatar-4.jpg"
+
 
 //i18n
-import { withTranslation } from "react-i18next"
+import { withTranslation } from "react-i18next";
+
+const avatar3 = "../../../assets/images/users/avatar-3.jpg";
+const avatar4 = "../../../assets/images/users/avatar-4.jpg";
+
 
 const NotificationDropdown = props => {
   // Declare a new state variable, which we'll call "menu"

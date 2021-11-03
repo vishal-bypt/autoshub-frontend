@@ -2,10 +2,11 @@ import React from "react";
 import MetaTags from "react-meta-tags";
 import { Link } from "react-router-dom";
 import { Container } from "reactstrap";
-import traning from "../../assets/images/tiles/trainingTile.jpeg";
 //import Breadcrumbs
 import Breadcrumbs from "../../components/Common/Breadcrumb";
 import { Role, setCurrentUserRole } from "../../helpers";
+
+const traning = "/assets/images/tiles/trainingTile.jpeg";
 
 const Landing = () => {
   return (

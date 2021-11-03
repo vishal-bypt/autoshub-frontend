@@ -2,11 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import MetaTags from "react-meta-tags";
 import { Col, Container, Row } from 'reactstrap';
-
-//import images
-import logo from "../../assets/images/logo-sm.svg";
-import avatar from "../../assets/images/users/avatar-1.jpg";
 import CarouselPage from './CarouselPage';
+
+const logo = "/assets/images/logo-sm.svg";
+const avatar = "/assets/images/users/avatar-1.jpg";
 
 const LockScreen = () => {
     return (

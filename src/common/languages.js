@@ -1,8 +1,8 @@
-import usFlag from "../assets/images/flags/us.jpg"
-import spain from "../assets/images/flags/spain.jpg"
-import germany from "../assets/images/flags/germany.jpg"
-import italy from "../assets/images/flags/italy.jpg"
-import russia from "../assets/images/flags/russia.jpg"
+const usFlag = "/assets/images/flags/us.jpg"
+const spain = "/assets/images/flags/spain.jpg"
+const germany = "/assets/images/flags/germany.jpg"
+const italy = "/assets/images/flags/italy.jpg"
+const russia = "/assets/images/flags/russia.jpg"
 
 const languages = {
   sp: {

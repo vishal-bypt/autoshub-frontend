@@ -4,18 +4,15 @@ import { Row, Col, Alert, Container } from "reactstrap"
 
 // availity-reactstrap-validation
 import { AvForm, AvField } from "availity-reactstrap-validation"
-
 // action
 import { registerUser, apiError } from "../../store/actions"
-
 //redux
 import { useSelector, useDispatch } from "react-redux"
-
-import { Link } from "react-router-dom"
-
-// import images
-import logo from "../../assets/images/logo-sm.svg"
+import { Link } from "react-router-dom";
 import CarouselPage from "../AuthenticationInner/CarouselPage"
+
+const logo = "/assets/images/logo-sm.svg";
+
 
 const Register = props => {
   const dispatch = useDispatch()

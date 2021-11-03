@@ -1,9 +1,9 @@
 import React from 'react';
 import MetaTags from "react-meta-tags";
 import { Link } from 'react-router-dom';
-
-import logo from "../../assets/images/logo-sm.svg";
 import CarouselPage from './CarouselPage';
+
+const logo = "/assets/images/logo-sm.svg";
 
 function PageLogin(props) {
     return (

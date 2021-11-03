@@ -7,17 +7,16 @@ import 'react-drawer/lib/react-drawer.css';
 //i18n
 import { withTranslation } from "react-i18next";
 import { connect } from "react-redux";
-// import images
-// import logo from "../../assets/images/logo-sm.svg";
-import logoSvg from "../../assets/images/autoshubLogo.png";
-import logoSvgLight from "../../assets/images/autoshubLogoLight.png";
-import autoshubSmall from "../../assets/images/autoshubSmall.png";
-import autoshubSmallLight from "../../assets/images/autoshubSmallLight.png";
 // Redux Store
 import { showRightSidebarAction, toggleLeftmenu } from "../../store/actions";
 import LightDark from "../CommonForBoth/Menus/LightDark";
 import RightSidebar from "../CommonForBoth/RightSidebar";
 import ProfileMenu from "../CommonForBoth/TopbarDropdown/ProfileMenu";
+
+const logoSvg = "/assets/images/autoshubLogo.png";
+const logoSvgLight = "/assets/images/autoshubLogoLight.png";
+const autoshubSmall = "/assets/images/autoshubSmall.png";
+const autoshubSmallLight = "/assets/images/autoshubSmallLight.png";
 
 
 const Header = props => {

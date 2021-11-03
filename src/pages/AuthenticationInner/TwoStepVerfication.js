@@ -6,15 +6,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from 'react-router-dom';
 import { Alert, Col, Container, Row } from 'reactstrap';
 import Swal from "sweetalert2";
-//import images 
-import logo from "../../assets/images/autoshubLogo.png";
-import logoLight from "../../assets/images/autoshubLogoLight.png";
 import {
     layoutTheme
 } from "../../constants/layout";
 import { accountService } from '../../services';
 import { verifyCode } from "../../store/actions";
 import CarouselPage from './CarouselPage';
+
+const logo = "/assets/images/autoshubLogo.png";
+const logoLight = "/assets/images/autoshubLogoLight.png";
 
 const TwoStepVerfication = (props) => {
     const dispatch = useDispatch()

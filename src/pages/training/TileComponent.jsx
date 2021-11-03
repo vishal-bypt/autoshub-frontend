@@ -2,11 +2,12 @@ import PropTypes from "prop-types";
 import React from "react";
 import { useHistory } from "react-router-dom";
 import { Card, Col } from "reactstrap";
-import adminView from "../../assets/images/tiles/AdminView.jpeg";
-import execView from "../../assets/images/tiles/ExecView.jpeg";
-import managerView from "../../assets/images/tiles/ManagerView.jpeg";
-import userView from "../../assets/images/tiles/UserView.jpeg";
 import { Role, setCurrentUserRole } from "../../helpers";
+
+const adminView = "/assets/images/tiles/AdminView.jpeg";
+const execView = "/assets/images/tiles/ExecView.jpeg";
+const managerView = "/assets/images/tiles/ManagerView.jpeg";
+const userView = "/assets/images/tiles/UserView.jpeg";
 
 const TileComponent = (props) => {
   const { userRoleInfo } = props;
@@ -18,7 +19,7 @@ const TileComponent = (props) => {
       tileImage = execView;
       path = "/dashboard";
     } else if (tileRole === Role.Admin) {
-      tileImage = adminView;
+      tileImage = "/assets/images/tiles/AdminView.jpeg";
     } else if (tileRole === Role.Manager) {
       tileImage = managerView;
     } else if (tileRole === Role.User) {
@@ -42,6 +43,7 @@ const TileComponent = (props) => {
               // });
             }}
           />
+          
           <div className="text-center">{tileRole}</div>
         </Card>
       </Col>

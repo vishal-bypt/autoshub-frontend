@@ -7,16 +7,15 @@ import MetaTags from "react-meta-tags"
 import { useDispatch, useSelector } from "react-redux"
 import { Link, withRouter } from "react-router-dom"
 import { Alert, Col, Container, Row } from "reactstrap"
-// import images
-// import logo from "../../assets/images/logo-sm.svg"
-import logo from "../../assets/images/autoshubLogo.png"
-import logoLight from "../../assets/images/autoshubLogoLight.png"
 import {
   layoutTheme
 } from "../../constants/layout"
 // actions
-import { loginUser, socialLogin } from "../../store/actions"
-import CarouselPage from "../AuthenticationInner/CarouselPage"
+import { loginUser, socialLogin } from "../../store/actions";
+import CarouselPage from "../AuthenticationInner/CarouselPage";
+
+const logo = "/assets/images/autoshubLogo.png"
+const logoLight = "/assets/images/autoshubLogoLight.png"
 
 const Login = props => {
   const dispatch = useDispatch()

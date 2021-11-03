@@ -7,16 +7,15 @@ import MetaTags from "react-meta-tags";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
 import { Alert, Col, Container, Row } from "reactstrap";
-// import images
-// import logo from "../../assets/images/logo-sm.svg"
-import logo from "../../assets/images/autoshubLogo.png";
-import logoLight from "../../assets/images/autoshubLogoLight.png";
 import {
   layoutTheme
 } from "../../constants/layout";
 // action
 import { userForgetPassword } from "../../store/actions";
 import CarouselPage from "../AuthenticationInner/CarouselPage";
+
+const logo = "/assets/images/autoshubLogo.png";
+const logoLight = "/assets/images/autoshubLogoLight.png";
 
 const ForgetPasswordPage = props => {
   const [isSubmit, setIsSubmit] = React.useState(false)

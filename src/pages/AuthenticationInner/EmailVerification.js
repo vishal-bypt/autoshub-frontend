@@ -3,13 +3,13 @@ import MetaTags from "react-meta-tags";
 import { useSelector } from "react-redux";
 import { Link } from 'react-router-dom';
 import { Col, Container, Row } from 'reactstrap';
-//import images 
-import logo from "../../assets/images/autoshubLogo.png";
-import logoLight from "../../assets/images/autoshubLogoLight.png";
 import {
     layoutTheme
 } from "../../constants/layout";
 import CarouselPage from './CarouselPage';
+
+const logo = "/assets/images/autoshubLogo.png";
+const logoLight = "/assets/images/autoshubLogoLight.png";
 
 const EmailVerification = () => {
     const {

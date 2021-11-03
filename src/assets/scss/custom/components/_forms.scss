@@ -164,6 +164,26 @@ body[data-layout-mode="dark"] {
 }
 
 body[data-layout-mode="dark"] {
+  // Form Control
+  .form-control#startDate {
+    color: #000;
+    background-color: #fff ;
+    border: 1px solid $gray-dark-300;
+  }
+}
+
+body[data-layout-mode="dark"] {
+  // Form Control
+  .form-control#endDate {
+    color: #000;
+    background-color: #fff;
+    border: 1px solid $gray-dark-300;
+  }
+}
+
+
+
+body[data-layout-mode="dark"] {
   // form-select
   .form-select {
     color: $gray-dark-500;

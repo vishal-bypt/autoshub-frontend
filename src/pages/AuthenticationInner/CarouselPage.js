@@ -5,9 +5,9 @@ import {
     CarouselIndicators,
 } from 'reactstrap';
 
-import img1 from "../../assets/images/users/avatar-1.jpg";
-import img2 from "../../assets/images/users/avatar-2.jpg";
-import img3 from "../../assets/images/users/avatar-3.jpg";
+const img1 = "/assets/images/users/avatar-1.jpg";
+const img2 = "/assets/images/users/avatar-2.jpg";
+const img3 = "/assets/images/users/avatar-3.jpg";
 
 const items = [
     {
