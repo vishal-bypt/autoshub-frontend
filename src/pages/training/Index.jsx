@@ -12,6 +12,7 @@ import { GetTrainingByRole } from "./GetTrainingByRole";
 import { AllNominations } from "./AllNominations";
 import { Trainings } from "./Trainings";
 import { RoleWiseTile } from "./RoleWiseTile";
+import { Attendance } from "./Attendance";
 
 function Training({ match }) {
   const { path } = match;
@@ -19,6 +20,7 @@ function Training({ match }) {
   return (
     <Switch>
       <Route exact path={`${path}/list`} component={List1} /> 
+      <Route exact path={`${path}/Attendance`} component={Attendance} /> 
       <Route exact path={path} component={RoleWiseTile} />
       <Route exact path={`${path}/add`} component={AddEdit} />
       <Route

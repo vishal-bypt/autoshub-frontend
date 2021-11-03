@@ -188,6 +188,12 @@ function List1({ history, match }) {
                   All Nominations
                 </Link>
                 <Link
+                  to={`/training/Attendance`}
+                  className="btn btn-primary ml-1"
+                >
+                Attendance 
+                </Link>
+                <Link
                   to={`/training`}
                   className="btn btn-primary ml-1"
                 >
@@ -296,6 +302,9 @@ function List1({ history, match }) {
                           </td>
                           <td className="traning-listing" style={{ minWidth: "100px" }}>
                           {user.totalRejectedNominations ? user.totalRejectedNominations : 0}{" "}
+                          </td>
+                          <td>
+                         
                           </td>
                         </>
                       )}
