@@ -117,27 +117,21 @@ function List1({ history, match }) {
     });
   }; */
 
-  function handleClickAccept(e) {
-    console.log(e); 
-    console.log("trainingId -- ",e.training.id)   
-    console.log("user -- ",e.assignTo.id)   
-    console.log("manager -- ",e.assignBy.id)   
+  function handleClickAccept(e) {      
     let params = {
       trainingId: e.training.id,
-      userId: e.assignTo.id,
+      nominatedTo: e.assignTo.id,
       isAccept: 1,
-      managerId: e.assignBy.id,
+      nominatedBy: e.assignBy.id,
     };
     console.log("params -=-= ",params);
     trainingService.acceptOrRejectPreRequisites(params).then((data) => {
       alertService.success('Successfully accepted training', { keepAfterRouteChange: true });
-      history.push('/training');
+     // history.push('/training');
     })
   }
 
-  function handleClickReject(e) {
-    console.log("reject e == ",e);
-    console.log("reject id == ",e.id);
+  function handleClickReject(e) {    
     let params = {
       trainingId: e.training.id,
       nominatedTo: e.assignTo.id,
@@ -147,7 +141,7 @@ function List1({ history, match }) {
     console.log("params == ",params)
     trainingService.acceptOrRejectPreRequisites(params).then((data) => {
       alertService.success('Successfully accepted training prerequisites', { keepAfterRouteChange: true });
-      history.push('/training');
+      //history.push('/training');
     })
   }
 
@@ -335,6 +329,57 @@ function List1({ history, match }) {
                           <td>
                             {user.training?.trainingPrequisites != "-" && user.isAccepted == 0 && accept == false && reject == false ? (
                               <div>
+                                <a style={{ color: 'blue', textDecoration: 'underline' }}
+                                      onClick={() => {
+                                        handleClickAccept(user)
+                                        setAccept(true);
+                                      }}>Approve</a>
+                                    /
+                                    <a style={{ color: 'blue', textDecoration: 'underline' }}
+                                      onClick={() => {
+                                        handleClickReject(user)
+                                        setReject(true);
+                                    }}>Reject</a>
+                              </div>
+                            ) : 
+                            <div>
+                              {user.isAccepted == true && user.isPrerequisiteUploaded == false ? 
+                                <div>
+                                  <PopUpFileUpload
+                                    id={user.id}
+                                    userDetails={userDetails}
+                                  />
+                                </div>
+                                :
+                                <div>
+                                  {accept == true && user.isPrerequisiteUploaded == false ? (
+                                    <div>                                  
+                                      <PopUpFileUpload
+                                      id={user.id}
+                                      userDetails={userDetails}
+                                    />
+                                    </div> 
+                                  ) :
+                                  <div>
+                                    {user.isPrerequisiteUploaded == true ?(
+                                      <div>
+                                        -
+                                      </div>
+                                    ):
+                                    <div>
+                                      <h1>You have rejected it</h1> 
+                                    </div>
+                                    }                                       
+                                  </div>
+                                  }
+                                </div>
+                            }  
+                            </div>}
+
+
+
+                            {/* {user.training?.trainingPrequisites != "-" && user.isAccepted == 0 && accept == false && reject == false ? (
+                              <div>
                                 {user.isPrerequisiteUploaded === false ? (
                                   <div>
                                     <a style={{ color: 'blue', textDecoration: 'underline' }}
@@ -350,7 +395,16 @@ function List1({ history, match }) {
                                     }}>Reject</a>
                                   </div>
                                 ) : (                                  
-                                  "-"
+                                  <div>
+                                    {user.isAccepted == true ? (
+                                      <PopUpFileUpload
+                                        id={user.id}
+                                        userDetails={userDetails}
+                                      />
+                                    ):<div>
+                                      <h1>Hi</h1>
+                                      </div>}
+                                  </div>
                                 )}
 
                               </div>
@@ -366,7 +420,7 @@ function List1({ history, match }) {
                                 />
                                 )}
                              </div>
-                            )}
+                            )} */}
                             {/* {accept == true && (
                                <PopUpFileUpload
                                id={user.id}

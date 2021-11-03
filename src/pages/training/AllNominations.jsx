@@ -6,10 +6,10 @@ import Swal from "sweetalert2";
 import { Role } from "../../helpers";
 import { accountService, alertService, trainingService } from "../../services";
 import PopUpFileUpload from "./PopUpFileUpload";
-
 import { Table, Tbody, Td, Th, Thead, Tr } from "react-super-responsive-table";
 import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
 import "../../assets/scss/custom/components/_tableblur.scss";
+import config from "../../config";
 
 function AllNominations({ history, match }) {
   const userDetails = accountService.userValue;
@@ -18,6 +18,7 @@ function AllNominations({ history, match }) {
   useEffect(() => {
     if (userDetails.currentRole === Role.Admin) {
       trainingService.getActiveTrainingList().then((x) => {
+        console.log("x of all nominations == ",x)
         for (let i = 0; i < x.length; i++) {
           if (x[i].assignedByName !== null && x[i].assignedToName !== null) {
             if (x[i].acceptRejectStatus === 1) {
@@ -32,9 +33,16 @@ function AllNominations({ history, match }) {
   }, []);
 
   const viewPreRequisited = (e) => () => {
-    let id = e.id;
+    console.log("e == > ",e)
+    //let url = "http://52.42.196.59:4000/"+e.preRequisites
+    let url = config.apiUrl+e.preRequisites
+
+    /* let id = e.id;
+    console.log("e == > ",e)
     let userId = e.assignedToId;
-    trainingService.viewPreRequisites(id, userId).then((data) => {});
+    trainingService.viewPreRequisites(id, userId).then((data) => {}); */
+    //window.open("http://52.42.196.59:4000//uploads/Screen%20Shot%202021-11-02%20at%203.13.01%20PM.png", "_blank")
+    window.open(url,"_blank")
   };
 
   const handleClickAccept = (e) => () => {
@@ -67,9 +75,9 @@ function AllNominations({ history, match }) {
   const handleClickReject = (e) => () => {
     let params = {
       trainingId: e.id,
-      userId: e.assignedToId,
+      nominatedTo: e.assignedToId,
       isAccept: 2,
-      managerId: e.assignedById,
+      nominatedBy: e.assignedById,
     };
     trainingService.acceptOrRejectPreRequisites(params).then((data) => {
       alertService.success("Successfully rejected training prerequisites", {
@@ -313,19 +321,16 @@ function AllNominations({ history, match }) {
                                           textDecoration: "underline",
                                         }}
                                         onClick={handleClickAccept(user)}
-                                      >
-                                        {" "}
+                                      >                                        
                                         Approve
-                                      </a>{" "}
-                                      /{" "}
+                                      </a>                                      /
                                       <a
                                         style={{
                                           color: "#12f339",
                                           textDecoration: "underline",
                                         }}
                                         onClick={handleClickReject(user)}
-                                      >
-                                        {" "}
+                                      >                                        
                                         Decline
                                       </a>
                                     </div>
@@ -337,8 +342,7 @@ function AllNominations({ history, match }) {
                                         textDecoration: "underline",
                                       }}
                                       onClick={handleClickAccept(user)}
-                                    >
-                                      {" "}
+                                    >                                      
                                       Approve
                                     </a>
                                   )}
@@ -390,7 +394,7 @@ function AllNominations({ history, match }) {
                   ))}
                 {!users && (
                   <tr>
-                    <Td colSpan="4" className="text-center">
+                    <Td colSpan="10" className="text-center">
                       <span className="spinner-border spinner-border-lg align-center"></span>
                     </Td>
                   </tr>

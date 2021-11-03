@@ -50,6 +50,8 @@ export default function PopUpFileUpload({ id,userDetails }) {
         // alert('file select')
         // debugger
         if (e.target.files[0]) {
+            console.log("e.target.files[0] == ",e.target.files[0])
+            console.log("JSON.stringify(userDetails) == ",JSON.stringify(userDetails))
             var re = /(?:\.([^.]+))?$/;
             var ext = re.exec(e.target.files[0].name)[1];
             if (ext === `xls` || ext === `xlsx` || ext === `png` || ext === `jpg` || ext === `jpeg` || ext === `PNG` || ext === `doc` || ext === `docx` || ext === `pdf` || ext === `xlsx`) {
@@ -57,10 +59,12 @@ export default function PopUpFileUpload({ id,userDetails }) {
                 formData.append('file', e.target.files[0]);
                 formData.append('fileName', e.target.files[0].name);
                 formData.append('userDetails',JSON.stringify(userDetails))
-                formData.append('id', id);                
+                formData.append('id', id);   
+                //formData.append('trainingId',)             
                 setFileNameDisplay(e.target.files[0].name)
                 setSelectFileBtn(false)
                 setUploadingBtn(true)
+                console.log("formData final == ",formData)
                 rfcService.uploadPreRequisitesData(formData, id)
                     .then((data) => {                       
 
