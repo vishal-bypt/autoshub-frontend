@@ -1,11 +1,11 @@
-const Role = {
+export const Role = {
     Admin: 'Admin',
     Manager: 'Manager',
     User: 'User',
     Exec: 'Executive'
 }
 
-const rolesArray = (userRole) => {
+export const rolesArray = (userRole) => {
     let roleArray = [];
     if (userRole !== null && userRole !== "") {
         let binaryValue = userRole.toString(2);
@@ -27,7 +27,7 @@ const rolesArray = (userRole) => {
     }
 }
 
-const hasExecView = (userRole) => {
+export const hasExecView = (userRole) => {
     let isExec = false;
     let roleArray = rolesArray(userRole)
     if (roleArray.includes(Role.Exec)) {
@@ -38,7 +38,7 @@ const hasExecView = (userRole) => {
     return isExec;
 }
 
-const hasAdminView = (userRole) => {
+export const hasAdminView = (userRole) => {
     let isAdmin = false;
     let roleArray = rolesArray(userRole)
     if (roleArray.includes(Role.Admin)) {
@@ -49,7 +49,7 @@ const hasAdminView = (userRole) => {
     return isAdmin;
 }
 
-const hasManagerView = (userRole) => {
+export const hasManagerView = (userRole) => {
     let isManager = false;
     let roleArray = rolesArray(userRole)
     if (roleArray.includes(Role.Manager)) {
@@ -60,7 +60,7 @@ const hasManagerView = (userRole) => {
     return isManager;
 }
 
-const hasUserView = (userRole) => {
+export const hasUserView = (userRole) => {
     let isUser = false;
     let roleArray = rolesArray(userRole)
     if (roleArray.includes(Role.User)) {
@@ -71,7 +71,7 @@ const hasUserView = (userRole) => {
     return isUser;
 }
 
-function setCurrentUserRole(role) {
+export function setCurrentUserRole(role) {
     let localData = localStorage.getItem("authUser")
     const data = JSON.parse(localData);
     data.currentRole = role
@@ -90,7 +90,7 @@ function setCurrentUserRole(role) {
     // });
 }
 
-function getUserName(firstName, lastName) {
+export function getUserName(firstName, lastName) {
     if (firstName !== "" || firstName !== null) {
         const userName = firstName + " " + lastName;
         return userName;
@@ -101,7 +101,7 @@ function getUserName(firstName, lastName) {
     }
 }
 
-function getInitials(name) {
+export function getInitials(name) {
 
     //splits words to array
     var nameArray = name.split(" ");
@@ -131,8 +131,7 @@ function getInitials(name) {
     return initials.toUpperCase();
 }
 
-module.exports = {
-    Role,
+/* module.exports = {    
     rolesArray,
     hasExecView,
     hasAdminView,
@@ -141,4 +140,4 @@ module.exports = {
     setCurrentUserRole,
     getUserName,
     getInitials
-}
+} */
