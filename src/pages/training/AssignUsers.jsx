@@ -438,12 +438,11 @@ function AssignUsers({ history, match }) {
                         {user.numberOfTraining > 0 ? (
                           <td
                             className="traning-listing"
-                            contentEditable={false}
+                            // contentEditable={false}
                             style={{ minWidth: "150px" }}
                             onBlur={(e) => updatedValue(e, index + 1)}
                           >
                             <input
-                              disabled
                               type="number"
                               min="0"
                               className="border-0"
