@@ -9,6 +9,7 @@ var FormData = require("form-data");
 
 function AssignUsers({ history, match }) {
   const { id } = match.params;
+  console.log("id of training == ",id);
   const userDetails = accountService.userValue;
   console.log("userDetails == ", userDetails);
   const [users, setUsers] = useState(null);
@@ -47,7 +48,8 @@ function AssignUsers({ history, match }) {
       });
       setAssignedUsers(assignUserIds);
     }
-    if (userDetails.currentRole === Role.Manager) {      
+    if (userDetails.currentRole === Role.Manager) {    
+      console.log("in current role manager");  
       trainingService.getUserByTrainingId(id).then((x) => {
         setTrainingData(x[0]);
       });      
@@ -121,7 +123,9 @@ function AssignUsers({ history, match }) {
     }
   }
 
-  useEffect(() => {    
+  useEffect(() => { 
+    console.log("come after 1st useEffect");  
+    
     if (userDetails.currentRole === Role.Admin) {
       if (trainingData.slots) {
         let slotData = parseInt(trainingData?.slots / temp?.length);
@@ -179,10 +183,13 @@ function AssignUsers({ history, match }) {
         }
         setTemp(userData);
       }
-    } else if (userDetails.currentRole === Role.Manager) {      
+    } else if (userDetails.currentRole === Role.Manager) {    
+      console.log("use Effect of manager");  
       if (trainingData.assignedSlots >= 0) {
+        console.log("slot more than 0");
         let userData = [];
         for (let i = 0; i < temp?.length; i++) {
+          console.log("temp[i] in for loop == ",temp[i]);
           let data = temp[i];
           data = {
             userName: temp[i].label,
@@ -191,13 +198,14 @@ function AssignUsers({ history, match }) {
           };
           userData[i] = data;
         }
+        console.log("userData == ",userData);
         setTemp(userData);
       } else {        
         let userData = [];
-        console.log("temp == ", temp);
+        //console.log("temp == ", temp);
         for (let i = 0; i < temp?.length; i++) {
           let data = temp[i];
-          console.log("temp[i] == ", data);
+          //console.log("temp[i] == ", data);
           data = {
             numberOfTraining: 0,
             userName: temp[i].label,
@@ -206,7 +214,7 @@ function AssignUsers({ history, match }) {
           };
           userData[i] = data;
         }
-        console.log("userData == ", userData);
+        //console.log("userData == ", userData);
         setTemp(userData);
       }
     }
@@ -494,7 +502,7 @@ function AssignUsers({ history, match }) {
                           <input
                             type="checkbox"
                             className="form-check-input"
-                            name={user.userName}
+                            name={user?.userName ? user.userName : user.label}
                             checked={user?.isChecked || false}
                             onChange={handleChange}
                           />

@@ -17,6 +17,7 @@ export const trainingService = {
     nominateTraining,
     getUserByTrainingId,
     listTaskToUser,
+    listTaskToUsers,
     getTrainingByRole,
     acceptOrRejectPreRequisites,
     getActiveTrainingList,
@@ -60,6 +61,10 @@ function getTrainingByRole() {
 
 function listTaskToUser() {
     return fetchWrapper.get(`${baseUrl2}/listTaskToUser`);
+}
+
+function listTaskToUsers() {
+    return fetchWrapper.get(`${baseUrl2}/listTaskToUsers`);
 }
 
 function getUserByTrainingId(id) {
