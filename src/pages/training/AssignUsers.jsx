@@ -47,12 +47,10 @@ function AssignUsers({ history, match }) {
       });
       setAssignedUsers(assignUserIds);
     }
-    if (userDetails.currentRole === Role.Manager) {
-      console.log("1st");
+    if (userDetails.currentRole === Role.Manager) {      
       trainingService.getUserByTrainingId(id).then((x) => {
         setTrainingData(x[0]);
-      });
-      console.log("2nd");
+      });      
       accountService.getUserList().then((x) => {
         setUsers(x);
         x &&
@@ -63,15 +61,13 @@ function AssignUsers({ history, match }) {
             });
           });
         setTemp(userDropDownData);
-      });
-      console.log("3rd");
+      });      
       trainingService.getUserByTrainingId(id).then((x) => {
         x.map((row) => {
           assignUserIds.push(row.assignedTo);
         });
       });
-      setAssignedUsers(assignUserIds);
-      console.log("4th");
+      setAssignedUsers(assignUserIds);      
     }
 
     let data = parseInt(trainingData?.slots / temp?.length);
@@ -125,8 +121,7 @@ function AssignUsers({ history, match }) {
     }
   }
 
-  useEffect(() => {
-    console.log("6th");
+  useEffect(() => {    
     if (userDetails.currentRole === Role.Admin) {
       if (trainingData.slots) {
         let slotData = parseInt(trainingData?.slots / temp?.length);
@@ -184,8 +179,7 @@ function AssignUsers({ history, match }) {
         }
         setTemp(userData);
       }
-    } else if (userDetails.currentRole === Role.Manager) {
-      console.log("7th");
+    } else if (userDetails.currentRole === Role.Manager) {      
       if (trainingData.assignedSlots >= 0) {
         let userData = [];
         for (let i = 0; i < temp?.length; i++) {
@@ -198,8 +192,7 @@ function AssignUsers({ history, match }) {
           userData[i] = data;
         }
         setTemp(userData);
-      } else {
-        console.log("in else of manager");
+      } else {        
         let userData = [];
         console.log("temp == ", temp);
         for (let i = 0; i < temp?.length; i++) {
@@ -228,6 +221,7 @@ function AssignUsers({ history, match }) {
         });
         for (let i = 0; i < tempUser?.length; i++) {
           if (tempUser[i].isChecked === true) {
+            tempUser[i].currentRole = "Admin"
             checkedData.push(tempUser[i]);
           }
         }
@@ -245,6 +239,7 @@ function AssignUsers({ history, match }) {
         );
         for (let i = 0; i < tempUser?.length; i++) {
           if (tempUser[i].isChecked === true) {
+            tempUser[i].currentRole = "Admin"
             checkedData.push(tempUser[i]);
           }
         }
@@ -264,6 +259,7 @@ function AssignUsers({ history, match }) {
         });
         for (let i = 0; i < tempUser?.length; i++) {
           if (tempUser[i].isChecked === true) {
+            tempUser[i].currentRole = "Manager"
             checkedData.push(tempUser[i]);
           }
         }
@@ -288,6 +284,7 @@ function AssignUsers({ history, match }) {
         for (let i = 0; i < tempUser?.length; i++) {
           console.log("tempuser == ", tempUser);
           if (tempUser[i].isChecked === true) {
+            tempUser[i].currentRole = "Manager"
             tempUser[i].nominatedBy = userDetails.id;
             tempUser[i].nominatedTo = tempUser[i].id;
             checkedData.push(tempUser[i]);
@@ -310,6 +307,7 @@ function AssignUsers({ history, match }) {
     try {
       e.preventDefault();
       if (userDetails.currentRole === "Admin") {
+        
         create(checkedUser);
       } else {
         //trainingServiceconsole.log("checkedUser == ",checkedUser)
