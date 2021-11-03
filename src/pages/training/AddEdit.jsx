@@ -13,7 +13,7 @@ import { accountService, alertService, trainingService } from "../../services";
 
 import { Table, Tbody, Td, Th, Thead, Tr } from "react-super-responsive-table";
 import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
-import "../../assets/scss/custom/components/_tableblur.scss";
+// import "../../assets/scss/custom/components/_tableblur.scss";
 var FormData = require("form-data");
 
 function AddEdit({ history, match }) {
@@ -232,7 +232,7 @@ function AddEdit({ history, match }) {
             Trainings
           </h3>
           <div className="card-body">
-            <div id="table" className="table-editable">
+            <div id="table" className="table-editable  table-responsive">
               {/*  <span class="table-add float-right mb-3 mr-2"><a href="#!" class="text-success"
                             ><i class="fas fa-plus fa-2x" aria-hidden="true"></i></a
                                 ></span> */}
@@ -366,140 +366,144 @@ function AddEdit({ history, match }) {
                   )}
                 </tbody>
               </table> */}
+              <Table
+                id="tech-companies-1"
+                className="table table-bordered  tableBlur"
+              >
+                <Thead>
+                  <Tr>
+                    <Th>#</Th>
+                    <Th>Training Name</Th>
+                    <Th>Training Type</Th>
+                    <Th>Start Date</Th>
+                    <Th>End Date</Th>
+                    <Th>Required Prerequisites</Th>
+                    <Th>Stream</Th>
+                    <Th>Tool Name</Th>
+                    <Th>Created</Th>
+                    <Th>Nomination End Date</Th>
+                    <Th>Slots</Th>
+                    <Th></Th>
+                  </Tr>
+                </Thead>
+                <Tbody>
+                  {users &&
+                    users.map((user, index) => (
+                      <Tr key={user.id}>
+                        <Td
+                          className="pt-3-half"
+                          contentEditable="false"
+                          style={{ minWidth: "40px" }}
+                        >
+                          {index + 1}
+                        </Td>
+                        <Td
+                          className="traning-listing"
+                          contentEditable="false"
+                          style={{ minWidth: "40px" }}
+                        >
+                          {user.trainingName}
+                        </Td>
+                        <Td
+                          className="traning-listing"
+                          contentEditable="false"
+                          style={{ minWidth: "150px" }}
+                        >
+                          {user.trainingType}
+                        </Td>
+                        <Td
+                          className="traning-listing"
+                          contentEditable="false"
+                          style={{ minWidth: "150px" }}
+                        >
+                          {moment(user.trainingStartDate).format("DD/MM/YYYY")}
+                        </Td>
+                        <Td
+                          className="traning-listing"
+                          contentEditable="false"
+                          style={{ minWidth: "150px" }}
+                        >
+                          {moment(user.trainingEndDate).format("DD/MM/YYYY")}
+                        </Td>
+                        <Td
+                          className="traning-listing"
+                          contentEditable="false"
+                          style={{ minWidth: "120px" }}
+                        >
+                          {user.trainingPrequisites}
+                        </Td>
+                        <Td
+                          className="traning-listing"
+                          contentEditable="false"
+                          style={{ minWidth: "75px" }}
+                        >
+                          {user.stream}
+                        </Td>
+                        <Td
+                          className="traning-listing"
+                          contentEditable="false"
+                          style={{ minWidth: "100px" }}
+                        >
+                          {user.toolName}
+                        </Td>
+                        <Td
+                          className="traning-listing"
+                          contentEditable="false"
+                          style={{ minWidth: "150px" }}
+                        >
+                          {moment(user.created).format("DD/MM/YYYY")}
+                        </Td>
+                        <Td
+                          className="traning-listing"
+                          contentEditable="false"
+                          style={{ minWidth: "150px" }}
+                        >
+                          {moment(user.nominationEndDate).format("DD/MM/YYYY")}
+                        </Td>
+                        <Td
+                          className="traning-listing"
+                          contentEditable="true"
+                          style={{ minWidth: "150px" }}
+                          onBlur={(e) => updatedValue(e, index + 1)}
+                        >
+                          <input
+                            style={{ backgroundColor: "transparent" }}
+                            type="number"
+                            min="0"
+                            className="border-0"
+                            placeholder={user.slots ? user.slots : "N/A"}
+                          />
+                        </Td>
+                        <Td
+                          className="traning-listing"
+                          style={{ whiteSpace: "nowrap", minWidth: "30%" }}
+                        >
+                          {userDetails.currentRole === Role.Admin && (
+                            <div>
+                              <Link
+                                to={`/training/assign/${user.id}`}
+                                className="btn btn-sm btn-primary mr-1"
+                              >
+                                Assign
+                              </Link>
+                            </div>
+                          )}
+                        </Td>
+                      </Tr>
+                    ))}
+                  {!users && (
+                    <tr>
+                      <Td colSpan="12" className="text-center">
+                        <span className="spinner-border spinner-border-lg align-center"></span>
+                      </Td>
+                    </tr>
+                  )}
+                </Tbody>
+              </Table>
             </div>
           </div>
         </div>
-        <Table id="tech-companies-1" className="table table-bordered tableBlur">
-          <Thead>
-            <Tr>
-              <Th>#</Th>
-              <Th>Training Name</Th>
-              <Th>Training Type</Th>
-              <Th>Start Date</Th>
-              <Th>End Date</Th>
-              <Th>Required Prerequisites</Th>
-              <Th>Stream</Th>
-              <Th>Tool Name</Th>
-              <Th>Created</Th>
-              <Th>Nomination End Date</Th>
-              <Th>Slots</Th>
-              <Th></Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {users &&
-              users.map((user, index) => (
-                <Tr key={user.id}>
-                  <Td
-                    className="pt-3-half"
-                    contentEditable="false"
-                    style={{ minWidth: "40px" }}
-                  >
-                    {index + 1}
-                  </Td>
-                  <Td
-                    className="traning-listing"
-                    contentEditable="false"
-                    style={{ minWidth: "40px" }}
-                  >
-                    {user.trainingName}
-                  </Td>
-                  <Td
-                    className="traning-listing"
-                    contentEditable="false"
-                    style={{ minWidth: "150px" }}
-                  >
-                    {user.trainingType}
-                  </Td>
-                  <Td
-                    className="traning-listing"
-                    contentEditable="false"
-                    style={{ minWidth: "150px" }}
-                  >
-                    {moment(user.trainingStartDate).format("DD/MM/YYYY")}
-                  </Td>
-                  <Td
-                    className="traning-listing"
-                    contentEditable="false"
-                    style={{ minWidth: "150px" }}
-                  >
-                    {moment(user.trainingEndDate).format("DD/MM/YYYY")}
-                  </Td>
-                  <Td
-                    className="traning-listing"
-                    contentEditable="false"
-                    style={{ minWidth: "120px" }}
-                  >
-                    {user.trainingPrequisites}
-                  </Td>
-                  <Td
-                    className="traning-listing"
-                    contentEditable="false"
-                    style={{ minWidth: "75px" }}
-                  >
-                    {user.stream}
-                  </Td>
-                  <Td
-                    className="traning-listing"
-                    contentEditable="false"
-                    style={{ minWidth: "100px" }}
-                  >
-                    {user.toolName}
-                  </Td>
-                  <Td
-                    className="traning-listing"
-                    contentEditable="false"
-                    style={{ minWidth: "150px" }}
-                  >
-                    {moment(user.created).format("DD/MM/YYYY")}
-                  </Td>
-                  <Td
-                    className="traning-listing"
-                    contentEditable="false"
-                    style={{ minWidth: "150px" }}
-                  >
-                    {moment(user.nominationEndDate).format("DD/MM/YYYY")}
-                  </Td>
-                  <Td
-                    className="traning-listing"
-                    contentEditable="true"
-                    style={{ minWidth: "150px" }}
-                    onBlur={(e) => updatedValue(e, index + 1)}
-                  >
-                    <input
-                      style={{ backgroundColor: "transparent" }}
-                      type="number"
-                      min="0"
-                      className="border-0"
-                      placeholder={user.slots ? user.slots : "N/A"}
-                    />
-                  </Td>
-                  <Td
-                    className="traning-listing"
-                    style={{ whiteSpace: "nowrap", minWidth: "30%" }}
-                  >
-                    {userDetails.currentRole === Role.Admin && (
-                      <div>
-                        <Link
-                          to={`/training/assign/${user.id}`}
-                          className="btn btn-sm btn-primary mr-1"
-                        >
-                          Assign
-                        </Link>
-                      </div>
-                    )}
-                  </Td>
-                </Tr>
-              ))}
-            {!users && (
-              <tr>
-                <Td colSpan="12" className="text-center">
-                  <span className="spinner-border spinner-border-lg align-center"></span>
-                </Td>
-              </tr>
-            )}
-          </Tbody>
-        </Table>
+        <div></div>
       </div>
     </>
   );

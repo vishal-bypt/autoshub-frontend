@@ -30,6 +30,7 @@ import { MyEntries } from '../pages/rfpForm/MyEntries';
 import { AddEdit } from "../pages/training/AddEdit";
 import { AllNominations } from "../pages/training/AllNominations";
 import { AssignUsers } from "../pages/training/AssignUsers";
+import { Attendance } from "../pages/training/Attendance";
 import { EditTraining } from "../pages/training/EditTraining";
 import { EditTrainingList } from "../pages/training/EditTrainingList";
 import { GetTrainingByRole } from "../pages/training/GetTrainingByRole";
@@ -64,6 +65,7 @@ const userRoutes = [
   { path: "/training/edit/:id", component: EditTraining },
   { path: "/training/assign/:id", component: AssignUsers },
   { path: "/training/uploadList", component: UploadFieldList },
+  { path: "/training/Attendance", component: Attendance },
 
   //Revenue
   { path: "/revenue", component: Revenue },
