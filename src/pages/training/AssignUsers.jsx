@@ -9,6 +9,7 @@ var FormData = require("form-data");
 
 function AssignUsers({ history, match }) {
   const { id } = match.params;
+  console.log("id of training == ",id);
   const userDetails = accountService.userValue;
   console.log("userDetails == ", userDetails);
   const [users, setUsers] = useState(null);
@@ -47,12 +48,11 @@ function AssignUsers({ history, match }) {
       });
       setAssignedUsers(assignUserIds);
     }
-    if (userDetails.currentRole === Role.Manager) {
-      console.log("1st");
+    if (userDetails.currentRole === Role.Manager) {    
+      console.log("in current role manager");  
       trainingService.getUserByTrainingId(id).then((x) => {
         setTrainingData(x[0]);
       });
-      console.log("2nd");
       accountService.getUserList().then((x) => {
         setUsers(x);
         x &&
@@ -64,14 +64,12 @@ function AssignUsers({ history, match }) {
           });
         setTemp(userDropDownData);
       });
-      console.log("3rd");
       trainingService.getUserByTrainingId(id).then((x) => {
         x.map((row) => {
           assignUserIds.push(row.assignedTo);
         });
       });
       setAssignedUsers(assignUserIds);
-      console.log("4th");
     }
 
     let data = parseInt(trainingData?.slots / temp?.length);
@@ -125,8 +123,7 @@ function AssignUsers({ history, match }) {
     }
   }
 
-  useEffect(() => {
-    console.log("6th");
+  useEffect(() => {    
     if (userDetails.currentRole === Role.Admin) {
       if (trainingData.slots) {
         let slotData = parseInt(trainingData?.slots / temp?.length);
@@ -184,11 +181,10 @@ function AssignUsers({ history, match }) {
         }
         setTemp(userData);
       }
-    } else if (userDetails.currentRole === Role.Manager) {
-      console.log("7th");
-      if (trainingData.assignedSlots >= 0) {
+    } else if (userDetails.currentRole === Role.Manager) {  
+      if (trainingData.assignedSlots >= 0) {        
         let userData = [];
-        for (let i = 0; i < temp?.length; i++) {
+        for (let i = 0; i < temp?.length; i++) {          
           let data = temp[i];
           data = {
             userName: temp[i].label,
@@ -197,14 +193,14 @@ function AssignUsers({ history, match }) {
           };
           userData[i] = data;
         }
+        console.log("userData == ",userData);
         setTemp(userData);
       } else {
-        console.log("in else of manager");
         let userData = [];
-        console.log("temp == ", temp);
+        //console.log("temp == ", temp);
         for (let i = 0; i < temp?.length; i++) {
           let data = temp[i];
-          console.log("temp[i] == ", data);
+          //console.log("temp[i] == ", data);
           data = {
             numberOfTraining: 0,
             userName: temp[i].label,
@@ -213,7 +209,7 @@ function AssignUsers({ history, match }) {
           };
           userData[i] = data;
         }
-        console.log("userData == ", userData);
+        //console.log("userData == ", userData);
         setTemp(userData);
       }
     }
@@ -228,6 +224,7 @@ function AssignUsers({ history, match }) {
         });
         for (let i = 0; i < tempUser?.length; i++) {
           if (tempUser[i].isChecked === true) {
+            tempUser[i].currentRole = "Admin";
             checkedData.push(tempUser[i]);
           }
         }
@@ -245,6 +242,7 @@ function AssignUsers({ history, match }) {
         );
         for (let i = 0; i < tempUser?.length; i++) {
           if (tempUser[i].isChecked === true) {
+            tempUser[i].currentRole = "Admin";
             checkedData.push(tempUser[i]);
           }
         }
@@ -264,6 +262,7 @@ function AssignUsers({ history, match }) {
         });
         for (let i = 0; i < tempUser?.length; i++) {
           if (tempUser[i].isChecked === true) {
+            tempUser[i].currentRole = "Manager";
             checkedData.push(tempUser[i]);
           }
         }
@@ -288,6 +287,7 @@ function AssignUsers({ history, match }) {
         for (let i = 0; i < tempUser?.length; i++) {
           console.log("tempuser == ", tempUser);
           if (tempUser[i].isChecked === true) {
+            tempUser[i].currentRole = "Manager";
             tempUser[i].nominatedBy = userDetails.id;
             tempUser[i].nominatedTo = tempUser[i].id;
             checkedData.push(tempUser[i]);
@@ -349,7 +349,7 @@ function AssignUsers({ history, match }) {
               Total number of Slots:-{" "}
               <b>
                 {trainingData?.assignedSlots
-                  ? trainingData.assignedSlots
+                  ? trainingData?.assignedSlots
                   : "N/A"}
               </b>
             </h6>
@@ -406,6 +406,7 @@ function AssignUsers({ history, match }) {
             </thead>
             <tbody>
               {temp &&
+                temp.length > 0 &&
                 temp.map((user, index) => (
                   <tr key={index}>
                     <td
@@ -438,7 +439,7 @@ function AssignUsers({ history, match }) {
                         {user.numberOfTraining > 0 ? (
                           <td
                             className="traning-listing"
-                            // contentEditable={false}
+                            // contentEditable={true}
                             style={{ minWidth: "150px" }}
                             onBlur={(e) => updatedValue(e, index + 1)}
                           >
@@ -460,7 +461,6 @@ function AssignUsers({ history, match }) {
                             style={{ minWidth: "150px" }}
                           >
                             <input
-                              disabled
                               placeholder={
                                 user.numberOfTraining
                                   ? user.numberOfTraining
@@ -496,7 +496,7 @@ function AssignUsers({ history, match }) {
                           <input
                             type="checkbox"
                             className="form-check-input"
-                            name={user.userName}
+                            name={user?.userName ? user.userName : user.label}
                             checked={user?.isChecked || false}
                             onChange={handleChange}
                           />
@@ -505,6 +505,13 @@ function AssignUsers({ history, match }) {
                     )}
                   </tr>
                 ))}
+              {!temp && (
+                <tr>
+                  <td colSpan="10" className="text-center">
+                    <span className="spinner-border spinner-border-lg align-center"></span>
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
           <div className="text-end mt-3">

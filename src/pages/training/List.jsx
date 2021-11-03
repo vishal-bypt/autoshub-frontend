@@ -35,7 +35,7 @@ function List1({ history, match }) {
     }
     if (userDetails?.currentRole == Role.User) {
       let userData = [];
-      trainingService.listTaskToUser().then((x) => {
+      trainingService.listTaskToUsers().then((x) => {
         console.log("x of user == ", x);
         x.map((data) => {
           x = data;

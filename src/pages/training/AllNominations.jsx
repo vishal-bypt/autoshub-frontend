@@ -326,7 +326,7 @@ function AllNominations({ history, match }) {
                                       </a>                                      /
                                       <a
                                         style={{
-                                          color: "#12f339",
+                                          color: "red",
                                           textDecoration: "underline",
                                         }}
                                         onClick={handleClickReject(user)}
@@ -337,7 +337,7 @@ function AllNominations({ history, match }) {
                                   ) : (
                                     <a
                                       style={{
-                                        color: "#12f339",
+                                        color: "green",
                                         fontWeight: "bolder",
                                         textDecoration: "underline",
                                       }}
