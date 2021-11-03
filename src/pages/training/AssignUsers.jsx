@@ -186,7 +186,7 @@ function AssignUsers({ history, match }) {
       }
     } else if (userDetails.currentRole === Role.Manager) {
       console.log("7th");
-      if (trainingData.assignedSlots >= 0) {
+      if (trainingData?.assignedSlots >= 0) {
         let userData = [];
         for (let i = 0; i < temp?.length; i++) {
           let data = temp[i];
@@ -349,7 +349,7 @@ function AssignUsers({ history, match }) {
               Total number of Slots:-{" "}
               <b>
                 {trainingData?.assignedSlots
-                  ? trainingData.assignedSlots
+                  ? trainingData?.assignedSlots
                   : "N/A"}
               </b>
             </h6>
@@ -406,6 +406,7 @@ function AssignUsers({ history, match }) {
             </thead>
             <tbody>
               {temp &&
+                temp.length > 0 &&
                 temp.map((user, index) => (
                   <tr key={index}>
                     <td
@@ -438,7 +439,7 @@ function AssignUsers({ history, match }) {
                         {user.numberOfTraining > 0 ? (
                           <td
                             className="traning-listing"
-                            // contentEditable={false}
+                            // contentEditable={true}
                             style={{ minWidth: "150px" }}
                             onBlur={(e) => updatedValue(e, index + 1)}
                           >
@@ -460,7 +461,6 @@ function AssignUsers({ history, match }) {
                             style={{ minWidth: "150px" }}
                           >
                             <input
-                              disabled
                               placeholder={
                                 user.numberOfTraining
                                   ? user.numberOfTraining
@@ -505,6 +505,13 @@ function AssignUsers({ history, match }) {
                     )}
                   </tr>
                 ))}
+              {!temp && (
+                <tr>
+                  <td colSpan="10" className="text-center">
+                    <span className="spinner-border spinner-border-lg align-center"></span>
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
           <div className="text-end mt-3">
