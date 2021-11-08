@@ -13,7 +13,7 @@ import { AllNominations } from "./AllNominations";
 import { Trainings } from "./Trainings";
 import { RoleWiseTile } from "./RoleWiseTile";
 import { Attendance } from "./Attendance";
-import { UploadFiles } from "./UploadFiles";
+// import { UploadFiles } from "./UploadFiles";
 
 function Training({ match }) {
   const { path } = match;
@@ -44,7 +44,7 @@ function Training({ match }) {
       <Route exact path={`${path}/edit/:id`} component={EditTraining} />
       <Route exact path={`${path}/assign/:id`} component={AssignUsers} />
       <Route exact path={`${path}/uploadList`} component={UploadFieldList} />
-      <Route exact path={`${path}/uploadFiles`} component={UploadFiles} />
+      {/* <Route exact path={`${path}/uploadFiles`} component={UploadFiles} /> */}
     </Switch>
   );
 }

@@ -17,9 +17,7 @@ const Authmiddleware = ({
       if ((isAuthProtected && !localData) || (localData && jwtToken === null && props.history.location && props.history.location.pathname !== "/page-two-step-verification")) {
         localStorage.clear()
         return (
-          <Redirect
-            to={{ pathname: "/login", state: { from: props.location } }}
-          />
+          <Redirect to={{ pathname: "/login", state: { from: props.location } }} />
         )
       }
       return (
