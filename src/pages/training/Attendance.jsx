@@ -94,25 +94,24 @@ function Attendance({ history, match }) {
     <div className="page-content">
       <div className="container-fluid">
         <div className="row">
-          <div className="col-md-6">
+          <div className="col-md-7">
             {userDetails.currentRole === Role.Admin && (
-              <h1 className="header-text">Attendance Trainings</h1>
+              <h1 className="text-end font-weight-bold mb-5 text-danger">Attendance Trainings</h1>
             )}
             {userDetails.currentRole === Role.User && (
-              <h1 className="header-text">Attendance Trainings</h1>
+              <h1 className="text-end font-weight-bold mb-5 text-danger">Attendance Trainings</h1>
             )}
             {userDetails.currentRole === Role.Manager && (
-              <h1 className="header-text">Attendance Trainings</h1>
+              <h1 className="text-end font-weight-bold mb-5 text-danger">Attendance Trainings</h1>
             )}
           </div>
-          <div className="col-md-6 text-end">
+          <div className="col-md-5 text-end">
             <Link to={"."} className="btn btn-danger ">
               <ArrowBackIcon className="mr-1" />
               Back
             </Link>
           </div>
-        </div>
-        <div>&nbsp;</div>
+        </div>        
       </div>
       {/* <div className="button-div">
                 <div className="row">

@@ -1,0 +1,30 @@
+.newbutton{
+    border-radius: 6px;
+    font-weight: bold;
+    color: #000;
+    font-size: 15px;
+    padding: 15px 45px;
+    background: rgba(255,255,255,0.6);
+    box-shadow: 0px 15px 25px rgba(0,0,0,0.6);
+    backdrop-filter: blur(20px);
+    margin-right: 20px;
+    border-left:1px solid rgba(255,255,255,0.1);
+    border-top:1px solid rgba(255,255,255,0.1);
+    transition: 0.5s;    
+}
+
+.newbutton:hover{
+    background: #41a8ce;
+    color: #fff;
+}
+
+body{
+    font-family: 'Montserrat', sans-serif;
+    --body-bg: #000;
+    --body-color: #fff;
+}
+
+.newbutton.active{
+    background: #41a8ce;
+    color: #fff;
+  }

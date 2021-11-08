@@ -88,12 +88,11 @@ function AddEdit({ history, match }) {
   return (
     <>
       <div className="page-content">
-        <div className="container-fluid">
-          <div className="row">
-            <div className="col-md-4">
-              <h1 className="header-text">Upload Training Records</h1>
-            </div>
-            <div className="col-md-4 text-end">
+        <div className="container">  
+          <div className="row">                  
+            <div className="col-md-8">
+              <h1 className="text-end font-weight-bold mb-5 text-danger">Upload Training Records</h1>
+            
               <form encType="multipart/form-data">
                 <div className="form-group col-12 mt-2 p-0">
                   <input
@@ -107,15 +106,14 @@ function AddEdit({ history, match }) {
                   />
                 </div>
               </form>
-              <div className="variantsPopUpFileUpload ">
+              <div className="variantsPopUpFileUpload text-end">
                 {selectBtn && (
                   <IconButton
                     onClick={() => {
                       document.getElementById("ExcelFile").click();
                     }}
-                  >
-                    {" "}
-                    <div className="filePopUpFileUpload text-white bg-danger p-2 ">
+                  >                    
+                    <div className="filePopUpFileUpload text-white bg-danger p-2">
                       <label htmlFor="input-file selectAndUpload">
                         <CloudQueueIcon />
                         &nbsp;SelectFile & upload
@@ -175,10 +173,65 @@ function AddEdit({ history, match }) {
             </div>
           </div>
         </div>
-        <div className="">
-          <h3 className=" text-center tableBlur font-weight-bold text-uppercase py-4">
-            Trainings
-          </h3>
+        {/* <div className="data-table-div">
+                    <div className="data-table">
+                        <div className="table-responsive">
+                            <table className="table">
+                                <thead>
+                                    <tr>                                        
+                                        <th className="traning-listing" >#</th>
+                                        <th className="traning-listing" >Training Name</th>
+                                        <th className="traning-listing" >Training Type</th>
+                                        <th className="traning-listing" >Start Date</th>
+                                        <th className="traning-listing" >End Date</th>
+                                        <th className="traning-listing" >Required Prerequisites</th>
+                                        <th className="traning-listing" >Stream</th>
+                                        <th className="traning-listing" >Tool Name</th>
+                                        <th className="traning-listing" >Created</th>
+                                        <th className="traning-listing" >Nomination End Date</th>
+                                        <th className="traning-listing" >Vacancies</th>                                        
+                                        <th className="traning-listing" ></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {users && users.map((user, index) =>
+                                    
+                                        <tr key={user.id}>                                           
+                                            <td className="traning-listing" style={{ minWidth: '40px' }}>{index + 1}</td>
+                                            <td className="traning-listing" style={{ minWidth: '150px' }} >{user.trainingName}</td>
+                                            <td className="traning-listing" style={{ minWidth: '150px' }}>{user.trainingType}</td>
+                                            <td className="traning-listing" style={{ minWidth: '150px' }}>{moment(user.trainingStartDate).format("DD/MM/YYYY")}</td>
+                                            <td className="traning-listing" style={{ minWidth: '150px' }}>{moment(user.trainingEndDate).format("DD/MM/YYYY")}</td>
+                                            <td className="traning-listing" style={{ minWidth: '120px' }}>{user.trainingPrequisites}</td>
+                                            <td className="traning-listing" style={{ minWidth: '75px' }}>{user.stream}</td>
+                                            <td className="traning-listing" style={{ minWidth: '100px' }}>{user.toolName}</td>
+                                            <td className="traning-listing" style={{ minWidth: '150px' }}>{moment(user.created).format("DD/MM/YYYY")}</td>
+                                            <td className="traning-listing" style={{ minWidth: '150px' }}>{moment(user.nominationEndDate).format("DD/MM/YYYY")}</td>
+                                            <div className="table-editable">
+                                                <td className="traning-listing" style={{ minWidth: '150px' }} ><AllInclusive/></td>
+                                            </div>
+                                            
+                                            <td className="traning-listing" style={{ whiteSpace: 'nowrap', minWidth: '30%' }}>
+                                                {userDetails.role == "Admin" && <div >
+                                                    <Link to={`/training/assign/${user.id}`} className="btn btn-sm btn-primary mr-1">Assign</Link>
+                                                </div>}
+                                            </td>
+                                        </tr>                                    
+                                )
+                                }
+                                {!users &&
+                                    <tr>
+                                        <td colSpan="4" className="text-center">
+                                            <span className="spinner-border spinner-border-lg align-center"></span>
+                                        </td>
+                                    </tr>
+                                }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div> */}
+        <div className="">         
           <div className="card-body">
             <div id="table" className="table-editable  table-responsive">
               <Table
