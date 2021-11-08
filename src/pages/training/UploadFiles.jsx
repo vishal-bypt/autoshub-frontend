@@ -1,86 +1,72 @@
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import React from "react";
+import Dropzone from "react-dropzone";
 import { Link } from "react-router-dom";
-import Dropzone, { useDropzone } from "react-dropzone";
-import Breadcrumbs from "../../components/Common/Breadcrumb";
+import { Card, CardBody, Col, Container, Form, Row } from "reactstrap";
+import Swal from "sweetalert2";
+import { accountService, alertService, trainingService } from "../../services";
 
-import {
-  Row,
-  Col,
-  Card,
-  Form,
-  CardBody,
-  CardTitle,
-  CardSubtitle,
-  Container,
-} from "reactstrap";
+var FormData = require("form-data");
+function UploadFiles({ history }) {
+  const user = accountService.userValue;
 
-function UploadFiles() {
-  const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
-    getFilesFromEvent: (event) => {
-      console.log("event::", event);
-      //   myCustomFileGetter(event);
-    },
-  });
+  const [selectedFiles, setselectedFiles] = React.useState(null);
 
-  const [selectedFiles, setselectedFiles] = React.useState([]);
+  const handleSubmit = () => {
+    try {
+      var formData = new FormData();
+      if (!selectedFiles) {
+        console.log("selectedFiles::", selectedFiles);
+        return Swal.fire("Oops...", "Please attach excel file!", "error");
+      }
+      formData.append("filePath", selectedFiles); //append the values with key, value pair
+      create(formData, user.id);
+    } catch (error) {
+      console.log("error == ", error);
+    }
+  };
 
-  function handleAcceptedFiles(files) {
-    console.log("files:::", files);
-    files.map((file) =>
-      Object.assign(file, {
-        preview: URL.createObjectURL(file),
-        formattedSize: formatBytes(file.size),
+  function create(formData, id) {
+    trainingService
+      .uploadExcel(formData, id)
+      .then((data) => {
+        Swal.fire("Training uploaded successfully.!");
+        history.goBack();
       })
-    );
-    setselectedFiles(files);
-  }
-
-  /**
-   * Formats the size
-   */
-  function formatBytes(bytes, decimals = 2) {
-    if (bytes === 0) return "0 Bytes";
-    const k = 1024;
-    const dm = decimals < 0 ? 0 : decimals;
-    const sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
-
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i];
+      .catch((error) => {
+        alertService.error(error);
+      });
   }
 
   return (
     <>
       <div className="page-content">
         <div className="container-fluid">
-          <div>
-            <Container fluid={true}>
-              <Breadcrumbs title="Forms" breadcrumbItem="Upload File" />
+          <div className="d-flex row justify-content-between">
+            <div className="col-md-4">
+              <h1 className="header-text">Upload Training Records</h1>
+            </div>
 
+            <div className="col-md-4 text-end">
+              <Link to={"/training/add"} className="btn btn-danger ">
+                <ArrowBackIcon className="mr-1" />
+                Back
+              </Link>
+            </div>
+          </div>
+          <div className="mt-5">
+            <Container fluid={true}>
               <Row>
                 <Col className="col-12">
                   <Card>
                     <CardBody>
-                      <section className="container">
-                        <div {...getRootProps({ className: "dropzone" })}>
-                          <input {...getInputProps()} />
-                          <p>
-                            Drag 'n' drop some files here, or click to select
-                            files
-                          </p>
-                        </div>
-                        <aside>
-                          <h4>Files</h4>
-                          {/* <ul>{files}</ul> */}
-                        </aside>
-                      </section>
-                      {/* <Form>
+                      <Form>
                         <Dropzone
-                          //   accept="application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                          accept="application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                           multiple={false}
-                          //   onDrop={(acceptedFiles) => {
-                          //     console.log("acceptedFiles::::", acceptedFiles);
-                          //     handleAcceptedFiles(acceptedFiles);
-                          //   }}
+                          onDrop={(acceptedFiles) => {
+                            setselectedFiles(acceptedFiles[0]);
+                          }}
                         >
                           {({ getRootProps, getInputProps }) => (
                             <div className="dropzone">
@@ -97,51 +83,49 @@ function UploadFiles() {
                             </div>
                           )}
                         </Dropzone>
-                        <div
-                          className="dropzone-previews mt-3"
-                          id="file-previews"
-                        >
-                          {selectedFiles.map((f, i) => {
-                            return (
-                              <Card
-                                className="mt-1 mb-0 shadow-none border dz-processing dz-image-preview dz-success dz-complete"
-                                key={i + "-file"}
-                              >
-                                <div className="p-2">
-                                  <Row className="align-items-center">
-                                    <Col className="col-auto">
-                                      <img
-                                        data-dz-thumbnail=""
-                                        height="80"
-                                        className="avatar-sm rounded bg-light"
-                                        alt={f.name}
-                                        src={f.preview}
-                                      />
-                                    </Col>
-                                    <Col>
-                                      <Link
-                                        to="#"
-                                        className="text-muted font-weight-bold"
-                                      >
-                                        {f.name}
-                                      </Link>
-                                      <p className="mb-0">
-                                        <strong>{f.formattedSize}</strong>
-                                      </p>
-                                    </Col>
-                                  </Row>
-                                </div>
-                              </Card>
-                            );
-                          })}
-                        </div>
-                      </Form> */}
+                        {selectedFiles !== null ? (
+                          <div
+                            className="dropzone-previews mt-3"
+                            id="file-previews"
+                          >
+                            <Card
+                              className="mt-1 mb-0 shadow-none border dz-processing dz-image-preview dz-success dz-complete"
+                              key={"-file"}
+                            >
+                              <div className="p-2">
+                                <Row className="align-items-center">
+                                  <Col className="col-auto">
+                                    <img
+                                      data-dz-thumbnail=""
+                                      height="80"
+                                      className="avatar-sm rounded bg-light"
+                                      alt={selectedFiles.name}
+                                      src={selectedFiles.preview}
+                                    />
+                                  </Col>
+                                  <Col>
+                                    <Link
+                                      to="#"
+                                      className="text-muted font-weight-bold"
+                                    >
+                                      {selectedFiles.name}
+                                    </Link>
+                                    <p className="mb-0">
+                                      <strong>
+                                        {selectedFiles.formattedSize}
+                                      </strong>
+                                    </p>
+                                  </Col>
+                                </Row>
+                              </div>
+                            </Card>
+                          </div>
+                        ) : null}
+                      </Form>
 
                       <div className="text-center mt-4">
                         <button
-                          onClick={() => {
-                            console.log("selectedFiles:::", selectedFiles);
-                          }}
+                          onClick={() => handleSubmit()}
                           type="button"
                           className="btn btn-primary "
                         >

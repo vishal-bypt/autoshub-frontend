@@ -15,10 +15,12 @@ import { Link } from "react-router-dom"
 //i18n
 import { withTranslation } from "react-i18next"
 import { accountService } from "../../services";
+import { Role, setCurrentUserRole } from "../../helpers";
 
 const SidebarContent = props => {
-  const ref = useRef()
   const userDetails = accountService.userValue;
+
+  const ref = useRef()
 
   const activateParentDropdown = useCallback((item) => {
     item.classList.add("active")
@@ -108,12 +110,94 @@ const SidebarContent = props => {
               </Link>
             </li>
             <li>
-              <Link to="/training" className="">
+              <Link to="/training" className="has-arrow">
                 <FeatherIcon
                   icon="users"
                 />
                 <span>{props.t("Training")}</span>
               </Link>
+              <ul className="sub-menu">
+                {userDetails &&
+                  userDetails.userRoleArray &&
+                  userDetails.userRoleArray.map((tileRole, key) => {
+                    if (tileRole === Role.Exec) {
+                      return (
+                        <li>
+                          <Link to="/dashboard" className="">
+                            <FeatherIcon
+                              icon="file-text"
+                            />
+                            <span>{props.t(Role.Exec)}</span>
+                          </Link>
+                        </li>
+                      )
+                    } else if (tileRole === Role.Admin) {
+                      return (
+                        <li>
+                          <Link to="/#"
+                            onClick={e => {
+                              e.preventDefault();
+                            }} className="">
+                            <div onClick={() => {
+                              setCurrentUserRole(tileRole);
+                              setTimeout(() => {
+                                props.history.push("/training/list");
+                              }, 1000);
+                            }}>
+                              <FeatherIcon
+                                icon="file-text"
+                              />
+                              <span>{props.t(Role.Admin)}</span>
+                            </div>
+                          </Link>
+                        </li>
+                      )
+                    } else if (tileRole === Role.Manager) {
+                      return (
+                        <li>
+                          <Link to="/#"
+                            onClick={e => {
+                              e.preventDefault();
+                            }} className="">
+                            <div onClick={() => {
+                              setCurrentUserRole(tileRole);
+                              setTimeout(() => {
+                                props.history.push("/training/list");
+                              }, 1000);
+                            }}>
+                              <FeatherIcon
+                                icon="file-text"
+                              />
+                              <span>{props.t(Role.Manager)}</span>
+                            </div>
+                          </Link>
+                        </li>
+                      )
+                    } else if (tileRole === Role.User) {
+                      return (
+                        <li>
+                          <Link to="/#"
+                            onClick={e => {
+                              e.preventDefault();
+                            }} className="">
+                            <div onClick={() => {
+                              setCurrentUserRole(tileRole);
+                              setTimeout(() => {
+                                props.history.push("/training/list");
+                              }, 1000);
+                            }}>
+                              <FeatherIcon
+                                icon="file-text"
+                              />
+                              <span>{props.t(Role.User)}</span>
+                            </div>
+                          </Link>
+                        </li>
+                      )
+                    }
+                  })}
+
+              </ul>
             </li>
             {/* <li>
               <Link to="/" className="">

@@ -8,9 +8,11 @@ import { withTranslation } from "react-i18next";
 import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
 import { Collapse } from "reactstrap";
+import { Role, setCurrentUserRole } from "../../helpers";
+import { accountService } from "../../services";
 
 const Navbar = props => {
-
+  const userDetails = accountService.userValue;
   const [app, setapp] = useState(false);
 
   useEffect(() => {
@@ -77,16 +79,65 @@ const Navbar = props => {
                   </Link>
                 </li>
 
-                <li>
+                <li className="nav-item dropdown">
                   <Link
-                    to="/training"
-                    className="nav-link arrow-none"
+                    to="/#"
+                    onClick={e => {
+                      e.preventDefault();
+                    }}
+                    className="nav-link dropdown-togglez arrow-none"
                   >
                     <FeatherIcon
                       icon="users"
                     />
-                    {props.t("Training")}
+                    {props.t("Training")} <div className="arrow-down"></div>
                   </Link>
+                  <div className={classname("dropdown-menu", { show: app })}>
+                    {userDetails &&
+                      userDetails.userRoleArray &&
+                      userDetails.userRoleArray.map((tileRole, key) => {
+                        if (tileRole === Role.Exec) {
+                          return (
+                            <Link to="/dashboard" className="dropdown-item">
+                              {props.t(Role.Exec)}
+                            </Link>
+                          )
+                        } else if (tileRole === Role.Admin) {
+                          return (
+                            <div onClick={() => {
+                              setCurrentUserRole(tileRole);
+                              setTimeout(() => {
+                                props.history.push("/training/list");
+                              }, 1000);
+                            }} className="dropdown-item">
+                              {props.t(Role.Admin)}
+                            </div>
+                          )
+                        } else if (tileRole === Role.Manager) {
+                          return (
+                            <div onClick={() => {
+                              setCurrentUserRole(tileRole);
+                              setTimeout(() => {
+                                props.history.push("/training/list");
+                              }, 1000);
+                            }} className="dropdown-item">
+                              {props.t(Role.Manager)}
+                            </div>
+                          )
+                        } else if (tileRole === Role.User) {
+                          return (
+                            <div onClick={() => {
+                              setCurrentUserRole(tileRole);
+                              setTimeout(() => {
+                                props.history.push("/training/list");
+                              }, 1000);
+                            }} className="dropdown-item">
+                              {props.t(Role.User)}
+                            </div>
+                          )
+                        }
+                      })}
+                  </div>
                 </li>
 
                 {/* <li className="nav-item dropdown">

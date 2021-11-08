@@ -1,41 +1,23 @@
-import { IconButton } from "@material-ui/core";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-import BackupIcon from "@material-ui/icons/Backup";
-import CloudDoneIcon from "@material-ui/icons/CloudDone";
-import CloudOffIcon from "@material-ui/icons/CloudOff";
-import CloudQueueIcon from "@material-ui/icons/CloudQueue";
-import React, { useState } from "react";
+import React from "react";
+import Dropzone from "react-dropzone";
 import { Link } from "react-router-dom";
+import { Card, CardBody, Col, Container, Form, Row } from "reactstrap";
 import Swal from "sweetalert2";
 import { accountService, alertService } from "../../../services";
+
 var FormData = require("form-data");
 
 function AddUsers({ history, match }) {
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [selectBtn, setSelectBtn] = useState(true);
-  const [uploadBtn, setUploadBtn] = useState(false);
-  const [successBtn, setSuccessBtn] = useState(false);
-  const [errorBtn, setErrorBtn] = useState(false);
+  const [selectedFiles, setselectedFiles] = React.useState(null);
 
-  const onFileChange = (event) => {
-    let file = event.target.files[0];
-    if (!file)
-      alertService.error("Add excel file", { keepAfterRouteChange: false });
-    else {
-      setSelectedFile(file);
-      setSelectBtn(false);
-      setUploadBtn(true);
-    }
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = () => {
     try {
-      e.preventDefault();
       var formData = new FormData();
-      if (!selectedFile) {
+      if (!selectedFiles) {
         return Swal.fire("Oops...", "Please attach excel file!", "error");
       }
-      formData.append("filePath", selectedFile); //append the values with key, value pair
+      formData.append("filePath", selectedFiles); //append the values with key, value pair
       create(formData);
     } catch (error) {
       console.log("error == ", error);
@@ -47,8 +29,6 @@ function AddUsers({ history, match }) {
       .uploadUsersExcel(formData)
       .then((res) => {
         if (res.success) {
-          setUploadBtn(false);
-          setSuccessBtn(true);
           Swal.fire("Users uploaded successfully.!");
           history.push("/userList");
         } else {
@@ -56,8 +36,6 @@ function AddUsers({ history, match }) {
         }
       })
       .catch((error) => {
-        setUploadBtn(false);
-        setErrorBtn(true);
         alertService.error(error);
       });
   }
@@ -79,78 +57,88 @@ function AddUsers({ history, match }) {
             </div>
           </div>
           <div className="col text-center my-5">
-            <form encType="multipart/form-data">
-              <div className="form-group col-12 mt-2 p-0">
-                <input
-                  type="file"
-                  display="none"
-                  name=""
-                  id="ExcelFile"
-                  className="form-control"
-                  onChange={onFileChange}
-                  hidden
-                />
-              </div>
-            </form>
-            <div className="variantsPopUpFileUpload">
-              {selectBtn && (
-                <IconButton
-                  onClick={() => {
-                    document.getElementById("ExcelFile").click();
-                  }}
-                >
-                  {" "}
-                  <div className="filePopUpFileUpload ">
-                    <label htmlFor="input-file selectAndUpload">
-                      <CloudQueueIcon />
-                      &nbsp;SelectFile & Upload
-                    </label>
-                  </div>
-                </IconButton>
-              )}
-              {uploadBtn && (
-                <IconButton onClick={handleSubmit}>
-                  <div className="filePopUpFileUpload file--uploadingPopUpFileUpload">
-                    <label htmlFor="input-file">
-                      <BackupIcon />
-                      Upload
-                    </label>
-                  </div>
-                </IconButton>
-              )}
+            <Container fluid={true}>
+              <Row>
+                <Col className="col-12">
+                  <Card>
+                    <CardBody>
+                      <Form>
+                        <Dropzone
+                          accept="application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                          multiple={false}
+                          onDrop={(acceptedFiles) => {
+                            setselectedFiles(acceptedFiles[0]);
+                          }}
+                        >
+                          {({ getRootProps, getInputProps }) => (
+                            <div className="dropzone">
+                              <div
+                                className="dz-message needsclick mt-2"
+                                {...getRootProps()}
+                              >
+                                <input {...getInputProps()} />
+                                <div className="mb-3">
+                                  <i className="display-4 text-muted bx bxs-cloud-upload" />
+                                </div>
+                                <h4>Drop files here or click to upload.</h4>
+                              </div>
+                            </div>
+                          )}
+                        </Dropzone>
+                        {selectedFiles !== null ? (
+                          <div
+                            className="dropzone-previews mt-3"
+                            id="file-previews"
+                          >
+                            <Card
+                              className="mt-1 mb-0 shadow-none border dz-processing dz-image-preview dz-success dz-complete"
+                              key={"-file"}
+                            >
+                              <div className="p-2">
+                                <Row className="align-items-center">
+                                  <Col className="col-auto">
+                                    <img
+                                      data-dz-thumbnail=""
+                                      height="80"
+                                      className="avatar-sm rounded bg-light"
+                                      alt={selectedFiles.name}
+                                      src={selectedFiles.preview}
+                                    />
+                                  </Col>
+                                  <Col>
+                                    <Link
+                                      to="#"
+                                      className="text-muted font-weight-bold"
+                                    >
+                                      {selectedFiles.name}
+                                    </Link>
+                                    <p className="mb-0">
+                                      <strong>
+                                        {selectedFiles.formattedSize}
+                                      </strong>
+                                    </p>
+                                  </Col>
+                                </Row>
+                              </div>
+                            </Card>
+                          </div>
+                        ) : null}
+                      </Form>
 
-              {successBtn && (
-                <IconButton
-                  onClick={() => {
-                    setSuccessBtn(false);
-                    setSelectBtn(true);
-                  }}
-                >
-                  <div className="filePopUpFileUpload file--successPopUpFileUpload">
-                    <label htmlFor="input-file">
-                      <CloudDoneIcon />
-                      Success
-                    </label>
-                  </div>
-                </IconButton>
-              )}
-
-              {errorBtn && (
-                <IconButton
-                  onClick={() => {
-                    setErrorBtn(false);
-                    setSelectBtn(true);
-                  }}
-                >
-                  <div className="filePopUpFileUpload file--dangerPopUpFileUpload">
-                    <label htmlFor="input-file">
-                      <CloudOffIcon />
-                      Error
-                    </label>
-                  </div>
-                </IconButton>
-              )}
-            </div>
+                      <div className="text-center mt-4">
+                        <button
+                          onClick={() => handleSubmit()}
+                          type="button"
+                          className="btn btn-primary "
+                        >
+                          Upload
+                        </button>
+                      </div>
+                    </CardBody>
+                  </Card>
+                </Col>
+              </Row>
+            </Container>
           </div>
         </div>
       </div>
