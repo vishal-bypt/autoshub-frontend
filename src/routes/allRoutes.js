@@ -3,6 +3,7 @@ import { Redirect } from "react-router-dom";
 import ForgetPwd from "../pages/Authentication/ForgetPassword";
 // Authentication related pages
 import Login from "../pages/Authentication/Login";
+import ResetPassword from "../pages/Authentication/ResetPassword";
 import Logout from "../pages/Authentication/Logout";
 import Register from "../pages/Authentication/Register";
 import userProfile from "../pages/Authentication/user-profile";
@@ -107,6 +108,7 @@ const authRoutes = [
   //AuthenticationInner pages
   { path: "/page-login", component: PageLogin },
   { path: "/page-register", component: PageRegister },
+  { path: "/reset-password", component: ResetPassword },
   { path: "/page-recoverpw", component: RecoverPassword },
   { path: "/page-lock-screen", component: LockScreen },
   { path: "/page-confirm-mail", component: ConfirmMail },
