@@ -133,7 +133,7 @@ function EditTraining({ history, match }) {
             <h1>Edit Training</h1>
           </div>
           <div className="col-md-6 text-end">
-            <Link to={"."} className="btn btn-danger">
+            <Link to={"/training/editList"} className="btn btn-danger">
               <ArrowBackIcon className="mr-1" />
               Back
             </Link>

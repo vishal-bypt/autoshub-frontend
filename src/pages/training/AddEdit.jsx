@@ -37,6 +37,7 @@ function AddEdit({ history, match }) {
 
   const onFileChange = (event) => {
     let file = event.target.files[0];
+    console.log("event.target.files:::", event.target.files);
     if (!file)
       alertService.error("Add excel file", { keepAfterRouteChange: false });
     else {
@@ -54,6 +55,7 @@ function AddEdit({ history, match }) {
         return Swal.fire("Oops...", "Please attach excel file!", "error");
       }
       formData.append("filePath", selectedFile); //append the values with key, value pair
+      console.log("formData:::", formData);
       create(formData, user.id);
     } catch (error) {
       console.log("error == ", error);
@@ -86,12 +88,14 @@ function AddEdit({ history, match }) {
   return (
     <>
       <div className="page-content">
-        <div className="container">  
-          <div className="row">                  
-            <div className="col-md-8">
-              <h1 className="text-end font-weight-bold mb-5 text-danger">Upload Training Records</h1>
-            
-              <form encType="multipart/form-data">
+        <div className="container-fluid">
+          <div className="d-flex row justify-content-between">
+            <div className="col-md-4">
+              <h1 className="font-weight-bold mb-2 text-danger">
+                Training Records
+              </h1>
+            </div>
+            {/* <form encType="multipart/form-data">
                 <div className="form-group col-12 mt-2 p-0">
                   <input
                     type="file"
@@ -110,7 +114,7 @@ function AddEdit({ history, match }) {
                     onClick={() => {
                       document.getElementById("ExcelFile").click();
                     }}
-                  >                    
+                  >
                     <div className="filePopUpFileUpload text-white bg-danger p-2">
                       <label htmlFor="input-file selectAndUpload">
                         <CloudQueueIcon />
@@ -161,9 +165,14 @@ function AddEdit({ history, match }) {
                     </div>
                   </IconButton>
                 )}
-              </div>
-            </div>
-            <div className="col-md-4 text-end ">
+              </div> */}
+            <div className="col-md-4 text-end">
+              <Link
+                to={"/training/uploadFiles"}
+                className="btn btn-primary m-1"
+              >
+                Upload
+              </Link>
               <Link to={"."} className="btn btn-danger ">
                 <ArrowBackIcon className="mr-1" />
                 Back
@@ -229,7 +238,7 @@ function AddEdit({ history, match }) {
                         </div>
                     </div>
                 </div> */}
-        <div className="">         
+        <div className="">
           <div className="card-body">
             <div id="table" className="table-editable  table-responsive">
               <Table

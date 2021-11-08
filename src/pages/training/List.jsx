@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import Refresh from '@material-ui/icons/Refresh';
+import Refresh from "@material-ui/icons/Refresh";
 import moment from "moment";
 import { accountService, trainingService, alertService } from "../../services";
 import PopUpFileUpload from "./PopUpFileUpload";
 import { Role } from "./../../helpers/role";
-import "./index.css"
+import "./index.css";
 function List1({ history, match }) {
   const { path } = match;
   const userDetails = accountService.userValue;
-  console.log("userValue == ", accountService.userValue)
+  console.log("userValue == ", accountService.userValue);
 
   //console.log("userDetails role == ", userDetails.currentRole);
   const [trainings, setTrainings] = useState(null);
@@ -89,7 +89,7 @@ function List1({ history, match }) {
      });
    }; */
 
- /*  const handleClickReject = (e) => () => {
+  /*  const handleClickReject = (e) => () => {
     let params = {
       trainingId: e.id,
       userId: e.assignedToId,
@@ -117,50 +117,60 @@ function List1({ history, match }) {
     });
   }; */
 
-  function handleClickAccept(e) {      
+  function handleClickAccept(e) {
     let params = {
       trainingId: e.training.id,
       nominatedTo: e.assignTo.id,
       isAccept: 1,
       nominatedBy: e.assignBy.id,
     };
-    console.log("params -=-= ",params);
+    console.log("params -=-= ", params);
     trainingService.acceptOrRejectPreRequisites(params).then((data) => {
-      alertService.success('Successfully accepted training', { keepAfterRouteChange: true });
-     // history.push('/training');
-    })
+      alertService.success("Successfully accepted training", {
+        keepAfterRouteChange: true,
+      });
+      // history.push('/training');
+    });
   }
 
-  function handleClickReject(e) {    
+  function handleClickReject(e) {
     let params = {
       trainingId: e.training.id,
       nominatedTo: e.assignTo.id,
       isAccept: 2,
       nominatedBy: e.assignBy.id,
     };
-    console.log("params == ",params)
+    console.log("params == ", params);
     trainingService.acceptOrRejectPreRequisites(params).then((data) => {
-      alertService.success('Successfully accepted training prerequisites', { keepAfterRouteChange: true });
+      alertService.success("Successfully accepted training prerequisites", {
+        keepAfterRouteChange: true,
+      });
       //history.push('/training');
-    })
+    });
   }
 
-  console.log("trainings = ", trainings)
+  console.log("trainings = ", trainings);
   console.log("accept == ", accept);
-  console.log("reject == ",reject);
+  console.log("reject == ", reject);
   return (
     <div className="page-content">
       <div className="container-fluid">
         <div className="row">
           <div className="col-md-12">
             {userDetails?.currentRole == Role.Admin && (
-              <h1 className="text-center font-weight-bold mb-5 text-danger">Trainings</h1>
+              <h1 className="text-center font-weight-bold mb-5 text-danger">
+                Trainings
+              </h1>
             )}
             {userDetails?.currentRole == Role.User && (
-              <h1 className="text-center font-weight-bold mb-5 text-danger">My Trainings</h1>
+              <h1 className="text-center font-weight-bold mb-5 text-danger">
+                My Trainings
+              </h1>
             )}
             {userDetails?.currentRole == Role.Manager && (
-              <h1 className="text-center font-weight-bold mb-5 text-danger">Trainings</h1>
+              <h1 className="text-center font-weight-bold mb-5 text-danger">
+                Trainings
+              </h1>
             )}
           </div>
           <div className="col-md-12 text-center">
@@ -172,31 +182,19 @@ function List1({ history, match }) {
                 <Link to={`/training/editList`} className="newbutton">
                   Edit Trainings
                 </Link>
-                <Link
-                  to={`/training/getAllByRole`}
-                  className="newbutton"
-                >
+                <Link to={`/training/getAllByRole`} className="newbutton">
                   My Trainings
                 </Link>
                 <Link to={`/training/getAll`} className="newbutton">
                   View All
                 </Link>
-                <Link
-                  to={`/training/getAllNominations`}
-                  className="newbutton"
-                >
+                <Link to={`/training/getAllNominations`} className="newbutton">
                   All Nominations
                 </Link>
-                <Link
-                  to={`/training/Attendance`}
-                  className="newbutton"
-                >
-                Attendance 
+                <Link to={`/training/Attendance`} className="newbutton">
+                  Attendance
                 </Link>
-                <Link
-                  to={`/training`}
-                  className="newbutton"
-                >
+                <Link to={`/training`} className="newbutton">
                   <Refresh />
                 </Link>
               </>
@@ -213,7 +211,7 @@ function List1({ history, match }) {
             )}
           </div>
         </div>
-        
+
         <div className="table-rep-plugin mt-5">
           <div
             className="table-responsive mb-0"
@@ -243,7 +241,9 @@ function List1({ history, match }) {
                       <th className="traning-listing">Training Type</th>
                       <th className="traning-listing">Start Date</th>
                       <th className="traning-listing">End Date</th>
-                      <th className="traning-listing">Required Prerequisites</th>
+                      <th className="traning-listing">
+                        Required Prerequisites
+                      </th>
                       <th className="traning-listing">Nomination End Date</th>
                       <th></th>
                     </>
@@ -256,7 +256,9 @@ function List1({ history, match }) {
                       <th className="traning-listing">Training Name</th>
                       <th className="traning-listing">Start Date</th>
                       <th className="traning-listing">End Date</th>
-                      <th className="traning-listing">Required Prerequisites</th>
+                      <th className="traning-listing">
+                        Required Prerequisites
+                      </th>
                       <th className="traning-listing">Status</th>
                       <th className="traning-listing">Upload Prequisites</th>
                     </>
@@ -275,117 +277,190 @@ function List1({ history, match }) {
                       </td>
                       {userDetails?.currentRole == Role.Admin && (
                         <>
-                          <td className="traning-listing" style={{ minWidth: "100px" }}>
+                          <td
+                            className="traning-listing"
+                            style={{ minWidth: "100px" }}
+                          >
                             {moment(user.trainingStartDate).format("MMMM")}{" "}
                           </td>
-                          <td className="traning-listing" style={{ minWidth: "130px" }}>
-                            {moment(user.trainingStartDate).format("DD/MM/YYYY")}
+                          <td
+                            className="traning-listing"
+                            style={{ minWidth: "130px" }}
+                          >
+                            {moment(user.trainingStartDate).format(
+                              "DD/MM/YYYY"
+                            )}
                           </td>
-                          <td className="traning-listing" style={{ minWidth: "130px" }}>
+                          <td
+                            className="traning-listing"
+                            style={{ minWidth: "130px" }}
+                          >
                             {moment(user.trainingEndDate).format("DD/MM/YYYY")}
                           </td>
-                          <td className="traning-listing" style={{ minWidth: "150px" }}>
+                          <td
+                            className="traning-listing"
+                            style={{ minWidth: "150px" }}
+                          >
                             {user.trainingName}
                           </td>
-                          <td className="traning-listing" style={{ minWidth: "150px" }}>
+                          <td
+                            className="traning-listing"
+                            style={{ minWidth: "150px" }}
+                          >
                             {user?.stream}
                           </td>
-                          <td className="traning-listing" style={{ minWidth: "150px" }}>
+                          <td
+                            className="traning-listing"
+                            style={{ minWidth: "150px" }}
+                          >
                             {user.toolName}
                           </td>
-                          <td className="traning-listing" style={{ minWidth: "100px" }}>
+                          <td
+                            className="traning-listing"
+                            style={{ minWidth: "100px" }}
+                          >
                             {user.totalNominations ? user.totalNominations : 0}{" "}
                           </td>
-                          <td className="traning-listing" style={{ minWidth: "100px" }}>
-                          
-                          {user.totalAttendedNominations ? user.totalAttendedNominations : 0}{" "}
+                          <td
+                            className="traning-listing"
+                            style={{ minWidth: "100px" }}
+                          >
+                            {user.totalAttendedNominations
+                              ? user.totalAttendedNominations
+                              : 0}{" "}
                           </td>
-                          <td className="traning-listing" style={{ minWidth: "100px" }}>
-                          {user.totalRejectedNominations ? user.totalRejectedNominations : 0}{" "}
+                          <td
+                            className="traning-listing"
+                            style={{ minWidth: "100px" }}
+                          >
+                            {user.totalRejectedNominations
+                              ? user.totalRejectedNominations
+                              : 0}{" "}
                           </td>
-                          <td>
-                         
-                          </td>
+                          <td></td>
                         </>
                       )}
 
                       {userDetails?.currentRole == Role.User && (
                         <>
-                          <td className="traning-listing" style={{ minWidth: "100px" }}>
+                          <td
+                            className="traning-listing"
+                            style={{ minWidth: "100px" }}
+                          >
                             {user.assignedToName}
                           </td>
-                          <td className="traning-listing" style={{ minWidth: "100px" }}>
+                          <td
+                            className="traning-listing"
+                            style={{ minWidth: "100px" }}
+                          >
                             {user.assignedByName}
                           </td>
-                          <td className="traning-listing" style={{ minWidth: "150px" }}>
+                          <td
+                            className="traning-listing"
+                            style={{ minWidth: "150px" }}
+                          >
                             {user.training?.trainingName}
                           </td>
-                          <td className="traning-listing" style={{ minWidth: "130px" }}>
-                            {moment(user.training?.trainingStartDate).format("DD/MM/YYYY")}
+                          <td
+                            className="traning-listing"
+                            style={{ minWidth: "130px" }}
+                          >
+                            {moment(user.training?.trainingStartDate).format(
+                              "DD/MM/YYYY"
+                            )}
                           </td>
-                          <td className="traning-listing" style={{ minWidth: "130px" }}>
-                            {moment(user.training?.trainingEndDate).format("DD/MM/YYYY")}
+                          <td
+                            className="traning-listing"
+                            style={{ minWidth: "130px" }}
+                          >
+                            {moment(user.training?.trainingEndDate).format(
+                              "DD/MM/YYYY"
+                            )}
                           </td>
-                          <td className="traning-listing" style={{ minWidth: "130px" }}>
-                            {user.training?.trainingPrequisites == "" ? "-" : user.training.trainingPrequisites}
+                          <td
+                            className="traning-listing"
+                            style={{ minWidth: "130px" }}
+                          >
+                            {user.training?.trainingPrequisites == ""
+                              ? "-"
+                              : user.training?.trainingPrequisites}
                           </td>
-                          <td className="traning-listing" style={{ minWidth: "150px" }}>
+                          <td
+                            className="traning-listing"
+                            style={{ minWidth: "150px" }}
+                          >
                             {/* {user.acceptRejectStatus == 0 ?
                                           "Pending" : "Completed"
                                       } */}
                             Pending
                           </td>
                           <td>
-                            {user.training?.trainingPrequisites != "-" && user.isAccepted == 0 && accept == false && reject == false ? (
+                            {user.training?.trainingPrequisites != "-" &&
+                            user.isAccepted == 0 &&
+                            accept == false &&
+                            reject == false ? (
                               <div>
-                                <a style={{ color: 'blue', textDecoration: 'underline' }}
-                                      onClick={() => {
-                                        handleClickAccept(user)
-                                        setAccept(true);
-                                      }}>Approve</a>
-                                    /
-                                    <a style={{ color: 'blue', textDecoration: 'underline' }}
-                                      onClick={() => {
-                                        handleClickReject(user)
-                                        setReject(true);
-                                    }}>Reject</a>
+                                <a
+                                  style={{
+                                    color: "blue",
+                                    textDecoration: "underline",
+                                  }}
+                                  onClick={() => {
+                                    handleClickAccept(user);
+                                    setAccept(true);
+                                  }}
+                                >
+                                  Approve
+                                </a>
+                                /
+                                <a
+                                  style={{
+                                    color: "blue",
+                                    textDecoration: "underline",
+                                  }}
+                                  onClick={() => {
+                                    handleClickReject(user);
+                                    setReject(true);
+                                  }}
+                                >
+                                  Reject
+                                </a>
                               </div>
-                            ) : 
-                            <div>
-                              {user.isAccepted == true && user.isPrerequisiteUploaded == false ? 
-                                <div>
-                                  <PopUpFileUpload
-                                    id={user.id}
-                                    userDetails={userDetails}
-                                  />
-                                </div>
-                                :
-                                <div>
-                                  {accept == true && user.isPrerequisiteUploaded == false ? (
-                                    <div>                                  
-                                      <PopUpFileUpload
+                            ) : (
+                              <div>
+                                {user.isAccepted == true &&
+                                user.isPrerequisiteUploaded == false ? (
+                                  <div>
+                                    <PopUpFileUpload
                                       id={user.id}
                                       userDetails={userDetails}
                                     />
-                                    </div> 
-                                  ) :
-                                  <div>
-                                    {user.isPrerequisiteUploaded == true ?(
-                                      <div>
-                                        -
-                                      </div>
-                                    ):
-                                    <div>
-                                      <h1>You have rejected it</h1> 
-                                    </div>
-                                    }                                       
                                   </div>
-                                  }
-                                </div>
-                            }  
-                            </div>}
-
-
+                                ) : (
+                                  <div>
+                                    {accept == true &&
+                                    user.isPrerequisiteUploaded == false ? (
+                                      <div>
+                                        <PopUpFileUpload
+                                          id={user.id}
+                                          userDetails={userDetails}
+                                        />
+                                      </div>
+                                    ) : (
+                                      <div>
+                                        {user.isPrerequisiteUploaded == true ? (
+                                          <div>-</div>
+                                        ) : (
+                                          <div>
+                                            <h1>You have rejected it</h1>
+                                          </div>
+                                        )}
+                                      </div>
+                                    )}
+                                  </div>
+                                )}
+                              </div>
+                            )}
 
                             {/* {user.training?.trainingPrequisites != "-" && user.isAccepted == 0 && accept == false && reject == false ? (
                               <div>
@@ -442,25 +517,44 @@ function List1({ history, match }) {
 
                       {userDetails?.currentRole == Role.Manager && (
                         <>
-                          <td className="traning-listing" style={{ minWidth: "150px" }}>
+                          <td
+                            className="traning-listing"
+                            style={{ minWidth: "150px" }}
+                          >
                             {user.trainingName}
                           </td>
                           <td className="traning-listing">
                             {user.trainingType}
                           </td>
-                          <td className="traning-listing" style={{ minWidth: "130px" }}>
-                            {moment(user.trainingStartDate).format("DD/MM/YYYY")}
+                          <td
+                            className="traning-listing"
+                            style={{ minWidth: "130px" }}
+                          >
+                            {moment(user.trainingStartDate).format(
+                              "DD/MM/YYYY"
+                            )}
                           </td>
-                          <td className="traning-listing" style={{ minWidth: "130px" }}>
+                          <td
+                            className="traning-listing"
+                            style={{ minWidth: "130px" }}
+                          >
                             {moment(user.trainingEndDate).format("DD/MM/YYYY")}
                           </td>
-                          <td className="traning-listing" style={{ minWidth: "130px" }}>
+                          <td
+                            className="traning-listing"
+                            style={{ minWidth: "130px" }}
+                          >
                             {user.trainingPrequisites}
                           </td>
                           <td>
-                            {moment(user.nominationEndDate).format("DD/MM/YYYY")}
+                            {moment(user.nominationEndDate).format(
+                              "DD/MM/YYYY"
+                            )}
                           </td>
-                          <td className="traning-listing" style={{ minWidth: "150px" }}>
+                          <td
+                            className="traning-listing"
+                            style={{ minWidth: "150px" }}
+                          >
                             <Link
                               to={`/training/assign/${user.id}`}
                               className="btn btn-warning"
@@ -469,7 +563,6 @@ function List1({ history, match }) {
                             </Link>
                           </td>
                         </>
-
                       )}
                     </tr>
                   ))}

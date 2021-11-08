@@ -103,7 +103,7 @@ const CarouselPage = (props) => {
                         <li></li>
                         <li></li>
                     </ul>
-                    {/* <div className="row justify-content-center align-items-center" >
+                    { <div className="row justify-content-center align-items-center" >
                         <div className="col-xl-7">
                             <div className="p-0 p-sm-4 px-xl-0">
                                 <div id="reviewcarouselIndicators" className="review-carousel-indicators carousel slide" data-bs-ride="carousel" >
@@ -119,7 +119,7 @@ const CarouselPage = (props) => {
                                 </div>
                             </div>
                         </div>
-                    </div> */}
+                    </div> }
                 </div>
             </div>
         </React.Fragment>
