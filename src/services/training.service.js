@@ -52,7 +52,7 @@ function rejectPreRequisites() {
 }
 
 function acceptPreRequisites(data) {
-    return fetchWrapper.post(`${baseUrl4}/acceptPreRequisites`,data);
+    return fetchWrapper.post(`${baseUrl4}/acceptPreRequisites`, data);
 }
 
 function getTrainingByRole() {
@@ -106,7 +106,7 @@ function create(params) {
 }
 
 function update(id, params) {
-    return fetchWrapper.put(`${baseUrl}/${id}`, { slots: params })
+    return fetchWrapper.put(`${baseUrl}/${id}`, params)
         .then(user => {
             // update stored user if the logged in user updated their own record
             /* if (user.id === userSubject.value.id) {

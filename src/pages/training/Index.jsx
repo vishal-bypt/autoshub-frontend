@@ -13,14 +13,15 @@ import { AllNominations } from "./AllNominations";
 import { Trainings } from "./Trainings";
 import { RoleWiseTile } from "./RoleWiseTile";
 import { Attendance } from "./Attendance";
+import { UploadFiles } from "./UploadFiles";
 
 function Training({ match }) {
   const { path } = match;
 
   return (
     <Switch>
-      <Route exact path={`${path}/list`} component={List1} /> 
-      <Route exact path={`${path}/Attendance`} component={Attendance} /> 
+      <Route exact path={`${path}/list`} component={List1} />
+      <Route exact path={`${path}/Attendance`} component={Attendance} />
       <Route exact path={path} component={RoleWiseTile} />
       <Route exact path={`${path}/add`} component={AddEdit} />
       <Route
@@ -43,6 +44,7 @@ function Training({ match }) {
       <Route exact path={`${path}/edit/:id`} component={EditTraining} />
       <Route exact path={`${path}/assign/:id`} component={AssignUsers} />
       <Route exact path={`${path}/uploadList`} component={UploadFieldList} />
+      <Route exact path={`${path}/uploadFiles`} component={UploadFiles} />
     </Switch>
   );
 }
