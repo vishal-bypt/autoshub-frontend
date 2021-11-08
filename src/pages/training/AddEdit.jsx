@@ -76,12 +76,10 @@ function AddEdit({ history, match }) {
         alertService.error(error);
       });
   }
-  function updatedValue(e, index) {
-    console.log("index == ", index);
-    console.log("e -- ", e);
-    let value = e.target.value;
-    trainingService.update(index, value).then((x) => {
-      console.log("x == ", x);
+  function updatedValue(e, index) {    
+    let slots = e.target.value;
+    let value = {slots}   
+    trainingService.update(index, value).then((x) => {      
       console.log("successfully updated value");
     });
   }
@@ -268,14 +266,14 @@ function AddEdit({ history, match }) {
                         <Td
                           className="traning-listing"
                           contentEditable="false"
-                          style={{ minWidth: "40px" }}
+                          style={{ maxWidth: "40px" }}
                         >
                           {user.trainingName}
                         </Td>
                         <Td
                           className="traning-listing"
                           contentEditable="false"
-                          style={{ minWidth: "120px" }}
+                          style={{ maxWidth: "10px" }}
                         >
                           {user.trainingType}
                         </Td>
@@ -296,42 +294,42 @@ function AddEdit({ history, match }) {
                         <Td
                           className="traning-listing"
                           contentEditable="false"
-                          style={{ minWidth: "120px" }}
+                          style={{ maxWidth: "60px" }}
                         >
                           {user.trainingPrequisites}
                         </Td>
                         <Td
                           className="traning-listing"
                           contentEditable="false"
-                          style={{ minWidth: "75px" }}
+                          style={{ maxWidth: "70px" }}
                         >
                           {user.stream}
                         </Td>
                         <Td
                           className="traning-listing"
                           contentEditable="false"
-                          style={{ minWidth: "100px" }}
+                          style={{ maxWidth: "40px" }}
                         >
                           {user.toolName}
                         </Td>
                         <Td
                           className="traning-listing"
                           contentEditable="false"
-                          style={{ maxWidth: "100px" }}
+                          style={{ maxWidth: "50px" }}
                         >
                           {moment(user.created).format("DD/MM/YYYY")}
                         </Td>
                         <Td
                           className="traning-listing"
                           contentEditable="false"
-                          style={{ maxWidth: "100px" }}
+                          style={{ maxWidth: "50px" }}
                         >
                           {moment(user.nominationEndDate).format("DD/MM/YYYY")}
                         </Td>
                         <Td
                           className="traning-listing"
                           contentEditable="false"
-                          style={{ maxWidth: "100px" }}
+                          style={{ maxWidth: "50px" }}
                           onBlur={(e) => updatedValue(e, index + 1)}
                         >
                           <input
