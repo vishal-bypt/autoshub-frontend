@@ -214,7 +214,7 @@ function EditTrainingList({ match }) {
                   ))}
                 {!users && (
                   <Tr>
-                    <Td colSpan="4" className="text-center">
+                    <Td colSpan="8" className="text-center">
                       <span className="spinner-border spinner-border-lg align-center"></span>
                     </Td>
                   </Tr>
