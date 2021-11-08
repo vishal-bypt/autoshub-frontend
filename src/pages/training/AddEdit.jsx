@@ -347,10 +347,14 @@ function AddEdit({ history, match }) {
                             style={{
                               backgroundColor: "transparent",
                               maxWidth: "80px",
+                              // color:
+                              //   layoutMode === layoutTheme.DARKMODE
+                              //     ? "#858D98"
+                              //     : "#495057",
                               color:
                                 layoutMode === layoutTheme.DARKMODE
-                                  ? "#858D98"
-                                  : "#495057",
+                                  ? "#FFFFFA"
+                                  : "#FFFFFF",
                             }}
                             type="number"
                             min="0"
