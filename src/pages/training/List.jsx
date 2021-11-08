@@ -5,7 +5,7 @@ import moment from "moment";
 import { accountService, trainingService, alertService } from "../../services";
 import PopUpFileUpload from "./PopUpFileUpload";
 import { Role } from "./../../helpers/role";
-
+import "./index.css"
 function List1({ history, match }) {
   const { path } = match;
   const userDetails = accountService.userValue;
@@ -152,50 +152,50 @@ function List1({ history, match }) {
     <div className="page-content">
       <div className="container-fluid">
         <div className="row">
-          <div className="col-md-6">
+          <div className="col-md-12">
             {userDetails?.currentRole == Role.Admin && (
-              <h1 className="header-text">Trainings</h1>
+              <h1 className="text-center font-weight-bold mb-5 text-danger">Trainings</h1>
             )}
             {userDetails?.currentRole == Role.User && (
-              <h1 className="header-text">My Trainings</h1>
+              <h1 className="text-center font-weight-bold mb-5 text-danger">My Trainings</h1>
             )}
             {userDetails?.currentRole == Role.Manager && (
-              <h1 className="header-text">Trainings</h1>
+              <h1 className="text-center font-weight-bold mb-5 text-danger">Trainings</h1>
             )}
           </div>
-          <div className="col-md-6 text-end">
+          <div className="col-md-12 text-center">
             {userDetails?.currentRole == Role.Admin && (
               <>
-                <Link to={`/training/add`} className="btn btn-primary">
+                <Link to={`/training/add`} className="newbutton">
                   Upload Trainings
                 </Link>
-                <Link to={`/training/editList`} className="btn btn-primary ml-1">
+                <Link to={`/training/editList`} className="newbutton">
                   Edit Trainings
                 </Link>
                 <Link
                   to={`/training/getAllByRole`}
-                  className="btn btn-primary ml-1"
+                  className="newbutton"
                 >
                   My Trainings
                 </Link>
-                <Link to={`/training/getAll`} className="btn btn-primary ml-1">
+                <Link to={`/training/getAll`} className="newbutton">
                   View All
                 </Link>
                 <Link
                   to={`/training/getAllNominations`}
-                  className="btn btn-primary ml-1"
+                  className="newbutton"
                 >
                   All Nominations
                 </Link>
                 <Link
                   to={`/training/Attendance`}
-                  className="btn btn-primary ml-1"
+                  className="newbutton"
                 >
                 Attendance 
                 </Link>
                 <Link
                   to={`/training`}
-                  className="btn btn-primary ml-1"
+                  className="newbutton"
                 >
                   <Refresh />
                 </Link>
@@ -203,18 +203,18 @@ function List1({ history, match }) {
             )}
             {userDetails?.currentRole == Role.Manager && (
               <>
-                <Link to={`/training/getAllByRole`} className="btn btn-primary">
+                <Link to={`/training/getAllByRole`} className="newbutton">
                   My Trainings
                 </Link>
-                <Link to="#" className="btn btn-primary ml-1">
+                <Link to="#" className="newbutton">
                   View Training
                 </Link>
               </>
             )}
           </div>
         </div>
-        <div className="row">&nbsp;</div>
-        <div className="table-rep-plugin">
+        
+        <div className="table-rep-plugin mt-5">
           <div
             className="table-responsive mb-0"
             data-pattern="priority-columns"

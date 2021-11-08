@@ -15,12 +15,12 @@ function EditTraining({ history, match  }) {
     const isAddMode = !id;
 
     const initialValues = {
-        trainingName: '1',
-        trainingType: '2',
-        trainingStartDate: '3',
-        trainingEndDate: '4',
-        trainingPrequisites: '5',
-        nominationEndDate: '6'
+        trainingName: '',
+        trainingType: '',
+        trainingStartDate: '',
+        trainingEndDate: '',
+        trainingPrequisites: '',
+        nominationEndDate: ''
     };
 
     const validationSchema = Yup.object().shape({
@@ -51,7 +51,7 @@ function EditTraining({ history, match  }) {
     useEffect((values, setFieldValue) => {
         if (!isAddMode) {
             // get user and set form fields
-            trainingService.getById(id).then(user => {                
+            trainingService.getById(id).then(user => {                             
                 const fields = ['trainingName', 'trainingType', 'trainingStartDate', 'trainingEndDate', 'trainingPrequisites', 'nominationEndDate'];
                 fields.map((field) => {
                     console.log("user == ",user)
@@ -131,7 +131,7 @@ function EditTraining({ history, match  }) {
                             <div className="row mt-5">
                                 <div className="form-group col-md-6">
                                     <label>Training Name</label>
-                                    <Field name="trainingName" type="text" className={'form-control' + (errors.trainingName && touched.trainingName ? ' is-invalid' : '')} />
+                                    <Field name="trainingName" value="hi" type="text" className={'form-control' + (errors.trainingName && touched.trainingName ? ' is-invalid' : '')} />
                                     <ErrorMessage name="trainingName" component="div" className="invalid-feedback" />
                                 </div>
                                 <div className="form-group col-md-6">

@@ -82,12 +82,11 @@ function AddEdit({ history, match }) {
   return (
     <>
       <div className="page-content">
-        <div className="container-fluid">
-          <div className="row">
-            <div className="col-md-4">
-              <h1 className="header-text">Upload Training Records</h1>
-            </div>
-            <div className="col-md-4 text-end">
+        <div className="container">  
+          <div className="row">                  
+            <div className="col-md-8">
+              <h1 className="text-end font-weight-bold mb-5 text-danger">Upload Training Records</h1>
+            
               <form encType="multipart/form-data">
                 <div className="form-group col-12 mt-2 p-0">
                   <input
@@ -101,15 +100,14 @@ function AddEdit({ history, match }) {
                   />
                 </div>
               </form>
-              <div className="variantsPopUpFileUpload ">
+              <div className="variantsPopUpFileUpload text-end">
                 {selectBtn && (
                   <IconButton
                     onClick={() => {
                       document.getElementById("ExcelFile").click();
                     }}
-                  >
-                    {" "}
-                    <div className="filePopUpFileUpload text-white bg-danger p-2 ">
+                  >                    
+                    <div className="filePopUpFileUpload text-white bg-danger p-2">
                       <label htmlFor="input-file selectAndUpload">
                         <CloudQueueIcon />
                         &nbsp;SelectFile & upload
@@ -227,10 +225,7 @@ function AddEdit({ history, match }) {
                         </div>
                     </div>
                 </div> */}
-        <div className="">
-          <h3 className=" text-center tableBlur font-weight-bold text-uppercase py-4">
-            Trainings
-          </h3>
+        <div className="">         
           <div className="card-body">
             <div id="table" className="table-editable  table-responsive">
               {/*  <span class="table-add float-right mb-3 mr-2"><a href="#!" class="text-success"

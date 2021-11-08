@@ -51,17 +51,16 @@ function GetTrainingByRole({ match }) {
     <div className="page-content">
       <div className="container-fluid">
         <div className="row">
-          <div className="col-md-6">
-            <h1 className="header-text">My Trainings</h1>
+        <div className="col-md-7">
+            <h1 className="text-end font-weight-bold mb-5 text-danger">My Trainings</h1>
           </div>
-          <div className="col-md-6 text-end">
+          <div className="col-md-5 text-end">
             <Link to={"."} className="btn btn-danger ">
               <ArrowBackIcon className="mr-1" />
               Back
             </Link>
-          </div>
-        </div>
-        <div className="row">&nbsp;</div>
+          </div>          
+        </div>        
       </div>
       <div className="data-table-div">
         <div className="data-table">
