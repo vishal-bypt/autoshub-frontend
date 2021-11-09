@@ -84,6 +84,7 @@ function AssignUsers({ history, match }) {
       .then((data) => {
         alertService.success("Success", { keepAfterRouteChange: true });
         Swal.fire("Training Assign successfully.!");
+        history.push("/training/add");
         //trainingService.getAll().then(x => setUsers(x));
       })
       .catch((error) => {
@@ -99,6 +100,7 @@ function AssignUsers({ history, match }) {
       .then((data) => {
         alertService.success("Success", { keepAfterRouteChange: true });
         Swal.fire("Training Nominated successfully.!");
+        history.push(`/training/list`);
         //trainingService.getAll().then(x => setUsers(x));
       })
       .catch((error) => {
