@@ -78,10 +78,10 @@ function AddEdit({ history, match }) {
         alertService.error(error);
       });
   }
-  function updatedValue(e, index) {    
+  function updatedValue(e, index) {
     let slots = e.target.value;
-    let value = {slots}   
-    trainingService.update(index, value).then((x) => {      
+    let value = { slots };
+    trainingService.update(index, value).then((x) => {
       console.log("successfully updated value");
     });
   }
@@ -343,16 +343,16 @@ function AddEdit({ history, match }) {
                         >
                           <input
                             style={{
-                              backgroundColor: "transparent",
-                              maxWidth: "80px",
+                              backgroundColor: "white",
+                              maxWidth: "50px",
                               // color:
                               //   layoutMode === layoutTheme.DARKMODE
                               //     ? "#858D98"
                               //     : "#495057",
-                              color:
-                                layoutMode === layoutTheme.DARKMODE
-                                  ? "#FFFFFA"
-                                  : "#FFFFFF",
+                              // color:
+                              //   layoutMode === layoutTheme.DARKMODE
+                              //     ? "#FFFFFA"
+                              //     : "#FFFFFF",
                             }}
                             type="number"
                             min="0"

@@ -4,14 +4,14 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import { accountService, alertService, trainingService } from "../../services";
+import Loader from "./../../components/Common/Loader";
 import { Role } from "./../../helpers/role";
 var FormData = require("form-data");
 
 function AssignUsers({ history, match }) {
   const { id } = match.params;
-  console.log("id of training == ", id);
   const userDetails = accountService.userValue;
-  console.log("userDetails == ", userDetails);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [users, setUsers] = useState(null);
   const [trainingData, setTrainingData] = useState({});
   const [temp, setTemp] = useState([]);
@@ -49,7 +49,6 @@ function AssignUsers({ history, match }) {
       setAssignedUsers(assignUserIds);
     }
     if (userDetails.currentRole === Role.Manager) {
-      console.log("in current role manager");
       trainingService.getUserByTrainingId(id).then((x) => {
         setTrainingData(x[0]);
       });
@@ -77,49 +76,69 @@ function AssignUsers({ history, match }) {
   }, []);
 
   function create(data) {
+    setIsSubmitting(true);
     var formData = new FormData();
     formData.append("data1", data);
     trainingService
       .assignTraining(data)
       .then((data) => {
-        alertService.success("Success", { keepAfterRouteChange: true });
-        Swal.fire("Training Assign successfully.!");
+        // alertService.success("Success", { keepAfterRouteChange: true });
+        // Swal.fire("Training Assign successfully.!");
+        setIsSubmitting(false);
+        try {
+          Swal.fire({
+            title: "Training Assign successfully.!",
+            confirmButtonText: "Okay",
+          }).then((result) => {
+            history.push("/training/add");
+          });
+        } catch (error) {
+          console.log("error", error);
+          setIsSubmitting(false);
+        }
         //trainingService.getAll().then(x => setUsers(x));
       })
       .catch((error) => {
         alertService.error(error);
+        setIsSubmitting(false);
       });
   }
 
   function createNomination(data) {
+    setIsSubmitting(true);
     var formData = new FormData();
     formData.append("data1", data);
     trainingService
       .nominateTraining(data)
       .then((data) => {
+        setIsSubmitting(false);
         alertService.success("Success", { keepAfterRouteChange: true });
         Swal.fire("Training Nominated successfully.!");
         //trainingService.getAll().then(x => setUsers(x));
       })
       .catch((error) => {
         alertService.error(error);
+        setIsSubmitting(false);
       });
   }
   function updatedValue(e, index) {
-    let value = parseInt(e.target.value);
-
-    for (let i = 0; i < temp.length; i++) {
-      if (index - 1 === i) {
-        temp[i].numberOfTraining = value;
+    let value = parseInt(e.target.value || 0);
+    if (value > 0 && value < 5000) {
+      for (let i = 0; i < temp.length; i++) {
+        if (index - 1 === i) {
+          temp[i].numberOfTraining = value;
+        }
       }
-    }
-    let totalSlot = trainingData.slots;
-    let minus = totalSlot - e.target.placeholder;
-    let lastValue = minus + value;
+      let totalSlot = trainingData.slots;
+      let minus = totalSlot - e.target.placeholder;
+      let lastValue = minus + value;
 
-    setFinalValue(lastValue);
-    if (lastValue > totalSlot || lastValue < totalSlot) {
-      setClick(false);
+      setFinalValue(lastValue);
+      if (lastValue > totalSlot || lastValue < totalSlot) {
+        setClick(false);
+      }
+    } else if (value !== 0) {
+      Swal.fire("Training slots should not be more than 5000");
     }
   }
 
@@ -196,10 +215,8 @@ function AssignUsers({ history, match }) {
         setTemp(userData);
       } else {
         let userData = [];
-        //console.log("temp == ", temp);
         for (let i = 0; i < temp?.length; i++) {
           let data = temp[i];
-          //console.log("temp[i] == ", data);
           data = {
             numberOfTraining: 0,
             userName: temp[i].label,
@@ -208,7 +225,6 @@ function AssignUsers({ history, match }) {
           };
           userData[i] = data;
         }
-        //console.log("userData == ", userData);
         setTemp(userData);
       }
     }
@@ -310,7 +326,6 @@ function AssignUsers({ history, match }) {
       if (userDetails.currentRole === "Admin") {
         create(checkedUser);
       } else {
-        //trainingServiceconsole.log("checkedUser == ",checkedUser)
         createNomination(checkedUser);
       }
     } catch (error) {
@@ -318,7 +333,6 @@ function AssignUsers({ history, match }) {
     }
   }
 
-  console.log("#4 temp == ", temp);
   return (
     <div className="page-content">
       <div className="container-fluid">
@@ -485,7 +499,7 @@ function AssignUsers({ history, match }) {
                           {user.numberOfTraining > 0 ? (
                             <td
                               className="traning-listing"
-                              // contentEditable={true}
+                              contentEditable={true}
                               style={{
                                 // maxWidth: "10px",
                                 textAlign: "center",
@@ -512,6 +526,7 @@ function AssignUsers({ history, match }) {
                                 maxWidth: "10px",
                                 textAlign: "center",
                               }}
+                              onBlur={(e) => updatedValue(e, index + 1)}
                             >
                               <input
                                 style={{ maxWidth: "50px" }}
@@ -549,6 +564,7 @@ function AssignUsers({ history, match }) {
               </button>
             </div>
           </div>
+          <Loader loading={isSubmitting} />
         </div>
       </div>
     </div>
