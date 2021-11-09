@@ -83,7 +83,8 @@ function UploadFiles({ history }) {
                             </div>
                           )}
                         </Dropzone>
-                        {selectedFiles !== null ? (
+                        {selectedFiles !== null &&
+                        selectedFiles !== undefined ? (
                           <div
                             className="dropzone-previews mt-3"
                             id="file-previews"
@@ -94,27 +95,15 @@ function UploadFiles({ history }) {
                             >
                               <div className="p-2">
                                 <Row className="align-items-center">
-                                  <Col className="col-auto">
-                                    <img
-                                      data-dz-thumbnail=""
-                                      height="80"
-                                      className="avatar-sm rounded bg-light"
-                                      alt={selectedFiles.name}
-                                      src={selectedFiles.preview}
-                                    />
-                                  </Col>
                                   <Col>
                                     <Link
                                       to="#"
                                       className="text-muted font-weight-bold"
                                     >
-                                      {selectedFiles.name}
+                                      {selectedFiles?.name
+                                        ? selectedFiles.name
+                                        : ""}
                                     </Link>
-                                    <p className="mb-0">
-                                      <strong>
-                                        {selectedFiles.formattedSize}
-                                      </strong>
-                                    </p>
                                   </Col>
                                 </Row>
                               </div>

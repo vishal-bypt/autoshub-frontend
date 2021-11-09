@@ -5,12 +5,15 @@ import {
   LOGOUT_USER_SUCCESS,
   API_ERROR,
   VERIFY_CODE,
-  VERIFY_CODE_SUCCESS
+  VERIFY_CODE_SUCCESS,
+  RESET_PASSWORD,
+  RESET_PASSWORD_SUCCESS
 } from "./actionTypes"
 
 const initialState = {
   error: "",
   loading: false,
+  successMsg: ""
 }
 
 const login = (state = initialState, action) => {
@@ -41,6 +44,19 @@ const login = (state = initialState, action) => {
         ...state,
         loading: false,
         error: ""
+      }
+      break
+    case RESET_PASSWORD:
+      state = {
+        ...state,
+        loading: true,
+        error: ""
+      }
+      break
+    case RESET_PASSWORD_SUCCESS:
+      state = {
+        ...state,
+        successMsg: action.payload,
       }
       break
     case LOGOUT_USER:

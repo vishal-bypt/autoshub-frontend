@@ -39,7 +39,7 @@ import { Training } from "../pages/training/Index";
 import { List1 } from "../pages/training/List";
 import { Trainings } from "../pages/training/Trainings";
 import { UploadFieldList } from "../pages/training/UploadFieldList";
-// import { UploadFiles } from "../pages/training/UploadFiles";
+import { UploadFiles } from "../pages/training/UploadFiles";
 import { UploadPrequisites } from "../pages/training/UploadPrequisites";
 import { UserAccessView } from "../pages/user/userAccessView/Index";
 import AddUsers from "../pages/user/userList/AddUsers";
@@ -67,7 +67,7 @@ const userRoutes = [
   { path: "/training/edit/:id", component: EditTraining },
   { path: "/training/assign/:id", component: AssignUsers },
   { path: "/training/uploadList", component: UploadFieldList },
-  // { path: "/training/uploadFiles", component: UploadFiles },
+  { path: "/training/uploadFiles", component: UploadFiles },
   { path: "/training/Attendance", component: Attendance },
 
   //Revenue

@@ -5,7 +5,7 @@ import { Row, Col, Alert, Container } from "reactstrap"
 // availity-reactstrap-validation
 import { AvForm, AvField } from "availity-reactstrap-validation"
 // action
-import { registerUser, apiError } from "../../store/actions"
+import { registerUser, apiError, resetPassword } from "../../store/actions"
 //redux
 import { useSelector, useDispatch } from "react-redux"
 import { Link, withRouter } from "react-router-dom";
@@ -28,6 +28,7 @@ const ResetPassword = props => {
   const dispatch = useDispatch()
   const [isSubmit, setIsSubmit] = React.useState(false)
   const [mismatchError, setMismatchError] = React.useState("")
+  const [token, setToken] = React.useState("");
 
   const { layoutMode, error } = useSelector((state) => ({
     layoutType: state.Layout.layoutType,
@@ -43,24 +44,39 @@ const ResetPassword = props => {
   React.useEffect(() => {
     setIsSubmit(false)
   }, [error])
+
+  useEffect(() => {
+    const query = new URLSearchParams(props.location.search);
+    let token = query && query.get("token") ? query.get("token") : "";
+    setToken(token)
+    console.log("token:::", token)
+  }, [])
   // handleValidSubmit
   const handleValidSubmit = (event, values) => {
-
-    if (values) {
-      let newPassword = values['password'];
-      let confirmPassword = values['confirm-password'];
-      if (newPassword == confirmPassword) {
-        setIsSubmit(true)
-        setMismatchError("")
-        dispatch(loginUser(values, props.history))
-        setTimeout(() => {
+    setMismatchError("")
+    if (token !== "") {
+      if (values) {
+        let newPassword = values['password'];
+        let confirmPassword = values['confirm-password'];
+        if (newPassword == confirmPassword) {
+          setIsSubmit(true)
+          setMismatchError("")
+          let values = {
+            "token": token,
+            "password": newPassword,
+          }
+          dispatch(resetPassword(values, props.history))
+          setTimeout(() => {
+            setIsSubmit(false);
+          }, 2000)
+        }
+        else {
+          setMismatchError("Password and Confirm password mismatch")
           setIsSubmit(false);
-        }, 2000)
+        }
       }
-      else {
-        setMismatchError("Password and Confirm password mismatch")
-        setIsSubmit(false);
-      }
+    } else {
+      setMismatchError("Token validation failed, if the token has expired you can get a new one at the forgot password page")
     }
   }
 
@@ -166,7 +182,7 @@ const ResetPassword = props => {
                     </div>
                     <div className="mt-4 mt-md-5 text-center">
                       <p className="mb-0">Auto S Hub © {new Date().getFullYear()}
-                      {/* <br />Crafted with <i className="mdi mdi-heart text-danger"></i> by ByPeople technologies */}
+                        {/* <br />Crafted with <i className="mdi mdi-heart text-danger"></i> by ByPeople technologies */}
                       </p>
                     </div>
                   </div>

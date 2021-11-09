@@ -9,7 +9,7 @@ var FormData = require("form-data");
 
 function AssignUsers({ history, match }) {
   const { id } = match.params;
-  console.log("id of training == ",id);
+  console.log("id of training == ", id);
   const userDetails = accountService.userValue;
   console.log("userDetails == ", userDetails);
   const [users, setUsers] = useState(null);
@@ -48,8 +48,8 @@ function AssignUsers({ history, match }) {
       });
       setAssignedUsers(assignUserIds);
     }
-    if (userDetails.currentRole === Role.Manager) {    
-      console.log("in current role manager");  
+    if (userDetails.currentRole === Role.Manager) {
+      console.log("in current role manager");
       trainingService.getUserByTrainingId(id).then((x) => {
         setTrainingData(x[0]);
       });
@@ -125,7 +125,7 @@ function AssignUsers({ history, match }) {
     }
   }
 
-  useEffect(() => {    
+  useEffect(() => {
     if (userDetails.currentRole === Role.Admin) {
       if (trainingData.slots) {
         let slotData = parseInt(trainingData?.slots / temp?.length);
@@ -183,10 +183,10 @@ function AssignUsers({ history, match }) {
         }
         setTemp(userData);
       }
-    } else if (userDetails.currentRole === Role.Manager) {  
-      if (trainingData.assignedSlots >= 0) {        
+    } else if (userDetails.currentRole === Role.Manager) {
+      if (trainingData.assignedSlots >= 0) {
         let userData = [];
-        for (let i = 0; i < temp?.length; i++) {          
+        for (let i = 0; i < temp?.length; i++) {
           let data = temp[i];
           data = {
             userName: temp[i].label,
@@ -195,7 +195,6 @@ function AssignUsers({ history, match }) {
           };
           userData[i] = data;
         }
-        console.log("userData == ",userData);
         setTemp(userData);
       } else {
         let userData = [];
@@ -282,12 +281,10 @@ function AssignUsers({ history, match }) {
 
         setCheckedUser(tempUser);
       } else {
-        console.log("temp == > ", temp);
         let tempUser = temp.map((user) =>
           user.userName === name ? { ...user, isChecked: checked } : user
         );
         for (let i = 0; i < tempUser?.length; i++) {
-          console.log("tempuser == ", tempUser);
           if (tempUser[i].isChecked === true) {
             tempUser[i].currentRole = "Manager";
             tempUser[i].nominatedBy = userDetails.id;
@@ -295,6 +292,7 @@ function AssignUsers({ history, match }) {
             checkedData.push(tempUser[i]);
           }
         }
+
         setTemp(tempUser);
         setCheckedUser(checkedData);
         if (trainingData?.assignedSlots === 0) {
@@ -322,7 +320,7 @@ function AssignUsers({ history, match }) {
     }
   }
 
-  console.log("temp == ", temp);
+  console.log("#4 temp == ", temp);
   return (
     <div className="page-content">
       <div className="container-fluid">
@@ -335,9 +333,9 @@ function AssignUsers({ history, match }) {
           </div>
         </div>
       </div>
-      <div className="card">
+      <div>
         <h3 className="card-header text-center font-weight-bold text-uppercase py-4">
-          Assign Training
+          Assign Quotas
         </h3>
         <div className="card-header">
           {userDetails.currentRole === Role.Admin && (
@@ -376,155 +374,182 @@ function AssignUsers({ history, match }) {
           )}
         </div>
       </div>
-      <div className="card-body mt-5">
+      <div className="card-body container mt-5">
         <div id="table" className="table-editable">
-          <table className="table table-bordered table-responsive-md  text-center">
-            <thead>
-              <tr>
-                <th className="traning-listing">#</th>
-                {userDetails.currentRole === Role.Admin && (
-                  <th className="traning-listing">Manager Name</th>
-                )}
-                {userDetails.currentRole === Role.Manager && (
-                  <th className="traning-listing">User Name</th>
-                )}
-                {userDetails.currentRole === Role.Admin && (
-                  <th className="traning-listing">Assigned Training</th>
-                )}
-                <th
-                  className="traning-listing form-check"
-                  style={{ whiteSpace: "nowrap", minWidth: "30%" }}
-                >
-                  <input
-                    type="checkbox"
-                    /*  className="form-check-input"  */
-                    name="allSelect"
-                    checked={!temp.some((user) => user?.isChecked !== true)}
-                    onChange={handleChange}
-                  />
-                  <label className="form-check-label ms-2">All Select</label>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {temp &&
-                temp.length > 0 &&
-                temp.map((user, index) => (
-                  <tr key={index}>
-                    <td
-                      className="pt-3-half"
-                      contentEditable={false}
-                      style={{ minWidth: "40px" }}
-                    >
-                      {index + 1}
-                    </td>
-                    {userDetails.currentRole === Role.Admin && (
-                      <td
-                        className="traning-listing"
-                        contentEditable={false}
-                        style={{ minWidth: "40px" }}
-                      >
-                        {user.managerName}
-                      </td>
-                    )}
-                    {userDetails.currentRole === Role.Manager && (
-                      <td
-                        className="traning-listing"
-                        contentEditable={false}
-                        style={{ minWidth: "40px" }}
-                      >
-                        {user.userName}
-                      </td>
-                    )}
-                    {userDetails.currentRole === Role.Admin && (
-                      <div>
-                        {user.numberOfTraining > 0 ? (
-                          <td
-                            className="traning-listing"
-                            // contentEditable={true}
-                            style={{ minWidth: "150px" }}
-                            onBlur={(e) => updatedValue(e, index + 1)}
-                          >
-                            <input
-                              type="number"
-                              min="0"
-                              className="border-0"
-                              placeholder={
-                                user.numberOfTraining
-                                  ? user.numberOfTraining
-                                  : "N/A"
-                              }
-                            />
-                          </td>
-                        ) : (
-                          <td
-                            className="traning-listing"
-                            contentEditable={false}
-                            style={{ minWidth: "150px" }}
-                          >
-                            <input
-                              placeholder={
-                                user.numberOfTraining
-                                  ? user.numberOfTraining
-                                  : "N/A"
-                              }
-                            />
-                          </td>
-                        )}
-                      </div>
-                    )}
-                    {userDetails.currentRole === Role.Admin && (
-                      <td
-                        className="traning-listing"
-                        style={{ whiteSpace: "nowrap", minWidth: "30%" }}
-                      >
-                        <div className="form-check" key={index}>
-                          <input
-                            type="checkbox"
-                            className="form-check-input"
-                            name={user.managerName}
-                            checked={user?.isChecked || false}
-                            onChange={handleChange}
-                          />
-                        </div>
-                      </td>
-                    )}
-                    {userDetails.currentRole === Role.Manager && (
-                      <td
-                        className="traning-listing"
-                        style={{ whiteSpace: "nowrap", minWidth: "30%" }}
-                      >
-                        <div className="form-check" key={index}>
-                          <input
-                            type="checkbox"
-                            className="form-check-input"
-                            name={user?.userName ? user.userName : user.label}
-                            checked={user?.isChecked || false}
-                            onChange={handleChange}
-                          />
-                        </div>
-                      </td>
-                    )}
-                  </tr>
-                ))}
-              {!temp && (
-                <tr>
-                  <td colSpan="10" className="text-center">
-                    <span className="spinner-border spinner-border-lg align-center"></span>
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-          <div className="text-end mt-3">
-            <button
-              type="submit"
-              onClick={submitClick}
-              className="btn btn-warning"
-              disabled={isDisabled}
+          <div className="d-flex justify-content-center">
+            <table
+              className="table table-bordered table-responsive-md text-center"
+              style={{ width: "60%" }}
             >
-              Submit
-            </button>
+              <thead>
+                <tr>
+                  <th className="traning-listing" style={{ maxWidth: "10px" }}>
+                    #
+                  </th>
+                  <th
+                    className="traning-listing"
+                    style={{ whiteSpace: "nowrap", maxWidth: "10px" }}
+                  >
+                    <input
+                      type="checkbox"
+                      /*  className="form-check-input"  */
+                      name="allSelect"
+                      checked={!temp.some((user) => user?.isChecked !== true)}
+                      onChange={handleChange}
+                    />
+                    {/* <label className="form-check-label ms-2">All Select</label> */}
+                  </th>
+                  {userDetails.currentRole === Role.Admin && (
+                    <th
+                      className="traning-listing"
+                      style={{ textAlign: "left" }}
+                    >
+                      Manager Name
+                    </th>
+                  )}
+                  {userDetails.currentRole === Role.Manager && (
+                    <th className="traning-listing">User Name</th>
+                  )}
+                  {userDetails.currentRole === Role.Admin && (
+                    <th
+                      className="traning-listing"
+                      style={{ maxWidth: "50px" }}
+                    >
+                      Assigned Training
+                    </th>
+                  )}
+                </tr>
+              </thead>
+              <tbody>
+                {temp &&
+                  temp.length > 0 &&
+                  temp.map((user, index) => (
+                    <tr key={index}>
+                      <td
+                        className="pt-3-half"
+                        contentEditable={false}
+                        style={{ maxWidth: "10px" }}
+                      >
+                        {index + 1}
+                      </td>
+                      {userDetails.currentRole === Role.Admin && (
+                        <td
+                          className="traning-listing"
+                          style={{ whiteSpace: "nowrap", maxWidth: "10px" }}
+                        >
+                          <div key={index}>
+                            <input
+                              type="checkbox"
+                              className="form-check-input"
+                              name={user.managerName}
+                              checked={user?.isChecked || false}
+                              onChange={handleChange}
+                            />
+                          </div>
+                        </td>
+                      )}
+                      {userDetails.currentRole === Role.Manager && (
+                        <td
+                          className="traning-listing"
+                          style={{ whiteSpace: "nowrap", maxWidth: "10px" }}
+                        >
+                          <div key={index}>
+                            <input
+                              type="checkbox"
+                              className="form-check-input"
+                              name={user?.userName ? user.userName : user.label}
+                              checked={user?.isChecked || false}
+                              onChange={handleChange}
+                            />
+                          </div>
+                        </td>
+                      )}
+                      {userDetails.currentRole === Role.Admin && (
+                        <td
+                          className="traning-listing"
+                          contentEditable={false}
+                          style={{ maxWidth: "30px", textAlign: "left" }}
+                        >
+                          {user?.managerName ? user.managerName : user.label}
+                        </td>
+                      )}
+                      {userDetails.currentRole === Role.Manager && (
+                        <td
+                          className="traning-listing"
+                          contentEditable={false}
+                          style={{ maxWidth: "30px", textAlign: "left" }}
+                        >
+                          {user.userName}
+                        </td>
+                      )}
+                      {userDetails.currentRole === Role.Admin && (
+                        <>
+                          {user.numberOfTraining > 0 ? (
+                            <td
+                              className="traning-listing"
+                              // contentEditable={true}
+                              style={{
+                                // maxWidth: "10px",
+                                textAlign: "center",
+                              }}
+                              onBlur={(e) => updatedValue(e, index + 1)}
+                            >
+                              <input
+                                type="number"
+                                min="0"
+                                className="border-0"
+                                style={{ maxWidth: "50px" }}
+                                placeholder={
+                                  user.numberOfTraining
+                                    ? user.numberOfTraining
+                                    : "N/A"
+                                }
+                              />
+                            </td>
+                          ) : (
+                            <td
+                              className="traning-listing"
+                              contentEditable={false}
+                              style={{
+                                maxWidth: "10px",
+                                textAlign: "center",
+                              }}
+                            >
+                              <input
+                                style={{ maxWidth: "50px" }}
+                                placeholder={
+                                  user.numberOfTraining
+                                    ? user.numberOfTraining
+                                    : "N/A"
+                                }
+                              />
+                            </td>
+                          )}
+                        </>
+                      )}
+                    </tr>
+                  ))}
+                {!temp && (
+                  <tr>
+                    <td colSpan="10" className="text-center">
+                      <span className="spinner-border spinner-border-lg align-center"></span>
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+          <div className="d-flex justify-content-center">
+            <div className="text-center mt-3" style={{ width: "60%" }}>
+              <button
+                type="submit"
+                onClick={submitClick}
+                className="btn btn-warning"
+                disabled={isDisabled}
+              >
+                Submit
+              </button>
+            </div>
           </div>
         </div>
       </div>

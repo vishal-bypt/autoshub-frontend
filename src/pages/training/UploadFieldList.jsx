@@ -92,7 +92,7 @@ function UploadFieldList({ match }) {
                           to={`/training/assign/${user.id}`}
                           className="btn btn-sm btn-primary mr-1"
                         >
-                          Assign Training
+                          Assign Quotas
                         </Link>
                       </div>
                     )}

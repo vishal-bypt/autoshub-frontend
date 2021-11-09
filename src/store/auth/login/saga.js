@@ -1,8 +1,8 @@
 import { call, put, takeEvery, takeLatest } from "redux-saga/effects"
 
 // Login Redux States
-import { LOGIN_USER, LOGOUT_USER, SOCIAL_LOGIN, VERIFY_CODE } from "./actionTypes"
-import { apiError, loginSuccess, logoutUserSuccess, verifyCodeSuccess } from "./actions"
+import { LOGIN_USER, LOGOUT_USER, RESET_PASSWORD, SOCIAL_LOGIN, VERIFY_CODE } from "./actionTypes"
+import { apiError, loginSuccess, logoutUserSuccess, resetPasswordSuccess, verifyCodeSuccess } from "./actions"
 
 //Include Both Helper File with needed methods
 import { getFirebaseBackend } from "../../../helpers/firebase_helper"
@@ -10,7 +10,8 @@ import {
   postFakeLogin,
   postJwtLogin,
   postSocialLogin,
-  postJwtVerifyCode
+  postJwtVerifyCode,
+  postJwtResetPwd
 } from "../../../helpers/fakebackend_helper"
 import { Role, hasAdminView, hasManagerView, hasUserView, hasExecView, rolesArray, setCurrentUserRole } from "../../../helpers"
 
@@ -96,6 +97,29 @@ function* verifyCode({ payload: { user, history } }) {
   }
 }
 
+function* resetPassword({ payload: { data, history } }) {
+  try {
+    if (process.env.REACT_APP_DEFAULTAUTH === "firebase") {
+
+    } else if (process.env.REACT_APP_DEFAULTAUTH === "jwt") {
+      const response = yield call(postJwtResetPwd, {
+        token: data.token,
+        password: data.password
+      })
+      if (response) {
+        yield put(
+          resetPasswordSuccess(response.message)
+        )
+        history.push("/login")
+      }
+    } else {
+
+    }
+  } catch (error) {
+    yield put(apiError(error))
+  }
+}
+
 function* logoutUser({ payload: { history } }) {
   try {
     localStorage.removeItem("authUser")
@@ -137,6 +161,7 @@ function* authSaga() {
   yield takeLatest(SOCIAL_LOGIN, socialLogin)
   yield takeEvery(LOGOUT_USER, logoutUser)
   yield takeEvery(VERIFY_CODE, verifyCode)
+  yield takeEvery(RESET_PASSWORD, resetPassword)
 }
 
 export default authSaga
