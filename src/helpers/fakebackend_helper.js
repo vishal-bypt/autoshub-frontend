@@ -96,6 +96,9 @@ const postJwtVerifyCode = data => accountService.verifyCode(data.accountId, data
 // postForgetPwd
 const postJwtForgetPwd = data => accountService.forgotPassword(data.email)
 
+// resetPwd
+const postJwtResetPwd = data => accountService.resetPassword(data.token, data.password)
+
 // postSocialLogin
 export const postSocialLogin = data => post(url.SOCIAL_LOGIN, data)
 
@@ -291,6 +294,7 @@ export {
   postJwtLogin,
   postJwtVerifyCode,
   postJwtForgetPwd,
+  postJwtResetPwd,
   postJwtProfile,
   getProductComents,
   onLikeComment,

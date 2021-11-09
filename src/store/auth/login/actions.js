@@ -7,6 +7,8 @@ import {
   LOGOUT_USER_SUCCESS,
   API_ERROR,
   SOCIAL_LOGIN,
+  RESET_PASSWORD,
+  RESET_PASSWORD_SUCCESS,
 } from "./actionTypes"
 
 export const loginUser = (user, history) => {
@@ -27,6 +29,20 @@ export const verifyCodeSuccess = user => {
   return {
     type: VERIFY_CODE_SUCCESS,
     payload: user,
+  }
+}
+
+export const resetPassword = (data, history) => {
+  return {
+    type: RESET_PASSWORD,
+    payload: { data, history },
+  }
+}
+
+export const resetPasswordSuccess = (data, history) => {
+  return {
+    type: RESET_PASSWORD_SUCCESS,
+    payload: { data, history },
   }
 }
 
