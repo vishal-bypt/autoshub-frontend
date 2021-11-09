@@ -193,7 +193,6 @@ function AssignUsers({ history, match }) {
           };
           userData[i] = data;
         }
-        console.log("userData == ", userData);
         setTemp(userData);
       } else {
         let userData = [];
@@ -280,12 +279,10 @@ function AssignUsers({ history, match }) {
 
         setCheckedUser(tempUser);
       } else {
-        console.log("temp == > ", temp);
         let tempUser = temp.map((user) =>
           user.userName === name ? { ...user, isChecked: checked } : user
         );
         for (let i = 0; i < tempUser?.length; i++) {
-          console.log("tempuser == ", tempUser);
           if (tempUser[i].isChecked === true) {
             tempUser[i].currentRole = "Manager";
             tempUser[i].nominatedBy = userDetails.id;
@@ -293,6 +290,7 @@ function AssignUsers({ history, match }) {
             checkedData.push(tempUser[i]);
           }
         }
+
         setTemp(tempUser);
         setCheckedUser(checkedData);
         if (trainingData?.assignedSlots === 0) {
@@ -320,7 +318,7 @@ function AssignUsers({ history, match }) {
     }
   }
 
-  console.log("temp == ", temp);
+  console.log("#4 temp == ", temp);
   return (
     <div className="page-content">
       <div className="container-fluid">
@@ -374,7 +372,7 @@ function AssignUsers({ history, match }) {
           )}
         </div>
       </div>
-      <div className="card-body mt-5">
+      <div className="card-body container mt-5">
         <div id="table" className="table-editable">
           <div className="d-flex justify-content-center">
             <table
@@ -413,7 +411,7 @@ function AssignUsers({ history, match }) {
                   {userDetails.currentRole === Role.Admin && (
                     <th
                       className="traning-listing"
-                      style={{ maxWidth: "10px" }}
+                      style={{ maxWidth: "50px" }}
                     >
                       Assigned Training
                     </th>
@@ -489,7 +487,7 @@ function AssignUsers({ history, match }) {
                               className="traning-listing"
                               // contentEditable={true}
                               style={{
-                                maxWidth: "10px",
+                                // maxWidth: "10px",
                                 textAlign: "center",
                               }}
                               onBlur={(e) => updatedValue(e, index + 1)}
@@ -498,7 +496,7 @@ function AssignUsers({ history, match }) {
                                 type="number"
                                 min="0"
                                 className="border-0"
-                                style={{ maxWidth: "100px" }}
+                                style={{ maxWidth: "50px" }}
                                 placeholder={
                                   user.numberOfTraining
                                     ? user.numberOfTraining
@@ -516,7 +514,7 @@ function AssignUsers({ history, match }) {
                               }}
                             >
                               <input
-                                style={{ maxWidth: "90px" }}
+                                style={{ maxWidth: "50px" }}
                                 placeholder={
                                   user.numberOfTraining
                                     ? user.numberOfTraining
