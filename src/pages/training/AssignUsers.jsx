@@ -376,170 +376,180 @@ function AssignUsers({ history, match }) {
       </div>
       <div className="card-body mt-5">
         <div id="table" className="table-editable">
-          <table
-            className="table table-bordered table-responsive-md text-center"
-            style={{ width: "60%" }}
-          >
-            <thead>
-              <tr>
-                <th className="traning-listing" style={{ maxWidth: "10px" }}>
-                  #
-                </th>
-                <th
-                  className="traning-listing"
-                  style={{ whiteSpace: "nowrap", maxWidth: "10px" }}
-                >
-                  <input
-                    type="checkbox"
-                    /*  className="form-check-input"  */
-                    name="allSelect"
-                    checked={!temp.some((user) => user?.isChecked !== true)}
-                    onChange={handleChange}
-                  />
-                  {/* <label className="form-check-label ms-2">All Select</label> */}
-                </th>
-                {userDetails.currentRole === Role.Admin && (
-                  <th className="traning-listing" style={{ textAlign: "left" }}>
-                    Manager Name
-                  </th>
-                )}
-                {userDetails.currentRole === Role.Manager && (
-                  <th className="traning-listing">User Name</th>
-                )}
-                {userDetails.currentRole === Role.Admin && (
+          <div className="d-flex justify-content-center">
+            <table
+              className="table table-bordered table-responsive-md text-center"
+              style={{ width: "60%" }}
+            >
+              <thead>
+                <tr>
                   <th className="traning-listing" style={{ maxWidth: "10px" }}>
-                    Assigned Training
+                    #
                   </th>
-                )}
-              </tr>
-            </thead>
-            <tbody>
-              {temp &&
-                temp.length > 0 &&
-                temp.map((user, index) => (
-                  <tr key={index}>
-                    <td
-                      className="pt-3-half"
-                      contentEditable={false}
+                  <th
+                    className="traning-listing"
+                    style={{ whiteSpace: "nowrap", maxWidth: "10px" }}
+                  >
+                    <input
+                      type="checkbox"
+                      /*  className="form-check-input"  */
+                      name="allSelect"
+                      checked={!temp.some((user) => user?.isChecked !== true)}
+                      onChange={handleChange}
+                    />
+                    {/* <label className="form-check-label ms-2">All Select</label> */}
+                  </th>
+                  {userDetails.currentRole === Role.Admin && (
+                    <th
+                      className="traning-listing"
+                      style={{ textAlign: "left" }}
+                    >
+                      Manager Name
+                    </th>
+                  )}
+                  {userDetails.currentRole === Role.Manager && (
+                    <th className="traning-listing">User Name</th>
+                  )}
+                  {userDetails.currentRole === Role.Admin && (
+                    <th
+                      className="traning-listing"
                       style={{ maxWidth: "10px" }}
                     >
-                      {index + 1}
-                    </td>
-                    {userDetails.currentRole === Role.Admin && (
-                      <td
-                        className="traning-listing"
-                        style={{ whiteSpace: "nowrap", maxWidth: "10px" }}
-                      >
-                        <div key={index}>
-                          <input
-                            type="checkbox"
-                            className="form-check-input"
-                            name={user.managerName}
-                            checked={user?.isChecked || false}
-                            onChange={handleChange}
-                          />
-                        </div>
-                      </td>
-                    )}
-                    {userDetails.currentRole === Role.Manager && (
-                      <td
-                        className="traning-listing"
-                        style={{ whiteSpace: "nowrap", maxWidth: "10px" }}
-                      >
-                        <div key={index}>
-                          <input
-                            type="checkbox"
-                            className="form-check-input"
-                            name={user?.userName ? user.userName : user.label}
-                            checked={user?.isChecked || false}
-                            onChange={handleChange}
-                          />
-                        </div>
-                      </td>
-                    )}
-                    {userDetails.currentRole === Role.Admin && (
-                      <td
-                        className="traning-listing"
-                        contentEditable={false}
-                        style={{ maxWidth: "30px", textAlign: "left" }}
-                      >
-                        {user?.managerName ? user.managerName : user.label}
-                      </td>
-                    )}
-                    {userDetails.currentRole === Role.Manager && (
-                      <td
-                        className="traning-listing"
-                        contentEditable={false}
-                        style={{ maxWidth: "30px", textAlign: "left" }}
-                      >
-                        {user.userName}
-                      </td>
-                    )}
-                    {userDetails.currentRole === Role.Admin && (
-                      <>
-                        {user.numberOfTraining > 0 ? (
-                          <td
-                            className="traning-listing"
-                            // contentEditable={true}
-                            style={{
-                              maxWidth: "10px",
-                              textAlign: "center",
-                            }}
-                            onBlur={(e) => updatedValue(e, index + 1)}
-                          >
-                            <input
-                              type="number"
-                              min="0"
-                              className="border-0"
-                              style={{ maxWidth: "100px" }}
-                              placeholder={
-                                user.numberOfTraining
-                                  ? user.numberOfTraining
-                                  : "N/A"
-                              }
-                            />
-                          </td>
-                        ) : (
-                          <td
-                            className="traning-listing"
-                            contentEditable={false}
-                            style={{
-                              maxWidth: "10px",
-                              textAlign: "center",
-                            }}
-                          >
-                            <input
-                              style={{ maxWidth: "90px" }}
-                              placeholder={
-                                user.numberOfTraining
-                                  ? user.numberOfTraining
-                                  : "N/A"
-                              }
-                            />
-                          </td>
-                        )}
-                      </>
-                    )}
-                  </tr>
-                ))}
-              {!temp && (
-                <tr>
-                  <td colSpan="10" className="text-center">
-                    <span className="spinner-border spinner-border-lg align-center"></span>
-                  </td>
+                      Assigned Training
+                    </th>
+                  )}
                 </tr>
-              )}
-            </tbody>
-          </table>
-          <div className="text-end mt-3" style={{ width: "60%" }}>
-            <button
-              type="submit"
-              onClick={submitClick}
-              className="btn btn-warning"
-              disabled={isDisabled}
-            >
-              Submit
-            </button>
+              </thead>
+              <tbody>
+                {temp &&
+                  temp.length > 0 &&
+                  temp.map((user, index) => (
+                    <tr key={index}>
+                      <td
+                        className="pt-3-half"
+                        contentEditable={false}
+                        style={{ maxWidth: "10px" }}
+                      >
+                        {index + 1}
+                      </td>
+                      {userDetails.currentRole === Role.Admin && (
+                        <td
+                          className="traning-listing"
+                          style={{ whiteSpace: "nowrap", maxWidth: "10px" }}
+                        >
+                          <div key={index}>
+                            <input
+                              type="checkbox"
+                              className="form-check-input"
+                              name={user.managerName}
+                              checked={user?.isChecked || false}
+                              onChange={handleChange}
+                            />
+                          </div>
+                        </td>
+                      )}
+                      {userDetails.currentRole === Role.Manager && (
+                        <td
+                          className="traning-listing"
+                          style={{ whiteSpace: "nowrap", maxWidth: "10px" }}
+                        >
+                          <div key={index}>
+                            <input
+                              type="checkbox"
+                              className="form-check-input"
+                              name={user?.userName ? user.userName : user.label}
+                              checked={user?.isChecked || false}
+                              onChange={handleChange}
+                            />
+                          </div>
+                        </td>
+                      )}
+                      {userDetails.currentRole === Role.Admin && (
+                        <td
+                          className="traning-listing"
+                          contentEditable={false}
+                          style={{ maxWidth: "30px", textAlign: "left" }}
+                        >
+                          {user?.managerName ? user.managerName : user.label}
+                        </td>
+                      )}
+                      {userDetails.currentRole === Role.Manager && (
+                        <td
+                          className="traning-listing"
+                          contentEditable={false}
+                          style={{ maxWidth: "30px", textAlign: "left" }}
+                        >
+                          {user.userName}
+                        </td>
+                      )}
+                      {userDetails.currentRole === Role.Admin && (
+                        <>
+                          {user.numberOfTraining > 0 ? (
+                            <td
+                              className="traning-listing"
+                              // contentEditable={true}
+                              style={{
+                                maxWidth: "10px",
+                                textAlign: "center",
+                              }}
+                              onBlur={(e) => updatedValue(e, index + 1)}
+                            >
+                              <input
+                                type="number"
+                                min="0"
+                                className="border-0"
+                                style={{ maxWidth: "100px" }}
+                                placeholder={
+                                  user.numberOfTraining
+                                    ? user.numberOfTraining
+                                    : "N/A"
+                                }
+                              />
+                            </td>
+                          ) : (
+                            <td
+                              className="traning-listing"
+                              contentEditable={false}
+                              style={{
+                                maxWidth: "10px",
+                                textAlign: "center",
+                              }}
+                            >
+                              <input
+                                style={{ maxWidth: "90px" }}
+                                placeholder={
+                                  user.numberOfTraining
+                                    ? user.numberOfTraining
+                                    : "N/A"
+                                }
+                              />
+                            </td>
+                          )}
+                        </>
+                      )}
+                    </tr>
+                  ))}
+                {!temp && (
+                  <tr>
+                    <td colSpan="10" className="text-center">
+                      <span className="spinner-border spinner-border-lg align-center"></span>
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+          <div className="d-flex justify-content-center">
+            <div className="text-center mt-3" style={{ width: "60%" }}>
+              <button
+                type="submit"
+                onClick={submitClick}
+                className="btn btn-warning"
+                disabled={isDisabled}
+              >
+                Submit
+              </button>
+            </div>
           </div>
         </div>
       </div>
