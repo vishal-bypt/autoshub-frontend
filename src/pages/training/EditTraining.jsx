@@ -23,7 +23,8 @@ function EditTraining({ history, match }) {
     trainingPrequisites: Yup.string().required(
       "Required Prerequisites is required"
     ),
-    nominationEndDate: Yup.string().required("Nomination End Date is required"),
+    nominationEndDate: Yup.string().required("Nomination End Date is required"),  
+   slots: Yup.string().typeError("That doesn't look like a number")
   });
 
   function onSubmit(fields, { setStatus, setSubmitting }) {
@@ -48,6 +49,7 @@ function EditTraining({ history, match }) {
           "trainingEndDate",
           "trainingPrequisites",
           "nominationEndDate",
+          "slots"
         ];
         fields.map((field) => {
           console.log("user == ", user);
@@ -67,6 +69,7 @@ function EditTraining({ history, match }) {
     trainingEndDate: training.trainingEndDate || "",
     trainingPrequisites: training.trainingPrequisites || "",
     nominationEndDate: training.nominationEndDate || "",
+    slots: JSON.stringify(training.slots) || "0"
   };
 
   function createUser(fields, setSubmitting) {
@@ -263,6 +266,25 @@ function EditTraining({ history, match }) {
                         />
                         <ErrorMessage
                           name="nominationEndDate"
+                          component="div"
+                          className="invalid-feedback"
+                        />
+                      </div>
+                      <div className="form-group col-6">
+                        <label>Slots</label>
+                        <Field
+                          name="slots"
+                          type="text"
+                          className={
+                            "form-control" +
+                            (errors.slots &&
+                            touched.slots
+                              ? " is-invalid"
+                              : "") 
+                          }
+                        />
+                        <ErrorMessage
+                          name="slots"
                           component="div"
                           className="invalid-feedback"
                         />
