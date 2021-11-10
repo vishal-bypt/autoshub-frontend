@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Refresh from "@material-ui/icons/Refresh";
+import DownloadForOfflineIcon from "@material-ui/icons/GetApp";
 import moment from "moment";
 import { accountService, trainingService, alertService } from "../../services";
 import PopUpFileUpload from "./PopUpFileUpload";
@@ -129,7 +130,7 @@ function List1({ history, match }) {
       alertService.success("Successfully accepted training", {
         keepAfterRouteChange: true,
       });
-      setAccept(true)
+      setAccept(true);
       let userData = [];
       trainingService.listTaskToUsers().then((x) => {
         console.log("x of user == ", x);
@@ -158,7 +159,7 @@ function List1({ history, match }) {
       alertService.success("Successfully accepted training prerequisites", {
         keepAfterRouteChange: true,
       });
-      setReject(true)
+      setReject(true);
       let userData = [];
       trainingService.listTaskToUsers().then((x) => {
         console.log("x of user == ", x);
@@ -222,6 +223,9 @@ function List1({ history, match }) {
                 </Link>
                 <Link to={`/training`} className="newbutton">
                   <Refresh />
+                </Link>
+                <Link to={`/training`} className="newbutton">
+                  <DownloadForOfflineIcon />
                 </Link>
               </>
             )}
@@ -460,24 +464,22 @@ function List1({ history, match }) {
                                       userDetails={userDetails}
                                     />
                                   </div>
-                                ) : (                                  
+                                ) : (
+                                  <div>
+                                    {user.isPrerequisiteUploaded == true &&
+                                    user?.isAccepted == true ? (
+                                      <div>-</div>
+                                    ) : (
                                       <div>
-                                        {user.isPrerequisiteUploaded == true &&
-                                        user?.isAccepted == true
-                                        ? (
-                                          <div>-</div>
-                                        ) : (
+                                        {user?.isAccepted == 2 ? (
                                           <div>
-                                            {user?.isAccepted == 2 ? (
-                                              <div>
-                                                <h1>You have rejected it</h1>
-                                              </div>
-                                            ): null}
-                                            
+                                            <h1>You have rejected it</h1>
                                           </div>
-                                        )}
+                                        ) : null}
                                       </div>
-                                    )}                                  
+                                    )}
+                                  </div>
+                                )}
                               </div>
                             )}
 
