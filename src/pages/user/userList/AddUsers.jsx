@@ -37,10 +37,12 @@ function AddUsers({ history, match }) {
           history.push("/userList");
         } else {
           Swal.fire(res.message);
+          setselectedFiles(null);
         }
       })
       .catch((error) => {
         setIsSubmitting(false);
+        setselectedFiles(null);
         console.log("error::", error);
       });
   }
