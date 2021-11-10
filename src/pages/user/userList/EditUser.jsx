@@ -38,14 +38,20 @@ function EditUser({ history, match, location }) {
     //     "Employee Id should be maximum 6 digits",
     //     (number) => number.length === 6
     //   ),
+    // execId: Yup.string()
+    //   .typeError("General Manager - Exec Id is required")
+    //   .required("General Manager - Exec Id is required")
+    //   .test(
+    //     "maxDigits",
+    //     "General Manager - Exec Id should be maximum 6 digits",
+    //     (number) => number.length === 6
+    //   ),
     execId: Yup.string()
       .typeError("General Manager - Exec Id is required")
       .required("General Manager - Exec Id is required")
-      .test(
-        "maxDigits",
-        "General Manager - Exec Id should be maximum 6 digits",
-        (number) => number.length === 6
-      ),
+      .min(5)
+      .max(6)
+      .required(),
   });
 
   function onSubmit(fields, { setSubmitting }) {
