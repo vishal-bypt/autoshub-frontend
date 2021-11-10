@@ -58,13 +58,16 @@ function List({ history, match }) {
       dataField: "",
       text: "",
       formatter: (cellContent, row) => (
-        <button
-          type="button"
-          className="btn btn-warning"
-          onClick={() => openAddEditUser(row)}
-        >
+        <Link to={`/userList/editUser/${row.id}`} className="btn btn-warning">
           Edit
-        </button>
+        </Link>
+        // <button
+        //   type="button"
+        //   className="btn btn-warning"
+        //   onClick={() => openAddEditUser(row)}
+        // >
+        //   Edit
+        // </button>
       ),
     },
   ];

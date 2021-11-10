@@ -5,18 +5,16 @@ import { Link } from "react-router-dom";
 import { Modal } from "reactstrap";
 import * as Yup from "yup";
 import { accountService, alertService } from "../../../services";
+import Loader from "../../../components/Common/Loader";
 
 function EditUser({ history, match, location }) {
-  const { user } = location.state;
+  const { id } = match.params;
+  const [userData, setUserData] = React.useState(null);
+  const [loading, setLoading] = React.useState(false);
 
-  const initialValues = {
-    firstName: user.firstName || "",
-    lastName: user.lastName || "",
-    email: user.email || "",
-    managerId: user.managerId,
-    empId: user.empId,
-    execId: user.execId,
-  };
+  React.useEffect(() => {
+    getUser();
+  }, []);
 
   const validationSchema = Yup.object().shape({
     firstName: Yup.string().required("First Name is required"),
@@ -30,22 +28,6 @@ function EditUser({ history, match, location }) {
         "Manager Id should be maximum 6 digits",
         (number) => number.length === 6
       ),
-    // empId: Yup.string()
-    //   .typeError("Employee Id is required")
-    //   .required("Employee Id is required")
-    //   .test(
-    //     "maxDigits",
-    //     "Employee Id should be maximum 6 digits",
-    //     (number) => number.length === 6
-    //   ),
-    // execId: Yup.string()
-    //   .typeError("General Manager - Exec Id is required")
-    //   .required("General Manager - Exec Id is required")
-    //   .test(
-    //     "maxDigits",
-    //     "General Manager - Exec Id should be maximum 6 digits",
-    //     (number) => number.length === 6
-    //   ),
     execId: Yup.string()
       .typeError("General Manager - Exec Id is required")
       .required("General Manager - Exec Id is required")
@@ -55,19 +37,35 @@ function EditUser({ history, match, location }) {
   });
 
   function onSubmit(fields, { setSubmitting }) {
-    console.log("Fields::", fields);
-    updateUser(user.id, fields, setSubmitting);
+    updateUser(id, fields, setSubmitting);
+  }
+
+  function getUser() {
+    setLoading(true);
+    accountService
+      .getById(id)
+      .then((data) => {
+        setUserData(data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log("error", error);
+        setLoading(false);
+      });
   }
 
   function updateUser(id, fields, setSubmitting) {
+    setLoading(true);
     accountService
       .update(id, fields)
       .then(() => {
         console.log("success");
+        setLoading(false);
         history.push("/userList");
       })
       .catch((error) => {
         console.log("error", error);
+        setLoading(false);
         setSubmitting(false);
         alertService.error(error);
       });
@@ -105,6 +103,15 @@ function EditUser({ history, match, location }) {
   //   });
   // };
 
+  const initialValues = {
+    firstName: userData?.firstName || "",
+    lastName: userData?.lastName || "",
+    email: userData?.email || "",
+    managerId: userData?.managerId,
+    empId: userData?.empId,
+    execId: userData?.execId,
+  };
+
   return (
     <div className="page-content">
       <div className="container-fluid">
@@ -124,6 +131,7 @@ function EditUser({ history, match, location }) {
             initialValues={initialValues}
             validationSchema={validationSchema}
             onSubmit={onSubmit}
+            enableReinitialize
           >
             {({ errors, values, touched, isSubmitting, setFieldValue }) => {
               return (
@@ -256,7 +264,6 @@ function EditUser({ history, match, location }) {
                         </button> */}
                       </div>
                     </div>
-                    <Modal className="d-none" isOpen={isSubmitting}></Modal>
                   </>
                 </Form>
               );
@@ -264,6 +271,7 @@ function EditUser({ history, match, location }) {
           </Formik>
         </div>
       </div>
+      <Loader loading={loading} />
     </div>
   );
 }

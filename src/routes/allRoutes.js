@@ -84,7 +84,7 @@ const userRoutes = [
   // { path: "/userList/addUsers", component: userDetails && userDetails.role === "Admin" ? AddUsers : null },
   { path: "/userAccessView", component: UserAccessView },
   { path: "/userList", component: UserList },
-  { path: "/userList/editUser", component: EditUser },
+  { path: "/userList/editUser/:id", component: EditUser },
   { path: "/userList/addUsers", component: AddUsers },
 
 

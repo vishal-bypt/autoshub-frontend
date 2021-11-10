@@ -5,11 +5,13 @@ import { Link } from "react-router-dom";
 import { Card, CardBody, Col, Container, Form, Row } from "reactstrap";
 import Swal from "sweetalert2";
 import { accountService, alertService } from "../../../services";
+import Loader from "../../../components/Common/Loader";
 
 var FormData = require("form-data");
 
 function AddUsers({ history, match }) {
   const [selectedFiles, setselectedFiles] = React.useState(null);
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
 
   const handleSubmit = () => {
     try {
@@ -25,9 +27,11 @@ function AddUsers({ history, match }) {
   };
 
   function create(formData) {
+    setIsSubmitting(true);
     accountService
       .uploadUsersExcel(formData)
       .then((res) => {
+        setIsSubmitting(false);
         if (res.success) {
           Swal.fire("Users uploaded successfully.!");
           history.push("/userList");
@@ -36,7 +40,8 @@ function AddUsers({ history, match }) {
         }
       })
       .catch((error) => {
-        alertService.error(error);
+        setIsSubmitting(false);
+        console.log("error::", error);
       });
   }
 
@@ -131,6 +136,7 @@ function AddUsers({ history, match }) {
           </div>
         </div>
       </div>
+      <Loader loading={isSubmitting} />
     </>
   );
 }
