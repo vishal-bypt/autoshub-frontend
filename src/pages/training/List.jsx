@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Refresh from "@material-ui/icons/Refresh";
-import DownloadForOfflineIcon from "@material-ui/icons/GetApp";
+import Download from "@material-ui/icons/GetApp";
 import moment from "moment";
 import { accountService, trainingService, alertService } from "../../services";
 import PopUpFileUpload from "./PopUpFileUpload";
@@ -178,9 +178,9 @@ function List1({ history, match }) {
 
   const handleExportData = () => {
     try {
-      trainingService.exportData('latest').then((response) => {
+      trainingService.exportData("latest").then((response) => {
         //setUsers(x);
-        const link = document.createElement('a');
+        const link = document.createElement("a");
         link.href = response.exportPath;
         document.body.appendChild(link);
         link.click();
@@ -189,8 +189,7 @@ function List1({ history, match }) {
     } catch (error) {
       console.log("error", error);
     }
-
-  }
+  };
   console.log("trainings = ", trainings);
   console.log("accept == ", accept);
   console.log("reject == ", reject);
@@ -236,11 +235,11 @@ function List1({ history, match }) {
                 <Link to={`/training/Attendance`} className="newbutton">
                   Attendance
                 </Link>
-                <Link to={`#`} onClick={handleExportData} className="newbutton">
+                <Link to={`/training/list`} className="newbutton">
                   <Refresh />
                 </Link>
-                <Link to={`/training`} className="newbutton">
-                  <DownloadForOfflineIcon />
+                <Link to={`#`} onClick={handleExportData} className="newbutton">
+                  <Download />
                 </Link>
               </>
             )}
