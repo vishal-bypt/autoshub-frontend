@@ -129,6 +129,19 @@ function List1({ history, match }) {
       alertService.success("Successfully accepted training", {
         keepAfterRouteChange: true,
       });
+      setAccept(true)
+      let userData = [];
+      trainingService.listTaskToUsers().then((x) => {
+        console.log("x of user == ", x);
+        x.map((data) => {
+          x = data;
+          x.assignedByName = `${data.assignBy.firstName}  ${data.assignBy.lastName}`;
+          x.assignedToName = `${data.assignTo.firstName}  ${data.assignTo.lastName}`;
+          x.acceptRejectStatus = data.acceptRejectStatus;
+          userData.push(x);
+        });
+        setTrainings(userData);
+      });
       // history.push('/training');
     });
   }
@@ -144,6 +157,19 @@ function List1({ history, match }) {
     trainingService.acceptOrRejectPreRequisites(params).then((data) => {
       alertService.success("Successfully accepted training prerequisites", {
         keepAfterRouteChange: true,
+      });
+      setReject(true)
+      let userData = [];
+      trainingService.listTaskToUsers().then((x) => {
+        console.log("x of user == ", x);
+        x.map((data) => {
+          x = data;
+          x.assignedByName = `${data.assignBy.firstName}  ${data.assignBy.lastName}`;
+          x.assignedToName = `${data.assignTo.firstName}  ${data.assignTo.lastName}`;
+          x.acceptRejectStatus = data.acceptRejectStatus;
+          userData.push(x);
+        });
+        setTrainings(userData);
       });
       //history.push('/training');
     });
@@ -296,7 +322,7 @@ function List1({ history, match }) {
                             className="traning-listing"
                             style={{ minWidth: "100px" }}
                           >
-                            {moment(user.trainingStartDate).format("MMMM")}{" "}
+                            {moment(user.trainingStartDate).format("MMMM")}
                           </td>
                           <td
                             className="traning-listing"
@@ -334,7 +360,7 @@ function List1({ history, match }) {
                             className="traning-listing"
                             style={{ minWidth: "100px" }}
                           >
-                            {user.totalNominations ? user.totalNominations : 0}{" "}
+                            {user.totalNominations ? user.totalNominations : 0}
                           </td>
                           <td
                             className="traning-listing"
@@ -342,7 +368,7 @@ function List1({ history, match }) {
                           >
                             {user.totalAttendedNominations
                               ? user.totalAttendedNominations
-                              : 0}{" "}
+                              : 0}
                           </td>
                           <td
                             className="traning-listing"
@@ -350,7 +376,7 @@ function List1({ history, match }) {
                           >
                             {user.totalRejectedNominations
                               ? user.totalRejectedNominations
-                              : 0}{" "}
+                              : 0}
                           </td>
                           <td></td>
                         </>
@@ -411,9 +437,7 @@ function List1({ history, match }) {
                           </td>
                           <td>
                             {user.training?.trainingPrequisites != "-" &&
-                              user.isAccepted == 0 &&
-                              accept == false &&
-                              reject == false ? (
+                            user.isAccepted == 0 ? (
                               <div>
                                 <a
                                   style={{
@@ -422,7 +446,7 @@ function List1({ history, match }) {
                                   }}
                                   onClick={() => {
                                     handleClickAccept(user);
-                                    setAccept(true);
+                                    //setAccept(true);
                                   }}
                                 >
                                   Approve
@@ -435,7 +459,7 @@ function List1({ history, match }) {
                                   }}
                                   onClick={() => {
                                     handleClickReject(user);
-                                    setReject(true);
+                                    //setReject(true);
                                   }}
                                 >
                                   Reject
@@ -443,37 +467,32 @@ function List1({ history, match }) {
                               </div>
                             ) : (
                               <div>
-                                {user.isAccepted == true &&
-                                  user.isPrerequisiteUploaded == false ? (
+                                {user?.isAccepted == true &&
+                                user?.isPrerequisiteUploaded == false ? (
                                   <div>
                                     <PopUpFileUpload
                                       id={user.id}
                                       userDetails={userDetails}
                                     />
                                   </div>
-                                ) : (
-                                  <div>
-                                    {accept == true &&
-                                      user.isPrerequisiteUploaded == false ? (
+                                ) : (                                  
                                       <div>
-                                        <PopUpFileUpload
-                                          id={user.id}
-                                          userDetails={userDetails}
-                                        />
-                                      </div>
-                                    ) : (
-                                      <div>
-                                        {user.isPrerequisiteUploaded == true ? (
+                                        {user.isPrerequisiteUploaded == true &&
+                                        user?.isAccepted == true
+                                        ? (
                                           <div>-</div>
                                         ) : (
                                           <div>
-                                            <h1>You have rejected it</h1>
+                                            {user?.isAccepted == 2 ? (
+                                              <div>
+                                                <h1>You have rejected it</h1>
+                                              </div>
+                                            ): null}
+                                            
                                           </div>
                                         )}
                                       </div>
-                                    )}
-                                  </div>
-                                )}
+                                    )}                                  
                               </div>
                             )}
 
