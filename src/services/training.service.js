@@ -8,6 +8,7 @@ const baseUrl3 = `${config.apiUrl}/trainingPreRequisites`
 const baseUrl4 = `${config.apiUrl}/trainingNominations`
 export const trainingService = {
     getAll,
+    exportData,
     getById,
     create,
     update,
@@ -91,6 +92,10 @@ function uploadExcel(params, id) {
 
 function getAll() {
     return fetchWrapper.get(baseUrl);
+}
+
+function exportData(filter = 'all') {
+    return fetchWrapper.get(`${baseUrl}/exportTraning?filterType=${filter}&selectType=all`);
 }
 
 function getActiveTrainingList() {

@@ -1,4 +1,5 @@
 
+import { Role } from '.';
 import { accountService } from '../services';
 
 export const fetchWrapper = {
@@ -56,7 +57,7 @@ function authHeader(url) {
     //consoleconst isApiUrl = url.startsWith(config.apiUrl);
     //console.log("isLoggedIn",isLoggedIn);
     if (isLoggedIn) {
-        return { Authorization: `Bearer ${user.jwtToken}` };
+        return { Authorization: `Bearer ${user.jwtToken}`, currentRole: Role.Admin };
     } else {
         return {};
     }
