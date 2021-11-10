@@ -6,6 +6,10 @@ import moment from "moment";
 import { accountService, trainingService, alertService } from "../../services";
 import PopUpFileUpload from "./PopUpFileUpload";
 import { Role } from "./../../helpers/role";
+
+import SweetAlert from "react-bootstrap-sweetalert";
+import CustomSelect from '../../components/CustomSelect';
+import { ErrorMessage, FastField, Field, Form, Formik } from 'formik';
 import "./index.css";
 function List1({ history, match }) {
   const { path } = match;
@@ -16,6 +20,8 @@ function List1({ history, match }) {
   const [trainings, setTrainings] = useState(null);
   const [accept, setAccept] = useState(false);
   const [reject, setReject] = useState(false);
+  const [selectedTraining, setSelectedTraining] = useState(null);
+  const [openDropDown, setOpenDropDown] = React.useState(true);
   let filteredData = [];
   useEffect(() => {
     if (userDetails?.currentRole == Role.Admin) {
@@ -50,6 +56,35 @@ function List1({ history, match }) {
     }
   }, []);
 
+  function onSubmit(fields, { setStatus, setSubmitting }) {    
+    let params = {
+      rejectionReason: fields.reason,
+      id: selectedTraining.id,
+    }   
+    trainingService.acceptOrRejectPreRequisites(params).then((data) => {
+      alertService.success("Successfully submitted training rejection reason", {
+        keepAfterRouteChange: true,
+      });  
+      setSelectedTraining(null)    
+      let userData = [];
+      trainingService.listTaskToUsers().then((x) => {        
+        x.map((data) => {
+          x = data;
+          x.assignedByName = `${data.assignBy.firstName}  ${data.assignBy.lastName}`;
+          x.assignedToName = `${data.assignTo.firstName}  ${data.assignTo.lastName}`;
+          x.acceptRejectStatus = data.acceptRejectStatus;
+          userData.push(x);
+        });
+        setTrainings(userData);
+      });
+      //history.push('/training');
+    });
+    setOpenDropDown(false)
+  }
+
+  const initialValues = {
+    reason: "",
+  };
   const viewPreRequisited = (e) => () => {
     let id = e.id;
     let userId = e.assignedToId;
@@ -60,68 +95,10 @@ function List1({ history, match }) {
     });
   };
 
-  /*  const handleClickAccept = (e) => () => {
-     //console.log(e);
-     let params = {
-       trainingId: e.id,
-       userId: e.assignedToId,
-       isAccept: 1,
-       managerId: e.assignedById,
-     };
-     trainingService.acceptOrRejectPreRequisites(params).then((data) => {
-       alertService.success("Successfully accepted training prerequisites", {
-         keepAfterRouteChange: true,
-       });
-       trainingService.getActiveTrainingList().then((x) => {
-         //console.log("x == ", x.length);
-         for (let i = 0; i < x.length; i++) {
-           if (x[i].assignedByName != null && x[i].assignedToName != null) {
-             //console.log("x[1] == ", x[i]);
-             if (x[i].acceptRejectStatus == 1) {
-               x[i].acceptRejectStatus = "Completed";
-               //console.log("x[i].acceptRejectStatus == ", x[i].acceptRejectStatus);
-             }
-             filteredData.push(x[i]);
-           }
-         }
-         setTrainings(filteredData);
-       });
-       history.push("/training");
-     });
-   }; */
-
-  /*  const handleClickReject = (e) => () => {
-    let params = {
-      trainingId: e.id,
-      userId: e.assignedToId,
-      isAccept: 2,
-      managerId: e.assignedById,
-    };
-    trainingService.acceptOrRejectPreRequisites(params).then((data) => {
-      alertService.success("Successfully rejected training prerequisites", {
-        keepAfterRouteChange: true,
-      });
-      trainingService.getActiveTrainingList().then((x) => {
-        for (let i = 0; i < x.length; i++) {
-          if (x[i].assignedByName != null && x[i].assignedToName != null) {
-            //console.log("x[1] == ", x[i]);
-            if (x[i].acceptRejectStatus == 1) {
-              x[i].acceptRejectStatus = "Completed";
-              //console.log("x[i].acceptRejectStatus == ", x[i].acceptRejectStatus);
-            }
-            filteredData.push(x[i]);
-          }
-        }
-        setTrainings(filteredData);
-      });
-      history.push("/training");
-    });
-  }; */
-
   function handleClickAccept(e) {
     let params = {
-      id:e.id,
-      isAccepted: 1      
+      id: e.id,
+      isAccepted: 1
     };
     console.log("params -=-= ", params);
     trainingService.acceptOrRejectPreRequisites(params).then((data) => {
@@ -146,10 +123,11 @@ function List1({ history, match }) {
   }
 
   function handleClickReject(e) {
-    let params = {  
-      id: e.id,    
-      isAccepted: 2,      
+    let params = {
+      id: e.id,
+      isAccepted: 2,
     };
+    setSelectedTraining(e)
     console.log("params == ", params);
     trainingService.acceptOrRejectPreRequisites(params).then((data) => {
       alertService.success("Successfully accepted training prerequisites", {
@@ -436,7 +414,7 @@ function List1({ history, match }) {
                           </td>
                           <td>
                             {user.training?.trainingPrequisites != "-" &&
-                            user.isAccepted == 0 ? (
+                              user.isAccepted == 0 ? (
                               <div>
                                 <a
                                   style={{
@@ -467,8 +445,8 @@ function List1({ history, match }) {
                             ) : (
                               <div>
                                 {user?.isAccepted == true &&
-                                user?.isPrerequisiteUploaded == false &&
-                                user.training?.trainingPrequisites != "NA" ? (
+                                  user?.isPrerequisiteUploaded == false &&
+                                  user.training?.trainingPrequisites != "NA" ? (
                                   <div>
                                     <PopUpFileUpload
                                       id={user.id}
@@ -478,13 +456,83 @@ function List1({ history, match }) {
                                 ) : (
                                   <div>
                                     {user.isPrerequisiteUploaded == true &&
-                                    user?.isAccepted == true ? (
+                                      user?.isAccepted == true ? (
                                       <div>-</div>
                                     ) : (
                                       <div>
                                         {user?.isAccepted == 2 ? (
                                           <div>
-                                            <h1>You have rejected it</h1>
+                                            {
+                                              openDropDown ?
+                                                <SweetAlert                                                  
+                                                  type={'controlled'}
+                                                  closeOnClickOutside={true}
+                                                  onConfirm={() => {
+                                                    setOpenDropDown(false)
+                                                  }}
+                                                  showConfirm={false}
+                                                  style={{ overflow: "-moz-initial", justifyContent: 'flex-start' }}
+                                                >
+                                                  <div>
+                                                    <div>
+                                                      <Formik initialValues={initialValues} onSubmit={onSubmit}
+                                                        onValidationError={errorValues => {
+                                                        }}
+                                                      >
+                                                        {({ errors, values, touched, isSubmitting, setFieldValue, handleBlur, setTouched }) => {
+                                                          return (
+                                                            <Form>
+                                                              <div>
+                                                                <label>Reasons for Decline Training</label>
+                                                                <FastField
+                                                                  name="reason"
+                                                                  onBlurValue={(field) => { setTouched({ ...touched, [field]: true}); }}
+                                                                  options={[
+                                                                    {
+                                                                      label: "On Planned Leaves",
+                                                                      value: "On Planned Leaves"
+                                                                    },
+                                                                    {
+                                                                      label: "Schedule for another Training",
+                                                                      value: "Schedule for another Training"
+                                                                    },
+                                                                    {
+                                                                      label: "Ongoing project meetings/deadlines",
+                                                                      value: "Ongoing project meetings/deadlines"
+                                                                    },
+                                                                    {
+                                                                      label: "Ongoing Exit formalities",
+                                                                      value: "Ongoing Exit formalities"
+                                                                    },
+                                                                    {
+                                                                      label: "Not inclined to assigned skillset",
+                                                                      value: "Not inclined to assigned skillset"
+                                                                    },
+                                                                    {
+                                                                      label: "Other",
+                                                                      value: "Other"
+                                                                    },
+                                                                  ]}
+                                                                  placeholder="Please select reasons"
+                                                                  component={CustomSelect}
+                                                                  isMulti={false}
+                                                                />
+                                                              </div>
+
+                                                              <div className="text-end mt-3">
+                                                                <button type="submit" className="btn btn-primary">
+                                                                  Submit
+                                                                </button>
+                                                              </div>
+                                                            </Form>
+                                                          );
+                                                        }}
+                                                      </Formik>
+                                                    </div>
+
+                                                  </div>
+                                                </SweetAlert> : null
+                                            }
                                           </div>
                                         ) : null}
                                       </div>
