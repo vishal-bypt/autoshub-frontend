@@ -21,7 +21,7 @@ function List1({ history, match }) {
   const [accept, setAccept] = useState(false);
   const [reject, setReject] = useState(false);
   const [selectedTraining, setSelectedTraining] = useState(null);
-  const [openDropDown, setOpenDropDown] = React.useState(true);
+  const [openDropDown, setOpenDropDown] = React.useState(false);
   let filteredData = [];
   useEffect(() => {
     if (userDetails?.currentRole == Role.Admin) {
@@ -65,7 +65,7 @@ function List1({ history, match }) {
       alertService.success("Successfully submitted training rejection reason", {
         keepAfterRouteChange: true,
       });  
-      setSelectedTraining(null)    
+      setSelectedTraining("")    
       let userData = [];
       trainingService.listTaskToUsers().then((x) => {        
         x.map((data) => {
@@ -127,6 +127,7 @@ function List1({ history, match }) {
       id: e.id,
       isAccepted: 2,
     };
+    setOpenDropDown(true)
     setSelectedTraining(e)
     console.log("params == ", params);
     trainingService.acceptOrRejectPreRequisites(params).then((data) => {
@@ -457,7 +458,7 @@ function List1({ history, match }) {
                                   <div>
                                     {user.isPrerequisiteUploaded == true &&
                                       user?.isAccepted == true ? (
-                                      <div>-</div>
+                                      <div>Accepted</div>
                                     ) : (
                                       <div>
                                         {user?.isAccepted == 2 ? (
@@ -531,10 +532,10 @@ function List1({ history, match }) {
                                                     </div>
 
                                                   </div>
-                                                </SweetAlert> : null
+                                                </SweetAlert> : <div>Rejected</div>
                                             }
                                           </div>
-                                        ) : null}
+                                        ) : <div>Accepted</div>}
                                       </div>
                                     )}
                                   </div>

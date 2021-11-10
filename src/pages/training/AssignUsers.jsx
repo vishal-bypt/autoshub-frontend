@@ -202,7 +202,7 @@ function AssignUsers({ history, match }) {
         setTemp(userData);
       }
     } else if (userDetails.currentRole === Role.Manager) {
-      if (trainingData.assignedSlots >= 0) {
+      if (trainingData?.assignedSlots >= 0) {
         let userData = [];
         for (let i = 0; i < temp?.length; i++) {
           let data = temp[i];
