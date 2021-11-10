@@ -41,7 +41,7 @@ function Attendance({ history, match }) {
     let params = {
       trainingId: e.id,
       userId: e.assignedToId,
-      isAccept: 1,
+      isAccepted: 1,
       managerId: e.assignedById,
     };
     trainingService.acceptOrRejectPreRequisites(params).then((data) => {
@@ -68,7 +68,7 @@ function Attendance({ history, match }) {
     let params = {
       trainingId: e.id,
       userId: e.assignedToId,
-      isAccept: 2,
+      isAccepted: 2,
       managerId: e.assignedById,
     };
     trainingService.acceptOrRejectPreRequisites(params).then((data) => {

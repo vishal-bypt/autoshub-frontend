@@ -46,11 +46,9 @@ function AllNominations({ history, match }) {
   };
 
   const handleClickAccept = (e) => () => {
-    let params = {
-      trainingId: e.id,
-      userId: e.assignedToId,
-      isAccept: 1,
-      managerId: e.assignedById,
+    let params = {      
+      id: e.trainingNominateId,
+      isAcceptedByAdmin: 1      
     };
     trainingService.acceptOrRejectPreRequisites(params).then((data) => {
       alertService.success("Successfully accepted training prerequisites", {
@@ -74,10 +72,8 @@ function AllNominations({ history, match }) {
 
   const handleClickReject = (e) => () => {
     let params = {
-      trainingId: e.id,
-      nominatedTo: e.assignedToId,
-      isAccept: 2,
-      nominatedBy: e.assignedById,
+      id: e.trainingNominateId,
+      isAcceptedByAdmin: 2   
     };
     trainingService.acceptOrRejectPreRequisites(params).then((data) => {
       alertService.success("Successfully rejected training prerequisites", {
@@ -201,7 +197,7 @@ function AllNominations({ history, match }) {
                           className="traning-listing"
                           style={{ minWidth: "100px" }}
                         >
-                          {user.assignedToName}{" "}
+                          {user.assignedToName}
                         </Td>
                       )}
                       {userDetails.currentRole === Role.User && (
@@ -209,7 +205,7 @@ function AllNominations({ history, match }) {
                           className="traning-listing"
                           style={{ minWidth: "100px" }}
                         >
-                          {user.assignedToName}{" "}
+                          {user.assignedToName}
                         </Td>
                       )}
                       {userDetails.currentRole === Role.Admin && (
@@ -225,7 +221,7 @@ function AllNominations({ history, match }) {
                           className="traning-listing"
                           style={{ minWidth: "100px" }}
                         >
-                          {user.assignedByName}{" "}
+                          {user.assignedByName}
                         </Td>
                       )}
                       <Td
@@ -297,22 +293,11 @@ function AllNominations({ history, match }) {
                           className="traning-listing"
                           style={{ minWidth: "150px" }}
                         >
-                          {user.preRequisites != "N/A" ? (
-                            <div>
-                              {user.acceptRejectStatus === "Completed" ? (
-                                <a
-                                  style={{
-                                    color: "#12f339",
-                                    fontWeight: "bolder",
-                                    textDecoration: "underline",
-                                  }}
-                                  onClick={handleClickReject(user)}
-                                >
-                                  Decline
-                                </a>
+                            {user.isAcceptedByAdmin === 1 ? (
+                                "Approved"
                               ) : (
                                 <div>
-                                  {user.acceptRejectStatus === "Pending" ? (
+                                  {user.isAcceptedByAdmin === 0 ? (
                                     <div>
                                       <a
                                         style={{
@@ -323,7 +308,7 @@ function AllNominations({ history, match }) {
                                         onClick={handleClickAccept(user)}
                                       >                                        
                                         Approve
-                                      </a>                                      /
+                                      </a>  /
                                       <a
                                         style={{
                                           color: "red",
@@ -335,23 +320,11 @@ function AllNominations({ history, match }) {
                                       </a>
                                     </div>
                                   ) : (
-                                    <a
-                                      style={{
-                                        color: "green",
-                                        fontWeight: "bolder",
-                                        textDecoration: "underline",
-                                      }}
-                                      onClick={handleClickAccept(user)}
-                                    >                                      
-                                      Approve
-                                    </a>
+                                    "Declined"
                                   )}
                                 </div>
-                              )}
-                            </div>
-                          ) : (
-                            "-"
-                          )}
+                              
+                          ) }
                         </Td>
                       )}
                       {userDetails.currentRole === Role.User && (

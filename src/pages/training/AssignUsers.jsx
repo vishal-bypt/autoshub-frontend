@@ -470,7 +470,7 @@ function AssignUsers({ history, match }) {
                             <input
                               type="checkbox"
                               className="form-check-input"
-                              name={user?.userName ? user.userName : user.label}
+                              name={user.userName}
                               checked={user?.isChecked || false}
                               onChange={handleChange}
                             />
@@ -492,7 +492,7 @@ function AssignUsers({ history, match }) {
                           contentEditable={false}
                           style={{ maxWidth: "30px", textAlign: "left" }}
                         >
-                          {user.userName}
+                          {user?.userName ? user.userName : user.label}
                         </td>
                       )}
                       {userDetails.currentRole === Role.Admin && (

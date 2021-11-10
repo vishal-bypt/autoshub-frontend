@@ -25,7 +25,7 @@ function List1({ history, match }) {
     if (userDetails?.currentRole == Role.Manager) {
       let userData = [];
       trainingService.listTaskToUser().then((x) => {
-        //console.log("x == ", x)
+        console.log("x == ", x)
         x.map((data) => {
           x = data.training;
           userData.push(x);
@@ -119,10 +119,8 @@ function List1({ history, match }) {
 
   function handleClickAccept(e) {
     let params = {
-      trainingId: e.training.id,
-      nominatedTo: e.assignTo.id,
-      isAccept: 1,
-      nominatedBy: e.assignBy.id,
+      id:e.id,
+      isAccepted: 1      
     };
     console.log("params -=-= ", params);
     trainingService.acceptOrRejectPreRequisites(params).then((data) => {
@@ -147,11 +145,9 @@ function List1({ history, match }) {
   }
 
   function handleClickReject(e) {
-    let params = {
-      trainingId: e.training.id,
-      nominatedTo: e.assignTo.id,
-      isAccept: 2,
-      nominatedBy: e.assignBy.id,
+    let params = {  
+      id: e.id,    
+      isAccepted: 2,      
     };
     console.log("params == ", params);
     trainingService.acceptOrRejectPreRequisites(params).then((data) => {
@@ -453,7 +449,8 @@ function List1({ history, match }) {
                             ) : (
                               <div>
                                 {user?.isAccepted == true &&
-                                user?.isPrerequisiteUploaded == false ? (
+                                user?.isPrerequisiteUploaded == false &&
+                                user.training?.trainingPrequisites != "NA" ? (
                                   <div>
                                     <PopUpFileUpload
                                       id={user.id}
@@ -472,7 +469,7 @@ function List1({ history, match }) {
                                               <div>
                                                 <h1>You have rejected it</h1>
                                               </div>
-                                            ): null}
+                                            ): "-"}
                                             
                                           </div>
                                         )}
