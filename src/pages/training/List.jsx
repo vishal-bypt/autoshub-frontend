@@ -176,6 +176,21 @@ function List1({ history, match }) {
     });
   }
 
+  const handleExportData = () => {
+    try {
+      trainingService.exportData('latest').then((response) => {
+        //setUsers(x);
+        const link = document.createElement('a');
+        link.href = response.exportPath;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      });
+    } catch (error) {
+      console.log("error", error);
+    }
+
+  }
   console.log("trainings = ", trainings);
   console.log("accept == ", accept);
   console.log("reject == ", reject);
@@ -200,7 +215,7 @@ function List1({ history, match }) {
               </h1>
             )}
           </div>
-          <div className="col-md-12 text-center">
+          <div className="col-md-14 text-center d-flex justify-content-center">
             {userDetails?.currentRole == Role.Admin && (
               <>
                 <Link to={`/training/add`} className="newbutton">
@@ -221,7 +236,7 @@ function List1({ history, match }) {
                 <Link to={`/training/Attendance`} className="newbutton">
                   Attendance
                 </Link>
-                <Link to={`/training`} className="newbutton">
+                <Link to={`#`} onClick={handleExportData} className="newbutton">
                   <Refresh />
                 </Link>
                 <Link to={`/training`} className="newbutton">

@@ -9,16 +9,29 @@ class Guage extends Component {
   }
 
   getOption = () => {
+    const assigned = this?.props?.data[0]?.value;
+    const attended = this?.props?.data[1]?.value;
+    const percentage = Number(attended) * 100 / Number(assigned);
     return {
       tooltip: {
         formatter: "{a} <br/>{b} : {c}%",
       },
       toolbox: {
+        show: true,
         feature: {
-          restore: {},
-          saveAsImage: {},
-        },
+          mark: { show: true },
+          dataView: { readOnly: true, title: "Download Data", lang: ['Data View', 'Cancel', 'Refresh'] },
+          restore: { title: "Restore" },
+          saveAsImage: {
+            title: 'Save As picture'
+          }
+        }
       },
+      tooltip: {
+        trigger: "item",
+        formatter: "{a} <br/>{b} : {c}",
+      },
+      
       series: [
         {
           name: "Training indicator",
@@ -34,7 +47,7 @@ class Guage extends Component {
               width: 20,
             },
           },
-          data: [{ value: 50, name: "Completion rate" }],
+          data: [{ value: percentage, name: "Completion rate" }],
         },
       ],
     }
