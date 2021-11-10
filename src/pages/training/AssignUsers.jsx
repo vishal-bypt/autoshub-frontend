@@ -279,6 +279,9 @@ function AssignUsers({ history, match }) {
         for (let i = 0; i < tempUser?.length; i++) {
           if (tempUser[i].isChecked === true) {
             tempUser[i].currentRole = "Manager";
+            tempUser[i].nominatedBy = userDetails.id;
+            tempUser[i].nominatedTo = tempUser[i].id?tempUser[i].trainingId:tempUser[i].value;
+            tempUser[i].trainingId = parseInt(id);
             checkedData.push(tempUser[i]);
           }
         }
