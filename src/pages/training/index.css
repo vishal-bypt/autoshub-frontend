@@ -19,7 +19,7 @@
 }
 
 .newbutton:hover{
-    background: #C85A2C;
+    background: #CF3448;
     color: #fff;
 }
 
@@ -30,6 +30,6 @@ body{
 }
 
 .newbutton.active{
-    background: #C85A2C;
+    background: #CF3448;
     color: #fff;
   }

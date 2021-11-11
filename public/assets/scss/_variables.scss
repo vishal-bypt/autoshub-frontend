@@ -9,8 +9,8 @@ $sidebar-bg: #fbffff; //#fbfaff;
 $sidebar-menu-item-color: #545a6d;
 $sidebar-menu-sub-item-color: #545a6d;
 $sidebar-menu-item-icon-color: #545a6d;
-$sidebar-menu-item-hover-color: #C85A2C;
-$sidebar-menu-item-active-color: #C85A2C;
+$sidebar-menu-item-hover-color: #CF3448;
+$sidebar-menu-item-active-color: #CF3448;
 $sidebar-border-color: #e9e9ef;
 $sidebar-width: 250px;
 $sidebar-collapsed-width: 70px;
@@ -44,7 +44,7 @@ $footer-color: #74788d;
 // Horizontal nav
 $topnav-bg: #fbffff; //#fbfaff;
 $menu-item-color: #545a6d;
-$menu-item-active-color: #C85A2C;
+$menu-item-active-color: #CF3448;
 
 // Horizontal nav
 $topnav-dark-bg: #363a38;
@@ -126,7 +126,8 @@ $grays: (
 // fusv-enable
 
 // scss-docs-start color-variables
-$autoSHub: #C85A2C;
+// $autoSHub: #CF3448; // TechM Orange  
+$autoSHub: #CF3448; // Auto S Hub Red
 $blue: #5156be;
 $indigo: #564ab1;
 $purple: #6f42c1;

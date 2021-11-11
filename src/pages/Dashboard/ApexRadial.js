@@ -2,7 +2,7 @@ import React from 'react';
 import ReactApexChart from "react-apexcharts"
 
 const ApexRadial = () => {
-    const radialchartColors = ["#C85A2C", "#34c38f"]
+    const radialchartColors = ["#CF3448", "#34c38f"]
     const series = [80]
     const options = {
         chart: {

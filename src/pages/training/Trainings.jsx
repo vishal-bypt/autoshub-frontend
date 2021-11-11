@@ -8,6 +8,7 @@ import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import { accountService, trainingService } from "../../services";
 import "../../assets/scss/custom/components/_tableblur.scss";
+
 function Trainings({ match }) {
   const userDetails = accountService.userValue;
   const [users, setUsers] = useState(null);
