@@ -28,7 +28,7 @@ function List1({ history, match }) {
   useEffect(() => {
     setTrainings(null);
     if (userDetails?.currentRole == Role.Admin) {
-      trainingService.getAll().then((x) => {
+      trainingService.getAll().then((x) => {        
         setTrainings(x);
       });
     }
@@ -261,9 +261,10 @@ function List1({ history, match }) {
                       <th className="traning-listing">Training Name</th>
                       <th className="traning-listing">Stream</th>
                       <th className="traning-listing">Tool Name</th>
-                      <th className="traning-listing">No. of Nominations</th>
-                      <th className="traning-listing">No. of Attended</th>
-                      <th className="traning-listing">No. of Absentees</th>
+                      <th className="traning-listing">Nominations</th>
+                      <th className="traning-listing">Attendees</th>
+                      <th className="traning-listing">Absentees</th>
+                      <th className="traning-listing">Rejections</th>
                     </>
                   )}
 
@@ -369,6 +370,14 @@ function List1({ history, match }) {
                               ? user.totalRejectedNominations
                               : 0}
                           </td>
+                          <td
+                            className="traning-listing"
+                            style={{ minWidth: "100px" }}
+                          >
+                            {user.totalRejectedNominations
+                              ? user.totalRejectedNominations
+                              : 0}
+                          </td>
                           <td></td>
                         </>
                       )}
@@ -421,10 +430,14 @@ function List1({ history, match }) {
                             className="traning-listing"
                             style={{ minWidth: "150px" }}
                           >
-                            {/* {user.acceptRejectStatus == 0 ?
-                                          "Pending" : "Completed"
-                                      } */}
-                            Pending
+                            {user.isAttendanceApproved == 1 ?
+                              "Attended" : 
+                              <div>
+                                {user.isAttendanceApproved == 2 ? 
+                                  "Absent" : "Pending"
+                                }
+                              </div>
+                            }                             
                           </td>
                           <td>
                             {user.training?.trainingPrequisites != "-" &&
