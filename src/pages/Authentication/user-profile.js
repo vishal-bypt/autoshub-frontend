@@ -139,8 +139,8 @@ const UserProfile = props => {
                             })
                           }
                         </div>
-                        <p className="mb-1">{user.email}</p>
-                        <p className="mb-0">Id no: #{UserList.id}</p>
+                        <p className="mb-1">Email : {user.email}</p>
+                        <p className="mb-0">Employee Id : {user.empId}</p>
 
                       </div>
                     </div>
