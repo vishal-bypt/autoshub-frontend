@@ -22,6 +22,7 @@ export const trainingService = {
     getTrainingByRole,
     acceptOrRejectPreRequisites,
     getActiveTrainingList,
+    getAcceptedAdminTrainingList,
     viewPreRequisites,
     getTrainingReport,
     acceptPreRequisites
@@ -100,6 +101,10 @@ function exportData(filter = 'all') {
 
 function getActiveTrainingList() {
     return fetchWrapper.get(`${baseUrl}/getActiveTrainingList`);
+}
+
+function getAcceptedAdminTrainingList() {
+    return fetchWrapper.get(`${baseUrl}/getAcceptedAdminTrainingList`);
 }
 
 function getById(id) {

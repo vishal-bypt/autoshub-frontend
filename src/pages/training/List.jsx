@@ -456,9 +456,13 @@ function List1({ history, match }) {
                                   </div>
                                 ) : (
                                   <div>
+                                    {user?.isAcceptedByAdmin == 1 ? (
+                                      <div>Accepted</div>
+                                     ) :(
+                                      <div>
                                     {user.isPrerequisiteUploaded == true &&
                                       user?.isAccepted == true ? (
-                                      <div>Accepted</div>
+                                      <div>-</div>
                                     ) : (
                                       <div>
                                         {user?.isAccepted == 2 ? (
@@ -535,63 +539,15 @@ function List1({ history, match }) {
                                                 </SweetAlert> : <div>Rejected</div>
                                             }
                                           </div>
-                                        ) : <div>Accepted</div>}
+                                        ) : <div>{user?.isAcceptedByAdmin == 1 ? "Accepted" : "Rejected"}</div>}
                                       </div>
                                     )}
                                   </div>
                                 )}
                               </div>
                             )}
-
-                            {/* {user.training?.trainingPrequisites != "-" && user.isAccepted == 0 && accept == false && reject == false ? (
-                              <div>
-                                {user.isPrerequisiteUploaded === false ? (
-                                  <div>
-                                    <a style={{ color: 'blue', textDecoration: 'underline' }}
-                                      onClick={() => {
-                                        handleClickAccept(user)
-                                        setAccept(true);
-                                      }}>Approve</a>
-                                    /
-                                    <a style={{ color: 'blue', textDecoration: 'underline' }}
-                                      onClick={() => {
-                                        handleClickReject(user)
-                                        setReject(true);
-                                    }}>Reject</a>
-                                  </div>
-                                ) : (                                  
-                                  <div>
-                                    {user.isAccepted == true ? (
-                                      <PopUpFileUpload
-                                        id={user.id}
-                                        userDetails={userDetails}
-                                      />
-                                    ):<div>
-                                      <h1>Hi</h1>
-                                      </div>}
-                                  </div>
-                                )}
-
-                              </div>
-                            ) : (
-                              <div>
-                                {reject == true && (
-                                  <h6>You Rejected</h6>
-                                )}
-                                {accept == true && (
-                                  <PopUpFileUpload
-                                  id={user.id}
-                                  userDetails={userDetails}
-                                />
-                                )}
-                             </div>
-                            )} */}
-                            {/* {accept == true && (
-                               <PopUpFileUpload
-                               id={user.id}
-                               userDetails={userDetails}
-                             />
-                            )} */}
+                            </div>
+                            )}
                           </td>
                         </>
                       )}
