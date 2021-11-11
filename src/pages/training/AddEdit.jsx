@@ -85,13 +85,15 @@ function AddEdit({ history, match }) {
         alertService.error(error);
       });
   }
-  function updatedValue(e, index) {
-    let slots = e.target.value;
-    let value = { slots };
-    setSlotsEdit(slots);
-    trainingService.update(index, value).then((x) => {
-      console.log("successfully updated value");
-    });
+  function updatedValue(e, index) {    
+    if(e.target.value != ""){      
+      let slots = e.target.value;
+      let value = { slots };
+      setSlotsEdit(slots);
+      trainingService.update(index, value).then((x) => {
+        console.log("successfully updated value");
+      });
+    }
   }
   return (
     <>
