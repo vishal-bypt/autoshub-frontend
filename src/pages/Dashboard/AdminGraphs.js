@@ -1,12 +1,14 @@
-import React from "react";
+import React, {useState} from "react";
 import { Col, Row, Card, CardBody, CardTitle, CardHeader } from "reactstrap";
 import { Link } from "react-router-dom";
 import EPieChart from "../../components/AllCharts/echart/piechart";
 import GaugeChart from "../../components/AllCharts/echart/gaugechart";
 import { dashboardService } from "../../services/dashboard.service";
 import Download from "@material-ui/icons/GetApp";
+import Loader from "../../components/Common/Loader";
 
 const AdminGraphs = (props) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   let exportDataFormatForAssigned = [
     {
       keyName: "name",
@@ -45,6 +47,7 @@ const AdminGraphs = (props) => {
   ];
 
   const handleDownloadDataForAssigned = () => {
+    setIsSubmitting(true)
     dashboardService
       .exportAnyReport(
         "ExportAssignedTraining",
@@ -57,10 +60,12 @@ const AdminGraphs = (props) => {
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+        setIsSubmitting(false)
       });
   };
 
   const handleDownloadDataForAttended = () => {
+    setIsSubmitting(true)
     dashboardService
       .exportAnyReport(
         "ExportAttendedTraining",
@@ -73,10 +78,12 @@ const AdminGraphs = (props) => {
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+        setIsSubmitting(false)
       });
   };
 
   const handleDownloadDataForAssignedAndAttended = () => {
+    setIsSubmitting(true)
     dashboardService
       .exportAnyReport(
         "ExportAssignedAndAttendedTraining",
@@ -89,6 +96,7 @@ const AdminGraphs = (props) => {
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+        setIsSubmitting(false)
       });
   };
 
@@ -175,6 +183,7 @@ const AdminGraphs = (props) => {
           </Card>
         </Col>
       </Row>
+      <Loader loading={isSubmitting} />
     </React.Fragment>
   );
 };
