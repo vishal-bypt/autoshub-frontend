@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from "react";
 import MetaTags from "react-meta-tags";
 import {
-  Button, Col,
-  Container, FormGroup, Input, Label, Row
+  Button,
+  Col,
+  Container,
+  FormGroup,
+  Input,
+  Label,
+  Row,
 } from "reactstrap";
 //import Breadcrumbs
 import Breadcrumbs from "../../components/Common/Breadcrumb";
@@ -12,7 +17,7 @@ import { dashboardService } from "../../services/dashboard.service";
 import AdminGraphs from "./AdminGraphs";
 import ManagerGraphs from "./ManagerGraphs";
 import UserGraphs from "./UserGraphs";
-
+import Loader from "../../components/Common/Loader";
 
 const Dashboard = () => {
   const [trainingPartnerAssigned, setTrainingPartnerAssigned] = useState([]);
@@ -21,7 +26,7 @@ const Dashboard = () => {
   const [
     trainingPartnerAssignedAttended,
     setTrainingPartnerAssignedAttended,
-  ] = useState([{value : trainingPartnerAssigned}]);
+  ] = useState([{ value: trainingPartnerAssigned }]);
   const [employeedWiseNominated, setEmployeedWiseNominated] = useState([]);
   const [employeedWiseAttended, setEmployeedWiseAttended] = useState([]);
   const [nominatedAcceptedRejected, setNominatedAcceptedRejected] = useState(
@@ -31,13 +36,14 @@ const Dashboard = () => {
   const [startDate, setStartDate] = useState(undefined);
   const [endDate, setEndDate] = useState(undefined);
   const userDetails = accountService.userValue;
-
+  const [isSubmitting, setIsSubmitting] = useState(true);
 
   useEffect(() => {
     apiCalls();
   }, []);
 
   const apiCalls = (startDate, endDate) => {
+    setIsSubmitting(true);
     dashboardService
       .getTrainingPartnerAssigned(startDate, endDate)
       .then((x) => setTrainingPartnerAssigned(x));
@@ -60,31 +66,31 @@ const Dashboard = () => {
       .getEmployeedWiseAssigned(startDate, endDate)
       .then((x) => setEmployeedWiseAssigned(x));
 
-    trainingService
-      .getTrainingReport()
-      .then((x) => setTrainingReport(x));
-
-  }
+    trainingService.getTrainingReport().then((x) => {
+      setTrainingReport(x);
+      setIsSubmitting(false);
+    });
+  };
 
   const handleStartDate = (e) => {
     setStartDate(e.target.value);
-  }
+  };
 
   const handleEndDate = (e) => {
     setEndDate(e.target.value);
-  }
+  };
 
   const handleSubmit = (e) => {
     console.log("startDate", startDate);
     console.log("endDate", endDate);
     apiCalls(startDate, endDate);
-  }
+  };
 
   const handleClear = (e) => {
     setStartDate("");
     setEndDate("");
     apiCalls();
-  }
+  };
 
   //console.log("trainingReport", trainingReport);
   return (
@@ -124,24 +130,69 @@ const Dashboard = () => {
               </FormGroup>
             </Col>
             <Col xl={2}>
-              {startDate && endDate && <Button name="btnFilter" className="mt-4" color="primary" id="btnFilter" onClick={handleSubmit}>Filter</Button>}
-              {(startDate === undefined || endDate === undefined) && <Button name="btnFilter" disabled className="mt-4" color="primary" id="btnFilter" >Filter</Button>}&nbsp;
-              <Button name="btnClear" onClick={handleClear} className="mt-4" color="danger" id="btnClear" >Clear</Button>
+              {startDate && endDate && (
+                <Button
+                  name="btnFilter"
+                  className="mt-4"
+                  color="primary"
+                  id="btnFilter"
+                  onClick={handleSubmit}
+                >
+                  Filter
+                </Button>
+              )}
+              {(startDate === undefined || endDate === undefined) && (
+                <Button
+                  name="btnFilter"
+                  disabled
+                  className="mt-4"
+                  color="primary"
+                  id="btnFilter"
+                >
+                  Filter
+                </Button>
+              )}
+              &nbsp;
+              <Button
+                name="btnClear"
+                onClick={handleClear}
+                className="mt-4"
+                color="danger"
+                id="btnClear"
+              >
+                Clear
+              </Button>
             </Col>
           </Row>
           &nbsp;
-
-          {userDetails && userDetails.userRoleArray.includes("Admin" || "Executive") &&
-            <AdminGraphs trainingPartnerAssigned={trainingPartnerAssigned} trainingPartnerAttended={trainingPartnerAttended} trainingPartnerAssignedAttended={trainingPartnerAssignedAttended} />
-          }
-          {userDetails && userDetails.userRoleArray.includes("User" || "Executive") &&
-            <UserGraphs employeedWiseNominated={employeedWiseNominated} employeedWiseAttended={employeedWiseAttended} nominatedAcceptedRejected={nominatedAcceptedRejected} />
-          }
-          {userDetails && userDetails.userRoleArray.includes("Manager" || "Executive") &&
-            <ManagerGraphs employeedWiseAssigned={employeedWiseAssigned} employeedWiseNominated={employeedWiseNominated} />
-          }
+          {userDetails &&
+            userDetails.userRoleArray.includes("Admin" || "Executive") && (
+              <AdminGraphs
+                trainingPartnerAssigned={trainingPartnerAssigned}
+                trainingPartnerAttended={trainingPartnerAttended}
+                trainingPartnerAssignedAttended={
+                  trainingPartnerAssignedAttended
+                }
+              />
+            )}
+          {userDetails &&
+            userDetails.userRoleArray.includes("User" || "Executive") && (
+              <UserGraphs
+                employeedWiseNominated={employeedWiseNominated}
+                employeedWiseAttended={employeedWiseAttended}
+                nominatedAcceptedRejected={nominatedAcceptedRejected}
+              />
+            )}
+          {userDetails &&
+            userDetails.userRoleArray.includes("Manager" || "Executive") && (
+              <ManagerGraphs
+                employeedWiseAssigned={employeedWiseAssigned}
+                employeedWiseNominated={employeedWiseNominated}
+              />
+            )}
         </Container>
       </div>
+      <Loader loading={isSubmitting} />
     </React.Fragment>
   );
 };
