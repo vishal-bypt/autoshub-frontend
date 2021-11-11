@@ -11,7 +11,7 @@ class Guage extends Component {
   getOption = () => {
     const assigned = this?.props?.data[0]?.value;
     const attended = this?.props?.data[1]?.value;
-    const percentage = Number(attended) * 100 / Number(assigned);
+    const percentage = Math.round(Number(attended) * 100 / Number(assigned));
     return {
       tooltip: {
         formatter: "{a} <br/>{b} : {c}%",
@@ -47,7 +47,7 @@ class Guage extends Component {
               width: 20,
             },
           },
-          data: [{ value: percentage, name: "Completion rate" }],
+          data: [{ value: percentage ? percentage : 0, name: "Completion rate" }],
         },
       ],
     }

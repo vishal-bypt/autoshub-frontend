@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import { Card, Col } from "reactstrap";
 import { Role, setCurrentUserRole } from "../../helpers";
 
@@ -29,9 +29,11 @@ const TileComponent = (props) => {
     return (
       <Col xl="3" sm="6">
         <div className="tile-div text-center ">
+          
           <img
             src={tileImage}
             alt={tileRole}
+            style={{width:'300px', heigth: '300px', cursor:'pointer'}}
             onClick={() => {
               setCurrentUserRole(tileRole);
               setTimeout(() => {
@@ -45,6 +47,7 @@ const TileComponent = (props) => {
           />
           
           <div className="text-center">{tileRole}</div>
+          
         </div>
       </Col>
     );
