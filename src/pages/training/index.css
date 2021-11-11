@@ -1,15 +1,17 @@
 .newbutton{
     border-radius: 6px;
     font-weight: bold;
-    color: #000;
+    color: #fff;
     font-size: 15px;
     padding: 15px 15px;
-    background: rgba(255,255,255,0.6);
+    background: #181818;
     box-shadow: 0px 15px 25px rgba(0,0,0,0.6);
     backdrop-filter: blur(20px);
     margin-right: 20px;
-    border-left:1px solid rgba(255,255,255,0.1);
-    border-top:1px solid rgba(255,255,255,0.1);
+    border-top:0.5px solid rgba(255,255,255,0.3);
+    border-left:0.5px solid rgba(255,255,255,0.1);
+    border-right:1px solid rgba(255,255,255,0.5);
+    border-bottom:1px solid rgba(255,255,255,0.5);
     transition: 0.5s;   
     align-items: center;
     justify-content: center; 
@@ -17,7 +19,7 @@
 }
 
 .newbutton:hover{
-    background: #41a8ce;
+    background: #C85A2C;
     color: #fff;
 }
 
@@ -28,6 +30,6 @@ body{
 }
 
 .newbutton.active{
-    background: #41a8ce;
+    background: #C85A2C;
     color: #fff;
   }
