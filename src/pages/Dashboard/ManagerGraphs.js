@@ -1,13 +1,14 @@
-import React from "react";
+import React, {useState} from "react";
 import { Col, Row, Card, CardBody, CardTitle, CardHeader } from "reactstrap";
 // import chartJs
 import EPieChart from "../../components/AllCharts/echart/piechart";
 import { Link } from "react-router-dom";
 import { dashboardService } from "../../services/dashboard.service";
 import Download from "@material-ui/icons/GetApp";
+import Loader from "../../components/Common/Loader";
 
 const ManagerGraphs = (props) => {
-
+  const [isSubmitting, setIsSubmitting] = useState(false);
   let exportDataFormatForAssigned = [
     {
       keyName: "name",
@@ -35,6 +36,7 @@ const ManagerGraphs = (props) => {
   ];
 
   const handleDownloadDataForAssigned = () => {
+    setIsSubmitting(true)
     dashboardService
       .exportAnyReport(
         "ExportAssignedTraining",
@@ -47,10 +49,12 @@ const ManagerGraphs = (props) => {
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+        setIsSubmitting(false)
       });
   };
 
   const handleDownloadDataForNominated = () => {
+    setIsSubmitting(true)
     dashboardService
       .exportAnyReport(
         "ExportNominatedTraining",
@@ -63,6 +67,7 @@ const ManagerGraphs = (props) => {
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+        setIsSubmitting(false)
       });
   };
 
@@ -107,6 +112,7 @@ const ManagerGraphs = (props) => {
           </Card>
         </Col>
       </Row>
+      <Loader loading={isSubmitting} />
     </React.Fragment>
   );
 };

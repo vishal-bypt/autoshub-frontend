@@ -1,13 +1,15 @@
-import React from "react";
+import React, {useState} from "react";
 import { Col, Row, Card, CardBody, CardTitle, CardHeader } from "reactstrap";
 import { Link } from "react-router-dom";
 import { dashboardService } from "../../services/dashboard.service";
 import Download from "@material-ui/icons/GetApp";
+import Loader from "../../components/Common/Loader";
 
 // import chartJs
 import EPieChart from "../../components/AllCharts/echart/piechart";
 
 const UserGraphs = (props) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   let exportDataFormatForNominated = [
     {
       keyName: "name",
@@ -48,6 +50,7 @@ const UserGraphs = (props) => {
   ];
 
   const handleDownloadDataForNominated = () => {
+    setIsSubmitting(true)
     dashboardService
       .exportAnyReport(
         "ExportNominatedTraining",
@@ -60,10 +63,12 @@ const UserGraphs = (props) => {
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+        setIsSubmitting(false)
       });
   };
 
   const handleDownloadDataForAttended = () => {
+    setIsSubmitting(true)
     dashboardService
       .exportAnyReport(
         "ExportNominatedTraining",
@@ -76,10 +81,12 @@ const UserGraphs = (props) => {
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+        setIsSubmitting(false)
       });
   };
 
   const handleDownloadDataForNominatedAcceptedRejected = () => {
+    setIsSubmitting(true)
     dashboardService
       .exportAnyReport(
         "ExportNominatedAcceptedRejectedTraining",
@@ -92,12 +99,9 @@ const UserGraphs = (props) => {
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+        setIsSubmitting(false)
       });
   };
-
-  
-
-  
 
   return (
     <React.Fragment>
@@ -164,6 +168,7 @@ const UserGraphs = (props) => {
           </Card>
         </Col>
       </Row>
+      <Loader loading={isSubmitting} />
     </React.Fragment>
   );
 };
