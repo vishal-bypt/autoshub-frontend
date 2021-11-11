@@ -27,7 +27,7 @@ const Locations = (props) => {
                             </div>
                         </div>
 
-                        <div id="sales-by-locations" data-colors='["#40A8CE"]' style={{ height: "250px" }}>
+                        <div id="sales-by-locations" data-colors='["#C85A2C"]' style={{ height: "250px" }}>
                             <div style={{ width: props.width, height: 500 }}>
                                 <VectorMap
                                     map={"us_aea"}

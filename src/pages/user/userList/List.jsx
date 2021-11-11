@@ -106,7 +106,10 @@ function List({ history, match }) {
             // md="4"
             className="d-flex justify-content-between"
           >
-            <div className="search-box me-2 mb-2 d-inline-block">
+            <div
+              className="search-box me-2 mb-2 d-inline-block"
+              style={{ width: "15%" }}
+            >
               <div className="position-relative">
                 {/* <SearchBar searchText={searchValue} onSearch={onSearch} /> */}
                 <input
