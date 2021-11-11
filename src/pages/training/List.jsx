@@ -8,8 +8,8 @@ import PopUpFileUpload from "./PopUpFileUpload";
 import { Role } from "./../../helpers/role";
 
 import SweetAlert from "react-bootstrap-sweetalert";
-import CustomSelect from '../../components/CustomSelect';
-import { ErrorMessage, FastField, Field, Form, Formik } from 'formik';
+import CustomSelect from "../../components/CustomSelect";
+import { ErrorMessage, FastField, Field, Form, Formik } from "formik";
 import "./index.css";
 function List1({ history, match }) {
   const { path } = match;
@@ -24,6 +24,7 @@ function List1({ history, match }) {
   const [openDropDown, setOpenDropDown] = React.useState(false);
   let filteredData = [];
   useEffect(() => {
+    setTrainings(null);
     if (userDetails?.currentRole == Role.Admin) {
       trainingService.getAll().then((x) => {
         setTrainings(x);
@@ -32,7 +33,7 @@ function List1({ history, match }) {
     if (userDetails?.currentRole == Role.Manager) {
       let userData = [];
       trainingService.listTaskToUser().then((x) => {
-        console.log("x == ", x)
+        console.log("x == ", x);
         x.map((data) => {
           x = data.training;
           userData.push(x);
@@ -54,20 +55,20 @@ function List1({ history, match }) {
         setTrainings(userData);
       });
     }
-  }, []);
+  }, [userDetails?.currentRole]);
 
-  function onSubmit(fields, { setStatus, setSubmitting }) {    
+  function onSubmit(fields, { setStatus, setSubmitting }) {
     let params = {
       rejectionReason: fields.reason,
       id: selectedTraining.id,
-    }   
+    };
     trainingService.acceptOrRejectPreRequisites(params).then((data) => {
       alertService.success("Successfully submitted training rejection reason", {
         keepAfterRouteChange: true,
-      });  
-      setSelectedTraining("")    
+      });
+      setSelectedTraining("");
       let userData = [];
-      trainingService.listTaskToUsers().then((x) => {        
+      trainingService.listTaskToUsers().then((x) => {
         x.map((data) => {
           x = data;
           x.assignedByName = `${data.assignBy.firstName}  ${data.assignBy.lastName}`;
@@ -79,7 +80,7 @@ function List1({ history, match }) {
       });
       //history.push('/training');
     });
-    setOpenDropDown(false)
+    setOpenDropDown(false);
   }
 
   const initialValues = {
@@ -98,7 +99,7 @@ function List1({ history, match }) {
   function handleClickAccept(e) {
     let params = {
       id: e.id,
-      isAccepted: 1
+      isAccepted: 1,
     };
     console.log("params -=-= ", params);
     trainingService.acceptOrRejectPreRequisites(params).then((data) => {
@@ -127,8 +128,8 @@ function List1({ history, match }) {
       id: e.id,
       isAccepted: 2,
     };
-    setOpenDropDown(true)
-    setSelectedTraining(e)
+    setOpenDropDown(true);
+    setSelectedTraining(e);
     console.log("params == ", params);
     trainingService.acceptOrRejectPreRequisites(params).then((data) => {
       alertService.success("Successfully accepted training prerequisites", {
@@ -415,7 +416,7 @@ function List1({ history, match }) {
                           </td>
                           <td>
                             {user.training?.trainingPrequisites != "-" &&
-                              user.isAccepted == 0 ? (
+                            user.isAccepted == 0 ? (
                               <div>
                                 <a
                                   style={{
@@ -446,8 +447,8 @@ function List1({ history, match }) {
                             ) : (
                               <div>
                                 {user?.isAccepted == true &&
-                                  user?.isPrerequisiteUploaded == false &&
-                                  user.training?.trainingPrequisites != "NA" ? (
+                                user?.isPrerequisiteUploaded == false &&
+                                user.training?.trainingPrequisites != "NA" ? (
                                   <div>
                                     <PopUpFileUpload
                                       id={user.id}
@@ -457,85 +458,130 @@ function List1({ history, match }) {
                                 ) : (
                                   <div>
                                     {user.isPrerequisiteUploaded == true &&
-                                      user?.isAccepted == true ? (
+                                    user?.isAccepted == true ? (
                                       <div>Accepted</div>
                                     ) : (
                                       <div>
                                         {user?.isAccepted == 2 ? (
                                           <div>
-                                            {
-                                              openDropDown ?
-                                                <SweetAlert                                                  
-                                                  type={'controlled'}
-                                                  closeOnClickOutside={true}
-                                                  onConfirm={() => {
-                                                    setOpenDropDown(false)
-                                                  }}
-                                                  showConfirm={false}
-                                                  style={{ overflow: "-moz-initial", justifyContent: 'flex-start' }}
-                                                >
+                                            {openDropDown ? (
+                                              <SweetAlert
+                                                type={"controlled"}
+                                                closeOnClickOutside={true}
+                                                onConfirm={() => {
+                                                  setOpenDropDown(false);
+                                                }}
+                                                showConfirm={false}
+                                                style={{
+                                                  overflow: "-moz-initial",
+                                                  justifyContent: "flex-start",
+                                                }}
+                                              >
+                                                <div>
                                                   <div>
-                                                    <div>
-                                                      <Formik initialValues={initialValues} onSubmit={onSubmit}
-                                                        onValidationError={errorValues => {
-                                                        }}
-                                                      >
-                                                        {({ errors, values, touched, isSubmitting, setFieldValue, handleBlur, setTouched }) => {
-                                                          return (
-                                                            <Form>
-                                                              <div>
-                                                                <label>Reasons for Decline Training</label>
-                                                                <FastField
-                                                                  name="reason"
-                                                                  onBlurValue={(field) => { setTouched({ ...touched, [field]: true}); }}
-                                                                  options={[
-                                                                    {
-                                                                      label: "On Planned Leaves",
-                                                                      value: "On Planned Leaves"
-                                                                    },
-                                                                    {
-                                                                      label: "Schedule for another Training",
-                                                                      value: "Schedule for another Training"
-                                                                    },
-                                                                    {
-                                                                      label: "Ongoing project meetings/deadlines",
-                                                                      value: "Ongoing project meetings/deadlines"
-                                                                    },
-                                                                    {
-                                                                      label: "Ongoing Exit formalities",
-                                                                      value: "Ongoing Exit formalities"
-                                                                    },
-                                                                    {
-                                                                      label: "Not inclined to assigned skillset",
-                                                                      value: "Not inclined to assigned skillset"
-                                                                    },
-                                                                    {
-                                                                      label: "Other",
-                                                                      value: "Other"
-                                                                    },
-                                                                  ]}
-                                                                  placeholder="Please select reasons"
-                                                                  component={CustomSelect}
-                                                                  isMulti={false}
-                                                                />
-                                                              </div>
+                                                    <Formik
+                                                      initialValues={
+                                                        initialValues
+                                                      }
+                                                      onSubmit={onSubmit}
+                                                      onValidationError={(
+                                                        errorValues
+                                                      ) => {}}
+                                                    >
+                                                      {({
+                                                        errors,
+                                                        values,
+                                                        touched,
+                                                        isSubmitting,
+                                                        setFieldValue,
+                                                        handleBlur,
+                                                        setTouched,
+                                                      }) => {
+                                                        return (
+                                                          <Form>
+                                                            <div>
+                                                              <label>
+                                                                Reasons for
+                                                                Decline Training
+                                                              </label>
+                                                              <FastField
+                                                                name="reason"
+                                                                onBlurValue={(
+                                                                  field
+                                                                ) => {
+                                                                  setTouched({
+                                                                    ...touched,
+                                                                    [field]: true,
+                                                                  });
+                                                                }}
+                                                                options={[
+                                                                  {
+                                                                    label:
+                                                                      "On Planned Leaves",
+                                                                    value:
+                                                                      "On Planned Leaves",
+                                                                  },
+                                                                  {
+                                                                    label:
+                                                                      "Schedule for another Training",
+                                                                    value:
+                                                                      "Schedule for another Training",
+                                                                  },
+                                                                  {
+                                                                    label:
+                                                                      "Ongoing project meetings/deadlines",
+                                                                    value:
+                                                                      "Ongoing project meetings/deadlines",
+                                                                  },
+                                                                  {
+                                                                    label:
+                                                                      "Ongoing Exit formalities",
+                                                                    value:
+                                                                      "Ongoing Exit formalities",
+                                                                  },
+                                                                  {
+                                                                    label:
+                                                                      "Not inclined to assigned skillset",
+                                                                    value:
+                                                                      "Not inclined to assigned skillset",
+                                                                  },
+                                                                  {
+                                                                    label:
+                                                                      "Other",
+                                                                    value:
+                                                                      "Other",
+                                                                  },
+                                                                ]}
+                                                                placeholder="Please select reasons"
+                                                                component={
+                                                                  CustomSelect
+                                                                }
+                                                                isMulti={false}
+                                                              />
+                                                            </div>
 
-                                                              <div className="text-end mt-3">
-                                                                <button type="submit" className="btn btn-primary">
-                                                                  Submit
-                                                                </button>
-                                                              </div>
-                                                            </Form>
-                                                          );
-                                                        }}
-                                                      </Formik>
-                                                    </div>
-
+                                                            <div className="text-end mt-3">
+                                                              <button
+                                                                type="submit"
+                                                                className="btn btn-primary"
+                                                              >
+                                                                Submit
+                                                              </button>
+                                                            </div>
+                                                          </Form>
+                                                        );
+                                                      }}
+                                                    </Formik>
                                                   </div>
-                                                </SweetAlert> : <div>Rejected</div>
-                                            }
+                                                </div>
+                                              </SweetAlert>
+                                            ) : (
+                                              <div>Rejected</div>
+                                            )}
                                           </div>
-                                        ) : <div>Accepted</div>}
+                                        ) : (
+                                          <div>Accepted</div>
+                                        )}
                                       </div>
                                     )}
                                   </div>

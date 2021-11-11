@@ -26,7 +26,7 @@ function AddEdit({ history, match }) {
   const [uploadBtn, setUploadBtn] = useState(false);
   const [successBtn, setSuccessBtn] = useState(false);
   const [errorBtn, setErrorBtn] = useState(false);
-
+  const [slotsEdit,setSlotsEdit] = useState(null)
   const { layoutMode } = useSelector((state) => ({
     layoutMode: state.Layout.layoutMode,
   }));
@@ -47,6 +47,13 @@ function AddEdit({ history, match }) {
     }
   };
 
+  const handleRedirect = (params, index) =>{
+    let slots = slotsEdit ? slotsEdit : "N/A";
+    let value = { slots };
+    trainingService.update(index, value).then((x) => {
+      console.log("successfully updated value");
+    });
+  }
   const handleSubmit = (e) => {
     try {
       e.preventDefault();
@@ -81,6 +88,7 @@ function AddEdit({ history, match }) {
   function updatedValue(e, index) {
     let slots = e.target.value;
     let value = { slots };
+    setSlotsEdit(slots)
     trainingService.update(index, value).then((x) => {
       console.log("successfully updated value");
     });
@@ -94,78 +102,7 @@ function AddEdit({ history, match }) {
               <h1 className="font-weight-bold mb-2 text-danger">
                 Training Records
               </h1>
-            </div>
-            {/* <form encType="multipart/form-data">
-                <div className="form-group col-12 mt-2 p-0">
-                  <input
-                    type="file"
-                    display="none"
-                    name=""
-                    id="ExcelFile"
-                    className="form-control"
-                    onChange={onFileChange}
-                    hidden
-                  />
-                </div>
-              </form>
-              <div className="variantsPopUpFileUpload text-end">
-                {selectBtn && (
-                  <IconButton
-                    onClick={() => {
-                      document.getElementById("ExcelFile").click();
-                    }}
-                  >
-                    <div className="filePopUpFileUpload text-white bg-danger p-2">
-                      <label htmlFor="input-file selectAndUpload">
-                        <CloudQueueIcon />
-                        &nbsp;SelectFile & upload
-                      </label>
-                    </div>
-                  </IconButton>
-                )}
-                {uploadBtn && (
-                  <IconButton onClick={handleSubmit}>
-                    <div className="filePopUpFileUpload file--uploadingPopUpFileUpload">
-                      <label htmlFor="input-file text-white">
-                        <BackupIcon />
-                        Upload
-                      </label>
-                    </div>
-                  </IconButton>
-                )}
-
-                {successBtn && (
-                  <IconButton
-                    onClick={() => {
-                      setSuccessBtn(false);
-                      setSelectBtn(true);
-                    }}
-                  >
-                    <div className="filePopUpFileUpload file--successPopUpFileUpload">
-                      <label htmlFor="input-file text-white">
-                        <CloudDoneIcon />
-                        Success
-                      </label>
-                    </div>
-                  </IconButton>
-                )}
-
-                {errorBtn && (
-                  <IconButton
-                    onClick={() => {
-                      setErrorBtn(false);
-                      setSelectBtn(true);
-                    }}
-                  >
-                    <div className="filePopUpFileUpload file--dangerPopUpFileUpload">
-                      <label htmlFor="input-file text-white">
-                        <CloudOffIcon />
-                        Error
-                      </label>
-                    </div>
-                  </IconButton>
-                )}
-              </div> */}
+            </div>            
             <div className="col-md-4 text-end">
               <Link
                 to={"/training/uploadFiles"}
@@ -179,65 +116,7 @@ function AddEdit({ history, match }) {
               </Link>
             </div>
           </div>
-        </div>
-        {/* <div className="data-table-div">
-                    <div className="data-table">
-                        <div className="table-responsive">
-                            <table className="table">
-                                <thead>
-                                    <tr>                                        
-                                        <th className="traning-listing" >#</th>
-                                        <th className="traning-listing" >Training Name</th>
-                                        <th className="traning-listing" >Training Type</th>
-                                        <th className="traning-listing" >Start Date</th>
-                                        <th className="traning-listing" >End Date</th>
-                                        <th className="traning-listing" >Required Prerequisites</th>
-                                        <th className="traning-listing" >Stream</th>
-                                        <th className="traning-listing" >Tool Name</th>
-                                        <th className="traning-listing" >Created</th>
-                                        <th className="traning-listing" >Nomination End Date</th>
-                                        <th className="traning-listing" >Vacancies</th>                                        
-                                        <th className="traning-listing" ></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                {users && users.map((user, index) =>
-                                    
-                                        <tr key={user.id}>                                           
-                                            <td className="traning-listing" style={{ minWidth: '40px' }}>{index + 1}</td>
-                                            <td className="traning-listing" style={{ minWidth: '150px' }} >{user.trainingName}</td>
-                                            <td className="traning-listing" style={{ minWidth: '150px' }}>{user.trainingType}</td>
-                                            <td className="traning-listing" style={{ minWidth: '150px' }}>{moment(user.trainingStartDate).format("DD/MM/YYYY")}</td>
-                                            <td className="traning-listing" style={{ minWidth: '150px' }}>{moment(user.trainingEndDate).format("DD/MM/YYYY")}</td>
-                                            <td className="traning-listing" style={{ minWidth: '120px' }}>{user.trainingPrequisites}</td>
-                                            <td className="traning-listing" style={{ minWidth: '75px' }}>{user.stream}</td>
-                                            <td className="traning-listing" style={{ minWidth: '100px' }}>{user.toolName}</td>
-                                            <td className="traning-listing" style={{ minWidth: '150px' }}>{moment(user.created).format("DD/MM/YYYY")}</td>
-                                            <td className="traning-listing" style={{ minWidth: '150px' }}>{moment(user.nominationEndDate).format("DD/MM/YYYY")}</td>
-                                            <div className="table-editable">
-                                                <td className="traning-listing" style={{ minWidth: '150px' }} ><AllInclusive/></td>
-                                            </div>
-                                            
-                                            <td className="traning-listing" style={{ whiteSpace: 'nowrap', minWidth: '30%' }}>
-                                                {userDetails.role == "Admin" && <div >
-                                                    <Link to={`/training/assign/${user.id}`} className="btn btn-sm btn-primary mr-1">Assign</Link>
-                                                </div>}
-                                            </td>
-                                        </tr>                                    
-                                )
-                                }
-                                {!users &&
-                                    <tr>
-                                        <td colSpan="4" className="text-center">
-                                            <span className="spinner-border spinner-border-lg align-center"></span>
-                                        </td>
-                                    </tr>
-                                }
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div> */}
+        </div>        
         <div className="">
           <div className="card-body">
             <div id="table" className="table-editable  table-responsive">
@@ -367,7 +246,8 @@ function AddEdit({ history, match }) {
                           {userDetails.currentRole === Role.Admin && (
                             <div>
                               <Link
-                                to={`/training/assign/${user.id}`}
+                                /* onClick={() => handleRedirect(`/training/assign/${user.id}`,index+1)} */
+                                to={`/training/assign/${user.id}`} 
                                 className="btn btn-sm btn-primary mr-1"
                               >
                                 Assign
