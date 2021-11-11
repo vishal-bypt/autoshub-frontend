@@ -2,7 +2,7 @@ import React from 'react';
 import ReactApexChart from "react-apexcharts"
 
 const OverviewCharts = () => {
-    const barchartColors = ["#40A8CE", "#34c38f"];
+    const barchartColors = ["#C85A2C", "#34c38f"];
     const series = [{
         name: 'Profit',
         data: [12.45, 16.2, 8.9, 11.42, 12.6, 18.1, 18.2, 14.16, 11.1, 8.09, 16.34, 12.88]
