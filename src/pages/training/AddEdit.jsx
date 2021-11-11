@@ -26,7 +26,7 @@ function AddEdit({ history, match }) {
   const [uploadBtn, setUploadBtn] = useState(false);
   const [successBtn, setSuccessBtn] = useState(false);
   const [errorBtn, setErrorBtn] = useState(false);
-  const [slotsEdit,setSlotsEdit] = useState(null)
+  const [slotsEdit, setSlotsEdit] = useState(null);
   const { layoutMode } = useSelector((state) => ({
     layoutMode: state.Layout.layoutMode,
   }));
@@ -47,13 +47,13 @@ function AddEdit({ history, match }) {
     }
   };
 
-  const handleRedirect = (params, index) =>{
+  const handleRedirect = (params, index) => {
     let slots = slotsEdit ? slotsEdit : "N/A";
     let value = { slots };
     trainingService.update(index, value).then((x) => {
       console.log("successfully updated value");
     });
-  }
+  };
   const handleSubmit = (e) => {
     try {
       e.preventDefault();
@@ -88,7 +88,7 @@ function AddEdit({ history, match }) {
   function updatedValue(e, index) {
     let slots = e.target.value;
     let value = { slots };
-    setSlotsEdit(slots)
+    setSlotsEdit(slots);
     trainingService.update(index, value).then((x) => {
       console.log("successfully updated value");
     });
@@ -102,7 +102,7 @@ function AddEdit({ history, match }) {
               <h1 className="font-weight-bold mb-2 text-danger">
                 Training Records
               </h1>
-            </div>            
+            </div>
             <div className="col-md-4 text-end">
               <Link
                 to={"/training/uploadFiles"}
@@ -116,7 +116,7 @@ function AddEdit({ history, match }) {
               </Link>
             </div>
           </div>
-        </div>        
+        </div>
         <div className="">
           <div className="card-body">
             <div id="table" className="table-editable  table-responsive">
@@ -215,15 +215,15 @@ function AddEdit({ history, match }) {
                           {moment(user.nominationEndDate).format("DD/MM/YYYY")}
                         </Td>
                         <Td
-                          className="traning-listing"
+                          className="traning-listing text-center"
                           contentEditable="false"
-                          style={{ maxWidth: "50px" }}
+                          style={{ maxWidth: "80px" }}
                           onBlur={(e) => updatedValue(e, index + 1)}
                         >
                           <input
                             style={{
                               backgroundColor: "white",
-                              maxWidth: "50px",
+                              maxWidth: "60px",
                               // color:
                               //   layoutMode === layoutTheme.DARKMODE
                               //     ? "#858D98"
@@ -233,7 +233,6 @@ function AddEdit({ history, match }) {
                               //     ? "#FFFFFA"
                               //     : "#FFFFFF",
                             }}
-                            type="number"
                             min="0"
                             className="border-0"
                             placeholder={user.slots ? user.slots : "N/A"}
@@ -247,7 +246,7 @@ function AddEdit({ history, match }) {
                             <div>
                               <Link
                                 /* onClick={() => handleRedirect(`/training/assign/${user.id}`,index+1)} */
-                                to={`/training/assign/${user.id}`} 
+                                to={`/training/assign/${user.id}`}
                                 className="btn btn-sm btn-primary mr-1"
                               >
                                 Assign

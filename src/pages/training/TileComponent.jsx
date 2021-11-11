@@ -28,7 +28,7 @@ const TileComponent = (props) => {
 
     return (
       <Col xl="3" sm="6">
-        <Card className="text-center">
+        <div className="tile-div text-center ">
           <img
             src={tileImage}
             alt={tileRole}
@@ -45,7 +45,7 @@ const TileComponent = (props) => {
           />
           
           <div className="text-center">{tileRole}</div>
-        </Card>
+        </div>
       </Col>
     );
   };

@@ -223,7 +223,10 @@ const List = ({ history }) => {
             // md="4"
             className="d-flex justify-content-start"
           >
-            <div className="search-box me-2 mb-2 d-inline-block">
+            <div
+              className="search-box me-2 mb-2 d-inline-block"
+              style={{ width: "15%" }}
+            >
               <div className="position-relative">
                 <input
                   key="random1"

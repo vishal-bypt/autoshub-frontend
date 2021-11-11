@@ -120,7 +120,7 @@ function EditUser({ history, match, location }) {
             <h1>Edit User</h1>
           </div>
           <div className="col-md-6 text-end">
-            <Link to={"."} className="btn btn-danger">
+            <Link to={"/userList"} className="btn btn-danger">
               <ArrowBackIcon className="mr-1" />
               Back
             </Link>

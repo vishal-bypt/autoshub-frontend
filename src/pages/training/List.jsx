@@ -6,7 +6,7 @@ import moment from "moment";
 import { accountService, trainingService, alertService } from "../../services";
 import PopUpFileUpload from "./PopUpFileUpload";
 import { Role } from "./../../helpers/role";
-
+import Loader from "./../../components/Common/Loader";
 import SweetAlert from "react-bootstrap-sweetalert";
 import CustomSelect from "../../components/CustomSelect";
 import { ErrorMessage, FastField, Field, Form, Formik } from "formik";
@@ -22,6 +22,8 @@ function List1({ history, match }) {
   const [reject, setReject] = useState(false);
   const [selectedTraining, setSelectedTraining] = useState(null);
   const [openDropDown, setOpenDropDown] = React.useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   let filteredData = [];
   useEffect(() => {
     setTrainings(null);
@@ -97,30 +99,37 @@ function List1({ history, match }) {
   };
 
   function handleClickAccept(e) {
+    setIsSubmitting(true);
     let params = {
       id: e.id,
       isAccepted: 1,
     };
     console.log("params -=-= ", params);
-    trainingService.acceptOrRejectPreRequisites(params).then((data) => {
-      alertService.success("Successfully accepted training", {
-        keepAfterRouteChange: true,
-      });
-      setAccept(true);
-      let userData = [];
-      trainingService.listTaskToUsers().then((x) => {
-        console.log("x of user == ", x);
-        x.map((data) => {
-          x = data;
-          x.assignedByName = `${data.assignBy.firstName}  ${data.assignBy.lastName}`;
-          x.assignedToName = `${data.assignTo.firstName}  ${data.assignTo.lastName}`;
-          x.acceptRejectStatus = data.acceptRejectStatus;
-          userData.push(x);
+    trainingService
+      .acceptOrRejectPreRequisites(params)
+      .then((data) => {
+        alertService.success("Successfully accepted training", {
+          keepAfterRouteChange: true,
         });
-        setTrainings(userData);
+        setAccept(true);
+        let userData = [];
+        trainingService.listTaskToUsers().then((x) => {
+          console.log("x of user == ", x);
+          x.map((data) => {
+            x = data;
+            x.assignedByName = `${data.assignBy.firstName}  ${data.assignBy.lastName}`;
+            x.assignedToName = `${data.assignTo.firstName}  ${data.assignTo.lastName}`;
+            x.acceptRejectStatus = data.acceptRejectStatus;
+            userData.push(x);
+          });
+          setTrainings(userData);
+          setIsSubmitting(false);
+        });
+        // history.push('/training');
+      })
+      .catch((error) => {
+        setIsSubmitting(false);
       });
-      // history.push('/training');
-    });
   }
 
   function handleClickReject(e) {
@@ -153,8 +162,10 @@ function List1({ history, match }) {
   }
 
   const handleExportData = () => {
+    setIsSubmitting(true);
     try {
       trainingService.exportData("latest").then((response) => {
+        setIsSubmitting(false);
         //setUsers(x);
         const link = document.createElement("a");
         link.href = response.exportPath;
@@ -164,6 +175,7 @@ function List1({ history, match }) {
       });
     } catch (error) {
       console.log("error", error);
+      setIsSubmitting(false);
     }
   };
   console.log("trainings = ", trainings);
@@ -420,8 +432,9 @@ function List1({ history, match }) {
                               <div>
                                 <a
                                   style={{
-                                    color: "blue",
+                                    color: "#00b100",
                                     textDecoration: "underline",
+                                    cursor: "pointer",
                                   }}
                                   onClick={() => {
                                     handleClickAccept(user);
@@ -430,11 +443,12 @@ function List1({ history, match }) {
                                 >
                                   Approve
                                 </a>
-                                /
+                                &nbsp;/&nbsp;
                                 <a
                                   style={{
-                                    color: "blue",
+                                    color: "#e60000",
                                     textDecoration: "underline",
+                                    cursor: "pointer",
                                   }}
                                   onClick={() => {
                                     handleClickReject(user);
@@ -705,6 +719,7 @@ function List1({ history, match }) {
           </div>
         </div>
       </div>
+      <Loader loading={isSubmitting} />
     </div>
   );
 }
