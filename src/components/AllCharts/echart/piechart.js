@@ -13,7 +13,7 @@ class Pie extends Component {
           restore: { title: "Restore" },
           saveAsImage: {
             title: 'Save As picture'
-          }
+          }, 
         }
       },
       tooltip: {

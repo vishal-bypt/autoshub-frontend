@@ -86,7 +86,7 @@ const Dashboard = () => {
     apiCalls();
   }
 
-  console.log("trainingReport", trainingReport);
+  //console.log("trainingReport", trainingReport);
   return (
     <React.Fragment>
       <div className="page-content">

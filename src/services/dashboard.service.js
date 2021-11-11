@@ -15,6 +15,7 @@ export const dashboardService = {
   getEmployeedWiseAttended,
   getNominatedAcceptedRejected,
   getEmployeedWiseAssigned,
+  exportAnyReport,
   user: userSubject.asObservable(),
   get userValue() { return userSubject.value ? userSubject.value : JSON.parse(localStorage.getItem('authUser')) }
 };
@@ -116,6 +117,14 @@ function getEmployeedWiseAssigned(startDate="", endDate="") {
     //     { value: 15, name: "AWS" },
     //     { value: 20, name: "Automation" },
     //   ]);
+}
+
+
+function exportAnyReport(reportName, reportData, reportKeys) {
+    
+  //return fetchWrapper.get(`${baseUrl}`);
+  return fetchWrapper.post(`${baseUrlTraining}/exportAnyReport`, {'reportName' : reportName, 'reportData' : reportData, 'reportKeys' : reportKeys});
+    
 }
 
 function refreshToken() {
