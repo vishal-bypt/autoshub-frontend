@@ -27,6 +27,8 @@ export const accountService = {
     create,
     update,
     uploadUsersExcel,
+    getExecManagerList,
+    getManagerListByExecId,
     delete: _delete,
     assignUser: assignUser,
     user: userSubject.asObservable(),
@@ -164,6 +166,14 @@ function uploadUsersExcel(params) {
             body: params,
             method: "post"
         }).then(response => response.json());
+}
+
+function getExecManagerList() {
+    return fetchWrapper.get(`${baseUrl}/getExecManagerList`);
+}
+
+function getManagerListByExecId(id) {
+    return fetchWrapper.get(`${baseUrl}/getManagerListByExecId/${id}`);
 }
 
 // helper functions
