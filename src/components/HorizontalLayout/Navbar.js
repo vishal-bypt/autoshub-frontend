@@ -104,7 +104,7 @@ const Navbar = props => {
                           )
                         } else if (tileRole === Role.Admin) {
                           return (
-                            <div onClick={() => {
+                            <div style={{ cursor: 'pointer' }} onClick={() => {
                               setCurrentUserRole(tileRole);
                               setTimeout(() => {
                                 props.history.push("/training/list");
@@ -115,7 +115,7 @@ const Navbar = props => {
                           )
                         } else if (tileRole === Role.Manager) {
                           return (
-                            <div onClick={() => {
+                            <div style={{ cursor: 'pointer' }} onClick={() => {
                               setCurrentUserRole(tileRole);
                               setTimeout(() => {
                                 props.history.push("/training/list");
@@ -126,7 +126,7 @@ const Navbar = props => {
                           )
                         } else if (tileRole === Role.User) {
                           return (
-                            <div onClick={() => {
+                            <div style={{ cursor: 'pointer' }} onClick={() => {
                               setCurrentUserRole(tileRole);
                               setTimeout(() => {
                                 props.history.push("/training/myTraining");

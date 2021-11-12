@@ -138,7 +138,7 @@ const SidebarContent = props => {
                             onClick={e => {
                               e.preventDefault();
                             }} className="">
-                            <div onClick={() => {
+                            <div style={{ cursor: 'pointer' }} onClick={() => {
                               setCurrentUserRole(tileRole);
                               setTimeout(() => {
                                 props.history.push("/training/list");
@@ -159,7 +159,7 @@ const SidebarContent = props => {
                             onClick={e => {
                               e.preventDefault();
                             }} className="">
-                            <div onClick={() => {
+                            <div style={{ cursor: 'pointer' }} onClick={() => {
                               setCurrentUserRole(tileRole);
                               setTimeout(() => {
                                 props.history.push("/training/list");
@@ -180,7 +180,7 @@ const SidebarContent = props => {
                             onClick={e => {
                               e.preventDefault();
                             }} className="">
-                            <div onClick={() => {
+                            <div style={{ cursor: 'pointer' }} onClick={() => {
                               setCurrentUserRole(tileRole);
                               setTimeout(() => {
                                 props.history.push("/training/myTraining");
