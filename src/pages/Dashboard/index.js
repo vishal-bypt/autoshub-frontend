@@ -19,7 +19,7 @@ import ManagerGraphs from "./ManagerGraphs";
 import UserGraphs from "./UserGraphs";
 import Loader from "../../components/Common/Loader";
 import CustomSelect from '../../components/CustomSelect';
-import { ErrorMessage, FastField, Field, Form, Formik } from 'formik';
+import { ErrorMessage, FastField, Field, Form, Formik, setFieldValue } from 'formik';
 
 const Dashboard = () => {
   const [trainingPartnerAssigned, setTrainingPartnerAssigned] = useState([]);
@@ -57,28 +57,28 @@ const Dashboard = () => {
     }
   }, [selectedExecId])
 
-  const apiCalls = (startDate, endDate) => {
+  const apiCalls = (startDate, endDate, execManager, manager) => {
     setIsSubmitting(true);
     dashboardService
-      .getTrainingPartnerAssigned(startDate, endDate)
+      .getTrainingPartnerAssigned(startDate, endDate, execManager, manager)
       .then((x) => setTrainingPartnerAssigned(x));
+     dashboardService
+       .getTrainingPartnerAttended(startDate, endDate, execManager, manager)
+       .then((x) => setTrainingPartnerAttended(x));
     dashboardService
-      .getTrainingPartnerAttended(startDate, endDate)
-      .then((x) => setTrainingPartnerAttended(x));
-    dashboardService
-      .getTrainingPartnerAssignedAttended(startDate, endDate)
+      .getTrainingPartnerAssignedAttended(startDate, endDate, execManager, manager)
       .then((x) => setTrainingPartnerAssignedAttended(x));
     dashboardService
-      .getEmployeedWiseNominated(startDate, endDate)
+      .getEmployeedWiseNominated(startDate, endDate, execManager, manager)
       .then((x) => setEmployeedWiseNominated(x));
     dashboardService
-      .getEmployeedWiseAttended(startDate, endDate)
+      .getEmployeedWiseAttended(startDate, endDate, execManager, manager)
       .then((x) => setEmployeedWiseAttended(x));
     dashboardService
-      .getNominatedAcceptedRejected(startDate, endDate)
+      .getNominatedAcceptedRejected(startDate, endDate, execManager, manager)
       .then((x) => setNominatedAcceptedRejected(x));
     dashboardService
-      .getEmployeedWiseAssigned(startDate, endDate)
+      .getEmployeedWiseAssigned(startDate, endDate, execManager, manager)
       .then((x) => setEmployeedWiseAssigned(x));
 
     trainingService.getTrainingReport().then((x) => {
@@ -98,6 +98,10 @@ const Dashboard = () => {
             value: data?.execId
           }
           return dataObj
+        })
+        updatedArr.unshift({
+          label: "",
+          value: ""
         })
         setExecManagerList(updatedArr)
         setIsSubmitting(false)
@@ -147,11 +151,14 @@ const Dashboard = () => {
 
   const initialValues = {
     execManager: '',
-    manager: '',
+    manager: [],
   }
   function onSubmit(fields, { setStatus, setSubmitting }) {
-    console.log("fields:::", fields)
+    console.log("fields:::", fields);
+    apiCalls(startDate, endDate, fields.execManager, fields.manager);
+  
   }
+
 
   return (
     <React.Fragment>
@@ -190,7 +197,7 @@ const Dashboard = () => {
               </FormGroup>
             </Col>
             <Col xl={2}>
-              {startDate && endDate && (
+              {/* {startDate && endDate && (
                 <Button
                   name="btnFilter"
                   className="mt-4"
@@ -221,7 +228,7 @@ const Dashboard = () => {
                 id="btnClear"
               >
                 Clear
-              </Button>
+              </Button> */}
             </Col>
           </Row>
           &nbsp;
@@ -231,7 +238,8 @@ const Dashboard = () => {
               enableReinitialize
               onSubmit={onSubmit}
             >
-              {({ errors, values, touched, isSubmitting, setFieldValue, handleBlur, setTouched }) => {
+              {({ errors, values, touched, isSubmitting, setFieldValue, handleBlur, setTouched, resetForm }) => {
+                console.log("values", values);
                 return (
                   <Form>
                     <div className="row">
@@ -278,7 +286,22 @@ const Dashboard = () => {
                           type='submit'
                         >
                           Filter
-                        </Button>
+                        </Button>&nbsp;
+                        <Button
+                        name="btnClear"
+                        onClick={value => {
+                          setFieldValue('execManager', "", false);
+                          setFieldValue('manager', [], false);
+                          values.manager = [];
+                          values.execManager = "";
+                          handleClear();
+                        }} 
+                        className="mt-4"
+                        color="danger"
+                        id="btnClear"
+                      >
+                        Clear
+                      </Button>
                       </Col>
                     </div>
                   </Form>
