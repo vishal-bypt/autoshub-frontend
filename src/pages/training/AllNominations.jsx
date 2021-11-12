@@ -73,7 +73,8 @@ function AllNominations({ history, match }) {
   const handleClickReject = (e) => () => {
     let params = {
       id: e.trainingNominateId,
-      isAcceptedByAdmin: 2   
+      isAcceptedByAdmin: 2,
+      iscompleted:4   
     };
     trainingService.acceptOrRejectPreRequisites(params).then((data) => {
       alertService.success("Successfully rejected training prerequisites", {
@@ -267,6 +268,7 @@ function AllNominations({ history, match }) {
                                 color: "#12f339",
                                 fontWeight: "bolder",
                                 textDecoration: "underline",
+                                cursor: "pointer"
                               }}
                               target="_blank"
                               /* href={config.apiUrl + "/" + user.preRequisites} */ onClick={viewPreRequisited(
@@ -304,6 +306,7 @@ function AllNominations({ history, match }) {
                                           color: "#12f339",
                                           fontWeight: "bolder",
                                           textDecoration: "underline",
+                                          cursor: "pointer"
                                         }}
                                         onClick={handleClickAccept(user)}
                                       >                                        
@@ -313,6 +316,7 @@ function AllNominations({ history, match }) {
                                         style={{
                                           color: "red",
                                           textDecoration: "underline",
+                                          cursor: "pointer"
                                         }}
                                         onClick={handleClickReject(user)}
                                       >                                        

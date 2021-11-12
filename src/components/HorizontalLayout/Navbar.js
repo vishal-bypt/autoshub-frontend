@@ -129,7 +129,7 @@ const Navbar = props => {
                             <div onClick={() => {
                               setCurrentUserRole(tileRole);
                               setTimeout(() => {
-                                props.history.push("/training/list");
+                                props.history.push("/training/myTraining");
                               }, 1000);
                             }} className="dropdown-item">
                               {props.t(Role.User)}

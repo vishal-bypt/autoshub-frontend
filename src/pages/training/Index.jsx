@@ -13,6 +13,7 @@ import { AllNominations } from "./AllNominations";
 import { Trainings } from "./Trainings";
 import { RoleWiseTile } from "./RoleWiseTile";
 import { Attendance } from "./Attendance";
+import { MyTrainings } from "./MyTrainings";
 // import { UploadFiles } from "./UploadFiles";
 
 function Training({ match }) {
@@ -40,6 +41,7 @@ function Training({ match }) {
         path={`${path}/getAllNominations`}
         component={AllNominations}
       />
+      <Route exact path={`${path}/myTraining`} component={MyTrainings} />
       <Route exact path={`${path}/editList`} component={EditTrainingList} />
       <Route exact path={`${path}/edit/:id`} component={EditTraining} />
       <Route exact path={`${path}/assign/:id`} component={AssignUsers} />

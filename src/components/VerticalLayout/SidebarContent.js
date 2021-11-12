@@ -183,7 +183,7 @@ const SidebarContent = props => {
                             <div onClick={() => {
                               setCurrentUserRole(tileRole);
                               setTimeout(() => {
-                                props.history.push("/training/list");
+                                props.history.push("/training/myTraining");
                               }, 1000);
                             }}>
                               <FeatherIcon

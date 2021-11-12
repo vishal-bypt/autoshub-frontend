@@ -23,6 +23,7 @@ const TileComponent = (props) => {
     } else if (tileRole === Role.Manager) {
       tileImage = managerView;
     } else if (tileRole === Role.User) {
+      path = "/training/myTraining";
       tileImage = userView;
     }
 
