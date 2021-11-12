@@ -27,6 +27,10 @@ export const CustomSelect = ({
       ...provided,
       color: layoutMode === "dark" ? "#ced4da" : "#3b403d",
     }),
+    menu: (provided, state) => ({
+      ...provided,
+      color: "#3b403d",
+    }),
   };
 
   const onChange = (option) => {

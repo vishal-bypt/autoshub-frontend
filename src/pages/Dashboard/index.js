@@ -18,6 +18,8 @@ import AdminGraphs from "./AdminGraphs";
 import ManagerGraphs from "./ManagerGraphs";
 import UserGraphs from "./UserGraphs";
 import Loader from "../../components/Common/Loader";
+import CustomSelect from '../../components/CustomSelect';
+import { ErrorMessage, FastField, Field, Form, Formik } from 'formik';
 
 const Dashboard = () => {
   const [trainingPartnerAssigned, setTrainingPartnerAssigned] = useState([]);
@@ -38,9 +40,22 @@ const Dashboard = () => {
   const userDetails = accountService.userValue;
   const [isSubmitting, setIsSubmitting] = useState(true);
 
+  const [execManagerList, setExecManagerList] = useState([]);
+  const [managerList, setManagerList] = useState([]);
+  const [selectedExecId, setSelectedExecId] = useState("");
+
+
   useEffect(() => {
     apiCalls();
+    getExecManagerList();
   }, []);
+
+  useEffect(() => {
+    if (selectedExecId) {
+      setManagerList([])
+      getManagerListByExecId()
+    }
+  }, [selectedExecId])
 
   const apiCalls = (startDate, endDate) => {
     setIsSubmitting(true);
@@ -72,6 +87,44 @@ const Dashboard = () => {
     });
   };
 
+  const getExecManagerList = () => {
+    setIsSubmitting(true)
+    accountService
+      .getExecManagerList()
+      .then((res) => {
+        let updatedArr = res.map(data => {
+          let dataObj = {
+            label: data?.firstName,
+            value: data?.execId
+          }
+          return dataObj
+        })
+        setExecManagerList(updatedArr)
+        setIsSubmitting(false)
+      }).catch((error) => {
+        setIsSubmitting(false)
+      });;
+  }
+
+  const getManagerListByExecId = () => {
+    setIsSubmitting(true)
+    accountService
+      .getManagerListByExecId(selectedExecId)
+      .then((res) => {
+        let updatedArr = res.map(data => {
+          let dataObj = {
+            label: data?.firstName,
+            value: data?.empId
+          }
+          return dataObj
+        })
+        setManagerList(updatedArr)
+        setIsSubmitting(false)
+      }).catch((error) => {
+        setIsSubmitting(false)
+      });
+  }
+
   const handleStartDate = (e) => {
     setStartDate(e.target.value);
   };
@@ -92,7 +145,14 @@ const Dashboard = () => {
     apiCalls();
   };
 
-  //console.log("trainingReport", trainingReport);
+  const initialValues = {
+    execManager: '',
+    manager: '',
+  }
+  function onSubmit(fields, { setStatus, setSubmitting }) {
+    console.log("fields:::", fields)
+  }
+
   return (
     <React.Fragment>
       <div className="page-content">
@@ -164,6 +224,68 @@ const Dashboard = () => {
               </Button>
             </Col>
           </Row>
+          &nbsp;
+          <div>
+            <Formik
+              initialValues={initialValues}
+              enableReinitialize
+              onSubmit={onSubmit}
+            >
+              {({ errors, values, touched, isSubmitting, setFieldValue, handleBlur, setTouched }) => {
+                return (
+                  <Form>
+                    <div className="row">
+                      <div className="col-md-5">
+                        <label>Exec Manager List</label>
+                        <Field
+                          name="execManager"
+                          onBlurValue={(field) => { setTouched({ ...touched, [field]: true }); }}
+                          options={execManagerList}
+                          placeholder=""
+                          component={CustomSelect}
+                          isMulti={false}
+                          onChangeValue={value => {
+                            if (value === "") {
+                              return;
+                            }
+                            setSelectedExecId(value)
+                          }}
+                        />
+                        <ErrorMessage name="execManager" component="div" className="invalid-feedback" />
+                      </div>
+                      {selectedExecId !== "" && <div className="col-md-5">
+                        <label>Manager List</label>
+                        <Field
+                          name="manager"
+                          onBlurValue={(field) => { setTouched({ ...touched, [field]: true }); }}
+                          options={managerList}
+                          component={CustomSelect}
+                          isMulti={true}
+                          placeholder=""
+                          onChangeValue={value => {
+                            if (value === "") {
+                              return;
+                            }
+                          }}
+                        />
+                        <ErrorMessage name="manager" component="div" className="invalid-feedback" />
+                      </div>
+                      }
+                      <Col xl={2}>
+                        <Button
+                          className="mt-4"
+                          color="primary"
+                          type='submit'
+                        >
+                          Filter
+                        </Button>
+                      </Col>
+                    </div>
+                  </Form>
+                );
+              }}
+            </Formik>
+          </div>
           &nbsp;
           {userDetails &&
             userDetails.userRoleArray.includes("Admin" || "Executive") && (
