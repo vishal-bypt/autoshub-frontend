@@ -136,6 +136,7 @@ function List1({ history, match }) {
     let params = {
       id: e.id,
       isAccepted: 2,
+      iscompleted: 3
     };
     setOpenDropDown(true);
     setSelectedTraining(e);
@@ -178,9 +179,7 @@ function List1({ history, match }) {
       setIsSubmitting(false);
     }
   };
-  console.log("trainings = ", trainings);
-  console.log("accept == ", accept);
-  console.log("reject == ", reject);
+  
   return (
     <div className="page-content">
       <div className="container-fluid">
@@ -211,7 +210,7 @@ function List1({ history, match }) {
                 <Link to={`/training/editList`} className="newbutton">
                   Edit Trainings
                 </Link>
-                <Link to={`/training/getAllByRole`} className="newbutton">
+                <Link to={`/training/myTraining`} className="newbutton">
                   My Trainings
                 </Link>
                 <Link to={`/training/getAll`} className="newbutton">
@@ -366,8 +365,8 @@ function List1({ history, match }) {
                             className="traning-listing"
                             style={{ minWidth: "100px" }}
                           >
-                            {user.totalRejectedNominations
-                              ? user.totalRejectedNominations
+                            {user.totalAbsenceNominations
+                              ? user.totalAbsenceNominations
                               : 0}
                           </td>
                           <td
@@ -485,13 +484,24 @@ function List1({ history, match }) {
                                 ) : (
                                   <div>
                                     {user?.isAcceptedByAdmin == 1 ? (
-                                      <div>Accepted</div>
+                                      <div>Approved</div>
                                      ) :(
                                       <div>
                                     {user.isPrerequisiteUploaded == true &&
-                                      user?.isAccepted == true ? (
-                                      <div>-</div>
-                                    ) : (
+                                      user?.isAccepted == true ? user?.isAcceptedByAdmin == 2 ? (
+                                      <div>Rejected By Admin</div>
+                                    ) :user?.isAcceptedByAdmin == 0 ? (
+                                      <div>Admin Pending</div>
+                                    ) :(
+                                      <div>Admin Approved</div>
+                                    ) :  (
+                                      <div>{user?.isAccepted == 1 && 
+                                        user?.training.trainingPrequisites == "NA" ? user?.isAcceptedByAdmin == 2 ? (
+                                          <div>Rejected By Admin</div> 
+                                        ) :user?.isAcceptedByAdmin == 0 ? (
+                                          <div>Admin Pending</div>
+                                        ):( <div>Admin Approved</div>
+                                          ) :(
                                       <div>
                                         {user?.isAccepted == 2 ? (
                                           <div>
@@ -610,13 +620,15 @@ function List1({ history, match }) {
                                               <div>Rejected</div>
                                             )}
                                           </div>
-                                        ) : <div>{user?.isAcceptedByAdmin == 1 ? "Accepted" : "Rejected"}</div>}
+                                        ) : <div>{user?.isAcceptedByAdmin == 1 ? "Approved" : "Rejected"}</div>}
                                       </div>
                                     )}
                                   </div>
                                 )}
                               </div>
                             )}
+                            </div>
+                                )}
                             </div>
                             )}
                           </td>
