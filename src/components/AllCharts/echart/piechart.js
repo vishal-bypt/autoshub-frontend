@@ -28,7 +28,8 @@ class Pie extends Component {
           color: ["#74788d"],
         },
       },
-      color: ["#777aca", "#5156be", "#a8aada", "#ffbf53" ],
+      //color: ["#777aca", "#5156be", "#a8aada", "#ffbf53" ],
+      color: ["#ff0000", "#ff5252", "#ff7b7b", "#ffbaba"],
       //color: ["#F1B42F", "#E09540", "#FF7F50"],
       //color: ["#02a499", "#f8b425", "#ec4561", "#38a4f8", "#3c4ccf"],
       series: [
