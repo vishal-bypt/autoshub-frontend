@@ -111,7 +111,7 @@ function AllNominations({ history, match }) {
             )}
           </div>
           <div className="col-md-6 text-end">
-            <Link to={"."} className="btn btn-danger ">
+            <Link to={"/training/list"} className="btn btn-danger ">
               <ArrowBackIcon className="mr-1" />
               Back
             </Link>
