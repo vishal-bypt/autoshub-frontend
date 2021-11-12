@@ -28,7 +28,7 @@ function List1({ history, match }) {
   useEffect(() => {
     setTrainings(null);
     if (userDetails?.currentRole == Role.Admin) {
-      trainingService.getAll().then((x) => {        
+      trainingService.getAll().then((x) => {
         setTrainings(x);
       });
     }
@@ -186,17 +186,17 @@ function List1({ history, match }) {
         <div className="row">
           <div className="col-md-12">
             {userDetails?.currentRole == Role.Admin && (
-              <h1 className="text-center font-weight-bold mb-5 text-danger">
+              <h1 className="text-center font-weight-bold mb-5 text-primary">
                 Trainings
               </h1>
             )}
             {userDetails?.currentRole == Role.User && (
-              <h1 className="text-center font-weight-bold mb-5 text-danger">
+              <h1 className="text-center font-weight-bold mb-5 text-primary">
                 My Trainings
               </h1>
             )}
             {userDetails?.currentRole == Role.Manager && (
-              <h1 className="text-center font-weight-bold mb-5 text-danger">
+              <h1 className="text-center font-weight-bold mb-5 text-primary">
                 Trainings
               </h1>
             )}
@@ -219,13 +219,23 @@ function List1({ history, match }) {
                 <Link to={`/training/getAllNominations`} className="newbutton">
                   All Nominations
                 </Link>
-                <Link to={`/training/Attendance`} className="newbutton">
+                <Link
+                  to={`/training/Attendance`}
+                  className="d-flex newbutton text-center"
+                >
                   Attendance
                 </Link>
-                <Link to={`/training/list`} className="newbutton">
+                <Link
+                  to={`/training/list`}
+                  className="d-flex newbutton text-center"
+                >
                   <Refresh />
                 </Link>
-                <Link to={`#`} onClick={handleExportData} className="newbutton">
+                <Link
+                  to={`#`}
+                  onClick={handleExportData}
+                  className="d-flex newbutton text-center"
+                >
                   <Download />
                 </Link>
               </>
@@ -254,16 +264,61 @@ function List1({ history, match }) {
                   <th>#</th>
                   {userDetails?.currentRole == Role.Admin && (
                     <>
-                      <th className="traning-listing">Month</th>
-                      <th className="traning-listing">Start Date</th>
-                      <th className="traning-listing">End Date</th>
+                      <th
+                        className="traning-listing"
+                        style={{ maxWidth: "20px", textAlign: "center" }}
+                      >
+                        Month
+                      </th>
+                      <th
+                        className="traning-listing"
+                        style={{ maxWidth: "40px", textAlign: "center" }}
+                      >
+                        Start Date
+                      </th>
+                      <th
+                        className="traning-listing"
+                        style={{ maxWidth: "40px", textAlign: "center" }}
+                      >
+                        End Date
+                      </th>
                       <th className="traning-listing">Training Name</th>
-                      <th className="traning-listing">Stream</th>
-                      <th className="traning-listing">Tool Name</th>
-                      <th className="traning-listing">Nominations</th>
-                      <th className="traning-listing">Attendees</th>
-                      <th className="traning-listing">Absentees</th>
-                      <th className="traning-listing">Rejections</th>
+                      <th
+                        className="traning-listing"
+                        style={{ maxWidth: "10px", textAlign: "center" }}
+                      >
+                        Stream
+                      </th>
+                      <th
+                        className="traning-listing"
+                        style={{ maxWidth: "40px", textAlign: "center" }}
+                      >
+                        Tool Name
+                      </th>
+                      <th
+                        className="traning-listing"
+                        style={{ maxWidth: "100px", textAlign: "center" }}
+                      >
+                        Nominations
+                      </th>
+                      <th
+                        className="traning-listing"
+                        style={{ maxWidth: "80px", textAlign: "center" }}
+                      >
+                        Attendees
+                      </th>
+                      <th
+                        className="traning-listing"
+                        style={{ maxWidth: "80px", textAlign: "center" }}
+                      >
+                        Absentees
+                      </th>
+                      <th
+                        className="traning-listing"
+                        style={{ maxWidth: "80px", textAlign: "center" }}
+                      >
+                        Rejections
+                      </th>
                     </>
                   )}
 
@@ -301,62 +356,33 @@ function List1({ history, match }) {
                 {trainings &&
                   trainings.map((user, index) => (
                     <tr key={user.id}>
-                      <td
-                        className="traning-listing"
-                        style={{ minWidth: "40px" }}
-                      >
-                        {index + 1}
-                      </td>
+                      <td className="traning-listing">{index + 1}</td>
                       {userDetails?.currentRole == Role.Admin && (
                         <>
-                          <td
-                            className="traning-listing"
-                            style={{ minWidth: "100px" }}
-                          >
+                          <td className="traning-listing text-center">
                             {moment(user.trainingStartDate).format("MMMM")}
                           </td>
-                          <td
-                            className="traning-listing"
-                            style={{ minWidth: "130px" }}
-                          >
+                          <td className="traning-listing text-center">
                             {moment(user.trainingStartDate).format(
                               "DD/MM/YYYY"
                             )}
                           </td>
-                          <td
-                            className="traning-listing"
-                            style={{ minWidth: "130px" }}
-                          >
+                          <td className="traning-listing text-center">
                             {moment(user.trainingEndDate).format("DD/MM/YYYY")}
                           </td>
-                          <td
-                            className="traning-listing"
-                            style={{ minWidth: "150px" }}
-                          >
+                          <td className="traning-listing">
                             {user.trainingName}
                           </td>
-                          <td
-                            className="traning-listing"
-                            style={{ minWidth: "150px" }}
-                          >
+                          <td className="traning-listing text-center">
                             {user?.stream}
                           </td>
-                          <td
-                            className="traning-listing"
-                            style={{ minWidth: "150px" }}
-                          >
+                          <td className="traning-listing text-center">
                             {user.toolName}
                           </td>
-                          <td
-                            className="traning-listing"
-                            style={{ minWidth: "100px" }}
-                          >
+                          <td className="traning-listing text-center">
                             {user.totalNominations ? user.totalNominations : 0}
                           </td>
-                          <td
-                            className="traning-listing"
-                            style={{ minWidth: "100px" }}
-                          >
+                          <td className="traning-listing text-center">
                             {user.totalAttendedNominations
                               ? user.totalAttendedNominations
                               : 0}
@@ -369,10 +395,7 @@ function List1({ history, match }) {
                               ? user.totalAbsenceNominations
                               : 0}
                           </td>
-                          <td
-                            className="traning-listing"
-                            style={{ minWidth: "100px" }}
-                          >
+                          <td className="traning-listing text-center">
                             {user.totalRejectedNominations
                               ? user.totalRejectedNominations
                               : 0}
@@ -429,14 +452,15 @@ function List1({ history, match }) {
                             className="traning-listing"
                             style={{ minWidth: "150px" }}
                           >
-                            {user.isAttendanceApproved == 1 ?
-                              "Attended" : 
+                            {user.isAttendanceApproved == 1 ? (
+                              "Attended"
+                            ) : (
                               <div>
-                                {user.isAttendanceApproved == 2 ? 
-                                  "Absent" : "Pending"
-                                }
+                                {user.isAttendanceApproved == 2
+                                  ? "Absent"
+                                  : "Pending"}
                               </div>
-                            }                             
+                            )}
                           </td>
                           <td>
                             {user.training?.trainingPrequisites != "-" &&
@@ -503,124 +527,143 @@ function List1({ history, match }) {
                                         ):( <div>Admin Approved</div>
                                           ) :(
                                       <div>
-                                        {user?.isAccepted == 2 ? (
+                                        {user.isPrerequisiteUploaded == true &&
+                                        user?.isAccepted == true ? (
+                                          <div>-</div>
+                                        ) : (
                                           <div>
-                                            {openDropDown ? (
-                                              <SweetAlert
-                                                type={"controlled"}
-                                                closeOnClickOutside={true}
-                                                onConfirm={() => {
-                                                  setOpenDropDown(false);
-                                                }}
-                                                showConfirm={false}
-                                                style={{
-                                                  overflow: "-moz-initial",
-                                                  justifyContent: "flex-start",
-                                                }}
-                                              >
-                                                <div>
-                                                  <div>
-                                                    <Formik
-                                                      initialValues={
-                                                        initialValues
-                                                      }
-                                                      onSubmit={onSubmit}
-                                                      onValidationError={(
-                                                        errorValues
-                                                      ) => {}}
-                                                    >
-                                                      {({
-                                                        errors,
-                                                        values,
-                                                        touched,
-                                                        isSubmitting,
-                                                        setFieldValue,
-                                                        handleBlur,
-                                                        setTouched,
-                                                      }) => {
-                                                        return (
-                                                          <Form>
-                                                            <div>
-                                                              <label>
-                                                                Reasons for
-                                                                Decline Training
-                                                              </label>
-                                                              <FastField
-                                                                name="reason"
-                                                                onBlurValue={(
-                                                                  field
-                                                                ) => {
-                                                                  setTouched({
-                                                                    ...touched,
-                                                                    [field]: true,
-                                                                  });
-                                                                }}
-                                                                options={[
-                                                                  {
-                                                                    label:
-                                                                      "On Planned Leaves",
-                                                                    value:
-                                                                      "On Planned Leaves",
-                                                                  },
-                                                                  {
-                                                                    label:
-                                                                      "Schedule for another Training",
-                                                                    value:
-                                                                      "Schedule for another Training",
-                                                                  },
-                                                                  {
-                                                                    label:
-                                                                      "Ongoing project meetings/deadlines",
-                                                                    value:
-                                                                      "Ongoing project meetings/deadlines",
-                                                                  },
-                                                                  {
-                                                                    label:
-                                                                      "Ongoing Exit formalities",
-                                                                    value:
-                                                                      "Ongoing Exit formalities",
-                                                                  },
-                                                                  {
-                                                                    label:
-                                                                      "Not inclined to assigned skillset",
-                                                                    value:
-                                                                      "Not inclined to assigned skillset",
-                                                                  },
-                                                                  {
-                                                                    label:
-                                                                      "Other",
-                                                                    value:
-                                                                      "Other",
-                                                                  },
-                                                                ]}
-                                                                placeholder="Please select reasons"
-                                                                component={
-                                                                  CustomSelect
-                                                                }
-                                                                isMulti={false}
-                                                              />
-                                                            </div>
+                                            {user?.isAccepted == 2 ? (
+                                              <div>
+                                                {openDropDown ? (
+                                                  <SweetAlert
+                                                    type={"controlled"}
+                                                    closeOnClickOutside={true}
+                                                    onConfirm={() => {
+                                                      setOpenDropDown(false);
+                                                    }}
+                                                    showConfirm={false}
+                                                    style={{
+                                                      overflow: "-moz-initial",
+                                                      justifyContent:
+                                                        "flex-start",
+                                                    }}
+                                                  >
+                                                    <div>
+                                                      <div>
+                                                        <Formik
+                                                          initialValues={
+                                                            initialValues
+                                                          }
+                                                          onSubmit={onSubmit}
+                                                          onValidationError={(
+                                                            errorValues
+                                                          ) => {}}
+                                                        >
+                                                          {({
+                                                            errors,
+                                                            values,
+                                                            touched,
+                                                            isSubmitting,
+                                                            setFieldValue,
+                                                            handleBlur,
+                                                            setTouched,
+                                                          }) => {
+                                                            return (
+                                                              <Form>
+                                                                <div>
+                                                                  <label>
+                                                                    Reasons for
+                                                                    Decline
+                                                                    Training
+                                                                  </label>
+                                                                  <FastField
+                                                                    name="reason"
+                                                                    onBlurValue={(
+                                                                      field
+                                                                    ) => {
+                                                                      setTouched(
+                                                                        {
+                                                                          ...touched,
+                                                                          [field]: true,
+                                                                        }
+                                                                      );
+                                                                    }}
+                                                                    options={[
+                                                                      {
+                                                                        label:
+                                                                          "On Planned Leaves",
+                                                                        value:
+                                                                          "On Planned Leaves",
+                                                                      },
+                                                                      {
+                                                                        label:
+                                                                          "Schedule for another Training",
+                                                                        value:
+                                                                          "Schedule for another Training",
+                                                                      },
+                                                                      {
+                                                                        label:
+                                                                          "Ongoing project meetings/deadlines",
+                                                                        value:
+                                                                          "Ongoing project meetings/deadlines",
+                                                                      },
+                                                                      {
+                                                                        label:
+                                                                          "Ongoing Exit formalities",
+                                                                        value:
+                                                                          "Ongoing Exit formalities",
+                                                                      },
+                                                                      {
+                                                                        label:
+                                                                          "Not inclined to assigned skillset",
+                                                                        value:
+                                                                          "Not inclined to assigned skillset",
+                                                                      },
+                                                                      {
+                                                                        label:
+                                                                          "Other",
+                                                                        value:
+                                                                          "Other",
+                                                                      },
+                                                                    ]}
+                                                                    placeholder="Please select reasons"
+                                                                    component={
+                                                                      CustomSelect
+                                                                    }
+                                                                    isMulti={
+                                                                      false
+                                                                    }
+                                                                  />
+                                                                </div>
 
-                                                            <div className="text-end mt-3">
-                                                              <button
-                                                                type="submit"
-                                                                className="btn btn-primary"
-                                                              >
-                                                                Submit
-                                                              </button>
-                                                            </div>
-                                                          </Form>
-                                                        );
-                                                      }}
-                                                    </Formik>
-                                                  </div>
-                                                </div>
-                                              </SweetAlert>
+                                                                <div className="text-end mt-3">
+                                                                  <button
+                                                                    type="submit"
+                                                                    className="btn btn-primary"
+                                                                  >
+                                                                    Submit
+                                                                  </button>
+                                                                </div>
+                                                              </Form>
+                                                            );
+                                                          }}
+                                                        </Formik>
+                                                      </div>
+                                                    </div>
+                                                  </SweetAlert>
+                                                ) : (
+                                                  <div>Rejected</div>
+                                                )}
+                                              </div>
                                             ) : (
-                                              <div>Rejected</div>
+                                              <div>
+                                                {user?.isAcceptedByAdmin == 1
+                                                  ? "Accepted"
+                                                  : "Rejected"}
+                                              </div>
                                             )}
                                           </div>
-                                        ) : <div>{user?.isAcceptedByAdmin == 1 ? "Approved" : "Rejected"}</div>}
+                                        )}
                                       </div>
                                     )}
                                   </div>

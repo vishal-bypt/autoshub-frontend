@@ -129,8 +129,8 @@ const TwoStepVerfication = (props) => {
                                                                         className="form-control form-control-lg text-center"
                                                                         allowedCharacters="^[0-9]"
                                                                         inputStyle={{
-                                                                            width: "42px",
-                                                                            height: "42px",
+                                                                            width: "40px",
+                                                                            height: "40px",
                                                                             padding: "8px",
                                                                             borderRadius: "8px",
                                                                             fontSize: "16px",
@@ -170,7 +170,7 @@ const TwoStepVerfication = (props) => {
                                         </div>
                                         <div className="mt-4 mt-md-5 text-center">
                                             <p className="mb-0">Auto S Hub © {new Date().getFullYear()}
-                                            {/* <br />Crafted with <i className="mdi mdi-heart text-danger"></i> by ByPeople technologies */}
+                                                {/* <br />Crafted with <i className="mdi mdi-heart text-danger"></i> by ByPeople technologies */}
                                             </p>
                                         </div>
                                     </div>

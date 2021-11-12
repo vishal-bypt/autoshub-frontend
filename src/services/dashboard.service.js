@@ -30,12 +30,12 @@ function login(email, password) {
     });
 }
 
-function getTrainingPartnerAssigned(startDate="", endDate="") {
+function getTrainingPartnerAssigned(startDate="", endDate="", execManager="", manager=[]) {
     
     console.log("startDate", startDate);
     console.log("endDate", endDate);
     //return fetchWrapper.get(`${baseUrl}`);
-    return fetchWrapper.get(`${baseUrlTraining}/getTrainingPartnerAssigned?startDate=${startDate}&endDate=${endDate}`);
+    return fetchWrapper.get(`${baseUrlTraining}/getTrainingPartnerAssigned?startDate=${startDate}&endDate=${endDate}&execManager=${execManager}&manager=${manager.map(x => "'" + x + "'").toString()}`);
       // return Promise.all([
       //   { value: 200, name: "UiPaths" },
       //   { value: 45, name: "BluePrism" },
@@ -45,9 +45,9 @@ function getTrainingPartnerAssigned(startDate="", endDate="") {
       // ]);
 }
 
-function getTrainingPartnerAttended(startDate="", endDate="") {
+function getTrainingPartnerAttended(startDate="", endDate="", execManager="", manager=[]) {
     // return fetchWrapper.get(`${baseUrl}`);
-      return fetchWrapper.get(`${baseUrlTraining}/getTrainingPartnerAttended?startDate=${startDate}&endDate=${endDate}`);
+      return fetchWrapper.get(`${baseUrlTraining}/getTrainingPartnerAttended?startDate=${startDate}&endDate=${endDate}&execManager=${execManager}&manager=${manager.map(x => "'" + x + "'").toString()}`);
       // return Promise.all([
       //   { value: 200, name: "UiPaths" },
       //   { value: 45, name: "BluePrism" },
@@ -57,18 +57,18 @@ function getTrainingPartnerAttended(startDate="", endDate="") {
       // ]);
 }
 
-function getTrainingPartnerAssignedAttended(startDate="", endDate="") {
+function getTrainingPartnerAssignedAttended(startDate="", endDate="", execManager="", manager=[]) {
     // return fetchWrapper.get(`${baseUrl}`);
-      return fetchWrapper.get(`${baseUrlTraining}/getTrainingPartnerAssignedAttended?startDate=${startDate}&endDate=${endDate}`);
+      return fetchWrapper.get(`${baseUrlTraining}/getTrainingPartnerAssignedAttended?startDate=${startDate}&endDate=${endDate}&execManager=${execManager}&manager=${manager.map(x => "'" + x + "'").toString()}`);
       return Promise.all([
         { value: 135, name: "Assigned" },
         { value: 65, name: "Attended" },
       ]);
 }
 
-function getEmployeedWiseNominated(startDate="", endDate="") {
+function getEmployeedWiseNominated(startDate="", endDate="", execManager="", manager=[]) {
     // return fetchWrapper.get(`${baseUrl}`);
-      return fetchWrapper.get(`${baseUrlTraining}/getTrainingPartnerNominated?startDate=${startDate}&endDate=${endDate}`);
+      return fetchWrapper.get(`${baseUrlTraining}/getTrainingPartnerNominated?startDate=${startDate}&endDate=${endDate}&execManager=${execManager}&manager=${manager.map(x => "'" + x + "'").toString()}`);
       // return Promise.all([
       //   { value: 200, name: "UiPaths" },
       //   { value: 45, name: "BluePrism" },
@@ -78,9 +78,9 @@ function getEmployeedWiseNominated(startDate="", endDate="") {
       // ]);
 }
 
-function getEmployeedWiseAttended(startDate="", endDate="") {
+function getEmployeedWiseAttended(startDate="", endDate="", execManager="", manager=[]) {
     // return fetchWrapper.get(`${baseUrl}`);
-      return fetchWrapper.get(`${baseUrlTraining}/getTrainingPartnerAssigned?startDate=${startDate}&endDate=${endDate}`);
+      return fetchWrapper.get(`${baseUrlTraining}/getTrainingPartnerAssigned?startDate=${startDate}&endDate=${endDate}&execManager=${execManager}&manager=${manager.map(x => "'" + x + "'").toString()}`);
       // return Promise.all([
       //   { value: 200, name: "UiPaths" },
       //   { value: 45, name: "BluePrism" },
@@ -90,9 +90,9 @@ function getEmployeedWiseAttended(startDate="", endDate="") {
       // ]);
 }
 
-function getNominatedAcceptedRejected(startDate="", endDate="") {
+function getNominatedAcceptedRejected(startDate="", endDate="", execManager="", manager=[]) {
     // return fetchWrapper.get(`${baseUrl}`);
-     return fetchWrapper.get(`${baseUrlTraining}/getNominatedAcceptedRejected?startDate=${startDate}&endDate=${endDate}`);
+     return fetchWrapper.get(`${baseUrlTraining}/getNominatedAcceptedRejected?startDate=${startDate}&endDate=${endDate}&execManager=${execManager}&manager=${manager.map(x => "'" + x + "'").toString()}`);
       // return Promise.all([
       //   { value: response['nominated'], name: response['category'] },
       //   { value: response['accepted'], name: response['category'] },
@@ -106,10 +106,10 @@ function getNominatedAcceptedRejected(startDate="", endDate="") {
 }
 
 
-function getEmployeedWiseAssigned(startDate="", endDate="") {
+function getEmployeedWiseAssigned(startDate="", endDate="", execManager="", manager=[]) {
     // return fetchWrapper.get(`${baseUrl}`);
     //return fetchWrapper.get(`${baseUrl}/?limit=${limit}&offset=${offset}&filter=${searchValue}`);
-    return fetchWrapper.get(`${baseUrlTraining}/getTrainingPartnerAssigned?startDate=${startDate}&endDate=${endDate}`);  
+    return fetchWrapper.get(`${baseUrlTraining}/getTrainingPartnerAssigned?startDate=${startDate}&endDate=${endDate}&execManager=${execManager}&manager=${manager.map(x => "'" + x + "'").toString()}`);  
     // return Promise.all([
     //     { value: 200, name: "UiPaths" },
     //     { value: 45, name: "BluePrism" },
