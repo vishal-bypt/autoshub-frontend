@@ -26,7 +26,8 @@ function Attendance({ history, match }) {
   const attendClick = (e) =>{    
     let params = {
       id: e.id,
-      isAttendanceApproved: 1
+      isAttendanceApproved: 1,
+      iscompleted:1
     };    
     trainingService.acceptOrRejectPreRequisites(params).then((data) => {
       alertService.success("Successfully training attendance accepted", {
@@ -41,7 +42,8 @@ function Attendance({ history, match }) {
   const rejectClick = (e) => {    
     let params = {
       id: e.id,
-      isAttendanceApproved: 2
+      isAttendanceApproved: 2,
+      iscompleted:2
     };    
     trainingService.acceptOrRejectPreRequisites(params).then((data) => {
       alertService.success("Successfully training attendance accepted", {

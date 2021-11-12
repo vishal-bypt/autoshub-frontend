@@ -45,6 +45,7 @@ import { UserAccessView } from "../pages/user/userAccessView/Index";
 import AddUsers from "../pages/user/userList/AddUsers";
 import EditUser from "../pages/user/userList/EditUser";
 import { UserList } from "../pages/user/userList/Index";
+import { MyTrainings } from "../pages/training/MyTrainings";
 
 const userRoutes = [
 
@@ -62,6 +63,7 @@ const userRoutes = [
   { path: "/training/uploadPrequisites", component: UploadPrequisites },
   { path: "/training/getAllByRole", component: GetTrainingByRole },
   { path: "/training/getAll", component: Trainings },
+  { path: "/training/myTraining", component: MyTrainings },
   { path: "/training/getAllNominations", component: AllNominations },
   { path: "/training/editList", component: EditTrainingList },
   { path: "/training/edit/:id", component: EditTraining },

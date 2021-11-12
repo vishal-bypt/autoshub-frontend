@@ -23,32 +23,29 @@ const TileComponent = (props) => {
     } else if (tileRole === Role.Manager) {
       tileImage = managerView;
     } else if (tileRole === Role.User) {
+      path = "/training/myTraining";
       tileImage = userView;
     }
 
     return (
       <Col xl="3" sm="6">
-        <div className="tile-div text-center ">
-          
+        <Card style={{ borderColor: "transparent", width: "90%" }}>
           <img
             src={tileImage}
             alt={tileRole}
-            style={{width:'300px', heigth: '300px', cursor:'pointer'}}
+            style={{
+              borderRadius: "10px",
+              boxShadow: "0px 5px 20px rgba(0,0,0,0.5)",
+            }}
             onClick={() => {
               setCurrentUserRole(tileRole);
               setTimeout(() => {
                 history.push(path);
               }, 1000);
-              // setCurrentUserRole(tileRole).then(() => {
-              //   console.log("first::");
-              //   history.push(path, { tileRole: tileRole });
-              // });
             }}
           />
-          
           <div className="text-center">{tileRole}</div>
-          
-        </div>
+        </Card>
       </Col>
     );
   };
