@@ -19,14 +19,14 @@ export const CustomSelect = ({
   const customStyles = {
     control: (styles, state) => ({
       ...styles,
-      backgroundColor: layoutMode === "dark" ? "#353A38" : "white",
+      // backgroundColor: layoutMode === "dark" ? "#353A38" : "white",
       border: layoutMode === "dark" ? "1px solid #3b403d" : "1px solid #ced4da",
       color: layoutMode === "dark" ? " #FFF" : "#ced4da",
     }),
-    singleValue: (provided) => ({
-      ...provided,
-      color: layoutMode === "dark" ? "#ced4da" : "#3b403d",
-    }),
+    // singleValue: (provided) => ({
+    //   ...provided,
+    //   color: layoutMode === "dark" ? "#ced4da" : "#3b403d",
+    // }),
     menu: (provided, state) => ({
       ...provided,
       color: "#3b403d",
